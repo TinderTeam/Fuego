@@ -19,6 +19,7 @@ import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
 import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.util.date.DateService;
+import cn.tinder.fuego.util.engine.computer.ComputeService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
@@ -97,22 +98,27 @@ public class AssetsStatuesFile {
             	excelIOimpl.writeLabel(sheet,i+4,3, a.get(i).getAssets().getAssetsSRC());
             	excelIOimpl.writeLabel(sheet,i+4,4, a.get(i).getAssets().getManufacture());
             	excelIOimpl.writeLabel(sheet,i+4,5, a.get(i).getAssets().getSpec());
-            	excelIOimpl.writeLabel(sheet,i+4,6, String.valueOf(a.get(i).getAssets().getQuantity()));
-            	excelIOimpl.writeLabel(sheet,i+4,7,  DateService.DateToString(DateService.stringToDate(a.get(i).getAssets().getPurchaseDate())));
+            	excelIOimpl.writeLabel(sheet,i+4,6, a.get(i).getAssets().getUnit());
+            	excelIOimpl.writeLabel(sheet,i+4,7, String.valueOf(a.get(i).getAssets().getQuantity()));
+            	excelIOimpl.writeLabel(sheet,i+4,8,  DateService.DateToString(DateService.stringToDate(a.get(i).getAssets().getPurchaseDate())));
         
-            	excelIOimpl.writeLabel(sheet,i+4,8,String.valueOf( a.get(i).getAssets().getOriginalValue()));
-            	excelIOimpl.writeLabel(sheet,i+4,9, "");
-            	excelIOimpl.writeLabel(sheet,i+4,10, a.get(i).getAssets().getLocation());
-            	excelIOimpl.writeLabel(sheet,i+4,11, String.valueOf(a.get(i).getAssets().getExpectYear()));
-            	excelIOimpl.writeLabel(sheet,i+4,12, DateService.DateToString(DateService.stringToDate(a.get(i).getAssets().getDueDate())));
-            	excelIOimpl.writeLabel(sheet,i+4,13, a.get(i).getAssets().getAssetsType());
-            	excelIOimpl.writeLabel(sheet,i+4,14, a.get(i).getAssets().getAttrType());
-            	excelIOimpl.writeLabel(sheet,i+4,15, a.get(i).getAssets().getDept());
-            	excelIOimpl.writeLabel(sheet,i+4,16, a.get(i).getAssets().getTechState());
-            	excelIOimpl.writeLabel(sheet,i+4,17, a.get(i).getAssets().getDuty());
-            	excelIOimpl.writeLabel(sheet,i+4,18, a.get(i).getExtAttr().getCheckState());
+            	excelIOimpl.writeLabel(sheet,i+4,9,String.valueOf( a.get(i).getAssets().getOriginalValue()));
+            	excelIOimpl.writeLabel(sheet,i+4,10, String.valueOf(ComputeService.cptValue(
+            		
+            			DateService.stringToDate(a.get(i).getAssets().getPurchaseDate()),
+            			a.get(i).getAssets().getExpectYear(),
+            			a.get(i).getAssets().getOriginalValue())));
+            	excelIOimpl.writeLabel(sheet,i+4,11, a.get(i).getAssets().getLocation());
+            	excelIOimpl.writeLabel(sheet,i+4,12, String.valueOf(a.get(i).getAssets().getExpectYear()));
+            	excelIOimpl.writeLabel(sheet,i+4,13, DateService.DateToString(DateService.stringToDate(a.get(i).getAssets().getDueDate())));
+            	excelIOimpl.writeLabel(sheet,i+4,14, a.get(i).getAssets().getAssetsType());
+            	excelIOimpl.writeLabel(sheet,i+4,15, a.get(i).getAssets().getAttrType());
+            	excelIOimpl.writeLabel(sheet,i+4,16, a.get(i).getAssets().getDept());
+            	excelIOimpl.writeLabel(sheet,i+4,17, a.get(i).getAssets().getTechState());
+            	excelIOimpl.writeLabel(sheet,i+4,18, a.get(i).getAssets().getDuty());
+            	excelIOimpl.writeLabel(sheet,i+4,19, a.get(i).getExtAttr().getCheckState());
             	
-            	excelIOimpl.writeLabel(sheet,i+4,19, a.get(i).getExtAttr().getNote());
+            	excelIOimpl.writeLabel(sheet,i+4,20, a.get(i).getExtAttr().getNote());
             }
 			
             workbook.write();// 将修改保存到workbook --》一定要保存
