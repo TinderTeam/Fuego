@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+	
+<hibernate-mapping
+	package="cn.tinder.fuego.domain.po">
+	<class name="MenuTree" table="menu_tree">
+	    <id name="menuID" column="MENU_ID"  type="int" >
+			<generator class="assigned"/>
+		</id>
+		<property name="name" column="NAME" not-null="true"></property>
+		<property name="value" column="VALUE" not-null="false"></property>
+		<property name="menuCss" column="MENU_CSS" not-null="false"></property>
+		<property name="iconCss" column="ICON_CSS" not-null="false"></property>
+		<property name="url" column="URL" not-null="false"></property>
+		<property name="parentID" column="PARENT_ID" not-null="true"></property>
+
+
+	</class>
+</hibernate-mapping>
+ 
