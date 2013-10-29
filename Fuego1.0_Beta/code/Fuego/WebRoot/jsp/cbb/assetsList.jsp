@@ -49,7 +49,7 @@
 	       	<c:if test="${true == assetsPage.showCheckBox}"> 
 	          <td><input type="checkbox"  name="assetsIDList" value="${assetsInfo.assets.assetsID}" style="width:40px"></td>
 	        </c:if>  
-	        <td style="text-align:center"><label>${assetsInfo.assets.assetsID}</label><input style="width:120px"  name="assetsList[${iterStatus.index}].assets.assetsID" value="${assetsInfo.assets.assetsID}" hidden="true"></input></td>
+	        <td style="text-align:center"><input style="width:120px, visibility:none"  name="assetsList[${iterStatus.index}].assets.assetsID" value="${assetsInfo.assets.assetsID}" disabled= "ture"></input></td>
 	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsName}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.assetsSRC}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.manufacture}</label></td>
