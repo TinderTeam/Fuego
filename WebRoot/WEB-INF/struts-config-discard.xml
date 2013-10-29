@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+    <form-beans>
+       
+         <form-bean name="LoginForm"
+                   type="cn.tinder.fuego.webservice.struts.form.LoginForm">
+        </form-bean> 
+        <form-bean name="PurchasePlanForm"
+                   type="cn.tinder.fuego.webservice.struts.form.PurchasePlanForm">
+        </form-bean> 
+	          <form-bean name="PurchasePlanCreateForm"
+                   type="cn.tinder.fuego.webservice.struts.form.PurchasePlanCreateForm">
+        </form-bean> 
+        <form-bean name="SelectAssetsForm"
+                   type="cn.tinder.fuego.webservice.struts.form.SelectAssetsForm">
+        </form-bean> 
+         
+
+    </form-beans>
+    <action-mappings>   
+        
+         <action path="/Login"
+                type="cn.tinder.fuego.webservice.struts.action.LoginAction"
+                name="LoginForm" 
+                input="">
+            <forward name="Login" path="/jsp/login.jsp"></forward>
+  			<forward name="IndexInit" path="/IndexInit.do"></forward>	
+       	</action>
+       	
+       	
+       <action path="/IndexInit"
+                type="cn.tinder.fuego.webservice.struts.action.index.IndexInitAction"              
+                input="">          
+  			<forward name="Index" path="/jsp/index.jsp"></forward>	
+       	</action>
+       	
+       	<action path="/Index"
+                type="cn.tinder.fuego.webservice.struts.action.index.IndexAction"              
+                input="">          
+  			<forward name="Index" path="/jsp/index.jsp"></forward>	
+       	</action>
+       	
+       	
+ <!-- PurchasePlan -->  
+	<!-- PurchasePlan -->        	
+       	<action path="/PurchasePlanInit"
+                type="cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchasePlanInitAction"              
+                input="">          
+  			<forward name="PurchasePlan" path="/jsp/purchasePlan.jsp"></forward>	
+       	</action>
+       	
+       	<action path="/PurchasePlan"
+                type="cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchasePlanAction"              
+                name="PurchasePlanForm">          
+  			<forward name="PurchasePlanCreateInit" path="/PurchasePlanCreateInit.do"></forward>
+  			<forward name="RefPlanCreateInit" path="/RefPlanCreateInit.do"></forward>			
+       	</action>
+       	
+       	
+   	<!-- PurchaseCreat -->
+       	<action path="/PurchasePlanCreateInit"
+                type="cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchasePlanCreateInitAction"              
+                >          
+  			<forward name="PurchasePlanCreate" path="/jsp/purchasePlanCreate.jsp"></forward>	
+       	</action>
+       	<action path="/PurchasePlanCreate"
+                type="cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchasePlanCreateAction"              
+                name="PurchasePlanCreateForm"
+                >          		
+       	</action>
+       	
+    <!-- PurchaseRef -->   	
+       	<action path="/RefPlanCreateInit"
+                type="cn.tinder.fuego.webservice.struts.action.purchaseplan.RefPlanInitAction"              
+                >          
+  			<forward name="RefPlanCreate" path="/jsp/purchasePlanCreateRef.jsp"></forward>	
+       	</action>
+       	
+       	<action path="/RefPlanCreate"
+                type="cn.tinder.fuego.webservice.struts.action.purchaseplan.RefPlanAction"              
+                name="RefPlanCreateForm"
+                >          		
+       	</action>
+
+       	
+       	<action path="/AssignInit"
+                type="cn.tinder.fuego.webservice.struts.action.assign.AssignInitAction"              
+                input="">          
+  			<forward name="Assign" path="/jsp/assign/assign.jsp"></forward>	
+       	</action>
+       	
+       	<action path="/Assign"
+                type="cn.tinder.fuego.webservice.struts.action.assign.AssignAction"              
+                input="">          
+  			<forward name="AssignCreateInit" path="/AssignCreateInit.do"></forward>	
+       	</action>	
+       	
+       	<action path="/AssignCreateInit"
+                type="cn.tinder.fuego.webservice.struts.action.assign.AssignCreateInitAction"              
+                input="">          
+  			<forward name="AssignCreate" path="/jsp/assign/assignCreate.jsp"></forward>	
+       	</action>
+       	
+       	<action path="/AssignCreate"
+                type="cn.tinder.fuego.webservice.struts.action.assign.AssignCreateAction"              
+                input="">          
+  			<forward name="AssignSubmitInit" path="/AssignSubmitInit.do"></forward>	
+       	</action>
+       	
+       	<action path="/AssignSubmitInit"
+                type="cn.tinder.fuego.webservice.struts.action.assign.AssignSubmitInitAction"              
+                input="">          
+  			<forward name="AssignSubmit" path="/jsp/assign/assignSubmit.jsp"></forward>	
+       	</action>
+       	
+       	<action path="/AssignSubmit"
+                type="cn.tinder.fuego.webservice.struts.action.assign.AssignSubmitAction"              
+                input="">          
+  			<forward name="IndexInit" path="/IndexInit.do"></forward>	
+       	</action>
+       	
+       	<action path="/SelectAssetsInit"
+                type="cn.tinder.fuego.webservice.struts.action.assets.SelectAssetsInitAction"
+                name="SelectAssetsForm"                      
+                input="">          
+  			<forward name="SelectAssets" path="/jsp/selectAssets.jsp"></forward>	
+       	</action>
+       	
+       	<action path="/SelectAssets"
+                type="cn.tinder.fuego.webservice.struts.action.assets.SelectAssetsAction"
+                     
+                input="">          
+  			<forward name="AssignInit" path="/jsp/as/assign.jsp"></forward>	
+       	</action>
+       </action-mappings>   	
+      
+	 <message-resources parameter="MessageResources"></message-resources>
+	 
+</struts-config>
