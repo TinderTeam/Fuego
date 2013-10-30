@@ -31,4 +31,5 @@ public class ExceptionMsg
 	public static final String UNIT_EMPTY = "导入数据单位不能为空，错误行号：";
 	public static final String PURCHASEDATE_ERR = "导入数据购置日期不能为空，错误行号：";
 	public static final String GDZC_QUANTITY_ERR = "导入数据中的实物资产数量必须为1!";
+	public static final String CELL_WRONG = "导入数据中单元格读取错误";
 }
