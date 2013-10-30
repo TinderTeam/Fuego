@@ -63,14 +63,21 @@
 								</div>
 				
 							</div>
+						</div>
 						
-							<div class="widget-content">
-						
+						<div class="widget-box"  style="overflow-x:auto;">
+							<div class="widget-title">
+								<span class="icon">
+									<i class="icon-th"></i>
+								</span>
+								<h5>查询条件</h5>							
+							</div>
 							
+						
+							<div class="widget-content"  >
 								<div class="control-group">
-									<span class="label label-info">查询条件</span>
+									<span class="label label-info">基础查询条件</span>
 								</div>	
-							<div class="widget-content nopadding"  style="overflow-x:auto;" >
 								<table class="table table-bordered ">
 									<thead>
 										<tr>																	
@@ -123,7 +130,9 @@
 									
 									</tbody>
 								</table>
-															
+								<div class="control-group">
+									<span class="label label-info">日期查询条件</span>
+								</div>							
 								<table class="table table-bordered ">
 									<thead>
 										<tr>																	
@@ -176,7 +185,7 @@
  
 							
 							</div>
-							
+						</div>	
 							
 							<div class="widget-content">
 								<div class="control-group">

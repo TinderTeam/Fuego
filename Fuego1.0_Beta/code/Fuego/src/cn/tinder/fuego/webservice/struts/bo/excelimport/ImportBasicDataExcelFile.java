@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jxl.Cell;
+import jxl.NumberCell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -18,6 +19,7 @@ import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.util.date.DateService;
+import cn.tinder.fuego.util.engine.jxl.JXLService;
 
 public class ImportBasicDataExcelFile {
 	 private static final Log log = LogFactory.getLog(ImportBasicDataExcelFile.class);
@@ -49,12 +51,14 @@ public class ImportBasicDataExcelFile {
 			        Sheet sheet = book.getSheet(0);
 			        int column=sheet.getColumns();
 			        int row = sheet.getRows();
-			        log.debug("Excel Load Info: row="  +row + "; column=" + column + ";"); 
+			        log.info("Excel Load Info: row="  +row + "; column=" + column + ";"); 
 			        
 			        Cell cell;
+			        NumberCell numCell;
 			        
-			        for(int i=1;i<row;i++){
-			        	
+			      
+			        for(int i=3;i<row-1;i++){
+			        	log.info("i="+i+";row-3-"+(row-3)); 
 			        	PhysicalAssetsStatus assets = new PhysicalAssetsStatus();
 			        	
 			        	cell = sheet.getCell(0,i);			
@@ -79,51 +83,48 @@ public class ImportBasicDataExcelFile {
 			        	cell = sheet.getCell(5,i);
 			        	assets.setUnit(cell.getContents());
 			        	
-			        	//Quantity
-			        	
+			        	//Quantity 	
 			        	cell = sheet.getCell(6,i);
-			        	assets.setQuantity(Integer.valueOf(cell.getContents()));
+			        	numCell=(NumberCell) cell;
+			        	assets.setQuantity(numCell.getColumn());
 			        	
 			        	//PurchaseDate
-			           	cell = sheet.getCell(7,i);
-			           	assets.setPurchaseDate(DateService.stringToDate(cell.getContents().replace("/","-")));
+			           	assets.setPurchaseDate(JXLService.getData(sheet, 7,i));
 			        	
 			        	//O.V.
-			        	cell = sheet.getCell(8,i);
-			        	assets.setOriginalValue(Float.valueOf(cell.getContents()));
+			        	assets.setOriginalValue(JXLService.getFloat(sheet, 8, i));
 			      
 		 
 			        	
 			        	//存放位置
-			        	cell = sheet.getCell(9,i);
+			        	cell = sheet.getCell(10,i);
 			        	assets.setLocation(cell.getContents());
 			        
 			        
 			        	//年限
-			        	cell = sheet.getCell(10,i);		
+			        	cell = sheet.getCell(11,i);		
 			        	
 			        	assets.setExpectYear(Integer.valueOf(cell.getContents()));
 			        	
 			        	//DueDate
-			           	cell = sheet.getCell(11,i);
-			           	assets.setDueDate(DateService.stringToDate(cell.getContents().replace("/","-")));
-			        	
+			          
+			           	assets.setDueDate(JXLService.getData(sheet,12,i));
 			           	//DEPT
 			           	
-			           	cell = sheet.getCell(12,i);
+			           	cell = sheet.getCell(13,i);
 			           	assets.setDept(cell.getContents());
 			        	
 			           	//TYPE	    
-			           	cell = sheet.getCell(13,i);
+			           	cell = sheet.getCell(14,i);
 			           	assets.setAssetsType(cell.getContents());
 			           	//DUTY	    
-			           	cell = sheet.getCell(14,i);
+			           	cell = sheet.getCell(15,i);
 			           	assets.setDuty(cell.getContents());		
 			        	//备注		  
-				        cell = sheet.getCell(15,i);
+				        cell = sheet.getCell(16,i);
 				    	assets.setNote(cell.getContents());
 			           	//技术状态
-			        	cell = sheet.getCell(16,i);
+			        	cell = sheet.getCell(17,i);
 			        	assets.setTechState(cell.getContents());
 			        	assetsList.add(assets);
 			        	
@@ -146,9 +147,4 @@ public class ImportBasicDataExcelFile {
 		return assetsList;
 	}
 	
-	@Test
-	public void test(){
-		List<PhysicalAssetsStatus> assetsList=load(new File("F:\\Book1.xls"));
-		log.info(assetsList);
-	}
 }

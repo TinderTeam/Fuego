@@ -11,20 +11,16 @@
 <body>
  
      	<jsp:include page="/jsp/cbb/header.jsp"/>
-		<div id="content">
+	<div id="content">
 			<div id="content-header">
-				<h1>Common Form Elements</h1>
-				<div class="btn-group">
-					<a class="btn btn-large tip-bottom" title="Manage Files"><i class="icon-file"></i></a>
-					<a class="btn btn-large tip-bottom" title="Manage Users"><i class="icon-user"></i></a>
-					<a class="btn btn-large tip-bottom" title="Manage Comments"><i class="icon-comment"></i><span class="label label-important">5</span></a>
-					<a class="btn btn-large tip-bottom" title="Manage Orders"><i class="icon-shopping-cart"></i></a>
-				</div>
+				<h1><font  face="微软雅黑">资产台账修改</font></h1>
+			
 			</div>
+                
 			<div id="breadcrumb">
-				<a href="<%=request.getContextPath()%>/IndexInit.do" title="返回主页" class="tip-bottom"><i class="icon-home"></i> Home</a>
-				<a href="#" class="tip-bottom">Form elements</a>
-				<a href="#" class="current">Common elements</a>
+				<a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>主页</a>
+				<a href="#" class="current">资产台账修改</a>
+			
 			</div>
 			<div class="container-fluid">
 				<div class="row-fluid">
@@ -42,14 +38,14 @@
 									<div class="control-group">
 										<div class="alert alert-danger">
 											<button class="close" data-dismiss="alert">×</button>
-											<strong>警告！</strong> 系统初始数据维护。。。。。
+											<strong>警告！</strong>利用此项功能修改或编辑资产将无法保存操作记录，一般只用作管理员数据修正。如需正常新增、处置、调拨资产请用相关权限账户登录并通过给定的功能进行操作。 
 										</div>									
 									</div>
                                                                
 									<div class="control-group">
                                         <label class="control-label">资产编号</label >                                   
 										<div class="controls">
-                                            <input type="text" name="assetsInfo.assets.assetsID" value="${assetsInfo.assets.assetsID}" hidden="true" />
+                                            <input type="text" name="assetsInfo.assets.assetsID" value="${assetsInfo.assets.assetsID}" disabled="true" />
                                         </div>                          
                                     </div>
 									
@@ -63,7 +59,7 @@
 									<div class="control-group">
                                         <label class="control-label">资产分类</label >                                   
 										<div class="controls">
-                                            <select name="assetsInfo.assets.assetsType">
+                                            <select name="assetsInfo.assets.assetsType" style="width:150px">
 											 <c:forEach var="type" items="${typeList}"> 
 												<option />${type}	
 											 </c:forEach>	
@@ -74,7 +70,7 @@
 									<div class="control-group">
                                         <label class="control-label">资产来源</label >                                   
 										<div class="controls">
-                                            <select name="assetsInfo.assets.assetsSRC">
+                                            <select name="assetsInfo.assets.assetsSRC" style="width:150px">
                                              <option >${assetsInfo.assets.assetsSRC}</option>
 											 <c:forEach var="src" items="${assetsSrcList}"> 
 												<option />${src}	
@@ -176,11 +172,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="container-fluid">
-				
-				<div class="row-fluid">
+			<div class="row-fluid">
 					<div id="footer" class="span12">
-						2012 &copy; Unicorn Admin. Brought to you by <a href="https://wrapbootstrap.com/user/diablo9983">diablo9983</a>
+						2013  Copyright Reserved by Tinder
 					</div>
 				</div>
 			</div>
