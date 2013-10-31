@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+	
+<hibernate-mapping
+	package="cn.tinder.fuego.domain.po">
+	<class name="CheckPlan" table="check_plan">
+		<composite-id>
+	       <key-property name="transID" column="TRANS_ID" ></key-property>
+	       <key-property name="assetsName" column="ASSETS_NAME" ></key-property>
+	       <key-property name="manufacture" column="MANUFACTURE" ></key-property>
+           <key-property name="spec" column="SPEC" ></key-property>
+	    </composite-id>
+	    
+	        <property name="deptID" column="DEPT_ID" not-null="false"></property>
+	    
+            <property name="quantity" column="QUANTITY" not-null="false"></property>
+            <property name="checkCnt" column="CHECK_CNT" not-null="false"></property>
+            <property name="checkState" column="CHECK_STATE" not-null="false"></property>
+ 
+	</class>
+</hibernate-mapping>
+ 

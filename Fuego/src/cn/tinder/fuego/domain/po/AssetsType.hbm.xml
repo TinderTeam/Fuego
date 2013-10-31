@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+	
+<hibernate-mapping
+	package="cn.tinder.fuego.domain.po">
+	<class name="AssetsType" table="assets_type">
+	    <id name="typeName" column="TYPE_NAME"  type="java.lang.String" >
+			<generator class="assigned"/>
+		</id>
+			<property name="typeID" column="TYPE_ID" not-null="false"></property>
+			<property name="attrID" column="ATTR_ID" not-null="false"></property>
+			<property name="attrName" column="ATTR_NAME" not-null="false"></property>
+			<property name="deptID" column="DEPT_ID" not-null="false"></property>
+			<property name="currentID" column="CURRENT_ID" not-null="true"></property>
+ 			<property name="prefix" column="PREFIX" not-null="true"></property>
+ 
+	</class>
+</hibernate-mapping>
+ 
