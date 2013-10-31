@@ -82,9 +82,7 @@
         </form-bean>         
         
          
-        <form-bean name="SystemDataImputForm"
-                   type="cn.tinder.fuego.webservice.struts.form.SystemDataImputForm">
-        </form-bean>         
+      
         
          
         <form-bean name="AssetsRecoverCreateForm"
@@ -795,17 +793,7 @@
       	
        	  	       	
        	  	       	
-       	 <!--SystemDataImputInitAction-->
-       	<action path="/SystemDataImputInit"
-                type="cn.tinder.fuego.webservice.struts.action.systemdataimput.SystemDataImputInitAction"              
-               >          
-  			<forward name="SystemDataImput" path="/jsp/systemDataImput.jsp"></forward>
-  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
-			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>				
-       	</action>   
-       	
-       	
+  
        	
        	 <!--SystemSetupInitAction-->
        	<action path="/SystemSetupInit"
