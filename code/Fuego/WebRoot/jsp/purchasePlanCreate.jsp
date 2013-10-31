@@ -122,6 +122,7 @@
 				
 										</div>
 										<div class="modal-footer">
+												
 											<button type="submit" class="btn btn-primary" name ="submit" value="addNew">创建资产</button>
 											<a data-dismiss="modal" class="btn" href="#">取消</a>
 										</div>

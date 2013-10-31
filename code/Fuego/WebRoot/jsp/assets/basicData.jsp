@@ -8,6 +8,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
  	<jsp:include page="/jsp/cbb/includeCSS.jsp"/>
+	<script type="text/javascript">
+	function submitFuction()
+	{
+		document.getElementById("subID").click();
+	}	
+	</script>
 <body>
  
      	<jsp:include page="/jsp/cbb/header.jsp"/>
@@ -39,8 +45,22 @@
 								<div class="form-actions">
 										<button type="submit" class="btn btn-primary" name ="submit" value="download">Excel数据模版</button>
 										<input type="file" name ="assetsFile"/>
-										<button type="submit" class="btn btn-inverse" name ="submit" value="basic_upload" >通过Excel表格导入</button>
- 
+										<button id = "subID" type="submit" class="btn btn-inverse" name ="submit" value="basic_upload" style="display:none" >通过Excel表格导入</button>	
+										
+									
+										
+										<a href="#myAlert" data-toggle="modal" class="btn btn-success" style="width:150px" onclick="submitFuction()">通过Excel表格导入</a>		
+											<div id="myAlert" class="modal hide">
+												<div class="modal-header">													
+													<h3>正在导入数据...</h3>
+												</div>
+												<div class="modal-body">
+													<div class="span12 center" style="text-align: center;">	
+														<img border="0" alt="请等待" src="<%=request.getContextPath()%>/img/loading.gif" style="center"/></a>	
+															</div>
+												</div>											
+											</div>
+
 								</div>	
 								</form>
 						
