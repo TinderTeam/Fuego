@@ -61,9 +61,11 @@ public class PurchasePageBo {
 	 * 重构list 的index 序号 
 	 */
 	private void sort(){
-		for(int i =0;i<assetsList.size();i++){
-			assetsList.get(i).setIndex(i+1);
-		}	
+		if(assetsList!=null){
+			for(int i =0;i<assetsList.size();i++){
+				assetsList.get(i).setIndex(i+1);
+			}
+		}
 	}
 	
 	

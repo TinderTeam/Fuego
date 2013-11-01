@@ -15,7 +15,7 @@
 			<th>资产来源</th>								
 			<th>生产厂家</th>
 			<th>规格型号</th>
-			<th>计量单位</th>
+			<th>单位</th>
 			<th>数量</th>
 			<th>购建日期</th>
 			<th>原值</th>
@@ -24,6 +24,7 @@
 			<th>责任部门</th>
 			<th>责任人</th>
 			<th>资产分类</th>
+			<th>资产性质</th>
 			<th>存放地点</th>
 			<th>技术状态</th>
 			<th>最后盘点日期</th>
@@ -49,7 +50,7 @@
 	       	<c:if test="${true == assetsPage.showCheckBox}"> 
 	          <td><input type="checkbox"  name="assetsIDList" value="${assetsInfo.assets.assetsID}" style="width:40px"></td>
 	        </c:if>  
-	        <td style="text-align:center"><input style="width:120px, visibility:none"  name="assetsList[${iterStatus.index}].assets.assetsID" value="${assetsInfo.assets.assetsID}" disabled= "ture"></input></td>
+	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsID}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.assetsID" value="${assetsInfo.assets.assetsID}" disabled= "ture"></input></td>
 	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsName}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.assetsSRC}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.manufacture}</label></td>
@@ -63,6 +64,7 @@
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.dept}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.duty}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.assetsType}</label></td>
+			 <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.attrType}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.location}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.techState}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.checkDate}</label></td>

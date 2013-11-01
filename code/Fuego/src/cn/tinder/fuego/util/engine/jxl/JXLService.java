@@ -15,17 +15,19 @@ import jxl.Sheet;
 public class JXLService {
 
 	 public static Date getData(Sheet sheet,int cell, int row) {
-		  Cell rs = sheet.getCell(cell, row);
+		  Date date=null;
+		  Cell rs = sheet.getCell(cell,row);
+		
 		     if(rs.getType()==CellType.DATE){
 		      
 		          DateCell dc = (DateCell)rs;
-		          Date date = dc.getDate();		  
+		         date = dc.getDate();		  
 	
 		     } else{
 		    	 throw new ServiceException(ExceptionMsg.DATE_FOMATE+"["+rs.getContents()+"]");
 		 
 		     }
-			return null;
+			return date;
 		    	 
 		 
 		 }
