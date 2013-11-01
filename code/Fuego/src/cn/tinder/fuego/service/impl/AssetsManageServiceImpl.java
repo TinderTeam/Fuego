@@ -485,7 +485,14 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		{
 			log.error("import assets failed.",e);
 			log.error(assetsList);
-			throw new ServiceException(ExceptionMsg.ASSETS_DATA_FORMART_WRONG+"("+e.getMessage()+")");
+			String errMsg =e.getCause().getMessage();
+			String arrStr[] =errMsg.split("'");
+			String errID=null;
+			if(arrStr.length>3){
+				errID=arrStr[1];
+			}
+			
+			throw new ServiceException(ExceptionMsg.ASSETS_NAME_ISEXIST+"("+errID+")");
 		}
 	}
 

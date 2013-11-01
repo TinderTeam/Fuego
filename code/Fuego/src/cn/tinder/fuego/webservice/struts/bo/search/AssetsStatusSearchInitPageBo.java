@@ -8,6 +8,7 @@ import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 
 public class AssetsStatusSearchInitPageBo {
+	
 	private List<String>	deptList;	//Department 
 	
 	private List<String>	typeList;	//Assets Type

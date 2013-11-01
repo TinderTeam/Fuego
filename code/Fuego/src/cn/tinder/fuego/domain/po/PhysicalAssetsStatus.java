@@ -23,6 +23,8 @@ public class PhysicalAssetsStatus
 	private Date checkDate;
 	private String assetsID;
 	private String note;
+	private String attrType;
+
 
 	public String getAssetsName()
 	{
@@ -210,6 +212,14 @@ public class PhysicalAssetsStatus
 		return "PhysicalAssetsStatus [assetsName=" + assetsName + ", assetsSRC=" + assetsSRC + ", manufacture=" + manufacture + ", spec=" + spec + ", unit=" + unit + ", quantity=" + quantity
 				+ ", purchaseDate=" + purchaseDate + ", originalValue=" + originalValue + ", expectYear=" + expectYear + ", dueDate=" + dueDate + ", dept=" + dept + ", duty=" + duty + ", assetsType="
 				+ assetsType + ", location=" + location + ", techState=" + techState + ", checkDate=" + checkDate + ", assetsID=" + assetsID + ", note=" + note + "]";
+	}
+
+	public void setAttrType(String attrType) {
+		this.attrType = attrType;
+	}
+
+	public String getAttrType() {
+		return attrType;
 	}
 
 }

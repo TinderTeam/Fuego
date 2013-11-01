@@ -57,8 +57,7 @@ public class ImportBasicDataExcelFile {
 			        NumberCell numCell;
 			        
 			      
-			        for(int i=3;i<row-1;i++){
-			        	log.info("i="+i+";row-3-"+(row-3)); 
+			        for(int i=3;i<row-1;i++){			        	
 			        	PhysicalAssetsStatus assets = new PhysicalAssetsStatus();
 			        	
 			        	cell = sheet.getCell(0,i);			
@@ -66,8 +65,7 @@ public class ImportBasicDataExcelFile {
 			        	
 			        	cell = sheet.getCell(1,i);			
 			        	assets.setAssetsName(cell.getContents());
-			        
-			        	
+			        			        	
 			        	//AsdSRC
 			        	cell = sheet.getCell(2,i);
 			        	assets.setAssetsSRC(cell.getContents());	
@@ -89,18 +87,16 @@ public class ImportBasicDataExcelFile {
 			        	assets.setQuantity(numCell.getColumn());
 			        	
 			        	//PurchaseDate
+			     
 			           	assets.setPurchaseDate(JXLService.getData(sheet, 7,i));
 			        	
 			        	//O.V.
 			        	assets.setOriginalValue(JXLService.getFloat(sheet, 8, i));
 			      
-		 
-			        	
 			        	//存放位置
 			        	cell = sheet.getCell(10,i);
 			        	assets.setLocation(cell.getContents());
-			        
-			        
+			     			        
 			        	//年限
 			        	cell = sheet.getCell(11,i);		
 			        	
@@ -109,26 +105,32 @@ public class ImportBasicDataExcelFile {
 			        	//DueDate
 			          
 			           	assets.setDueDate(JXLService.getData(sheet,12,i));
-			           	//DEPT
-			           	
+			       
+			           	//TYPE	    
 			           	cell = sheet.getCell(13,i);
+			           	assets.setAssetsType(cell.getContents());
+			          
+			         
+			         	//attr
+			  			cell = sheet.getCell(14,i);
+			           	assets.setAttrType(cell.getContents());
+			           	
+			           	//DEPT
+			  			cell = sheet.getCell(15,i);
 			           	assets.setDept(cell.getContents());
 			        	
-			           	//TYPE	    
-			           	cell = sheet.getCell(14,i);
-			           	assets.setAssetsType(cell.getContents());
-			           	//DUTY	    
-			           	cell = sheet.getCell(15,i);
-			           	assets.setDuty(cell.getContents());		
-			        	//备注		  
-				        cell = sheet.getCell(16,i);
-				    	assets.setNote(cell.getContents());
+			        	
 			           	//技术状态
-			        	cell = sheet.getCell(17,i);
+			        	cell = sheet.getCell(16,i);
 			        	assets.setTechState(cell.getContents());
 			        	assetsList.add(assets);
 			        	
-			        	
+			         	//DUTY	    
+			           	cell = sheet.getCell(17,i);
+			           	assets.setDuty(cell.getContents());		
+			        	//备注		  
+				        cell = sheet.getCell(19,i);
+				    	assets.setNote(cell.getContents());
 			        	
 			        }
 			        
