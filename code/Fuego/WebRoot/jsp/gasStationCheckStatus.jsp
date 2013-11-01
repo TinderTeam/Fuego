@@ -67,10 +67,8 @@
 							
 						</div>
 						
-						<form action="<%=request.getContextPath()%>/GasStationCheck.do" method="post" class="form-horizontal" >
-						<button type="submit" class="btn btn-primary" name="submit" value="submit1">返回</button>
-						
-						<button type="submit" class="btn btn-primary" name="submit" value="submit2">完成盘点（Danger）</button>
+						<form action="<%=request.getContextPath()%>/GasStationCheckStatus.do" method="post" class="form-horizontal" >
+						<button type="submit" class="btn btn-primary" name="submit" value="confirm">确定</button>						
 						</form>
 					</div>
 				</div>

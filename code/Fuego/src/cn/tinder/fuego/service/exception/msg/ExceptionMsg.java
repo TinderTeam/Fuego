@@ -30,6 +30,8 @@ public class ExceptionMsg
 	public static final String ASSETS_NAME_EMPTY = "导入数据中资产名称不能为空，错误行号：";
 	public static final String UNIT_EMPTY = "导入数据单位不能为空，错误行号：";
 	public static final String PURCHASEDATE_ERR = "导入数据购置日期不能为空，错误行号：";
+	public static final String TRANSACTION_NOT_FINISHED = "该事务未完成，不能被删除";
+	public static final String TRANSACTION_NOT_CREATE_BY_USER = "该事务不是您创建的，不能被删除";
 	public static final String GDZC_QUANTITY_ERR = "导入数据中的实物资产数量必须为1!";
 	public static final String CELL_WRONG = "导入数据中单元格读取错误";
 	public static final String ASSETS_NAME_ISEXIST ="导入数据中资产编号已经存在:错误的资产编号为";

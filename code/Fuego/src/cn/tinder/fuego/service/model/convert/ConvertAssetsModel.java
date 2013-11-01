@@ -60,7 +60,6 @@ public class ConvertAssetsModel
 		assetsBo.setSpec(assets.getSpec());
 		assetsBo.setTechState(assets.getTechState());
 		assetsBo.setUnit(assets.getUnit());
-		assetsBo.setAttrType((assets.getAttrType()));
 		
 		AssetsInfoBo assetsInfoBo = new AssetsInfoBo();
 		assetsInfoBo.setAssets(assetsBo);

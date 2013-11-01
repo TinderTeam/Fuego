@@ -10,11 +10,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import cn.tinder.fuego.service.ServiceContext;
+import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
+import cn.tinder.fuego.webservice.struts.form.AssetsListForm;
 
 /**
  * 
@@ -27,6 +31,7 @@ import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 public class GasStationCheckStatusEnsureAction extends Action
 {
 	private static final Log log = LogFactory.getLog(GasStationCheckStatusEnsureAction.class);
+	private TransPlanService planService = ServiceContext.getInstance().getCheckPlanService();
 
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
@@ -39,6 +44,7 @@ public class GasStationCheckStatusEnsureAction extends Action
     	try
     	{
     		nextPage = handle(form,request);
+    	 
 		} 
     	catch(ServiceException e)
     	{
@@ -61,23 +67,26 @@ public class GasStationCheckStatusEnsureAction extends Action
 	private String handle(ActionForm form,HttpServletRequest request)
 	{
 		// Mapping
-		String nextPage = null;
+		String nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 		
 		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
 
-		//log.info("[Info]loginForm:" + gasStationCheckStatusForm+"[Info]submit"+submitPara); 
+		CheckPlanBo plan;
+		String transID = request.getParameter(ParameterConst.PLAN_TRANS_ID);
+        plan = (CheckPlanBo) planService.getPlanByTransID(transID);
+		AssetsListForm assetsListForm = (AssetsListForm)form; 
 
-	
-        
-		log.info( "[Info]submit" + submitPara);
-        if(submitPara.equals(ParameterConst.SUBMIT_1))
+        if(submitPara.equals(ParameterConst.CONFIRM_PARA_NAME))
      	{
-     	   nextPage=PageNameConst.GAS_STATION_CHECK_INIT_PAGE;
+ 		   plan.getPlanInfo().getAssetsPage().setAssetsList(assetsListForm.getAssetsList());
+
+           planService.updatePlan(plan);
+     	   nextPage=PageNameConst.SYSTEM_SUCCESS_PAGE;
      	   
      	}
-        if(submitPara.equals(ParameterConst.SUBMIT_2))
+        else if(submitPara.equals(ParameterConst.CANCEL_PARA_NAME))
         {
-     	   nextPage=PageNameConst.SYSTEM_SUCCESS_PAGE;
+     	   nextPage=PageNameConst.INDEX_INIT_ACTION;
         }
 		return nextPage;
 	}

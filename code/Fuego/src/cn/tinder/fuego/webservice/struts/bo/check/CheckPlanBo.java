@@ -23,7 +23,7 @@ import java.util.List;
 public class CheckPlanBo
 {
 	private CheckTransBo transInfo = new CheckTransBo();
-	private List<CheckPlanInfoBo> planInfo = new  ArrayList<CheckPlanInfoBo>();
+	private CheckPlanInfoBo planInfo = new  CheckPlanInfoBo();
 	
 
 	public CheckTransBo getTransInfo()
@@ -36,15 +36,16 @@ public class CheckPlanBo
 		this.transInfo = transInfo;
 	}
 
-	public List<CheckPlanInfoBo> getPlanInfo()
+	public CheckPlanInfoBo getPlanInfo()
 	{
 		return planInfo;
 	}
 
-	public void setPlanInfo(List<CheckPlanInfoBo> planInfo)
+	public void setPlanInfo(CheckPlanInfoBo planInfo)
 	{
 		this.planInfo = planInfo;
 	}
-	
+
+ 
 
 }

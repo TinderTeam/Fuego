@@ -90,6 +90,9 @@ public class GasStationCheckStatusEnsureInitAction extends Action
 			nextPage = PageNameConst.GAS_STATION_CHECK_STATUS_PAGE;
 			
 		}
+		
+		checkPlan.getPlanInfo().getAssetsPage().setShowNote(true);
+		checkPlan.getPlanInfo().getAssetsPage().setShowCheckState(true);
         request.setAttribute(RspBoNameConst.CHECK_PLAN_DATA, checkPlan);
  
 		log.info(LogKeyConst.NEXT_PAGE + nextPage);

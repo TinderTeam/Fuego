@@ -21,6 +21,7 @@ import org.hibernate.criterion.Restrictions;
 import cn.tinder.fuego.dao.CheckPlanDao;
 import cn.tinder.fuego.dao.hibernate.util.HibernateUtil;
 import cn.tinder.fuego.domain.po.CheckPlan;
+import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.TransEvent;
 
 /**
@@ -57,6 +58,37 @@ public class CheckPlanDaoImpl implements CheckPlanDao
 		log.debug("[DAO] Success! -Create a CheckPlan:" + plan.toString());
 	}
 
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.dao.ReceivePlanDao#create(java.util.List)
+	 */
+	@Override
+	public void create(List<CheckPlan> planlist)
+	{
+		Session session = null;
+		Transaction tx = null;
+		try
+		{
+			session = HibernateUtil.getSession();
+			tx = session.beginTransaction();
+			for(CheckPlan rplan : planlist)
+			{
+				session.save(rplan);
+			}
+ 			tx.commit();
+			
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			//  HibernateUtil.closeSession();
+			if (session != null)
+			{
+				session.close();
+			}
+		}
+		
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -99,6 +131,40 @@ public class CheckPlanDaoImpl implements CheckPlanDao
 
 		log.debug("[DAO] Success!Delete the CheckPlan:" + plan.toString());
 
+	}
+	@Override
+	public void deleteByTransID(String transID)
+	{
+ 
+		Session session = null;
+		Transaction tx = null;
+		String hql = null;
+		// SystemUser user = null;
+		try
+		{
+			session = HibernateUtil.getSession();
+
+			tx = session.beginTransaction();
+
+			hql = "delete from CheckPlan where trans_id=?";
+			Query query = session.createQuery(hql);
+			query.setString(0, transID);
+
+			query.executeUpdate();
+
+			tx.commit();
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			if(null != session)
+			{
+				session.close();
+			}
+		}
+
+ 		
 	}
 
 	/*

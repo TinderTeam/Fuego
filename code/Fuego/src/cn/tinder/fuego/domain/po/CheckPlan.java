@@ -17,6 +17,28 @@ public class CheckPlan implements Serializable
 	private int quantity;
 	private int checkCnt;
 	private String checkState;
+	private String note;
+
+	
+	public String getNote()
+	{
+		return note;
+	}
+
+	public void setNote(String note)
+	{
+		this.note = note;
+	}
+
+	public String getAssetsID()
+	{
+		return assetsID;
+	}
+
+	public void setAssetsID(String assetsID)
+	{
+		this.assetsID = assetsID;
+	}
 
 	/**
 	 * @return the transID

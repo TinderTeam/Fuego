@@ -42,60 +42,25 @@
 							<div class="widget-content">
 								
 							
-								<div class="control-group">
-									<span class="label label-info">${statusEnsureInitBo.title}</span>
-								</div>	
-								
-								<table class="table table-bordered table-striped with-check">
-									<thead>
-										
-									  <tr>							
- 
-										<th width="15%">资产名称</th>
-										<th width="20%">资产型号（生产厂家）</th>
-										<th width="7.5%">规格型号</th>
-										<th width="7.5%">单位</th>
-										<th width="7.5%">数量</th>									
-										<th width="10%">实际数量</th>	
-										<th width="10%">盘点状态</th>				
-							 
+									<div class="control-group">
+										<span class="label label-info">${statusEnsureInitBo.title}</span>
+									</div>	
+	
+								 
+									<form action="<%=request.getContextPath()%>/GasStationCheckStatusEnsure.do?transID=${checkPlan.transInfo.transInfo.transID}" method="post" >
+										<c:set var="transInfo" value="${checkPlan.transInfo.transInfo}" scope="request"/>
+										<jsp:include page="/jsp/cbb/transaction.jsp"/>
 											
-										</tr>
- 
-										
-									</thead>
-									<tbody>
-										
-										
-										<c:forEach var="plan" items= "${checkPlan.planInfo}"> 		
- 
-											  <tr>
-                                                    <td style="text-align:center" >${plan.assets.assetsName}</td>												
-													<td style="text-align:center">${plan.assets.manufacture}</td>
-													<td style="text-align:center">${plan.assets.spec}</td>
-													<td style="text-align:center">${plan.assets.quantity}</td>
-													
-													<td style="text-align:center" >${plan.assets.unit}</td>
-													
-													<td style="text-align:center">${plan.checkCnt}</td>
-													
-													<td style="text-align:center" >${plan.checkState}</td>
-											 
-					
-											 </tr>
- 
-									</c:forEach>
-									</tbody>
-								</table>
-								<div class="form-actions">
-									<form action="<%=request.getContextPath()%>//GasStationCheckStatusEnsure.do" method="post" class="form-horizontal" />
-											<button type="submit" class="btn btn-primary" name="submit" value="submit2">盘点确认</button>
-											<button type="submit" class="btn btn-primary" name="submit" value="submit1">返回</button>
-									</form>
+										<c:set var="assetsPage" value="${checkPlan.planInfo.assetsPage}" scope="request"/>
+										<jsp:include page="/jsp/cbb/assetsList.jsp"/>
+										<div class="form-actions">
+											  <button class="btn btn-success"  name="submit" value="confirm">确定</button>
+											  <button class="btn  btn-inverse" name="submit" value="cancel">取消</button>								 	
+							            </div>
+								    </form>
 								</div>	
 							
-						
-							</div>
+						 
 						</div>
 			</div>
 			<div class="container-fluid">

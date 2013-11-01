@@ -157,6 +157,37 @@ public class TransEventDaoImpl implements TransEventDao
 	 * @see cn.tinder.fuego.dao.TransEventDao#getByHandlerUser(java.lang.String)
 	 */
 	@Override
+	public List<TransEvent> getTransByHandlerUser(String userID)
+	{
+		log.debug("Get the TransEvent by User" + userID);
+		Session s = null;
+
+		List<TransEvent> transList = null;
+		try
+		{
+			s = HibernateUtil.getSession();
+			Criteria c = s.createCriteria(TransEvent.class);
+			c.add(Restrictions.eq("handleUser", userID));//
+			transList =   c.list();
+		} catch (RuntimeException e)
+		{
+			log.error("get trans envent faile",e);
+			throw e;
+		} finally
+		{
+			// HibernateUtil.closeSession();
+			if (s != null)
+			{
+				s.close();
+			}
+		}
+ 
+		return transList;
+	}
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.dao.TransEventDao#getByHandlerUser(java.lang.String)
+	 */
+	@Override
 	public List<TransEvent> getTodoTransByHandlerUser(String userID)
 	{
 		log.debug("Get the TransEvent by User" + userID);

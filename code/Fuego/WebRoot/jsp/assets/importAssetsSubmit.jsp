@@ -41,7 +41,8 @@
 	                                 <jsp:include page="/jsp/cbb/assetsList.jsp"/>
 									
 									<c:if test="${'create' == pageDisCtr}"> 
-										<button class="btn btn-success"  name="submit" value="submit">提交</button>																	
+										<button class="btn btn-success"  name="submit" value="submit">提交</button>								
+										<button class="btn  btn-primary" name="submit" value="download">导出</button>
 										<button class="btn  btn-primary" name="submit" value="back">返回</button>	
 										<button class="btn  btn-inverse" name="submit" value="cancel">取消</button>
 									 </c:if>
