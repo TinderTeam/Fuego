@@ -119,6 +119,18 @@ public class AssetsPageBo
 		}
  		return true;
 	}
+	
+	public boolean isCheckFinished()
+	{
+ 		for(AssetsInfoBo assetsInfo : this.getAssetsList())
+		{	
+			if(AssetsConst.CHECK_STATUS_TODO.equals(assetsInfo.getExtAttr().getCheckCnt()))
+			{
+				return false;
+			}
+		}
+ 		return true;
+	}
 
 	@Override
 	public String toString()
