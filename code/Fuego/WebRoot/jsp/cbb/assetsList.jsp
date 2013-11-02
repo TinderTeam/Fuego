@@ -51,14 +51,9 @@
 	       	<c:if test="${true == assetsPage.showCheckBox}"> 
 	          <td><input type="checkbox"  name="assetsIDList" value="${assetsInfo.assets.assetsID}" style="width:40px"></td>
 	        </c:if>  
-<<<<<<< HEAD:code/Fuego/WebRoot/jsp/cbb/assetsList.jsp
-	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsID}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.assetsID" value="${assetsInfo.assets.assetsID}" disabled= "ture"></input></td>
-	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsName}</label></td>
-=======
                 <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsID}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.assetsID" value="${assetsInfo.assets.assetsID}"></input></td>	        <td style="text-align:center"><input style="width:120px" name="assetsList[${iterStatus.index}].assets.assetsName" value="${assetsInfo.assets.assetsName}"></td>
 	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.manufacture}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.manufacture" value="${assetsInfo.assets.manufacture}"></td>
 	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.spec}</label><input style="width:120px; display:none" name="assetsList[${iterStatus.index}].assets.spec" value="${assetsInfo.assets.spec}"></td>
->>>>>>> origin/Tangjun:code/Fuego/WebRoot/jsp/cbb/assetsList.jsp
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.assetsSRC}</label></td>
 	        
 	        <td style="text-align:center"><label style="width:40px">${assetsInfo.assets.unit}</label></td>
