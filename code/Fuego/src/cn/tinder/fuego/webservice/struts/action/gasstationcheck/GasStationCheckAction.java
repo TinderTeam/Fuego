@@ -12,8 +12,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanBo;
@@ -43,44 +45,47 @@ public class GasStationCheckAction extends Action
             HttpServletRequest request, HttpServletResponse response)
             throws Exception
     {
-    	log.info(LogKeyConst.INPUT_ACTION+"GasStationCheckAction");
-
-    	String nextPage =null;      	
-    	
-    	GasStationCheckStatusForm gasStationCheckStatusForm = (GasStationCheckStatusForm) form;
-    	
-    	
-		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
-
-		if(null == submitPara)
-		{
-			log.error("the submit parameter is null");
-		}
-		
-		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
- 
-
-		
+        log.info(LogKeyConst.INPUT_ACTION);
         
-       	 if(submitPara.equals(ParameterConst.SUBMIT_1))
-         {
-       		
-       		nextPage= PageNameConst.GAS_STATION_CHECK_STATUS_INIT_PAGE ;
- 
-       	 }
-       	 
-       	 if(submitPara.equals(ParameterConst.SUBMIT_2))
-         {
-            CheckPlanBo checkPlan = (CheckPlanBo) planService.createPlan(user.getUserID());
-            request.setAttribute(RspBoNameConst.CHECK_PLAN_DATA, checkPlan);
+    	String nextPage = null;
+    	try
+    	{
+    		nextPage = handle(form,request);
+		} 
+    	catch(ServiceException e)
+    	{
+    		log.warn("opration failed",e);
+    		request.setAttribute(RspBoNameConst.OPERATE_EXCEPION, e.getMessage());
+			nextPage = PageNameConst.ERROR_PAGE; 
+    	}
+    	catch (Exception e)
+		{
+			log.error("system error",e);
+			nextPage = PageNameConst.SYSTEM_ERROR_PAGE; 
+		}
 
-       		nextPage= PageNameConst.GAS_STATION_CHECK_STATUS_ENSURE_INIT_PAGE ;
-       	 }       	 
-
-     
-        log.info("[Jump]:NextPage:"+nextPage);
+        log.info(LogKeyConst.NEXT_PAGE+nextPage);
         return mapping.findForward(nextPage);	
 
     }
 
+    private String handle(ActionForm form, HttpServletRequest request )
+    {
+		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
+
+		String nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
+     	 if(submitPara.equals(ParameterConst.SUBMIT_PARA_NAME))
+         {
+            planService.createPlan(user.getUserID());
+ 
+       		nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE ;
+       	 }    
+     	 else if(submitPara.equals(ParameterConst.CANCEL_PARA_NAME))
+     	 {
+     		nextPage = PageNameConst.INDEX_INIT_ACTION;
+     	 }
+     	 
+     	 return nextPage;
+    }
 }

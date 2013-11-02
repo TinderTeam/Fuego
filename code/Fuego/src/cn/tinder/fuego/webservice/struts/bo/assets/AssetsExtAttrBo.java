@@ -23,9 +23,21 @@ import cn.tinder.fuego.service.constant.AssetsConst;
 public class AssetsExtAttrBo extends ActionForm
 {
 	private String checkState = AssetsConst.CHECK_STATUS_TODO;
+	private int checkCnt = 1;
 	private String receiveState = AssetsConst.RECEIVE_STATUS_TODO;
 	private String note;
 
+
+	
+	public int getCheckCnt()
+	{
+		return checkCnt;
+	}
+
+	public void setCheckCnt(int checkCnt)
+	{
+		this.checkCnt = checkCnt;
+	}
 
 	public String getCheckState()
 	{

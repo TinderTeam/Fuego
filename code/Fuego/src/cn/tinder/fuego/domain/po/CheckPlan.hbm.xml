@@ -9,11 +9,13 @@
 	<class name="CheckPlan" table="check_plan">
 		<composite-id>
 	       <key-property name="transID" column="TRANS_ID" ></key-property>
-	       <key-property name="assetsName" column="ASSETS_NAME" ></key-property>
-	       <key-property name="manufacture" column="MANUFACTURE" ></key-property>
-           <key-property name="spec" column="SPEC" ></key-property>
+	       <key-property name="assetsID" column="ASSETS_ID" ></key-property>
+
 	    </composite-id>
-	    
+	       
+	        <property name="assetsName" column="ASSETS_NAME" ></property>
+ 	        <property name="manufacture" column="MANUFACTURE" ></property>
+            <property name="spec" column="SPEC" ></property>
 	        <property name="deptID" column="DEPT_ID" not-null="false"></property>
 	    
             <property name="quantity" column="QUANTITY" not-null="false"></property>

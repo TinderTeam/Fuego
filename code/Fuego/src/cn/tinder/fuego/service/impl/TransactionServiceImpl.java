@@ -21,14 +21,14 @@ import cn.tinder.fuego.dao.TransEventTypeDao;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.domain.po.TransEventType;
+import cn.tinder.fuego.service.ServiceContext;
+import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.TransactionService;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.model.convert.ConvertTransactionModel;
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.base.TransEventBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 
 /**
@@ -131,9 +131,34 @@ public class TransactionServiceImpl implements TransactionService
 	@Override
 	public void deleteTransByID(String transID)
 	{
-		TransEvent transEvent = new TransEvent();
+		TransEvent transEvent;
 		transEvent = transEventDao.getByTransID(transID);
 		transEventDao.delete(transEvent);
+
+	}
+	
+	public void deletePlanByTransID(String user,String transID)
+	{
+		TransEvent transEvent;
+		transEvent = transEventDao.getByTransID(transID);
+		if(!transEvent.getCreateUser().equals(user))
+		{
+			log.warn("the transaction is created by user,can not be deleted" + user);
+			throw new ServiceException(ExceptionMsg.TRANSACTION_NOT_CREATE_BY_USER);
+		}
+		TransPlanService planService = ServiceContext.getInstance().getPlanServiceByType(transEvent.getType());
+		planService.deletePlan(transID);
+		
+		List<TransEvent> childList = transEventDao.getTransByParentID(transID);
+		if(null != childList && !childList.isEmpty())
+		{
+			//delele all the child plan
+			for(TransEvent event : childList)
+			{
+				deletePlanByTransID(event.getCreateUser(),event.getTransID());
+			}
+		}
+
 
 	}
 
@@ -286,7 +311,7 @@ public class TransactionServiceImpl implements TransactionService
 	@Override
 	public List<TransactionBaseInfoBo> getTransListByUser(String userID)
 	{
-		List<TransEvent> eventList = this.transEventDao.getTodoTransByHandlerUser(userID);
+		List<TransEvent> eventList = this.transEventDao.getTransByHandlerUser(userID);
 		
 		return ConvertTransactionModel.covertTransBaseList(eventList);
 	}

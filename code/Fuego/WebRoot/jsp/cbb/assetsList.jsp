@@ -32,6 +32,7 @@
 			
 			<c:if test="${true == assetsPage.showCheckState}"> 
 			  <th>盘点状态</th>
+			  <th>盘点数量</th>
 			</c:if>
 			<c:if test="${true == assetsPage.showReceiveState}"> 
 			  <th>验收状态</th>
@@ -50,11 +51,16 @@
 	       	<c:if test="${true == assetsPage.showCheckBox}"> 
 	          <td><input type="checkbox"  name="assetsIDList" value="${assetsInfo.assets.assetsID}" style="width:40px"></td>
 	        </c:if>  
+<<<<<<< HEAD:code/Fuego/WebRoot/jsp/cbb/assetsList.jsp
 	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsID}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.assetsID" value="${assetsInfo.assets.assetsID}" disabled= "ture"></input></td>
 	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsName}</label></td>
+=======
+                <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsID}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.assetsID" value="${assetsInfo.assets.assetsID}"></input></td>	        <td style="text-align:center"><input style="width:120px" name="assetsList[${iterStatus.index}].assets.assetsName" value="${assetsInfo.assets.assetsName}"></td>
+	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.manufacture}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.manufacture" value="${assetsInfo.assets.manufacture}"></td>
+	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.spec}</label><input style="width:120px; display:none" name="assetsList[${iterStatus.index}].assets.spec" value="${assetsInfo.assets.spec}"></td>
+>>>>>>> origin/Tangjun:code/Fuego/WebRoot/jsp/cbb/assetsList.jsp
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.assetsSRC}</label></td>
-	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.manufacture}</label></td>
-	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.spec}</label></td>
+	        
 	        <td style="text-align:center"><label style="width:40px">${assetsInfo.assets.unit}</label></td>
 	        <td style="text-align:center"><label style="width:60px">${assetsInfo.assets.quantity}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.purchaseDate}</label></td>
@@ -73,7 +79,16 @@
 			</c:if>
 
 			<c:if test="${true == assetsPage.showCheckState}"> 
-			  <td style="text-align:center"><label style="width:80px">${assetsInfo.extAttr.checkState}</label></td>
+			  <td style="text-align:center"> 
+			  	<select name="assetsList[${iterStatus.index}].extAttr.checkState" style="width: 200px"  >
+							 <option>${assetsInfo.extAttr.checkState}</option>
+							 <option>未盘点</option>
+							 <option>已盘点</option>	
+				</select>
+			    <td style="text-align:center">
+			      <input style="width:80px" type="text" value="${assetsInfo.extAttr.checkCnt}" name="assetsList[${iterStatus.index}].extAttr.checkCnt" />
+			    </td>	
+	 
 			</c:if>
 			<c:if test="${true == assetsPage.showReceiveState}"> 
 			  <td style="text-align:center">

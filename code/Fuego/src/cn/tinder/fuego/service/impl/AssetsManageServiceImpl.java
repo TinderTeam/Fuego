@@ -208,31 +208,32 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	
 	public List<CheckPlanInfoBo> getCheckSumAssetsList(String dept)
 	{
-		List<PhysicalAssetsStatus> assetsList = assetsDao.getAssetsByDuty(dept);
-		
-		CheckPlanPage checkPlanPage = new CheckPlanPage();
-		
-		for(PhysicalAssetsStatus assets :assetsList)
-		{
-			CheckPlanInfoBo checkInfo = new CheckPlanInfoBo();
-			checkInfo.setAssets(ConvertAssetsModel.convertAssets(assets));
-			checkInfo.setCheckCnt(checkInfo.getAssets().getQuantity());
-			checkInfo.setCheckState(AssetsConst.CHECK_STATUS_TODO);
-
-			CheckPlanInfoBo existCheck =  checkPlanPage.find(checkInfo);
-			if(null == existCheck)
-			{
-				checkPlanPage.getPlanList().add(checkInfo);
-			}
-			else
-			{
-				existCheck.getAssets().setQuantity(existCheck.getAssets().getQuantity()+1);
-				existCheck.setCheckCnt(existCheck.getAssets().getQuantity());
-				existCheck.setCheckState(AssetsConst.CHECK_STATUS_TODO);
-			}
-		}
-			
-		return checkPlanPage.getPlanList();
+//		List<PhysicalAssetsStatus> assetsList = assetsDao.getAssetsByDuty(dept);
+//		
+//		CheckPlanPage checkPlanPage = new CheckPlanPage();
+//		
+//		for(PhysicalAssetsStatus assets :assetsList)
+//		{
+//			CheckPlanInfoBo checkInfo = new CheckPlanInfoBo();
+//			checkInfo.setAssets(ConvertAssetsModel.convertAssets(assets));
+//			checkInfo.setCheckCnt(checkInfo.getAssets().getQuantity());
+//			checkInfo.setCheckState(AssetsConst.CHECK_STATUS_TODO);
+//
+//			CheckPlanInfoBo existCheck =  checkPlanPage.find(checkInfo);
+//			if(null == existCheck)
+//			{
+//				checkPlanPage.getPlanList().add(checkInfo);
+//			}
+//			else
+//			{
+//				existCheck.getAssets().setQuantity(existCheck.getAssets().getQuantity()+1);
+//				existCheck.setCheckCnt(existCheck.getAssets().getQuantity());
+//				existCheck.setCheckState(AssetsConst.CHECK_STATUS_TODO);
+//			}
+//		}
+//			
+//		return checkPlanPage.getPlanList();
+		return null;
 
 	}
 

@@ -1,5 +1,6 @@
 package cn.tinder.fuego.service;
 
+import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.impl.AssetsManageServiceImpl;
 import cn.tinder.fuego.service.impl.GasAssetsApplyServiceImpl;
 import cn.tinder.fuego.service.impl.GasStationCheckServiceImpl;
@@ -215,6 +216,38 @@ public class ServiceContext
 			receivePlanService = new ReceivePlanServiceImpl<ReceivePlanBo>();
 		}
 		return receivePlanService;
+	}
+	
+	public TransPlanService getPlanServiceByType(String tranType)
+	{
+		TransPlanService planService = null;
+		
+		if(TransactionConst.ASSIGN_PLAN_TYPE.equals(tranType))
+		{
+			planService = this.getAssignPlanService(tranType);
+		}
+		else if(TransactionConst.CHECK_PLAN_TYPE.equals(tranType))
+		{
+			planService = this.getAssignPlanService(tranType);
+		}
+		else if(TransactionConst.DISCARD_PLAN_TYPE.equals(tranType))
+		{
+			planService = this.getAssignPlanService(tranType);
+		}
+		else if(TransactionConst.PURCHASE_PLAN_TYPE.equals(tranType))
+		{
+			planService = this.getAssignPlanService(tranType);
+		}
+		else if(TransactionConst.RECAPTURE_PLAN_TYPE.equals(tranType))
+		{
+			planService = this.getAssignPlanService(tranType);
+		}
+		else if(TransactionConst.RECEIVE_PLAN_TYPE.equals(tranType))
+		{
+			planService = this.getAssignPlanService(tranType);
+		}
+		
+		return planService;
 	}
 
 

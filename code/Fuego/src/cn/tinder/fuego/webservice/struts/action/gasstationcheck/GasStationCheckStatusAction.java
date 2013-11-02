@@ -10,6 +10,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
@@ -32,32 +33,37 @@ public class GasStationCheckStatusAction extends Action
 	public ActionForward execute(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response)
 			throws Exception
 	{
-		log.info(LogKeyConst.INPUT_ACTION + "GasStationCheckStatusAction");
-
-		// Mapping
-		
-			
-			String nextPage = null;
-
+        log.info(LogKeyConst.INPUT_ACTION);
+        
+    	String nextPage = null;
+    	try
+    	{
+    		nextPage = handle(form,request);
+		} 
+    	catch(ServiceException e)
+    	{
+    		log.warn("opration failed",e);
+    		request.setAttribute(RspBoNameConst.OPERATE_EXCEPION, e.getMessage());
+			nextPage = PageNameConst.ERROR_PAGE; 
+    	}
+    	catch (Exception e)
+		{
+			log.error("system error",e);
+			nextPage = PageNameConst.SYSTEM_ERROR_PAGE; 
+		}
+     
  
-			
-			String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
-			
-			log.info( "[Info]submit" + submitPara);
-           if(submitPara.equals(ParameterConst.SUBMIT_1))
-        	{
-        	   nextPage=PageNameConst.GAS_STATION_CHECK_INIT_PAGE;
-        	   
-        	}
-           if(submitPara.equals(ParameterConst.SUBMIT_2))
-           {
-        	   nextPage=PageNameConst.SYSTEM_SUCCESS_PAGE;
-           }
-			//request.setAttribute(RspBoNameConst.PASSWORD_SETUP_EXCEPTION, exceptionStr);
-			log.info(LogKeyConst.NEXT_PAGE + nextPage);
-			// nextPage=PageNameConst.GAS_STATION_CHECK_STATUS_ENSURE_PAGE;		   
-	
-	return mapping.findForward(nextPage);
+        log.info(LogKeyConst.NEXT_PAGE+nextPage);
+        return mapping.findForward(nextPage);	
+
+	}
+
+	private String handle(ActionForm form,HttpServletRequest request)
+	{
+		String nextPage = PageNameConst.INDEX_INIT_ACTION;
+ 		
+		 
+		return nextPage;
 	}
 	
 }

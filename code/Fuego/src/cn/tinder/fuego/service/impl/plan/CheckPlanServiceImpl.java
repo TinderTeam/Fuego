@@ -11,6 +11,7 @@ package cn.tinder.fuego.service.impl.plan;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,6 +21,8 @@ import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.domain.po.CheckPlan;
+import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
+import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.AssetsManageService;
@@ -28,9 +31,13 @@ import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
+import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
+import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckTransBo;
+import cn.tinder.fuego.webservice.struts.bo.receive.ReceivePlanBo;
+import cn.tinder.fuego.webservice.struts.bo.receive.ReceiveTransBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 
 /** 
@@ -67,32 +74,46 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		//create a transaction for every gas station
 		for(SystemUser gasUser : gasUserList)
 		{
- 			TransactionBaseInfoBo trans = super.createTransByUserAndType(user,gasUser.getUserName(), TransactionConst.CHECK_PLAN_TYPE,parentTrans.getTransID());
- 			 
- 			 List<CheckPlanInfoBo> planList = assetsManageService.getCheckSumAssetsList(gasUser.getDepartment());
- 			 for(CheckPlanInfoBo checkPlanBo : planList)
+
+ 			 List<AssetsInfoBo> planList = assetsManageService.getAssetsByDept(gasUser.getDepartment());
+  			 
+ 			 if(null != planList && !planList.isEmpty())
+ 			 { 
+ 	 			 TransactionBaseInfoBo trans = super.createTransByUserAndType(user,gasUser.getUserName(), TransactionConst.CHECK_PLAN_TYPE,parentTrans.getTransID());
+ 				 List<CheckPlan> checkPlanList = convertCheckPlanByBo(trans.getTransID(), planList);
+ 	 	  		 checkPlanDao.create(checkPlanList);
+ 	 			plan.getPlanInfo().getAssetsPage().getAssetsList().addAll(planList);
+ 			 }
+ 			 else
  			 {
- 				CheckPlan checkPlan = convertCheckPlanByBo(trans, checkPlanBo);
- 	  			checkPlanDao.create(checkPlan);
-  			 }
- 			plan.getPlanInfo().addAll(planList);
+ 				 log.warn("the assests of " + gasUser + "is 0,no need to create a transaction.");
+ 			 }
+
 		}
   		plan.getTransInfo().setTransInfo(parentTrans);
 		return (E)plan;
 	}
 
-	private CheckPlan convertCheckPlanByBo(TransactionBaseInfoBo trans, CheckPlanInfoBo checkPlanBo)
+	private List<CheckPlan> convertCheckPlanByBo(String transID, List<AssetsInfoBo> assestsInfoList)
 	{
-		CheckPlan checkPlan = new CheckPlan();
-		checkPlan.setTransID(trans.getTransID());
-		checkPlan.setDeptID(checkPlanBo.getAssets().getDuty());
-		checkPlan.setAssetsName(checkPlanBo.getAssets().getAssetsName());
-		checkPlan.setManufacture(checkPlanBo.getAssets().getManufacture());
-		checkPlan.setSpec(checkPlanBo.getAssets().getSpec());
-		checkPlan.setQuantity(checkPlanBo.getAssets().getQuantity());
-		checkPlan.setCheckCnt(checkPlanBo.getCheckCnt());
-		checkPlan.setCheckState(checkPlanBo.getCheckState());
-		return checkPlan;
+		List<CheckPlan> planList = new ArrayList<CheckPlan>();
+		for(AssetsInfoBo assetsBo : assestsInfoList)
+		{	
+			CheckPlan checkPlan = new CheckPlan();
+			checkPlan.setTransID(transID);
+			checkPlan.setAssetsID(assetsBo.getAssets().getAssetsID());
+			checkPlan.setDeptID(assetsBo.getAssets().getDuty());
+			checkPlan.setAssetsName(assetsBo.getAssets().getAssetsName());
+			checkPlan.setManufacture(assetsBo.getAssets().getManufacture());
+			checkPlan.setSpec(assetsBo.getAssets().getSpec());
+			checkPlan.setQuantity(assetsBo.getAssets().getQuantity());
+			checkPlan.setCheckCnt(assetsBo.getExtAttr().getCheckCnt());
+			checkPlan.setCheckState(assetsBo.getExtAttr().getCheckState());
+			checkPlan.setNote(assetsBo.getExtAttr().getNote());
+			planList.add(checkPlan);
+		}
+
+		return planList;
 	}
 
 	/* (non-Javadoc)
@@ -101,7 +122,8 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	@Override
 	public void deletePlan(String transID)
 	{
-		// TODO Auto-generated method stub
+		super.deleteTransByID(transID);
+		checkPlanDao.deleteByTransID(transID);
 		
 	}
 
@@ -111,7 +133,36 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	@Override
 	public void updatePlan(E plan)
 	{
-		// TODO Auto-generated method stub
+		CheckPlanBo checkPlan = (CheckPlanBo)plan;
+		
+		List<CheckPlan> planList = new ArrayList<CheckPlan>();
+
+		List<CheckTransBo>  childList = checkPlan.getTransInfo().getChildTransList();
+		if(null == childList)
+		{
+			log.warn("the child is null,is not a parent transaction");
+			checkPlanDao.deleteByTransID(checkPlan.getTransInfo().getTransInfo().getTransID());
+			planList = convertCheckPlanByBo(checkPlan.getTransInfo().getTransInfo().getTransID(),checkPlan.getPlanInfo().getAssetsPage().getAssetsList());
+			if(checkPlan.getPlanInfo().getAssetsPage().isCheckFinished())
+			{
+				this.forwardNext(checkPlan.getTransInfo().getTransInfo().getTransID());
+			}
+		}
+		else
+		{
+			Map<String,List<AssetsInfoBo>> deptMapAssestList = ConvertAssetsModel.convertAssestsListBoToDeptMap(checkPlan.getPlanInfo().getAssetsPage().getAssetsList());
+
+ 
+			
+ 			//get all the plan for every child transaction
+			for(CheckTransBo childTrans : childList)
+			{
+				planList.addAll(convertCheckPlanByBo(childTrans.getTransInfo().getTransID(),deptMapAssestList.get(childTrans.getTransInfo().getHandleUser())));
+ 			}
+			//add the receive information in database.
+			
+		}
+		checkPlanDao.create(planList);
 		
 	}
 
@@ -127,7 +178,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		switch(transEvent.getCurrentStep())
 		{
 		case 1 :
-		    handleUser = transEvent.getCreateUser();
+		    handleUser = transEvent.getHandleUser();
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();
@@ -169,22 +220,34 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		 } 
 		
 
-		List<CheckPlanInfoBo> planInfoList = new ArrayList<CheckPlanInfoBo>();
-		List<CheckPlan> checkPlanList = getCheckPlanListByTranID(transID);
+ 		List<CheckPlan> checkPlanList = getCheckPlanListByTranID(transID);
 		for(CheckPlan checkPlan : checkPlanList)
 		{
-			CheckPlanInfoBo planInfoBo = new CheckPlanInfoBo();
-			planInfoBo.getAssets().setAssetsName(checkPlan.getAssetsName());
-			planInfoBo.getAssets().setManufacture(checkPlan.getManufacture());
-			planInfoBo.getAssets().setSpec(checkPlan.getSpec());
-			planInfoBo.getAssets().setDuty(checkPlan.getDeptID());
-			planInfoBo.setCheckState(checkPlan.getCheckState());
-			planInfoBo.setCheckCnt(checkPlan.getCheckCnt());
-			planInfoList.add(planInfoBo);
+			plan.getPlanInfo().getAssetsPage().getAssetsList().add(convertCheckPlan(checkPlan));
 		}
-		plan.setPlanInfo(planInfoList);
+ 		return (E) plan;
+	}
 
-		return (E) plan;
+	private AssetsInfoBo convertCheckPlan(CheckPlan checkPlan)
+	{
+		AssetsInfoBo assetsInfo ;
+		assetsInfo = assetsManageService.getAssetsByAssetID(checkPlan.getAssetsID());
+		
+		if(null == assetsInfo)
+		{
+			assetsInfo = new AssetsInfoBo();
+			assetsInfo.getAssets().setAssetsID(checkPlan.getAssetsID());
+			assetsInfo.getAssets().setAssetsName(checkPlan.getAssetsName());
+			assetsInfo.getAssets().setManufacture(checkPlan.getManufacture());
+			assetsInfo.getAssets().setSpec(checkPlan.getSpec());
+			assetsInfo.getAssets().setDuty(checkPlan.getDeptID());
+		}
+ 
+		assetsInfo.getExtAttr().setCheckState(checkPlan.getCheckState());
+		assetsInfo.getExtAttr().setCheckCnt(checkPlan.getCheckCnt());
+		assetsInfo.getExtAttr().getNote();
+
+		return assetsInfo;
 	}
 
 	private List<CheckPlan>  getCheckPlanListByTranID(String transID)

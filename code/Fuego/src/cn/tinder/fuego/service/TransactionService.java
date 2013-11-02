@@ -38,5 +38,7 @@ public interface TransactionService
 	public void backward(String transID);
 	
 	public List<TransactionBaseInfoBo> getTransListByUser(String userID);
+	
+	public void deletePlanByTransID(String user,String transID);
 
 }
