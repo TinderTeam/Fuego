@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+	
+<hibernate-mapping
+	package="cn.tinder.fuego.domain.po">
+	<class name="PhysicalAssetsStatus" table="physical_assets_status">
+	    <id name="assetsID" column="ASSETS_ID"  type="java.lang.String" >
+			<generator class="assigned"/>
+		</id>
+			<property name="assetsName" column="ASSETS_NAME" not-null="true"></property>
+			<property name="assetsSRC" column="ASSETS_SRC" not-null="false"></property>
+			<property name="manufacture" column="MANUFACTURER" not-null="false"></property>
+			<property name="spec" column="SPEC" not-null="false"></property>
+			<property name="unit" column="UNIT" not-null="false"></property>
+			<property name="quantity" column="QUANTITY" not-null="false"></property>
+			<property name="purchaseDate" column="PURCHASE_DATE" not-null="false"></property>
+			<property name="originalValue" column="ORIGINAL_VALUE" not-null="false"></property>
+			<property name="expectYear" column="EXPECT_YEAR" not-null="false"></property>
+			<property name="dueDate" column="DUE_DATE" not-null="false"></property>
+			<property name="dept" column="DEPT" not-null="false"></property>
+			<property name="duty" column="DUTY" not-null="false"></property>
+			<property name="assetsType" column="ASSETS_TYPE" not-null="false"></property>
+			<property name="location" column="LOCATION" not-null="false"></property>
+			<property name="techState" column="TECH_STATE" not-null="false"></property>
+			<property name="checkDate" column="CHECK_DATE" not-null="false"></property>
+			<property name="note" column="NOTE" not-null="false"></property>
+			<property name="attrType" column="ATTR_TYPE" not-null="false"></property>
+
+					
+	</class>
+</hibernate-mapping>
+ 
