@@ -37,7 +37,6 @@ import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanPage;
 import cn.tinder.fuego.webservice.struts.bo.excelimport.ImportBasicDataExcelFile;
 import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
 import cn.tinder.fuego.webservice.struts.form.GasAssetsApplyForm;
@@ -348,14 +347,44 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.AssetsManageService#updateAssetsStatus(cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo)
 	 */
+	@SuppressWarnings("null")
 	@Override
 	public void updateAssetsStatus(AssetsInfoBo assetsInfo)
 	{
 		PhysicalAssetsStatus assets = ConvertAssetsModel.convertAssetsBo(assetsInfo);
 		PhysicalAssetsStatus assetsUpdate = assetsDao.getByAssetsID(assets.getAssetsID());
+ 		PhysicalAssetsStatus assetsCreate =	new PhysicalAssetsStatus();
+ 		
+		
 		if(null == assetsUpdate)
-		{
-			log.warn("can not find the assets by id. assets is " + assets);
+		{   
+
+			
+			//log.info("newAssetsID is :"+assets.getAssetsID());
+			//log.warn("can not find the assets by id. assets is " + assets);
+			assetsCreate.setAssetsID(assets.getAssetsID());
+			
+			assetsCreate.setAssetsName(assets.getAssetsName());
+			assetsCreate.setAssetsSRC(assets.getAssetsSRC());
+			assetsCreate.setAssetsType(assets.getAssetsType());
+			assetsCreate.setTechState(assets.getTechState());
+			assetsCreate.setCheckDate(assets.getCheckDate());
+			assetsCreate.setDept(assets.getDept());
+			assetsCreate.setDueDate(assets.getDueDate());
+			assetsCreate.setDuty(assets.getDuty());
+			assetsCreate.setExpectYear(assets.getExpectYear());
+			assetsCreate.setLocation(assets.getLocation());
+			assetsCreate.setManufacture(assets.getManufacture());
+			assetsCreate.setNote(assets.getNote());
+			assetsCreate.setOriginalValue(assets.getOriginalValue());
+			assetsCreate.setPurchaseDate(assets.getPurchaseDate());
+			assetsCreate.setQuantity(assets.getQuantity());
+			assetsCreate.setSpec(assets.getSpec());
+			assetsCreate.setTechState(assets.getTechState());
+			assetsCreate.setUnit(assets.getUnit());
+			assetsCreate.setCheckDate(assets.getCheckDate());
+			assetsDao.create(assetsCreate);
+			
 		}
 		else
 		{	
@@ -453,11 +482,19 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	 * @see cn.tinder.fuego.service.AssetsManageService#getAssetsByAssetID(java.lang.String)
 	 */
 	@Override
-	public AssetsInfoBo getAssetsByAssetID(String aseetsID)
+	public AssetsInfoBo getAssetsByAssetID(String assetsID)
 	{
-		PhysicalAssetsStatus assets =assetsDao.getByAssetsID(aseetsID);
+		PhysicalAssetsStatus assets =assetsDao.getByAssetsID(assetsID);
 		AssetsInfoBo assetsInfo = new AssetsInfoBo();
-		assetsInfo.setAssets(ConvertAssetsModel.convertAssets(assets));
+		if(null != assets)
+		{
+			assetsInfo.setAssets(ConvertAssetsModel.convertAssets(assets));
+		}
+		else
+		{
+			log.warn("can not find the assets by assets id" + assetsID);
+			return null;
+		}
 		return assetsInfo;
 	}
 	
@@ -512,6 +549,26 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		}
  
 		return  new ArrayList(userSet);
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.AssetsManageService#getNewAssetsByAssetsID(java.lang.String)
+	 */
+	@Override
+	public AssetsInfoBo getNewAssetsByAssetsID(String assetsID)
+	{
+	   if(null == assetsDao.getByAssetsID(assetsID))
+	   {
+		   AssetsInfoBo assets = new AssetsInfoBo();
+		   assets.getAssets().setAssetsID(assetsID);
+		   return assets;
+	   }
+	   else
+	   {
+		   log.warn("the assets id is existed " + assetsID);
+		   throw new ServiceException(ExceptionMsg.ASSETS_ID_ISEXIST);
+	   }
+		
 	}
 
 

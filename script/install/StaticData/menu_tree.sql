@@ -3,7 +3,7 @@ USE `feugodb`;
 
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (1,'assertsManage','首页','','icon icon-home','IndexInit.do',0);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (10000,'assertsManage','实物资产管理','submenu','icon icon-briefcase',NULL,0);
-INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (11000,'assertsManage','创建资产采购计划','','icon icon-shopping-cart','PurchasePlanInit.do',10000);
+INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (11000,'assertsManage','实物资产采购','','icon icon-shopping-cart','PurchasePlanInit.do',10000);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (12000,'assertsManage','实物资产验收','','icon icon-hdd','ImportAssetsInit.do',10000);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (13000,'assertsManage','实物资产调拨','','icon icon-random','AssignInit.do',10000);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (14000,'assertsManage','实物资产回收','','icon icon-repeat','AssetsRecaptureInit.do',10000);

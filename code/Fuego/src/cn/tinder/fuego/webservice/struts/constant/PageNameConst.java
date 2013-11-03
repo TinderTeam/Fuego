@@ -74,6 +74,7 @@ public class PageNameConst
 	public static final String ASSETS_STATUS_SEARCH_INIT_DISABLE_BTN_ACTION = "AssetsStatusSearchInitDisableBtn";
 
 	public static final String ASSETS_STATUS_SEARCH_PAGE = "AssetsStatusSearch";
+	public static final String ASSETS_STATUS_SEARCH_INIT_PAGE = "AssetsStatusSearchInit";
 	public static final String GAS_ASSETS_APPLY_PAGE = "GasAssetsApply";
 	public static final String PASSWORD_RESETUP = "PasswordResetup";
 	
@@ -119,5 +120,6 @@ public class PageNameConst
 	public static final String DOWNLOAD_ACTION = "DownloadAction";
 	public static final String ASSETS_MODIFY_PAGE = "AssetsModifyAction";
 	public static final String ASSETS_STATUS_MODIFY_PAGE = "AssetsModify";
+	public static final String ASSETS_STATUS_MODIFY_INIT_PAGE = "AssetsModifyInit";
 	
 }
