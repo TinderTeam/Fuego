@@ -20,13 +20,11 @@
 			<div class="container-fluid">
 				<div class="row-fluid">
 					<div class="span12 center" style="text-align: center;">					
-					
-							<div class="widget-box">
 							
-								<div class="widget-title">
-								
-									<h5 style="font-size:20px">错误原因：${operateException}</h5>
-										
+							
+							<div class="widget-box">							
+								<div class="widget-content">
+									${operateException}
 								</div>
 							</div>
 							
@@ -36,14 +34,11 @@
 				</div>
 			</div>	
 			<div class="row-fluid">
-					<div id="footer" class="span12">
-						2013  Copyright Reserved by Tinder
-					</div>
+				<div id="footer" class="span12">
+					2013  Copyright Reserved by Tinder
 				</div>
 			</div>
 		</div>
-		
-		</div>
-          
+       
 </body>
 </html>

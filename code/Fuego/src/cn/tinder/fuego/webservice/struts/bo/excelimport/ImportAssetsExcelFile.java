@@ -70,7 +70,6 @@ public class ImportAssetsExcelFile {
 				    		AssetsInfoBo infoBo = getAssetInfo(sheet,i);
 				    		
 				    		infoBo.inportTest();
-				    		log.info("第一个："+infoBo);
 				    		
 				    		/*
 				    		 * 2.配置拆分参数
