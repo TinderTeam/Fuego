@@ -8,6 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
  	<jsp:include page="/jsp/cbb/includeCSS.jsp"/>
+ 	<script type="text/javascript" src="jsp/My97DatePicker/WdatePicker.js"></script>
 <body>
  
      	<jsp:include page="/jsp/cbb/header.jsp"/>
@@ -30,7 +31,7 @@
 								<span class="icon">
 									<i class="icon-align-justify"></i>									
 								</span>
-								<h5>修改资产（ID：12312412）</h5>
+								<h5>修改资产</h5>
 							</div>
 							<div class="widget-content nopadding">
 								<form action="<%=request.getContextPath()%>/AssetsModify.do" method="post" class="form-horizontal" >
@@ -45,7 +46,7 @@
 									<div class="control-group">
                                         <label class="control-label">资产编号</label >                                   
 										<div class="controls">
-                                            <input type="text" name="assetsInfo.assets.assetsID" value="${assetsInfo.assets.assetsID}" disabled="true" />
+                                            <input type="text" name="assetsInfo.assets.assetsID" value="${assetsInfo.assets.assetsID}" readonly="true" />
                                         </div>                          
                                     </div>
 									
@@ -101,16 +102,16 @@
                                     </div>
 									
 									<div class="control-group">
-                                        <label class="control-label">购建日期</label >                                   
+                                        <label class="control-label">*购建日期</label >                                   
 										<div class="controls">
-                                            <input type="text" data-date="2013-03-04" data-date-format="yyyy-mm-dd" name="assetsInfo.assets.purchaseDate" value="${assetsInfo.assets.purchaseDate}" class="datepicker" />
+                                            <input type="text" data-date="2013-03-04" data-date-format="yyyy-mm-dd" name="assetsInfo.assets.purchaseDate" value="${assetsInfo.assets.purchaseDate}" onfocus="WdatePicker()" />
                                         </div>                          
                                     </div>
 									
 									<div class="control-group">
                                         <label class="control-label">原值</label >                                   
 										<div class="controls">
-                                            <input type="text" name="assetsInfo.assets.originalValue" value="${assetsInfo.assets.originalValue}" />￥
+                                             <input type="text" name="assetsInfo.assets.originalValue" value="${assetsInfo.assets.originalValue}"  />
                                         </div>                          
                                     </div>
 									
@@ -139,7 +140,7 @@
 									<div class="control-group">
                                         <label class="control-label">技术状态</label >                                   
 										<div class="controls">
-                                            <select name="assetsInfo.assets.techState">
+                                            <select name="assetsInfo.assets.techState"  style="width:80px">
                                              <option >${assetsInfo.assets.techState}</option>
                                             
 											 <c:forEach var="tech" items="${techList}"> 
@@ -162,9 +163,32 @@
 									<div class="form-actions">
 										<button type="submit" class="btn btn-success"  name ="submit" value="submit">提交</button>
 										<button type="submit" class="btn btn-danger"  name ="submit" value="delete">删除</button>
-										<button type="submit" class="btn btn-primary"  name ="submit" value="back">返回</button>
+
+										<a class="btn btn-primary" href="javascript:history.go(-1);">返回</a>
 										<button type="submit" class="btn btn-primary"  name ="submit" value="cancel">取消</button>
+										<a href="#myAlert" data-toggle="modal" class="btn btn-success" style="width:60px">新增资产</a>
 										
+									<div id="myAlert" class="modal hide">
+										<div class="modal-header">
+											<button data-dismiss="modal" class="close" type="button">×</button>
+											<h3>创建新资产</h3>
+										</div>
+										<div class="modal-body">
+											<div class="control-group">
+												<label class="control-label">请输入资产编号</label>
+												<div class="controls">
+													<input type="text" name="newAssetsID" value=""/>
+												</div>
+											</div>										
+
+				
+										</div>
+										<div class="modal-footer">
+											<button type="submit" class="btn btn-success"  name ="submit" value="addNew">创建资产</button>
+											
+											<a data-dismiss="modal" class="btn" href="#">取消</a>
+										</div>
+									</div>
 									</div>
 								</form>
 							</div>
@@ -174,7 +198,7 @@
 			</div>
 			<div class="row-fluid">
 					<div id="footer" class="span12">
-						2013  Copyright Reserved by Tinder
+						2013 Copyright Reserved by Tinder
 					</div>
 				</div>
 			</div>

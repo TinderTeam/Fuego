@@ -11,10 +11,10 @@
 			  <th>选择</th>
 			</c:if>
 			<th>资产编号</th>
-			<th>资产名称</th>
-			<th>资产来源</th>								
+			<th>资产名称</th>											
 			<th>生产厂家</th>
 			<th>规格型号</th>
+			<th>资产来源</th>
 			<th>单位</th>
 			<th>数量</th>
 			<th>购建日期</th>
@@ -51,11 +51,11 @@
 	       	<c:if test="${true == assetsPage.showCheckBox}"> 
 	          <td><input type="checkbox"  name="assetsIDList" value="${assetsInfo.assets.assetsID}" style="width:40px"></td>
 	        </c:if>  
-                <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsID}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.assetsID" value="${assetsInfo.assets.assetsID}"></input></td>	        <td style="text-align:center"><input style="width:120px" name="assetsList[${iterStatus.index}].assets.assetsName" value="${assetsInfo.assets.assetsName}"></td>
+            <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsID}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.assetsID" value="${assetsInfo.assets.assetsID}"></input></td>	        
+	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsName}</label></td>
 	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.manufacture}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.manufacture" value="${assetsInfo.assets.manufacture}"></td>
 	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.spec}</label><input style="width:120px; display:none" name="assetsList[${iterStatus.index}].assets.spec" value="${assetsInfo.assets.spec}"></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.assetsSRC}</label></td>
-	        
 	        <td style="text-align:center"><label style="width:40px">${assetsInfo.assets.unit}</label></td>
 	        <td style="text-align:center"><label style="width:60px">${assetsInfo.assets.quantity}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.purchaseDate}</label></td>
@@ -68,7 +68,7 @@
 			 <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.attrType}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.location}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.techState}</label></td>
-	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.checkDate}</label></td>
+	        <td style="text-align:center"><label style="width:120px">${assetsInfo.assets.checkDate}</label></td>
 	        <c:if test="${false == assetsPage.showNote}"> 
 			  <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.note}</label></td>
 			</c:if>
@@ -92,7 +92,9 @@
 							 <option>未验收</option>
 							 <option>已验收</option>	
 				</select>
+				
 			  </td>
+		  
  			</c:if>
 			<c:if test="${true == assetsPage.showNote}"> 
 			   <td style="text-align:center">

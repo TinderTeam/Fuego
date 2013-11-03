@@ -437,7 +437,14 @@
                 name="AssetsModifyForm">          
    			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>		
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	
+			<forward name="AssetsModifyInit" path="/AssetsModifyInit.do"></forward>
+            <forward name="AssetsModify" path="/AssetsModify.do"></forward>
+            <forward name="AssetsStatusSearchInit" path="/assetsStatusSearchInit.do"></forward>
+            <forward name="IndexInit" path="/IndexInit.do"></forward>
+          <forward name="AssetsStatusSearchInitEnableBtn" path="/AssetsStatusSearchInit.do?showModifyBtn=true"></forward>	
+			
+			
        	</action>   
        	
        	 <action path="/GasAssetsApplyInit"

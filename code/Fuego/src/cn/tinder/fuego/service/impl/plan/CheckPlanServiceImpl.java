@@ -70,7 +70,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		
 		
 		List<SystemUser> gasUserList = systemUserDao.getUserByRole(UserRoleConst.GASSTATION);
- 		
+		 List<CheckPlan> checkPlanList = new ArrayList<CheckPlan>();
 		//create a transaction for every gas station
 		for(SystemUser gasUser : gasUserList)
 		{
@@ -79,9 +79,8 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
   			 
  			 if(null != planList && !planList.isEmpty())
  			 { 
- 	 			 TransactionBaseInfoBo trans = super.createTransByUserAndType(user,gasUser.getUserName(), TransactionConst.CHECK_PLAN_TYPE,parentTrans.getTransID());
- 				 List<CheckPlan> checkPlanList = convertCheckPlanByBo(trans.getTransID(), planList);
- 	 	  		 checkPlanDao.create(checkPlanList);
+ 	 			TransactionBaseInfoBo trans = super.createTransByUserAndType(user,gasUser.getUserName(), TransactionConst.CHECK_PLAN_TYPE,parentTrans.getTransID());
+ 	 			checkPlanList.addAll(convertCheckPlanByBo(trans.getTransID(), planList));
  	 			plan.getPlanInfo().getAssetsPage().getAssetsList().addAll(planList);
  			 }
  			 else
@@ -90,6 +89,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
  			 }
 
 		}
+	  	checkPlanDao.create(checkPlanList);
   		plan.getTransInfo().setTransInfo(parentTrans);
 		return (E)plan;
 	}
@@ -148,20 +148,20 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 				this.forwardNext(checkPlan.getTransInfo().getTransInfo().getTransID());
 			}
 		}
-		else
-		{
-			Map<String,List<AssetsInfoBo>> deptMapAssestList = ConvertAssetsModel.convertAssestsListBoToDeptMap(checkPlan.getPlanInfo().getAssetsPage().getAssetsList());
-
- 
-			
- 			//get all the plan for every child transaction
-			for(CheckTransBo childTrans : childList)
-			{
-				planList.addAll(convertCheckPlanByBo(childTrans.getTransInfo().getTransID(),deptMapAssestList.get(childTrans.getTransInfo().getHandleUser())));
- 			}
-			//add the receive information in database.
-			
-		}
+//		else
+//		{
+//			Map<String,List<AssetsInfoBo>> deptMapAssestList = ConvertAssetsModel.convertAssestsListBoToDeptMap(checkPlan.getPlanInfo().getAssetsPage().getAssetsList());
+//
+// 
+//			
+// 			//get all the plan for every child transaction
+//			for(CheckTransBo childTrans : childList)
+//			{
+//				planList.addAll(convertCheckPlanByBo(childTrans.getTransInfo().getTransID(),deptMapAssestList.get(childTrans.getTransInfo().getHandleUser())));
+// 			}
+//			//add the receive information in database.
+//			
+//		}
 		checkPlanDao.create(planList);
 		
 	}
@@ -219,13 +219,16 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 			checkTrans.getChildTransList().add(child);
 		 } 
 		
+		 if(null == childEventList || childEventList.isEmpty())
+		 {
+			 List<CheckPlan> checkPlanList = getCheckPlanListByTranID(transID);
+			 for(CheckPlan checkPlan : checkPlanList)
+			 {
+				plan.getPlanInfo().getAssetsPage().getAssetsList().add(convertCheckPlan(checkPlan));
+			 }
+		 }
 
- 		List<CheckPlan> checkPlanList = getCheckPlanListByTranID(transID);
-		for(CheckPlan checkPlan : checkPlanList)
-		{
-			plan.getPlanInfo().getAssetsPage().getAssetsList().add(convertCheckPlan(checkPlan));
-		}
- 		return (E) plan;
+	 	 return (E) plan;
 	}
 
 	private AssetsInfoBo convertCheckPlan(CheckPlan checkPlan)
