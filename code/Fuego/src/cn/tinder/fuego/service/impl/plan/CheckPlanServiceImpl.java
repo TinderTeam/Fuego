@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 
 import cn.tinder.fuego.dao.CheckPlanDao;
 import cn.tinder.fuego.dao.DaoContext;
+import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.domain.po.CheckPlan;
@@ -56,6 +57,9 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 
 	private SystemUserDao systemUserDao = DaoContext.getInstance().getSystemUserDao();
 	private CheckPlanDao checkPlanDao = DaoContext.getInstance().getCheckPlanDao();
+	
+	private PhysicalAssetsStatusDao assetsDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
+
 	private AssetsManageService assetsManageService = ServiceContext.getInstance().getAssetsManageService();
 
 	/* (non-Javadoc)
@@ -70,6 +74,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		
 		
 		List<SystemUser> gasUserList = systemUserDao.getUserByRole(UserRoleConst.GASSTATION);
+<<<<<<< HEAD
 		 List<CheckPlan> checkPlanList = new ArrayList<CheckPlan>();
 		//create a transaction for every gas station
 		for(SystemUser gasUser : gasUserList)
@@ -90,6 +95,26 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 
 		}
 	  	checkPlanDao.create(checkPlanList);
+
+ 		//create a transaction for every gas station
+		for(SystemUser gasUser : gasUserList)
+		{
+			PhysicalAssetsStatus filter = new PhysicalAssetsStatus();
+			filter.setDuty(gasUser.getDepartment());
+			int count = assetsDao.getAssetsListByFilterCount(filter, null);
+ 	 
+ 			if(count>0)
+ 			{ 
+ 	 			super.createTransByUserAndType(user,gasUser.getUserName(), TransactionConst.CHECK_PLAN_TYPE,parentTrans.getTransID());
+   			}
+ 			else
+ 			{
+ 				log.warn("the assests of " + gasUser + "is 0,no need to create a transaction.");
+ 			}
+
+		}
+	  	//checkPlanDao.create(checkPlanList);
+
   		plan.getTransInfo().setTransInfo(parentTrans);
 		return (E)plan;
 	}
@@ -226,6 +251,26 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 			 {
 				plan.getPlanInfo().getAssetsPage().getAssetsList().add(convertCheckPlan(checkPlan));
 			 }
+		 }
+
+ 			 
+			 if(null==checkPlanList || checkPlanList.isEmpty())
+			 {
+				 log.warn("first time to enter assets check,need to create check plan for the user");
+				 SystemUser user = systemUserDao.find(baseTrans.getHandleUser());
+				 List<AssetsInfoBo> assestList = assetsManageService.getAssetsByDept(user.getDepartment());
+				 checkPlanList = convertCheckPlanByBo(baseTrans.getTransID(), assestList);
+				 checkPlanDao.create(checkPlanList);
+			 }
+
+			 for(CheckPlan checkPlan : checkPlanList)
+			 {
+				plan.getPlanInfo().getAssetsPage().getAssetsList().add(convertCheckPlan(checkPlan));
+			 }
+		 }
+		 else
+		 {
+			 log.info("the trans id is parent transaction,no need get the plan info");
 		 }
 
 	 	 return (E) plan;

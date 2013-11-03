@@ -28,7 +28,7 @@ public class AssetsBo extends ActionForm
 	private String manufacture;
 	private String spec;
 	private String unit;
-	private int quantity;
+	private int quantity = 1;
 	private String purchaseDate;
 	private float originalValue;
 	private int expectYear;

@@ -8,6 +8,8 @@
 */ 
 package cn.tinder.fuego.service.impl.id;
 
+import java.util.List;
+
 import cn.tinder.fuego.dao.AssetsTypeDao;
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.domain.po.AssetsType;
@@ -23,16 +25,13 @@ import cn.tinder.fuego.service.IDCreateService;
 
 public class TransIDCreateServiceImpl implements IDCreateService
 {
-
-
-	/* (non-Javadoc)
-	 * @see cn.tinder.fuego.service.IDCreateService#getCurrentID(java.lang.String)
+ 	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.IDCreateService#createIDList(java.lang.String, int)
 	 */
 	@Override
-	public String getCurrentID(String type)
+	public List<String> createIDList(String type, int idCount)
 	{
-		
-		
+		// TODO Auto-generated method stub
 		return null;
 	}
 

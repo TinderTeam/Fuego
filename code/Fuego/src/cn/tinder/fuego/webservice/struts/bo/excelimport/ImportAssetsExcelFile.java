@@ -34,6 +34,9 @@ public class ImportAssetsExcelFile {
 	
 	
 	public static AssetsPageBo load(File uploadFile) {
+		
+		long start= System.currentTimeMillis();
+	
 		// TODO Auto-generated method stub
 		log.info(uploadFile.getAbsolutePath());
 		
@@ -46,11 +49,14 @@ public class ImportAssetsExcelFile {
 		 */
 		assetsTypeMap.put(AssetsConst.ASSETS_GDZC_TYPE, 0);
 		assetsTypeMap.put(AssetsConst.ASSETS_DZYH_TYPE, 0);
-		assetsTypeMap.put(AssetsConst.ASSETS_GDZC_TYPE, 0);
+
 		assetsTypeMap.put(AssetsConst.ASSETS_FWJZ_TYPE, 0);
 		assetsTypeMap.put(AssetsConst.ASSETS_JQSB_TYPE, 0);
 		assetsTypeMap.put(AssetsConst.ASSETS_LBYP_TYPE, 0);
 		assetsTypeMap.put(AssetsConst.ASSETS_LSZC_TYPE, 0);
+		assetsTypeMap.put(AssetsConst.ASSETS_XFQC_TYPE, 0);
+		assetsTypeMap.put(AssetsConst.ASSETS_XXSB_TYPE, 0);
+		assetsTypeMap.put(AssetsConst.ASSETS_YLSS_TYPE, 0);
 	
 		
 	     if (uploadFile.getName().indexOf(".xls") <= 0){
@@ -138,6 +144,7 @@ public class ImportAssetsExcelFile {
 			    	    * add ID
 			    	    */
 			    	   //1.get ID map
+			       	  log.info("Map="+assetsTypeMap);
 			    	   Map<String,List<String>> IDMap = getIDList(assetsTypeMap);
 			    	   //2.add ID 
 			    	   setupID(assetsList,IDMap);
@@ -145,7 +152,10 @@ public class ImportAssetsExcelFile {
 			        bo.setAssetsList(assetsList);
 			        
 			        log.info(assetsList);
-			    
+			        long end= System.currentTimeMillis();
+			        log.info("共导入"+assetsList.size()+"条数据,Runtime=" +(end-start)+"ms" );
+			        
+			        
 			} catch (BiffException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -167,14 +177,23 @@ public class ImportAssetsExcelFile {
 					infoBo.getAssets().getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)
 					&&
 					!infoBo.getAssets().getAssetsID().isEmpty()
-					){
+					)
+			{
 				
-					if(null==iDMap.get(infoBo.getAssets().getAssetsType()).get(0)){
-						throw new ServiceException(ExceptionMsg.IDISNULL);
-					}
-					infoBo.getAssets().setAssetsID(iDMap.get(infoBo.getAssets().getAssetsType()).get(0));
-					iDMap.get(infoBo.getAssets().getAssetsType()).remove(0);
 				
+			}else{
+				if(iDMap.get(infoBo.getAssets().getAssetsType()).size()<1){
+					throw new ServiceException(ExceptionMsg.IDISNULL);
+				}
+						
+				infoBo.getAssets().setAssetsID(
+						iDMap.get(infoBo.getAssets().getAssetsType())
+							.get(
+								iDMap.get(infoBo.getAssets().getAssetsType()).size()-1
+							)
+				);
+				iDMap.get(infoBo.getAssets().getAssetsType()).remove(iDMap.get(infoBo.getAssets().getAssetsType()).size()-1);
+			
 			}
 		}
 		
@@ -198,10 +217,6 @@ public class ImportAssetsExcelFile {
 				AssetsConst.ASSETS_DZYH_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_DZYH_TYPE))
 				);
 		
-		IDMap.put(AssetsConst.ASSETS_GDZC_TYPE, idService.createIDList(
-				AssetsConst.ASSETS_GDZC_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_GDZC_TYPE))
-				);
-		
 		IDMap.put(AssetsConst.ASSETS_FWJZ_TYPE, idService.createIDList(
 				AssetsConst.ASSETS_FWJZ_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_FWJZ_TYPE))
 				);
@@ -217,7 +232,15 @@ public class ImportAssetsExcelFile {
 		IDMap.put(AssetsConst.ASSETS_LSZC_TYPE, idService.createIDList(
 				AssetsConst.ASSETS_LSZC_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_LSZC_TYPE))
 				);
-	
+		IDMap.put(AssetsConst.ASSETS_YLSS_TYPE, idService.createIDList(
+				AssetsConst.ASSETS_YLSS_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_YLSS_TYPE))
+				);
+		IDMap.put(AssetsConst.ASSETS_XFQC_TYPE, idService.createIDList(
+				AssetsConst.ASSETS_XFQC_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_XFQC_TYPE))
+				);
+		IDMap.put(AssetsConst.ASSETS_XXSB_TYPE, idService.createIDList(
+				AssetsConst.ASSETS_XXSB_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_XXSB_TYPE))
+				);
 		return IDMap;
 	}
 
