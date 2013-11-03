@@ -75,10 +75,14 @@
 
 			<c:if test="${true == assetsPage.showCheckState}"> 
 			  <td style="text-align:center"> 
-			  	<select name="assetsList[${iterStatus.index}].extAttr.checkState" style="width: 200px"  >
+			  	<select name="assetsList[${iterStatus.index}].extAttr.checkState" style="width: 100px"  >
 							 <option>${assetsInfo.extAttr.checkState}</option>
-							 <option>未盘点</option>
-							 <option>已盘点</option>	
+							 <c:if test="${'未盘点' != assetsInfo.extAttr.checkState}"> 
+							    <option>未盘点</option>
+							 </c:if>
+							 <c:if test="${'已盘点' != assetsInfo.extAttr.checkState}">
+							 	<option>已盘点</option>	
+							 </c:if>
 				</select>
 			    <td style="text-align:center">
 			      <input style="width:80px" type="text" value="${assetsInfo.extAttr.checkCnt}" name="assetsList[${iterStatus.index}].extAttr.checkCnt" />
@@ -87,10 +91,14 @@
 			</c:if>
 			<c:if test="${true == assetsPage.showReceiveState}"> 
 			  <td style="text-align:center">
-			   <select name="assetsList[${iterStatus.index}].extAttr.receiveState" style="width: 200px"  >
+			   <select name="assetsList[${iterStatus.index}].extAttr.receiveState" style="width: 100px"  >
 							 <option>${assetsInfo.extAttr.receiveState}</option>
-							 <option>未验收</option>
-							 <option>已验收</option>	
+							 <c:if test="${'未验收' != assetsInfo.extAttr.receiveState}"> 
+							    <option>未验收</option>
+							 </c:if>
+							 <c:if test="${'已验收' != assetsInfo.extAttr.receiveState}">
+							 	<option>已验收</option>	
+							 </c:if>
 				</select>
 				
 			  </td>

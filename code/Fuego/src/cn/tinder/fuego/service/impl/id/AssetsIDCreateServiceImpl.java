@@ -8,6 +8,9 @@
 */ 
 package cn.tinder.fuego.service.impl.id;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.tinder.fuego.dao.AssetsTypeDao;
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.domain.po.AssetsType;
@@ -27,11 +30,8 @@ public class AssetsIDCreateServiceImpl implements IDCreateService
 {
 	AssetsTypeDao assetsTypeDao = DaoContext.getInstance().getAssetsTypeDao();
 	private int IDLength = 11;
-	/* (non-Javadoc)
-	 * @see cn.tinder.fuego.service.IDCreateService#getCurrentID(java.lang.String)
-	 */
-	@Override
-	public synchronized String getCurrentID(String type)
+ 
+ 	private synchronized String getCurrentID(String type)
 	{
 		AssetsType assetsType = assetsTypeDao.getByTypeName(type);
 		
@@ -44,6 +44,23 @@ public class AssetsIDCreateServiceImpl implements IDCreateService
 		assetsType.setCurrentID(assetsType.getCurrentID()+1);
 		assetsTypeDao.saveOrUpdate(assetsType);
 		return id;
+	}
+	
+	public synchronized List<String> createIDList(String type,int idCount)
+	{
+		AssetsType assetsType = assetsTypeDao.getByTypeName(type);
+
+		int currentID = assetsType.getCurrentID();
+		List<String> idList = new ArrayList<String>();
+ 		for(int i =0;i<idCount;i++)
+		{
+ 		  String	id = BasicIDCreator.getPrefixID(assetsType.getPrefix(), IDLength, currentID+i);
+ 		 idList.add(id);
+		}
+ 		assetsType.setCurrentID(currentID+idCount);
+		assetsTypeDao.saveOrUpdate(assetsType);
+
+ 		return idList;
 	}
 	
 	private String getPrefixByType(String type)

@@ -134,9 +134,9 @@ public class ImportAssetsExcelFile {
 					"G" + infoBo.getAssets().getAssetsType()
 			);
 		} else {
-			ibo.getAssets().setAssetsID(
-					ServiceContext.getInstance().getAssetsIDCreateService()
-						.getCurrentID(infoBo.getAssets().getAssetsType()));
+//			ibo.getAssets().setAssetsID(
+//					ServiceContext.getInstance().getAssetsIDCreateService()
+//						.getCurrentID(infoBo.getAssets().getAssetsType()));
 		}
 		 
 		   //AsdName	        
