@@ -8,6 +8,8 @@
 */ 
 package cn.tinder.fuego.service;
 
+import java.util.List;
+
 /** 
  * @ClassName: IDCreateService 
  * @Description: TODO
@@ -18,6 +20,6 @@ package cn.tinder.fuego.service;
 
 public interface IDCreateService
 {
-	public String getCurrentID(String type);
+	public List<String> createIDList(String type,int idCount);
  
 }

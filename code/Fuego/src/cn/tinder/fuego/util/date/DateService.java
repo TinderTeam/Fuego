@@ -30,6 +30,10 @@ public class DateService {
 		String str = null;
 		DateFormat d = DateFormat.getDateInstance(DateFormat.MEDIUM);
 		
+		if(null == date)
+		{	
+			return "";
+		}
 		try
 		{
 			str=d.format(date);
