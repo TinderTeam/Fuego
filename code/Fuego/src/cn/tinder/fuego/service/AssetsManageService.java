@@ -33,7 +33,9 @@ public interface AssetsManageService
 {
 	public void createAssetsList(List<AssetsInfoBo> assetsList);
 	
-	public AssetsInfoBo getAssetsByAssetID(String aseetsID);
+	public AssetsInfoBo getAssetsByAssetID(String assetsID);
+	
+	public AssetsInfoBo getNewAssetsByAssetsID(String assetsID);
 
 	public List<AssetsInfoBo> getAssetsByDept(String deptName);
 	

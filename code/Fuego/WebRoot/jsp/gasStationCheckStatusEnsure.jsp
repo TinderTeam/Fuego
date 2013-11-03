@@ -19,13 +19,13 @@
 
 		<div id="content">
 			<div id="content-header">
-				<h1>Common Form Elements</h1>
+				<h1><font  face="微软雅黑">盘点确认</font></h1>
 
 			</div>
 			<div id="breadcrumb">
 				<a href="<%=request.getContextPath()%>/IndexInit.do" title="返回主页" class="tip-bottom"><i class="icon-home"></i> Home</a>
-				<a href="#" class="tip-bottom">Form elements</a>
-				<a href="#" class="current">Common elements</a>
+				<a href="#" class="tip-bottom">盘点管理</a>
+				<a href="#" class="current">盘点情况查看</a>
 			</div>
 			<div class="container-fluid">
 				<div class="row-fluid">
@@ -67,12 +67,12 @@
 			
 				<div class="row-fluid">
 					<div id="footer" class="span12">
-						2012 &copy; Unicorn Admin. Brought to you by <a href="https://wrapbootstrap.com/user/diablo9983">diablo9983</a>
+						2013 Copyright Reserved by Tinder
 					</div>
 				</div>
 			</div>
 		</div>
-		
-
+		 </div>
+         </div>
 	</body>
 </html>

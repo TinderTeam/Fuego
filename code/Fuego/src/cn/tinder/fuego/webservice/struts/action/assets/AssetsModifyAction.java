@@ -13,13 +13,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.AssetsManageService;
+import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
+import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
 import cn.tinder.fuego.webservice.struts.form.AssetsModifyForm;
 
 
@@ -36,7 +37,7 @@ public class AssetsModifyAction extends Action
 {
     private static final Log log = LogFactory.getLog(AssetsModifyAction.class);
     private AssetsManageService  assetsManageService = ServiceContext.getInstance().getAssetsManageService();
-
+	private LoadService loadService = ServiceContext.getInstance().getLoadService();
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
@@ -82,15 +83,24 @@ public class AssetsModifyAction extends Action
 		{
 			assetsManageService.deleteAssets(assetsForm.getAssetsInfo());
 		}
-		else if(ParameterConst.BACK_PARA_NAME.equals(submitPara))
-		{
-			nextPage = PageNameConst.ASSETS_MODIFY_PAGE;
-		}
+//		else if(ParameterConst.BACK_PARA_NAME.equals(submitPara))
+//		{
+//			nextPage = PageNameConst.ASSETS_STATUS_SEARCH_INIT_ENABLE_BTN_ACTION ;
+//			request.getSession().setAttribute(RspBoNameConst.SEARCH_FORM,searchForm);
+//			
+//		}
 		else if(ParameterConst.CANCEL_PARA_NAME.equals(submitPara))
 		{
-			nextPage = PageNameConst.INDEX_INIT_ACTION;
+			nextPage = PageNameConst.ASSETS_STATUS_SEARCH_INIT_ENABLE_BTN_ACTION ;
 		}
-     	 
+		else if (ParameterConst.ADD_NEW_PARA_NAME.equals(submitPara))
+		{
+
+			//request.getSession().setAttribute("assetsID", assetsForm.getNewAssetsID());
+
+		    nextPage=PageNameConst.ASSETS_STATUS_MODIFY_INIT_PAGE;
+			
+		}
 		return nextPage;
 	}
  

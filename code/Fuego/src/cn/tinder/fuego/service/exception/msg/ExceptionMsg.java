@@ -35,4 +35,6 @@ public class ExceptionMsg
 	public static final String GDZC_QUANTITY_ERR = "导入数据中的实物资产数量必须为1!";
 	public static final String CELL_WRONG = "导入数据中单元格读取错误";
 	public static final String ASSETS_NAME_ISEXIST ="导入数据中资产编号已经存在:错误的资产编号为";
+	public static final String ASSETS_ID_ISEXIST ="资产编号已经存在";
+
 }
