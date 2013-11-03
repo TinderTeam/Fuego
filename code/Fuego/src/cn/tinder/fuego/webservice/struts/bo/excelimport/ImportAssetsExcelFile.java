@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jxl.Cell;
 import jxl.CellType;
@@ -17,6 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
+import cn.tinder.fuego.service.IDCreateService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.exception.ServiceException;
@@ -27,20 +30,39 @@ import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 
 public class ImportAssetsExcelFile {
-	 private static final Log log = LogFactory.getLog(ImportAssetsExcelFile.class);
-	    
+	private static final Log log = LogFactory.getLog(ImportAssetsExcelFile.class);
+	
+	
 	public static AssetsPageBo load(File uploadFile) {
+		
+		long start= System.currentTimeMillis();
+	
 		// TODO Auto-generated method stub
 		log.info(uploadFile.getAbsolutePath());
 		
 		AssetsPageBo bo =new AssetsPageBo();
 		List<AssetsInfoBo> assetsList = new ArrayList<AssetsInfoBo>();
+		Map<String,Integer> assetsTypeMap= new HashMap<String,Integer>();
+		/* 
+		 * Init the Map
+		 * 
+		 */
+		assetsTypeMap.put(AssetsConst.ASSETS_GDZC_TYPE, 0);
+		assetsTypeMap.put(AssetsConst.ASSETS_DZYH_TYPE, 0);
+
+		assetsTypeMap.put(AssetsConst.ASSETS_FWJZ_TYPE, 0);
+		assetsTypeMap.put(AssetsConst.ASSETS_JQSB_TYPE, 0);
+		assetsTypeMap.put(AssetsConst.ASSETS_LBYP_TYPE, 0);
+		assetsTypeMap.put(AssetsConst.ASSETS_LSZC_TYPE, 0);
+		assetsTypeMap.put(AssetsConst.ASSETS_XFQC_TYPE, 0);
+		assetsTypeMap.put(AssetsConst.ASSETS_XXSB_TYPE, 0);
+		assetsTypeMap.put(AssetsConst.ASSETS_YLSS_TYPE, 0);
 	
-	    
-	    
+		
 	     if (uploadFile.getName().indexOf(".xls") <= 0){
 	            throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG+uploadFile.getName());
 	     }
+	     
 	        // 2.判断文件是否存在
 	        File excelFile = uploadFile;
 	        if (!excelFile.exists())
@@ -61,16 +83,24 @@ public class ImportAssetsExcelFile {
 			              
 			       Cell cell;
 			       
+			       
+			       
+			       
 			       for(int i=3;i<row-1;i++){
 			    	   try{
 				    	  /*
 				    	   * 1.获取一条资产信息
-				    	   */
-				    	   
+				    	   */ 
+			    		 
+			    		    
+			    		   /*
+			    		    * Test
+			    		    */
+			    		  
+			    		    
 				    		AssetsInfoBo infoBo = getAssetInfo(sheet,i);
 				    		
 				    		infoBo.inportTest();
-				    		log.info("第一个："+infoBo);
 				    		
 				    		/*
 				    		 * 2.配置拆分参数
@@ -87,22 +117,45 @@ public class ImportAssetsExcelFile {
 					    	   for(int j=0;j<q;j++){
 					    		   /*
 					    		    * 拆分出一个信息
-					    		    */
-					    		   AssetsInfoBo ibo = splitInfoBo(infoBo);
-					    		   assetsList.add(ibo);			    		 
+					    		    */ 
+					    		 
+					    		   AssetsInfoBo ibo = splitInfoBo(infoBo,assetsTypeMap);
+					    		 
+					    		   assetsList.add(ibo);		
+					    		    
 						        
 					    	   }
+					    	   
+					    	   
+					    	
+					    
+					    	   
+					    	
 				    	   }catch(ServiceException ex){
 
 									throw new ServiceException(ex.getMessage()+String.valueOf(i),ex);
 
 
 				    	   }
+				    	
+				    	 
 			    	   }
+				       /*
+			    	    * add ID
+			    	    */
+			    	   //1.get ID map
+			       	  log.info("Map="+assetsTypeMap);
+			    	   Map<String,List<String>> IDMap = getIDList(assetsTypeMap);
+			    	   //2.add ID 
+			    	   setupID(assetsList,IDMap);
+			    	   
 			        bo.setAssetsList(assetsList);
 			        
 			        log.info(assetsList);
-			    
+			        long end= System.currentTimeMillis();
+			        log.info("共导入"+assetsList.size()+"条数据,Runtime=" +(end-start)+"ms" );
+			        
+			        
 			} catch (BiffException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -114,10 +167,88 @@ public class ImportAssetsExcelFile {
 		return bo;
 	}
 
-	private static AssetsInfoBo splitInfoBo(AssetsInfoBo infoBo) {
+	private static void setupID(List<AssetsInfoBo> assetsList,
+			Map<String, List<String>> iDMap) {
+		//Add ID 
+		
+		for(AssetsInfoBo infoBo:assetsList){
+			if(
+					//非已有ID
+					infoBo.getAssets().getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)
+					&&
+					!infoBo.getAssets().getAssetsID().isEmpty()
+					)
+			{
+				
+				
+			}else{
+				if(iDMap.get(infoBo.getAssets().getAssetsType()).size()<1){
+					throw new ServiceException(ExceptionMsg.IDISNULL);
+				}
+						
+				infoBo.getAssets().setAssetsID(
+						iDMap.get(infoBo.getAssets().getAssetsType())
+							.get(
+								iDMap.get(infoBo.getAssets().getAssetsType()).size()-1
+							)
+				);
+				iDMap.get(infoBo.getAssets().getAssetsType()).remove(iDMap.get(infoBo.getAssets().getAssetsType()).size()-1);
+			
+			}
+		}
+		
+	}
+
+	private static Map<String, List<String>> getIDList(
+			Map<String, Integer> assetsTypeMap) {
+		/*
+		 * 从数据库批量获取ID
+		 */
+		IDCreateService idService =ServiceContext.getInstance().getAssetsIDCreateService();
+		
+		Map<String, List<String>> IDMap= new HashMap<String, List<String>>();
+		
+
+		IDMap.put(AssetsConst.ASSETS_GDZC_TYPE, idService.createIDList(
+				AssetsConst.ASSETS_GDZC_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_GDZC_TYPE))
+				);
+		
+		IDMap.put(AssetsConst.ASSETS_DZYH_TYPE, idService.createIDList(
+				AssetsConst.ASSETS_DZYH_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_DZYH_TYPE))
+				);
+		
+		IDMap.put(AssetsConst.ASSETS_FWJZ_TYPE, idService.createIDList(
+				AssetsConst.ASSETS_FWJZ_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_FWJZ_TYPE))
+				);
+		
+		IDMap.put(AssetsConst.ASSETS_JQSB_TYPE, idService.createIDList(
+				AssetsConst.ASSETS_JQSB_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_JQSB_TYPE))
+				);
+		
+		IDMap.put(AssetsConst.ASSETS_LBYP_TYPE, idService.createIDList(
+				AssetsConst.ASSETS_LBYP_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_LBYP_TYPE))
+				);
+	
+		IDMap.put(AssetsConst.ASSETS_LSZC_TYPE, idService.createIDList(
+				AssetsConst.ASSETS_LSZC_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_LSZC_TYPE))
+				);
+		IDMap.put(AssetsConst.ASSETS_YLSS_TYPE, idService.createIDList(
+				AssetsConst.ASSETS_YLSS_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_YLSS_TYPE))
+				);
+		IDMap.put(AssetsConst.ASSETS_XFQC_TYPE, idService.createIDList(
+				AssetsConst.ASSETS_XFQC_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_XFQC_TYPE))
+				);
+		IDMap.put(AssetsConst.ASSETS_XXSB_TYPE, idService.createIDList(
+				AssetsConst.ASSETS_XXSB_TYPE,assetsTypeMap.get(AssetsConst.ASSETS_XXSB_TYPE))
+				);
+		return IDMap;
+	}
+
+	private static AssetsInfoBo splitInfoBo(AssetsInfoBo infoBo, Map<String, Integer> assetsTypeMap) {
 		/*
 		 * 1.初始化
 		 */
+	
 		AssetsInfoBo ibo = new AssetsInfoBo();
 		ibo.setAssets(new AssetsBo());
 		   
@@ -125,20 +256,47 @@ public class ImportAssetsExcelFile {
 		 *   2,重置重复信息  
 		 */
 		
+		
+   	     
 		// 1.ID
 		if (AssetsConst.ASSETS_GDZC_TYPE.equals(infoBo.getAssets().getAssetsType())) {
+			
 			if(infoBo.getAssets().getQuantity()!=1){
 				throw new ServiceException(ExceptionMsg.GDZC_QUANTITY_ERR);
 			}
-			ibo.getAssets().setAssetsID(
-					"G" + infoBo.getAssets().getAssetsType()
-			);
+			if(null!=infoBo.getAssets().getAssetsID()|| !infoBo.getAssets().getAssetsID().isEmpty()){
+				ibo.getAssets().setAssetsID(
+						"G" + infoBo.getAssets().getAssetsID()
+				);
+			}else{
+				//ID is null , we have to add a ID by system.
+				int num=assetsTypeMap.get(infoBo.getAssets().getAssetsType());
+				assetsTypeMap.put(infoBo.getAssets().getAssetsType(), num+1);
+			}
+			
+		
 		} else {
-//			ibo.getAssets().setAssetsID(
-//					ServiceContext.getInstance().getAssetsIDCreateService()
-//						.getCurrentID(infoBo.getAssets().getAssetsType()));
+			   
+		   /*
+		    * 2013-11-4 By Nan Bowen
+			* 此处执行效率较低，故暂不分配ID，只记录某种资产类型的数量，然后形成Map提交给服务层进行分配
+			* 
+			
+			ibo.getAssets().setAssetsID(
+					ServiceContext.getInstance().getAssetsIDCreateService()
+						.getCurrentID(infoBo.getAssets().getAssetsType()));
+			
+			*/
+			
+			//导入
+			int num=assetsTypeMap.get(infoBo.getAssets().getAssetsType());
+			assetsTypeMap.put(infoBo.getAssets().getAssetsType(), num+1);
+			ibo.getAssets().setAssetsID(infoBo.getAssets().getAssetsID());
+	
 		}
-		 
+		
+		
+	   	    
 		   //AsdName	        
 		   ibo.getAssets().setAssetsName(infoBo.getAssets().getAssetsName());
 		   //AsdSRC
@@ -165,6 +323,8 @@ public class ImportAssetsExcelFile {
 		   ibo.getAssets().setExpectYear(infoBo.getAssets().getExpectYear());
 		   //DueDate
 		 
+		
+		   
 		   ibo.getAssets().setDueDate(
 				   DateService.DateToString(
 					   DateService.addYear(
@@ -192,7 +352,7 @@ public class ImportAssetsExcelFile {
 		   ibo.getAssets().setNote(infoBo.getAssets().getNote());
 		    		
 		   
-		 
+		  	
 		return ibo;
 	}
 

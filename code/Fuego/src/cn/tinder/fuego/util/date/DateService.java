@@ -41,7 +41,7 @@ public class DateService {
 		catch(Exception e)
 		{
 			str="";
-			log.warn("the date formart is wrong."+date);
+			//log.warn("the date formart is wrong."+date);
 		}
 		return str;
 		

@@ -74,6 +74,28 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		
 		
 		List<SystemUser> gasUserList = systemUserDao.getUserByRole(UserRoleConst.GASSTATION);
+<<<<<<< HEAD
+		 List<CheckPlan> checkPlanList = new ArrayList<CheckPlan>();
+		//create a transaction for every gas station
+		for(SystemUser gasUser : gasUserList)
+		{
+
+ 			 List<AssetsInfoBo> planList = assetsManageService.getAssetsByDept(gasUser.getDepartment());
+  			 
+ 			 if(null != planList && !planList.isEmpty())
+ 			 { 
+ 	 			TransactionBaseInfoBo trans = super.createTransByUserAndType(user,gasUser.getUserName(), TransactionConst.CHECK_PLAN_TYPE,parentTrans.getTransID());
+ 	 			checkPlanList.addAll(convertCheckPlanByBo(trans.getTransID(), planList));
+ 	 			plan.getPlanInfo().getAssetsPage().getAssetsList().addAll(planList);
+ 			 }
+ 			 else
+ 			 {
+ 				 log.warn("the assests of " + gasUser + "is 0,no need to create a transaction.");
+ 			 }
+
+		}
+	  	checkPlanDao.create(checkPlanList);
+
  		//create a transaction for every gas station
 		for(SystemUser gasUser : gasUserList)
 		{
@@ -92,6 +114,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 
 		}
 	  	//checkPlanDao.create(checkPlanList);
+
   		plan.getTransInfo().setTransInfo(parentTrans);
 		return (E)plan;
 	}
@@ -224,6 +247,12 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		 if(null == childEventList || childEventList.isEmpty())
 		 {
 			 List<CheckPlan> checkPlanList = getCheckPlanListByTranID(transID);
+			 for(CheckPlan checkPlan : checkPlanList)
+			 {
+				plan.getPlanInfo().getAssetsPage().getAssetsList().add(convertCheckPlan(checkPlan));
+			 }
+		 }
+
  			 
 			 if(null==checkPlanList || checkPlanList.isEmpty())
 			 {
