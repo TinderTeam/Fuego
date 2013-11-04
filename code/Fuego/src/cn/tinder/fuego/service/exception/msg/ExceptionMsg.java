@@ -37,5 +37,6 @@ public class ExceptionMsg
 	public static final String ASSETS_NAME_ISEXIST ="导入数据中资产编号已经存在:错误的资产编号为";
 	public static final String ASSETS_ID_ISEXIST ="资产编号已经存在";
 	public static final String IDISNULL = "自动分配资产ID错误";
+	public static final String ERR_ROW = "错误行号为：";
 
 }

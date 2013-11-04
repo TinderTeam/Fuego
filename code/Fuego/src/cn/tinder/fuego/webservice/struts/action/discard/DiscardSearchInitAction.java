@@ -84,7 +84,8 @@ public class DiscardSearchInitAction extends Action
     	else
     	{
     		assetsList = assetsService.getDiscardAssetsListBo(searchForm.getDate(), Arrays.asList(searchForm.getAssetsTypeList()), Arrays.asList(searchForm.getTechStatusList())); 
-        }
+    		
+    	}
 		AssetsPageBo selectAssetsPage = new AssetsPageBo();
 
 		selectAssetsPage.setAssetsList(assetsList);
