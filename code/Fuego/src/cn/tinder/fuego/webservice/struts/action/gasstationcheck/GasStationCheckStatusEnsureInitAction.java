@@ -10,14 +10,17 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
+import cn.tinder.fuego.webservice.struts.form.AssetsModifyForm;
 
 /**
  * 
@@ -33,6 +36,7 @@ public class GasStationCheckStatusEnsureInitAction extends Action
 			.getLog(GasStationCheckStatusEnsureInitAction.class);
 
 	private TransPlanService planService = ServiceContext.getInstance().getCheckPlanService();
+    private AssetsManageService assetsService = ServiceContext.getInstance().getAssetsManageService();
 
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
@@ -73,7 +77,7 @@ public class GasStationCheckStatusEnsureInitAction extends Action
 		CheckPlanBo checkPlan;
 		String transID = request.getParameter(ParameterConst.PLAN_TRANS_ID);
         checkPlan = (CheckPlanBo) planService.getPlanByTransID(transID);
-		
+        AssetsModifyForm assetsForm = (AssetsModifyForm) form;
 		if(null ==checkPlan )
 		{
 	        log.info("can not get plan by transaction id." + transID);
@@ -84,11 +88,18 @@ public class GasStationCheckStatusEnsureInitAction extends Action
 		if(null == checkPlan.getTransInfo().getChildTransList() || checkPlan.getTransInfo().getChildTransList().isEmpty())
 		{
 			nextPage = PageNameConst.GAS_STATION_CHECK_STATUS_ENSURE_PAGE;
+			if(needCreateNewAssets(assetsForm))
+			{
+				AssetsInfoBo newAssets = assetsService.getNewAssetsByAssetsID(null);
+				newAssets.getAssets().setAssetsName(assetsForm.getAssetsInfo().getAssets().getAssetsName());
+				newAssets.getAssets().setManufacture(assetsForm.getAssetsInfo().getAssets().getManufacture());
+				newAssets.getAssets().setSpec(assetsForm.getAssetsInfo().getAssets().getSpec());
+				checkPlan.getPlanInfo().getAssetsPage().getAssetsList().add(newAssets);
+			}
 		}
 		else
 		{
 			nextPage = PageNameConst.GAS_STATION_CHECK_STATUS_PAGE;
-			
 		}
 		
 		checkPlan.getPlanInfo().getAssetsPage().setShowNote(true);
@@ -97,6 +108,18 @@ public class GasStationCheckStatusEnsureInitAction extends Action
  
 		log.info(LogKeyConst.NEXT_PAGE + nextPage);
 		return nextPage;
+	}
+	
+	private boolean needCreateNewAssets(AssetsModifyForm assetsForm )
+	{
+		if(null != assetsForm 
+		  && null != assetsForm.getAssetsInfo().getAssets().getAssetsName()
+		  && !assetsForm.getAssetsInfo().getAssets().getAssetsName().trim().isEmpty() )
+		{
+			return true;
+		}
+		
+		return false; 
 	}
 
 }

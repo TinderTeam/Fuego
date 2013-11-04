@@ -27,7 +27,7 @@
 			<div class="container-fluid">
 				<div class="row-fluid">
 					<div class="span12">
-						<form action="<%=request.getContextPath()%>/DiscardSearch.do"  name="myForm" method="post">						
+						<form action="<%=request.getContextPath()%>/DiscardSearch.do"  name="myForm1" method="post">						
 						<div class="widget-box">
 							
 							<div class="widget-title">
@@ -52,7 +52,7 @@
                                         <label class="control-label">统计截止日期</label>
 										
                                         <div class="controls">
-                                            <input type="text" data-date="2013-4-9" name="date" data-date-format="yyyy-mm-dd" value="${discardSearchBo.date}" onfocus="WdatePicker()" />
+                                            <input type="text" data-date="2013-4-9" name="endDueDate" data-date-format="yyyy-mm-dd" value="${discardSearchBo.date}" onfocus="WdatePicker()" />
                                         </div>
 										
                                     </div>
@@ -63,7 +63,7 @@
 											<label class="control-label">状态</label>					
 											<div class="controls">
 
-												<select name="techStatusList"  style="width:100px">
+												<select name="techState"  style="width:100px">
 												
 												    <option selected=""  >全部</option>	
 													<c:forEach var="i" items= "${discardSearchBo.techStatusList}"> 																								  
@@ -81,7 +81,7 @@
 
 													
 																									
-												<select name="assetsTypeList"  style="width:200px">
+												<select name="assetsType"  style="width:200px">
 												
 												    <option selected=""  >全部</option>	
 													<c:forEach var="i" items= "${discardSearchBo.assetsTypeList}"> 																								  
@@ -94,18 +94,24 @@
 									</div>	
 										
 										
-									<div class="form-actions">
-										
-											<button type="submit" class="btn btn-primary" name="submit" value="submit1">查询待处置资产</button>
-									
-									</div>
+									<div class="widget-content">
+										<div class="control-group">
+											 <button id ="subID" type="submit" class="btn btn-success" name="submit" value ="submit">查询</button>
+		 											第<select name="pageNum" style = "width:70px" onchange="return pageChange(this.value)" >
+													<option id="${searchForm.pageNum}">${searchForm.pageNum}</option>	
+													<c:forEach var="i" items= "${assetsPage.page.pages}"> 																								  
+														<option id="${i}"/>${i}																							
+													</c:forEach>
+										 </select>页，共${assetsPage.page.count}条记录							 
+										</div>
+									</div>		
 								</div>
 							</div>
 	
 						</div>
-							</form>
+						</form>
 						
-						<form action="<%=request.getContextPath()%>/DiscardSearchResult.do"  name="myForm" method="post">
+						<form action="<%=request.getContextPath()%>/DiscardSearchResult.do"  name="myForm2" method="post">
 						<div class="widget-box">
 								<div class="widget-title">
 									<span class="icon">

@@ -84,6 +84,7 @@ public class GasStationCheckStatusEnsureAction extends Action
      	   nextPage=PageNameConst.SYSTEM_SUCCESS_PAGE;
      	   
      	}
+        
         else if(submitPara.equals(ParameterConst.CANCEL_PARA_NAME))
         {
      	   nextPage=PageNameConst.INDEX_INIT_ACTION;

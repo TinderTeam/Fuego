@@ -2,9 +2,6 @@ package cn.tinder.fuego.webservice.struts.action.discard;
 
 
 
-import java.util.Arrays;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,16 +17,10 @@ import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
-import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
-import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
-import cn.tinder.fuego.webservice.struts.bo.discard.DiscardSearchBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
-import cn.tinder.fuego.webservice.struts.form.DiscardSearchForm;
-import cn.tinder.fuego.webservice.struts.form.SelectAssetsForm;
+import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
 
 
 
@@ -55,10 +46,10 @@ public class DiscardSearchAction extends Action
     	log.info(LogKeyConst.INPUT_ACTION+"DiscardSearchAction");
         
     	String nextPage = null;
-    	DiscardSearchForm discardSearchForm = (DiscardSearchForm)form;	
+    	AssetsFilterForm discardSearchForm = (AssetsFilterForm)form;	
     	String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME); 
     	//查询
-    	if(submitPara.equals(ParameterConst.SUBMIT_1))
+    	if(submitPara.equals(ParameterConst.SUBMIT_PARA_NAME))
     	{
     		request.setAttribute(RspBoNameConst.DISCARD_SEARCH_FORM, discardSearchForm);
     		nextPage = PageNameConst.DISCARD_SEARCH_INIT;
