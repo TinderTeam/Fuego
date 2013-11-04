@@ -90,7 +90,7 @@
         </form-bean>         
         
          
-        <form-bean name="AssetsStatusSearchForm"
+        <form-bean name="AssetsFilterForm"
                    type="cn.tinder.fuego.webservice.struts.form.AssetsFilterForm">
         </form-bean>  
                
@@ -413,7 +413,7 @@
        	
        	 <action path="/AssetsStatusSearch"
                 type="cn.tinder.fuego.webservice.struts.action.search.AssetsStatusSearchAction"              
-              	name="AssetsStatusSearchForm"
+              	name="AssetsFilterForm"
                >          
   		  	<forward name="AssetsStatusSearchInitEnableBtn" path="/AssetsStatusSearchInit.do?showModifyBtn=true"></forward>		
   			<forward name="AssetsStatusSearchInitDisableBtn" path="/AssetsStatusSearchInit.do?showModifyBtn=false"></forward>			
@@ -667,7 +667,7 @@
        	
        	<action path="/DiscardSearch"
                 type="cn.tinder.fuego.webservice.struts.action.discard.DiscardSearchAction"
-                name="DiscardSearchForm"              
+                name="AssetsFilterForm"              
                >          
   			<forward name="DiscardSearchInit" path="/DiscardSearchInit.do"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
@@ -752,34 +752,13 @@
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	       	</action>        	
        	       	       	       	
-       	 <!--CheckResultINITAction-->
-       	<action path="/CheckResultInit"
-                type="cn.tinder.fuego.webservice.struts.action.gasstationcheck.CheckResultInitAction"              
-               >          
-  			<forward name="CheckResult" path="/jsp/checkResult.jsp"></forward>
-  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
-			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>				
-       	</action> 
-       	
-       	
-       	 <!--CheckResultAction-->
-       	<action path="/CheckResult"
-                type="cn.tinder.fuego.webservice.struts.action.gasstationcheck.CheckResultAction"              
-               name="CheckResultForm">          
-  			<forward name="CheckResultInit" path="/CheckResultInit.do"></forward>
-  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
-			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	
-  			  				
-  					
-       	</action>        	
+ 
 
       	       	
        	 <!--GasStationCheckStatusEnsureInitAction-->
        	<action path="/GasStationCheckStatusEnsureInit"
                 type="cn.tinder.fuego.webservice.struts.action.gasstationcheck.GasStationCheckStatusEnsureInitAction"              
-               >          
+                name="AssetsModifyForm">          
   			<forward name="GasStationCheckStatusEnsure" path="/jsp/gasStationCheckStatusEnsure.jsp"></forward>
   			<forward name="GasStationCheckStatus" path="/jsp/gasStationCheckStatus.jsp"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>

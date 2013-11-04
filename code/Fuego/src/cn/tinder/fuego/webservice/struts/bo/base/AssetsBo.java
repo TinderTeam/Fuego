@@ -28,7 +28,7 @@ public class AssetsBo extends ActionForm
 	private String manufacture;
 	private String spec;
 	private String unit;
-	private int quantity = 1;
+	private int quantity;
 	private String purchaseDate;
 	private float originalValue;
 	private int expectYear;
@@ -45,7 +45,7 @@ public class AssetsBo extends ActionForm
 
 	
 	public AssetsBo(){
-		quantity=0;
+		quantity= 1;
 		originalValue=(float)0;
 		expectYear=0;
 	}

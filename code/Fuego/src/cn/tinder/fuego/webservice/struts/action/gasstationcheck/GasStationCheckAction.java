@@ -77,6 +77,7 @@ public class GasStationCheckAction extends Action
 		String nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
      	 if(submitPara.equals(ParameterConst.SUBMIT_PARA_NAME))
          {
+  
             planService.createPlan(user.getUserID());
  
        		nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE ;
