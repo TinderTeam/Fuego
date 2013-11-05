@@ -27,6 +27,7 @@ import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.domain.po.AssetsPrice;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.service.AssetsManageService;
+import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
@@ -557,9 +558,19 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	@Override
 	public AssetsInfoBo getNewAssetsByAssetsID(String assetsID)
 	{
+	   AssetsInfoBo assets = new AssetsInfoBo();
+
+	   if(null == assetsID)
+	   {	   
+		 List<String> idList =  ServiceContext.getInstance().getAssetsIDCreateService().createIDList(AssetsConst.ASSETS_DZYH_TYPE, 1);
+		 if(null != idList && !idList.isEmpty())
+		 {
+			 assets.getAssets().setAssetsID(idList.get(0));
+		 }
+		 return assets;
+	   }
 	   if(null == assetsDao.getByAssetsID(assetsID))
 	   {
-		   AssetsInfoBo assets = new AssetsInfoBo();
 		   assets.getAssets().setAssetsID(assetsID);
 		   return assets;
 	   }

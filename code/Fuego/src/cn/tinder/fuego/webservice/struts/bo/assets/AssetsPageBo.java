@@ -124,7 +124,7 @@ public class AssetsPageBo
 	{
  		for(AssetsInfoBo assetsInfo : this.getAssetsList())
 		{	
-			if(AssetsConst.CHECK_STATUS_TODO.equals(assetsInfo.getExtAttr().getCheckCnt()))
+			if(AssetsConst.CHECK_STATUS_TODO.equals(assetsInfo.getExtAttr().getCheckState()))
 			{
 				return false;
 			}

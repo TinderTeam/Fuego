@@ -25,12 +25,10 @@ import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
-import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.discard.DiscardSearchBo;
-import cn.tinder.fuego.webservice.struts.bo.discard.DiscardSessionBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
-import cn.tinder.fuego.webservice.struts.form.DiscardSearchForm;
+import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
 
 
 
@@ -70,19 +68,18 @@ public class DiscardSearchInitAction extends Action
     	discardSearchBo.setAssetsTypeList(assetsTypeList);
     	discardSearchBo.setTechStatusList(assetsStatusList);
     	request.setAttribute(RspBoNameConst.DISCARD_SEARCH_BO,discardSearchBo);
-    	    	
-    	//discardSearchBo = DiscardSearchTest.discardSearch();
-    	
-    	//For displaying
-    				
-    	DiscardSearchForm searchForm = (DiscardSearchForm) request.getAttribute(RspBoNameConst.DISCARD_SEARCH_FORM);
-    	List<AssetsInfoBo> assetsList = null;
-    	if(null == searchForm )
+ 
+    	AssetsFilterForm filterForm = (AssetsFilterForm) request.getAttribute(RspBoNameConst.DISCARD_SEARCH_FORM);
+    	request.setAttribute(RspBoNameConst.SEARCH_FORM, filterForm);    	
+
+		AssetsPageBo selectAssetsPage = new AssetsPageBo();
+    	if(null == filterForm )
     	{
-    		//assetsList = assetsService.getDiscardAssetsListBo(discardSearchBo.getDate(), null, null);
+    		filterForm = new AssetsFilterForm();
     	}
     	else
     	{
+<<<<<<< HEAD
     		assetsList = assetsService.getDiscardAssetsListBo(searchForm.getDate(), Arrays.asList(searchForm.getAssetsTypeList()), Arrays.asList(searchForm.getTechStatusList())); 
     		
     	}
@@ -91,6 +88,12 @@ public class DiscardSearchInitAction extends Action
 		selectAssetsPage.setAssetsList(assetsList);
 		selectAssetsPage.setShowCheckBox(true);
 	
+=======
+    		selectAssetsPage = assetsService.getAssetsByFilter(filterForm, false);
+    		//assetsList = assetsService.getDiscardAssetsListBo(searchForm.getDate(), Arrays.asList(searchForm.getAssetsTypeList()), Arrays.asList(searchForm.getTechStatusList())); 
+        }
+ 		selectAssetsPage.setShowCheckBox(true);
+>>>>>>> origin/master
 
 		request.setAttribute(RspBoNameConst.ASSETS_PAGE_DATA,selectAssetsPage);
         

@@ -57,38 +57,41 @@
 											  <button class="btn btn-success"  name="submit" value="confirm">确定</button>
 											  <button class="btn  btn-inverse" name="submit" value="cancel">取消</button>
 											  <a href="#myAlert" data-toggle="modal" class="btn btn-success" style="width:100px">新增盘点资产</a>
-									 <div id="myAlert" class="modal hide">
+									 
+
+							            </div>
+								    </form>
+								    <form action="<%=request.getContextPath()%>/GasStationCheckStatusEnsureInit.do?transID=${checkPlan.transInfo.transInfo.transID}" method="post" >
+								    
+								    <div id="myAlert" class="modal hide">
 										<div class="modal-header">
 											<button data-dismiss="modal" class="close" type="button">×</button>
 											<h3>新增盘点资产</h3>
 										</div>
 										<div class="modal-body">
 											<div class="control-group">
-												<label class="control-label">请输入资产名称</label>
+												<label class="control-label">*请输入资产名称</label>
 												<div class="controls">
-													<input type="text" name="newAssetsName" value=""/>
+													<input type="text" name="assetsInfo.assets.assetsName" value=""/>
 												</div>
 												<label class="control-label">请输入生产厂家</label>
 												<div class="controls">
-													<input type="text" name="newManufacture" value=""/>
+													<input type="text" name="assetsInfo.assets.manufacture" value=""/>
 												</div>
 													<label class="control-label">请输入资产规格</label>
 												<div class="controls">
-													<input type="text" name="newSpec" value=""/>
+													<input type="text" name="assetsInfo.assets.spec" value=""/>
 												</div>
 											
 											</div>										
-
-				
 										</div>
 										<div class="modal-footer">
 											<button type="submit" class="btn btn-success"  name ="submit" value="addNew">确定</button>
 											
 											<a data-dismiss="modal" class="btn btn-inverse" href="#">取消</a>
 										</div>
-							            </div>
-								    </form>
-								</div>	
+								       </div>	
+								      </form>
 							
 						 
 						</div>

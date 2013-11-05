@@ -74,6 +74,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		
 		
 		List<SystemUser> gasUserList = systemUserDao.getUserByRole(UserRoleConst.GASSTATION);
+<<<<<<< HEAD
 		 List<CheckPlan> checkPlanList = new ArrayList<CheckPlan>();
 		//create a transaction for every gas station
 		for(SystemUser gasUser : gasUserList)
@@ -96,6 +97,26 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	  	checkPlanDao.create(checkPlanList);
 
 
+=======
+ 		//create a transaction for every gas station
+		for(SystemUser gasUser : gasUserList)
+		{
+			PhysicalAssetsStatus filter = new PhysicalAssetsStatus();
+			filter.setDuty(gasUser.getDepartment());
+			int count = assetsDao.getAssetsListByFilterCount(filter, null);
+ 	 
+ 			if(count>0)
+ 			{ 
+ 	 			super.createTransByUserAndType(user,gasUser.getUserName(), TransactionConst.CHECK_PLAN_TYPE,parentTrans.getTransID());
+   			}
+ 			else
+ 			{
+ 				log.warn("the assests of " + gasUser + "is 0,no need to create a transaction.");
+ 			}
+
+		}
+	  	//checkPlanDao.create(checkPlanList);
+>>>>>>> origin/master
   		plan.getTransInfo().setTransInfo(parentTrans);
 		return (E)plan;
 	}
@@ -230,11 +251,29 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		 if(null == childEventList || childEventList.isEmpty())
 		 {
 			 List<CheckPlan> checkPlanList = getCheckPlanListByTranID(transID);
+<<<<<<< HEAD
+=======
+ 			 
+			 if(null==checkPlanList || checkPlanList.isEmpty())
+			 {
+				 log.warn("first time to enter assets check,need to create check plan for the user");
+				 SystemUser user = systemUserDao.find(baseTrans.getHandleUser());
+				 List<AssetsInfoBo> assestList = assetsManageService.getAssetsByDept(user.getDepartment());
+				 checkPlanList = convertCheckPlanByBo(baseTrans.getTransID(), assestList);
+				 checkPlanDao.create(checkPlanList);
+			 }
+
+>>>>>>> origin/master
 			 for(CheckPlan checkPlan : checkPlanList)
 			 {
 				plan.getPlanInfo().getAssetsPage().getAssetsList().add(convertCheckPlan(checkPlan));
 			 }
+<<<<<<< HEAD
 		 } else
+=======
+		 }
+		 else
+>>>>>>> origin/master
 		 {
 			 log.info("the trans id is parent transaction,no need get the plan info");
 		 }
