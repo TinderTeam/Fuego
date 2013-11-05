@@ -239,7 +239,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		return count;
 	}
 
- 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,int startNum,int endNum)
+ 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,int startNum,int pageSize)
 	{
 		// TODO Auto-generated method stub
 		log.debug("[DAO] Get the PhysicalAssetsStatus by ID:" + filter);
@@ -253,7 +253,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			s = HibernateUtil.getSession();
 			Criteria c = getCriteriaByFilter(filter, filterDate,s);
 			c.setFirstResult(startNum);  
-	        c.setMaxResults(endNum); 
+	        c.setMaxResults(pageSize); 
 
 			assetsList = c.list();
 		} catch (RuntimeException re)

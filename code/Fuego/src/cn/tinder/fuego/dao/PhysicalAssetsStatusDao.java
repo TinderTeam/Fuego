@@ -30,7 +30,7 @@ public interface PhysicalAssetsStatusDao
 	
 	public int getAssetsListByFilterCount(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate);
 
- 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,int startNum,int endNum);
+ 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,int startNum,int pageSize);
  	
 	public List<PhysicalAssetsStatus> getAssetsListByAssetsIDList(List<String> assetsIDList);
 
