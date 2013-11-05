@@ -122,9 +122,11 @@ public class PurchaseAssetsSelectAction extends Action {
 
 
 			if (ParameterConst.CONFIRM_PARA_NAME.equals(submitPara)) {
-				
+				/*
+				 * Confirm the Select
+				 */
 				if (null == purchaseAssetsSelectForm.getAssetsIDList()) {
-					//选中的个数为空直接跳转回
+					// if nothing selected , jump to last page
 					log.warn("Select Assets is Empty!");
 					pageName = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
 				} else {
@@ -144,9 +146,14 @@ public class PurchaseAssetsSelectAction extends Action {
 					pageName = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
 				}
 			}else if (ParameterConst.CANCEL_PARA_NAME.equals(submitPara)) {
+				/*
+				 * Cancel Branch
+				 */
 				pageName = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
 			}else if(ParameterConst.SEARCH_PARA_NAME.equals(submitPara)){
-				
+				/*
+				 * Search Branch
+				 */
 				purchasePlanSessionBo.getPurchaseAddPageBo().setAssetsList(assetsService.getPurchaseSumAssetsList(purchaseAssetsSelectForm));
 				
 				pageName = PageNameConst.PURCHASE_ASSETS_SELECT_INIT;

@@ -133,7 +133,7 @@ public class ImportAssetsExcelFile {
 					    	
 				    	   }catch(ServiceException ex){
 
-									throw new ServiceException(ex.getMessage()+String.valueOf(i),ex);
+									throw new ServiceException(ex.getMessage()+ExceptionMsg.ERR_ROW+String.valueOf(i),ex);
 
 
 				    	   }

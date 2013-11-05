@@ -3,6 +3,7 @@ package cn.tinder.fuego.webservice.struts.action.assets;
 
 
 import java.io.File;
+import java.sql.BatchUpdateException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,12 +14,14 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.hibernate.exception.ConstraintViolationException;
 
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
+import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
@@ -86,7 +89,21 @@ public class ImportAssetsSubmitAction extends Action
 
 			plan = (ReceivePlanBo) planService.createPlan(user.getUserID(),assetsManageService.getUserListByAssestList(assetsPage.getAssetsList()));
 			plan.getPlanInfo().setAssetsPage(assetsPage);
- 			planService.updatePlan(plan);
+			try{
+				planService.updatePlan(plan);
+			}catch(ConstraintViolationException ex){
+				if(ex.getCause().getClass().equals(BatchUpdateException.class)){
+					log.error("导入数据主键重复："+ex.getCause().getMessage());
+					String errid = ex.getCause().getMessage().split(" ")[2];
+					String errMsg= ExceptionMsg.ASSETS_NAME_ISEXIST+errid;
+					
+					request.setAttribute(RspBoNameConst.OPERATE_EXCEPION,errMsg);
+					nextPage = PageNameConst.ERROR_PAGE; 
+				}else{
+					throw ex;
+				}
+				
+			}
 		}
 
 		else if(ParameterConst.BACK_PARA_NAME.equals(submitPara))

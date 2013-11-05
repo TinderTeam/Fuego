@@ -23,7 +23,7 @@
 
 			</div>
 			<div id="breadcrumb">
-				<a href="<%=request.getContextPath()%>/IndexInit.do" title="返回主页" class="tip-bottom"><i class="icon-home"></i> Home</a>
+				<a href="<%=request.getContextPath()%>/IndexInit.do" title="返回主页" class="tip-bottom"><i class="icon-home"></i>主页</a>
 				<a href="#" class="tip-bottom">盘点管理</a>
 				<a href="#" class="current">盘点情况查看</a>
 			</div>

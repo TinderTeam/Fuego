@@ -82,7 +82,6 @@ public class DiscardSearchInitAction extends Action
     		selectAssetsPage = assetsService.getAssetsByFilter(filterForm, false);
     		//assetsList = assetsService.getDiscardAssetsListBo(searchForm.getDate(), Arrays.asList(searchForm.getAssetsTypeList()), Arrays.asList(searchForm.getTechStatusList())); 
         }
-
  		selectAssetsPage.setShowCheckBox(true);
 
 		request.setAttribute(RspBoNameConst.ASSETS_PAGE_DATA,selectAssetsPage);
