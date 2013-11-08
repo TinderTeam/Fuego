@@ -154,7 +154,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		if(isAll){
 			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate,0,count);								
 		}else{
-			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate,assetsPage.getPage().getStartNum(),assetsPage.getPage().getEndNum());				
+			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate,assetsPage.getPage().getStartNum(),assetsPage.getPage().getPageSize());				
 		}
 	   assetsPage.setAssetsList(ConvertAssetsModel.convertAssetsList(assetsList));
 	    return assetsPage;
