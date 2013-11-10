@@ -76,7 +76,9 @@ public class GasStationCheckStatusEnsureInitAction extends Action
 		
 		CheckPlanBo checkPlan;
 		String transID = request.getParameter(ParameterConst.PLAN_TRANS_ID);
+	 
         checkPlan = (CheckPlanBo) planService.getPlanByTransID(transID);
+        
         AssetsModifyForm assetsForm = (AssetsModifyForm) form;
 		if(null ==checkPlan )
 		{
@@ -105,7 +107,7 @@ public class GasStationCheckStatusEnsureInitAction extends Action
 		checkPlan.getPlanInfo().getAssetsPage().setShowNote(true);
 		checkPlan.getPlanInfo().getAssetsPage().setShowCheckState(true);
         request.setAttribute(RspBoNameConst.CHECK_PLAN_DATA, checkPlan);
- 
+        request.getSession().setAttribute(RspBoNameConst.CHECK_TRANS_ID, checkPlan.getTransInfo().getTransInfo().getTransID());
 		log.info(LogKeyConst.NEXT_PAGE + nextPage);
 		return nextPage;
 	}

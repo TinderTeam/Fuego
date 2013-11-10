@@ -84,7 +84,7 @@ public class ImportBasicDataExcelFile {
 			        	//Quantity 	
 			        	cell = sheet.getCell(6,i);
 			        	numCell=(NumberCell) cell;
-			        	assets.setQuantity(numCell.getColumn());
+			        	assets.setQuantity((int)numCell.getValue());
 			        	
 			        	//PurchaseDate
 			     

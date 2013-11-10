@@ -9,6 +9,14 @@
 <html>
  	<jsp:include page="/jsp/cbb/includeCSS.jsp"/>
  	<script type="text/javascript" src="jsp/My97DatePicker/WdatePicker.js"></script>
+	<script type="text/javascript">
+		function pageChange(page)
+		{
+			document.getElementById("subID").click();
+			
+		  
+		}
+	</script>
 <body>
  
      	<jsp:include page="/jsp/cbb/header.jsp"/>
@@ -96,7 +104,7 @@
 										
 									<div class="widget-content">
 										<div class="control-group">
-											 <button id ="subID" type="submit" class="btn btn-success" name="submit" value ="submit">查询</button>
+											 <button id ="subID" type="submit" class="btn btn-success" name="submit" value ="submit">查询</button>													
 		 											第<select name="pageNum" style = "width:70px" onchange="return pageChange(this.value)" >
 													<option id="${searchForm.pageNum}">${searchForm.pageNum}</option>	
 													<c:forEach var="i" items= "${assetsPage.page.pages}"> 																								  

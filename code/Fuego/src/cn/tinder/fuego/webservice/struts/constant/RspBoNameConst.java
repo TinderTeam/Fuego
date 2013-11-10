@@ -143,6 +143,8 @@ public class RspBoNameConst
 	public static final String PAGE_LIST = "pageList";
 
 	public static final String SEARCH_FORM = "searchForm";
+
+	public static final String CHECK_TRANS_ID = "checkTransID";
 	
 
 }
