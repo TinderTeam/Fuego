@@ -3,6 +3,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	
+	<div class="widget-content">
+		<div class="control-group">
+			                第<select name="pageNum" style = "width:70px" onchange="return pageChange('pageChange')" >
+					<option id="${assetsPage.page.currentPage}">${assetsPage.page.currentPage}</option>	
+					<c:forEach var="i" items= "${assetsPage.page.pages}"> 																								  
+						<option id="${i}"/>${i}																							
+					</c:forEach>
+		 </select>页，共${assetsPage.page.count}条记录							 
+		</div>
+
+    </div>	
 	<div class="widget-content nopadding" style="overflow-x:auto;height:500px;overflow-y:auto;" >					
 	<table class="table table-bordered " >
 	   <thead>
@@ -32,7 +44,7 @@
 			
 			<c:if test="${true == assetsPage.showCheckState}"> 
 			  <th>盘点状态</th>
-			  <th>盘点数量</th>
+			  <th>实际数量</th>
 			</c:if>
 			<c:if test="${true == assetsPage.showReceiveState}"> 
 			  <th>验收状态</th>
@@ -52,7 +64,7 @@
 	          <td><input type="checkbox"  name="assetsIDList" value="${assetsInfo.assets.assetsID}" style="width:40px"></td>
 	        </c:if>  
             <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsID}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.assetsID" value="${assetsInfo.assets.assetsID}"></input></td>	        
-	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsName}</label></td>
+	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsName}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.assetsName" value="${assetsInfo.assets.assetsName}"></td>
 	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.manufacture}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.manufacture" value="${assetsInfo.assets.manufacture}"></td>
 	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.spec}</label><input style="width:120px; display:none" name="assetsList[${iterStatus.index}].assets.spec" value="${assetsInfo.assets.spec}"></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.assetsSRC}</label></td>
@@ -80,8 +92,14 @@
 							 <c:if test="${'未盘点' != assetsInfo.extAttr.checkState}"> 
 							    <option>未盘点</option>
 							 </c:if>
-							 <c:if test="${'已盘点' != assetsInfo.extAttr.checkState}">
-							 	<option>已盘点</option>	
+							 <c:if test="${'盘点无误' != assetsInfo.extAttr.checkState}">
+							 	<option>盘点无误</option>	
+							 </c:if>
+							 <c:if test="${'盘盈' != assetsInfo.extAttr.checkState}">
+							 	<option>盘盈</option>	
+							 </c:if>
+							 <c:if test="${'盘亏' != assetsInfo.extAttr.checkState}">
+							 	<option>盘亏</option>	
 							 </c:if>
 				</select>
 			    <td style="text-align:center">

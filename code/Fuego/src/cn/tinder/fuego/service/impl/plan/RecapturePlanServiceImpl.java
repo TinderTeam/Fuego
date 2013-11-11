@@ -194,6 +194,9 @@ s	 *
 		recaptureTrans.setTransInfo(baseTrans);
 		recapturePlan.setTransInfo(recaptureTrans);
 
+		 //init the all page data
+		recapturePlan.getAssetsPage().getPage().setAllPageData(recapturePlan.getAssetsPage().getAssetsList());
+
 		return (E) recapturePlan;
 	}
 	private List<String> getAssetsIDListByTransID(String transID)

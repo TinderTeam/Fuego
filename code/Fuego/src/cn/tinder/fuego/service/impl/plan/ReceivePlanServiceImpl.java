@@ -144,7 +144,7 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		{
 			Map<String,List<AssetsInfoBo>> deptMapAssestList = ConvertAssetsModel.convertAssestsListBoToDeptMap(receivePlan.getPlanInfo().getAssetsPage().getAssetsList());
 
-			assetsManageService.createAssetsList(receivePlan.getPlanInfo().getAssetsPage().getAssetsList());
+			assetsManageService.createAssetsList(receivePlan.getPlanInfo().getAssetsPage().getPage().getAllPageData());
 
 			
  			//get all the plan for every child transaction
@@ -253,6 +253,9 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 			assets.getExtAttr().setReceiveState(receivePlan.getReceiveState());
 			plan.getPlanInfo().getAssetsPage().getAssetsList().add(assets);
 		 }
+		 
+		 //init the all page data
+		 plan.getPlanInfo().getAssetsPage().getPage().setAllPageData(plan.getPlanInfo().getAssetsPage().getAssetsList());
 
 	 
 		return (E) plan;

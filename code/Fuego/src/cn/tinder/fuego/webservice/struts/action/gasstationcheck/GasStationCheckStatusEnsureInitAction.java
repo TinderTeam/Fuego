@@ -13,6 +13,7 @@ import org.apache.struts.action.ActionMapping;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
@@ -94,7 +95,9 @@ public class GasStationCheckStatusEnsureInitAction extends Action
 				newAssets.getAssets().setAssetsName(assetsForm.getAssetsInfo().getAssets().getAssetsName());
 				newAssets.getAssets().setManufacture(assetsForm.getAssetsInfo().getAssets().getManufacture());
 				newAssets.getAssets().setSpec(assetsForm.getAssetsInfo().getAssets().getSpec());
+				newAssets.getExtAttr().setCheckState(AssetsConst.CHECK_STATUS_MORE);
 				checkPlan.getPlanInfo().getAssetsPage().getAssetsList().add(newAssets);
+				planService.updatePlan(checkPlan);
 			}
 		}
 		else

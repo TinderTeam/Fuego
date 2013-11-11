@@ -31,6 +31,8 @@ import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.UserRoleConst;
+import cn.tinder.fuego.service.exception.ServiceException;
+import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
@@ -75,6 +77,8 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		
 		List<SystemUser> gasUserList = systemUserDao.getUserByRole(UserRoleConst.GASSTATION);
  		//create a transaction for every gas station
+		
+		boolean needCheck = false;
 		for(SystemUser gasUser : gasUserList)
 		{
 			PhysicalAssetsStatus filter = new PhysicalAssetsStatus();
@@ -84,12 +88,20 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
  			if(count>0)
  			{ 
  	 			super.createTransByUserAndType(user,gasUser.getUserName(), TransactionConst.CHECK_PLAN_TYPE,parentTrans.getTransID());
+ 	 			needCheck = true;
    			}
  			else
  			{
  				log.warn("the assests of " + gasUser + "is 0,no need to create a transaction.");
  			}
 
+		}
+		if(!needCheck)
+		{	
+			log.warn("there is no assets,no need to create a check plan");
+			this.deletePlan(parentTrans.getTransID());
+			throw new ServiceException(ExceptionMsg.NO_NEED_CHECK);
+			
 		}
 	  	//checkPlanDao.create(checkPlanList);
   		plan.getTransInfo().setTransInfo(parentTrans);
@@ -244,6 +256,9 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 			 log.info("the trans id is parent transaction,no need get the plan info");
 		 }
 
+		 //init the all page data
+		 plan.getPlanInfo().getAssetsPage().getPage().setAllPageData(plan.getPlanInfo().getAssetsPage().getAssetsList());
+
 	 	 return (E) plan;
 	}
 
@@ -264,7 +279,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
  
 		assetsInfo.getExtAttr().setCheckState(checkPlan.getCheckState());
 		assetsInfo.getExtAttr().setCheckCnt(checkPlan.getCheckCnt());
-		assetsInfo.getExtAttr().getNote();
+		assetsInfo.getExtAttr().setNote(checkPlan.getNote());
 
 		return assetsInfo;
 	}

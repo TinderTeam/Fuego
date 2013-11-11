@@ -26,6 +26,7 @@ public class AssetsPageBo
 {
 	private List<AssetsInfoBo> assetsList = new ArrayList<AssetsInfoBo>();
 	
+	
 	private PageModelBo page = new PageModelBo();
 	private boolean showCheckBox = false;
 
@@ -36,7 +37,9 @@ public class AssetsPageBo
 	private boolean showReceiveState = false;
 
 	private boolean showNote = false;
-
+	
+	
+ 
 	public List<AssetsInfoBo> getAssetsList()
 	{
 		return assetsList;

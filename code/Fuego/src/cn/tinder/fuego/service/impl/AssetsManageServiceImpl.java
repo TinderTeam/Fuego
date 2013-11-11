@@ -284,7 +284,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			{
 				purchasePlan.setDiscardCnt(purchasePlan.getDiscardCnt()+1);
 			}
-			else if(AssetsConst.ASSETS_STATUS_BAD.endsWith(purchasePlan.getAssetsBo().getTechState()))
+			else if(AssetsConst.ASSETS_STATUS_BAD.equals(purchasePlan.getAssetsBo().getTechState()))
 			{
 				purchasePlan.setBadCnt(purchasePlan.getBadCnt()+1);
 			}

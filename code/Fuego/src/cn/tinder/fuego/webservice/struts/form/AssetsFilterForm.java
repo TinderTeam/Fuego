@@ -1,5 +1,6 @@
 package cn.tinder.fuego.webservice.struts.form;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForm;
@@ -8,6 +9,7 @@ import cn.tinder.fuego.util.date.DateService;
 
 public class AssetsFilterForm extends ActionForm
 {
+	private String [] assetsIDList ; //selected assets 
 	private String assetsID;         //exact match
 	private String assetsType;       //exact match
 	private String techState;        //exact match
@@ -147,20 +149,7 @@ public class AssetsFilterForm extends ActionForm
 		this.endDueDate = endDueDate;
 	}
 
-
-
-	@Override
-	public String toString() {
-		return "AssetsFilterForm [assetsID=" + assetsID + ", assetsType="
-				+ assetsType + ", techState=" + techState + ", assetsName="
-				+ assetsName + ", duty=" + duty + ", location=" + location
-				+ ", startPurchaseDate=" + startPurchaseDate
-				+ ", startDueDate=" + startDueDate + ", endPurchaseDate="
-				+ endPurchaseDate + ", endDueDate=" + endDueDate + "]";
-	}
-
-
-
+ 
 	public void setPageNum(int pageNum) {
 		this.pageNum = pageNum;
 	}
@@ -169,6 +158,30 @@ public class AssetsFilterForm extends ActionForm
 
 	public int getPageNum() {
 		return pageNum;
+	}
+
+
+
+	public String[] getAssetsIDList()
+	{
+		return assetsIDList;
+	}
+
+
+
+	public void setAssetsIDList(String[] assetsIDList)
+	{
+		this.assetsIDList = assetsIDList;
+	}
+
+
+
+	@Override
+	public String toString()
+	{
+		return "AssetsFilterForm [assetsIDList=" + Arrays.toString(assetsIDList) + ", assetsID=" + assetsID + ", assetsType=" + assetsType + ", techState=" + techState + ", assetsName=" + assetsName
+				+ ", duty=" + duty + ", location=" + location + ", startPurchaseDate=" + startPurchaseDate + ", startDueDate=" + startDueDate + ", endPurchaseDate=" + endPurchaseDate
+				+ ", endDueDate=" + endDueDate + ", pageNum=" + pageNum + "]";
 	}
 
 	

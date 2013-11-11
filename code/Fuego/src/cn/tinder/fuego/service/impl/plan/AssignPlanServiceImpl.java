@@ -243,6 +243,9 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		assignPlan.getTransInfo().setOutDept(outDept);
 
 		assignPlan.getTransInfo().setTransInfo(baseTrans);
+		
+		 //init the all page data
+		 assignPlan.getAssetsPage().getPage().setAllPageData(assignPlan.getAssetsPage().getAssetsList());
 
 		return (E) assignPlan;
 	}
