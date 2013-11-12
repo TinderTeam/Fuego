@@ -108,7 +108,7 @@ public class GasStationCheckStatusEnsureInitAction extends Action
 		checkPlan.getPlanInfo().getAssetsPage().setShowNote(true);
 		checkPlan.getPlanInfo().getAssetsPage().setShowCheckState(true);
         request.setAttribute(RspBoNameConst.CHECK_PLAN_DATA, checkPlan);
- 
+        request.getSession().setAttribute(RspBoNameConst.CHECK_TRANS_ID, checkPlan.getTransInfo().getTransInfo().getTransID());
 		log.info(LogKeyConst.NEXT_PAGE + nextPage);
 		return nextPage;
 	}
