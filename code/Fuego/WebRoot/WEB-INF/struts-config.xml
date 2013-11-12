@@ -678,8 +678,9 @@
        	
        	<action path="/DiscardSearchResult"
                 type="cn.tinder.fuego.webservice.struts.action.discard.DiscardSearchResultAction"
-                name="SelectAssetsForm"              
+                name="AssetsFilterForm"              
                >          
+             <forward name="DiscardSearchInit" path="/DiscardSearchInit.do"></forward>
   			<forward name="DiscardSureInit" path="/DiscardSureInit.do"></forward>
   			<forward name="IndexInit" path="/IndexInit.do"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>

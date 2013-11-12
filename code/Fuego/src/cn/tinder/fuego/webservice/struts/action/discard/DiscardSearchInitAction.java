@@ -79,21 +79,11 @@ public class DiscardSearchInitAction extends Action
     	}
     	else
     	{
-<<<<<<< HEAD
-    		assetsList = assetsService.getDiscardAssetsListBo(searchForm.getDate(), Arrays.asList(searchForm.getAssetsTypeList()), Arrays.asList(searchForm.getTechStatusList())); 
-    		
-    	}
-		AssetsPageBo selectAssetsPage = new AssetsPageBo();
 
-		selectAssetsPage.setAssetsList(assetsList);
-		selectAssetsPage.setShowCheckBox(true);
-	
-=======
     		selectAssetsPage = assetsService.getAssetsByFilter(filterForm, false);
     		//assetsList = assetsService.getDiscardAssetsListBo(searchForm.getDate(), Arrays.asList(searchForm.getAssetsTypeList()), Arrays.asList(searchForm.getTechStatusList())); 
         }
  		selectAssetsPage.setShowCheckBox(true);
->>>>>>> origin/master
 
 		request.setAttribute(RspBoNameConst.ASSETS_PAGE_DATA,selectAssetsPage);
         
