@@ -63,6 +63,8 @@ public class TransactionConst
 	public static final String TRRANS_STATUS_TODO = "未提交"; // Transaction state
 	public static final String TRANS_STATUS_DONE = "已完成"; // Transaction state
 	public static final String TRRANS_STATUS_DOING = "未完成";
+	public static final String TRRANS_STATUS_REFUSE = "审批不通过";
+	
 	public static final String TRRANS_STATUS_READ = "已读";
 	public static final String TRRANS_STATUS_NO_READ = "未读";
 	

@@ -92,6 +92,7 @@ public class TransactionServiceImpl implements TransactionService
 		currentStep = transEventType.getStep();
 		transEvent.setCurrentStep(currentStep); // get CurrentStep and set to
 												// transEvent
+		transEvent.setStatus(TransactionConst.TRRANS_STATUS_TODO);
 
 		transEvent.setType(transType); // get type and set to transEvent
 
@@ -187,6 +188,20 @@ public class TransactionServiceImpl implements TransactionService
 			
 		}
 		
+		//get the status by current step 
+		if(TransactionConst.END_STEP_FLAG == curStep)
+		{
+			transEvent.setEndTime(new Date(System.currentTimeMillis()));
+			transEvent.setStatus(TransactionConst.TRANS_STATUS_DONE);
+
+			log.info("the transaction is finished." + transEvent.toString());
+		}
+		else
+		{	
+			transEvent.setStatus(TransactionConst.TRRANS_STATUS_DOING);
+
+		}
+		
 		transEvent.setCurrentStep(curStep);
 		transEvent.setHandleUser(handleUser);
 		updateTrans(transID,handleUser);
@@ -202,16 +217,10 @@ public class TransactionServiceImpl implements TransactionService
 	@Override
 	public void updateTrans(String transID, String handleUser)
 	{
-		Date endTime;
-		TransEvent transEvent = new TransEvent();
+ 		TransEvent transEvent = new TransEvent();
 		transEvent = transEventDao.getByTransID(transID);
 		transEvent.setHandleUser(handleUser);
-		if (TransactionConst.END_STEP_FLAG == transEvent.getCurrentStep())
-		{
-			endTime = new Date(System.currentTimeMillis());
-			transEvent.setEndTime(endTime);
-			log.info("the transaction is finished." + transEvent.toString());
-		}
+ 
 		transEventDao.saveOrUpdate(transEvent);
 	}
 
@@ -326,6 +335,7 @@ public class TransactionServiceImpl implements TransactionService
 		TransEventType type = transEventTypeDao.getByType(transEvent.getType());
 		transEvent.setCurrentStep(type.getStep());
 		transEvent.setHandleUser(transEvent.getCreateUser());
+		transEvent.setStatus(TransactionConst.TRRANS_STATUS_REFUSE);
 		transEventDao.saveOrUpdate(transEvent);
 	}
 	 

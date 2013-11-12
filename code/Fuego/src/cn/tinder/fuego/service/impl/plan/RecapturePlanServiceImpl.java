@@ -239,8 +239,11 @@ s	 *
 	@Override
 	public void backward(String transID)
 	{
-		// TODO Auto-generated method stub
-		
+		/**
+		 * Issue #36
+		 * need backward
+		 */
+		super.backward(transID);
 	}
 	
 	

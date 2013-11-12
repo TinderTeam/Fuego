@@ -323,7 +323,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	@Override
 	public void backward(String transID)
 	{
-		// TODO Auto-generated method stub
+		super.backward(transID);
 		
 	}
 
