@@ -313,8 +313,171 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	@Override
 	public File getExportFile(E plan)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(null == plan)
+		{
+			log.warn("the plan is null");
+			return null;
+		}
+		//step1: force transform 
+		CheckPlanBo planBo = new CheckPlanBo();
+ 		planBo = (CheckPlanBo) plan;
+		
+		return getDownfile(planBo); 
+		
+	}
+
+	private File getDownfile(CheckPlanBo planBo) {
+		
+		log.info("进入创建流程");
+		File file;
+		File modeFile;
+		
+		
+		ExcelIOService excelIOimpl=new ExcelIOServiceImpl();
+		
+		/*
+		 * 获取输出文件路径
+		 */
+		file = new File(OutputFileConst.CHECK_FILE_PATH);
+		if(file.exists()){
+			/*
+			 * 删除原有文件，重新构造
+			 */
+			file.delete();
+			file = new File(OutputFileConst.CHECK_FILE_PATH);
+		}
+		
+		modeFile = new File(OutputFileConst.CHECK_FILE_MODEL_PATH);
+		if(!modeFile.exists()){
+			log.error(ExceptionMsg.MODFILE_NOT_EXIST+" FilePath="+OutputFileConst.CHECK_FILE_MODEL_PATH);
+			throw new ServiceException(ExceptionMsg.MODFILE_NOT_EXIST);
+		}
+		
+		// 获取JXL模版
+        Workbook modWorkBook;
+		try {
+			modWorkBook = Workbook.getWorkbook( modeFile );
+			WritableWorkbook workbook = Workbook.createWorkbook(file, modWorkBook);
+			
+			
+			
+			/*
+			 * 获取校验
+			 */
+			if(modWorkBook==null){
+				log.error("Mod 文件无法加载 为Excel文件");
+			}
+			if(workbook==null){
+				log.error("导出文件无法加载 为Excel文件");
+			}
+			
+			
+			// 获取一个Sheet 进行读取操作
+			WritableSheet sheet = null;
+            if (workbook.getNumberOfSheets() > 0){
+                   sheet = workbook.getSheet(0); // 获取第一个sheet
+            }else{
+                   sheet=workbook.createSheet(OutputFileConst.CHECK_FILE_PATH, 0);
+            }
+            
+            
+            
+		/*
+		 * 1.Get transID List
+		 */
+		List<CheckTransBo> checkTransBoList = planBo.getTransInfo().getChildTransList();
+		
+		/*
+		 * 2.inport each CheckTransBo
+		 */
+		
+		
+		for(CheckTransBo checkTransBo:checkTransBoList){
+			inportTransBo(sheet,checkTransBo);
+		}
+			
+		
+		   workbook.write();
+           workbook.close();
+           modWorkBook.close();
+			
+		
+			} catch (BiffException e) {
+				// TODO Auto-generated catch block
+				log.error(ExceptionMsg.FILE_ERR,e);
+				e.printStackTrace();
+			} catch (IOException e) {
+				log.error(ExceptionMsg.FILE_ERR,e);
+				e.printStackTrace();
+			} catch (WriteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		return file;
+	}
+
+	private void inportTransBo(WritableSheet sheet, CheckTransBo checkTransBo) {
+		/*
+		 * import each transBo
+		 */
+		
+		CheckPlanBo planBo =(CheckPlanBo) getPlanByTransID(checkTransBo.getTransInfo().getTransID());
+		List<AssetsInfoBo> assetsList=planBo.getPlanInfo().getAssetsPage().getAssetsList();
+		
+		
+		for(AssetsInfoBo assetsInfoBo:assetsList){
+			inportALine(sheet,assetsInfoBo);
+		}
+		
+		
+	}
+
+	private void inportALine(WritableSheet sheet, AssetsInfoBo assetsInfoBo) {
+		/*
+		 * inport a line 
+		 */
+		int newRow = 5;
+		
+		
+		sheet.insertRow(newRow-1);
+		excelIOimpl.writeLabel(sheet, newRow,1,assetsInfoBo.getAssets().getAssetsID());				
+		excelIOimpl.writeLabel(sheet, newRow,2,assetsInfoBo.getAssets().getAssetsName());
+		excelIOimpl.writeLabel(sheet, newRow,3,assetsInfoBo.getAssets().getAssetsSRC());
+		excelIOimpl.writeLabel(sheet, newRow,4,assetsInfoBo.getAssets().getManufacture());
+		excelIOimpl.writeLabel(sheet, newRow,5,assetsInfoBo.getAssets().getSpec());
+		excelIOimpl.writeLabel(sheet, newRow,6,assetsInfoBo.getAssets().getUnit());
+		
+		excelIOimpl.writeLabel(sheet, newRow,7,String.valueOf(assetsInfoBo.getAssets().getQuantity()));
+		excelIOimpl.writeLabel(sheet, newRow,8,assetsInfoBo.getAssets().getPurchaseDate());
+		excelIOimpl.writeLabel(sheet, newRow,9,String.valueOf(assetsInfoBo.getAssets().getOriginalValue()));
+		excelIOimpl.writeLabel(sheet, newRow,10,String.valueOf(assetsInfoBo.getAssets().getOriginalValue() ));
+		excelIOimpl.writeLabel(sheet, newRow,11,assetsInfoBo.getAssets().getLocation());
+		excelIOimpl.writeLabel(sheet, newRow,12,String.valueOf(assetsInfoBo.getAssets().getExpectYear()));
+		excelIOimpl.writeLabel(sheet, newRow,13,assetsInfoBo.getAssets().getDueDate());
+		excelIOimpl.writeLabel(sheet, newRow,14,assetsInfoBo.getAssets().getAssetsType());
+	
+		excelIOimpl.writeLabel(sheet, newRow,15,assetsInfoBo.getAssets().getAttrType());
+		excelIOimpl.writeLabel(sheet, newRow,16,assetsInfoBo.getAssets().getDept());
+
+		excelIOimpl.writeLabel(sheet, newRow,17,assetsInfoBo.getAssets().getTechState());
+		excelIOimpl.writeLabel(sheet, newRow,18,assetsInfoBo.getAssets().getDuty());
+		/*
+		 * Get Date from title
+		 */
+		excelIOimpl.writeLabel(sheet, newRow,19,assetsInfoBo.getAssets().getCheckDate());
+		
+		excelIOimpl.writeLabel(sheet, newRow,20,assetsInfoBo.getExtAttr().getCheckState());
+		
+		excelIOimpl.writeLabel(sheet, newRow,21,String.valueOf(assetsInfoBo.getExtAttr().getCheckCnt()));
+		
+		excelIOimpl.writeLabel(sheet, newRow,22,assetsInfoBo.getExtAttr().getNote());
+
+
+		
+		
+		
 	}
 
 	/* (non-Javadoc)
