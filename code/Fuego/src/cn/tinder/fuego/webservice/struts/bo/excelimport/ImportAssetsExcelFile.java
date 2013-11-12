@@ -33,15 +33,14 @@ public class ImportAssetsExcelFile {
 	private static final Log log = LogFactory.getLog(ImportAssetsExcelFile.class);
 	
 	
-	public static AssetsPageBo load(File uploadFile) {
+	public static List<AssetsInfoBo> load(File uploadFile) {
 		
 		long start= System.currentTimeMillis();
 	
 		// TODO Auto-generated method stub
 		log.info(uploadFile.getAbsolutePath());
 		
-		AssetsPageBo bo =new AssetsPageBo();
-		List<AssetsInfoBo> assetsList = new ArrayList<AssetsInfoBo>();
+ 		List<AssetsInfoBo> assetsList = new ArrayList<AssetsInfoBo>();
 		Map<String,Integer> assetsTypeMap= new HashMap<String,Integer>();
 		/* 
 		 * Init the Map
@@ -149,10 +148,8 @@ public class ImportAssetsExcelFile {
 			    	   //2.add ID 
 			    	   setupID(assetsList,IDMap);
 			    	   
-			        bo.setAssetsList(assetsList);
-			        
-			        log.info(assetsList);
-			        long end= System.currentTimeMillis();
+ 			        
+ 			        long end= System.currentTimeMillis();
 			        log.info("共导入"+assetsList.size()+"条数据,Runtime=" +(end-start)+"ms" );
 			        
 			        
@@ -164,7 +161,7 @@ public class ImportAssetsExcelFile {
 				e.printStackTrace();
 			}
 	       
-		return bo;
+		return assetsList;
 	}
 
 	private static void setupID(List<AssetsInfoBo> assetsList,

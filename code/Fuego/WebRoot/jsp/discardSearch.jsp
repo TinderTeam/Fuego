@@ -35,7 +35,7 @@
 			<div class="container-fluid">
 				<div class="row-fluid">
 					<div class="span12">
-						<form action="<%=request.getContextPath()%>/DiscardSearch.do"  name="myForm1" method="post">						
+						<form action="<%=request.getContextPath()%>/DiscardSearchResult.do"  name="myForm2" method="post">
 						<div class="widget-box">
 							
 							<div class="widget-title">
@@ -104,6 +104,7 @@
 										
 									<div class="widget-content">
 										<div class="control-group">
+<<<<<<< HEAD
 											 <button id ="subID" type="submit" class="btn btn-success" name="submit" value ="submit">查询</button>													
 		 											第<select name="pageNum" style = "width:70px" onchange="return pageChange(this.value)" >
 													<option id="${searchForm.pageNum}">${searchForm.pageNum}</option>	
@@ -111,15 +112,17 @@
 														<option id="${i}"/>${i}																							
 													</c:forEach>
 										 </select>页，共${assetsPage.page.count}条记录							 
+=======
+											 <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value ="search">查询</button>
+		 					 		 
+>>>>>>> origin/master
 										</div>
 									</div>		
 								</div>
 							</div>
 	
 						</div>
-						</form>
-						
-						<form action="<%=request.getContextPath()%>/DiscardSearchResult.do"  name="myForm2" method="post">
+						 
 						<div class="widget-box">
 								<div class="widget-title">
 									<span class="icon">
@@ -135,7 +138,7 @@
 										 
 									<div class="form-actions">
 
-										<button type="submit" class="btn btn-success" name="submit" value="submit2">提交</button>
+										<button type="submit" class="btn btn-success" name="submit" value="submit">提交</button>
 										<button type="submit" class="btn btn-primary" name="submit" value="back">返回</button>
 													
 									</div>							

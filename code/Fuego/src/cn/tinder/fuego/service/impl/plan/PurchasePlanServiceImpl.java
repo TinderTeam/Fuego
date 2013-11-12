@@ -167,6 +167,8 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 		}
 		plan.getPurchasePageBo().setAssetsList(planBoList);
  
+		 //init the all page data
+ 
 		return (E) plan;
 	}
 

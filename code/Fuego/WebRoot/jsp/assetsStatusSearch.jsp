@@ -15,14 +15,7 @@
 	
  	<jsp:include page="/jsp/cbb/includeCSS.jsp"/>
  
-	<script type="text/javascript">
-		function pageChange(page)
-		{
-			document.getElementById("subID").click();
-			
-		  
-		}
-	</script>
+
 <body>
  
      	<jsp:include page="/jsp/cbb/header.jsp"/>
@@ -189,14 +182,8 @@
 							
 							<div class="widget-content">
 								<div class="control-group">
-									 <button id ="subID" type="submit" class="btn btn-success" name="submit" value = "submit">查询</button>
-									<button type="submit" class="btn btn-success" name="submit" value = "download">导出</button>
-											第<select name="pageNum" style = "width:70px" onchange="return pageChange(this.value)" >
-											<option id="${searchForm.pageNum}">${searchForm.pageNum}</option>	
-											<c:forEach var="i" items= "${assetsPage.page.pages}"> 																								  
-												<option id="${i}"/>${i}																							
-											</c:forEach>
-								 </select>页，共${assetsPage.page.count}条记录							 
+									<button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "submit">查询</button>
+									<button type="submit" class="btn btn-success" name="submit" value = "download">导出</button>					 
 								</div>
 				
 							</div>						    
@@ -222,8 +209,7 @@
 
 							
 						    	</div>
-						</div>
-				</div>
+			 
 			</form>
 			</div>
 			

@@ -209,6 +209,9 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 		discardTrans.setTransInfo(baseTrans);
 		discardPlan.setTransInfo(discardTrans);
 
+		 //init the all page data
+		 discardPlan.getAssetsPage().getPage().setAllPageData(discardPlan.getAssetsPage().getAssetsList());
+
 		return (E) discardPlan;
 	}
 	private List<String> getAssetsIDListByTransID(String transID)
