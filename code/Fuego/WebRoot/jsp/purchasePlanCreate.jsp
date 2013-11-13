@@ -104,8 +104,7 @@
 							</div>
 						</div>
 							<a href="#myAlert" data-toggle="modal" class="btn btn-primary" style="width:60px">新建资产</a>
-							<button type="submit" class="btn btn-primary" name ="submit" value="add">查询添加</button>
-							
+ 							
 							
 								<div id="myAlert" class="modal hide">
 										<div class="modal-header">
@@ -139,7 +138,6 @@
 								<div class="widget-content">
 								
 									<button   type="submit"  class="btn btn-success"   name ="submit" value="submit">提交</button>								
-									<button  type="submit" class="btn  btn-primary" name ="submit" value="reDo">重新填写</button>	
 									<button  type="submit" class="btn  btn-primary" name ="submit" value="back">返回</button>	
 								</div>
 	

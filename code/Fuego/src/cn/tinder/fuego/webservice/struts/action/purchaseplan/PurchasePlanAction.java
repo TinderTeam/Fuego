@@ -11,10 +11,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.AssetsManageService;
-import cn.tinder.fuego.service.PurchasePlanService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
-import cn.tinder.fuego.service.impl.PurchasePlanServiceImplTest;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;

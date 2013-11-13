@@ -110,18 +110,16 @@ public class LoadServiceImpl implements LoadService
 	 * @see cn.tinder.fuego.service.LoadService#loadAllDeptInfo()
 	 */
 	@Override
-	public List<DeptInfoBo> loadAllDeptInfo()
+	public List<String> loadAllDeptInfo()
 	{
-		Set<DeptInfoBo> deptList = new HashSet<DeptInfoBo>();
+		Set<String> deptList = new HashSet<String>();
 		List<SystemUser> allUserList = systemUserDao.getAllSystemUser();
 		for (SystemUser user : allUserList)
 		{
-			DeptInfoBo dept = new DeptInfoBo();
-			dept.setName(user.getDepartment());
-			deptList.add(dept);
+ 			deptList.add(user.getDepartment());
 		}
 
-		return new ArrayList<DeptInfoBo>(deptList);
+		return new ArrayList<String>(deptList);
 	}
 	/*
 	 * (non-Javadoc)

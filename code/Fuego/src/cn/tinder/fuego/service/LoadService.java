@@ -22,7 +22,7 @@ public interface LoadService
 	 */
 	public List<MenuTreeBo> loadMenuTreeByUserID(String userID);
 
-	public List<DeptInfoBo> loadAllDeptInfo();
+	public List<String> loadAllDeptInfo();
 	
 	public List<DeptInfoBo> getAssignListByUser(String userName);
 	

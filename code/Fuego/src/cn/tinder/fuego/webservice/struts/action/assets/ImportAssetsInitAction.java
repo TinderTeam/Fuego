@@ -14,8 +14,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import cn.tinder.fuego.service.PurchaseWarehousingService;
-import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.action.purchaseWarehousing.TransactioServiceTest;
 import cn.tinder.fuego.webservice.struts.bo.PurchaseWarehousingPageBo;

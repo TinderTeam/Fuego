@@ -140,6 +140,13 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			assetsFilter.setLocation(filter.getLocation());
 		}
 		
+		if((null != filter.getManageName()) && (filter.getManageName().trim().isEmpty()))
+		{	
+			assetsFilter.setManageName(null);
+		}else{
+			assetsFilter.setLocation(filter.getManageName());
+		}
+		
 		assetsFilter.setPurchaseDate(DateService.stringToDate(filter.getStartPurchaseDate()));
 		assetsFilter.setDueDate(DateService.stringToDate(filter.getStartDueDate()));		
 		assetsFilterDate.setPurchaseDate(DateService.stringToDate(filter.getEndPurchaseDate()));
