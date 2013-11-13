@@ -77,7 +77,9 @@ public class GasStationCheckStatusEnsureInitAction extends Action
 		
 		CheckPlanBo checkPlan;
 		String transID = request.getParameter(ParameterConst.PLAN_TRANS_ID);
+	 
         checkPlan = (CheckPlanBo) planService.getPlanByTransID(transID);
+        
         AssetsModifyForm assetsForm = (AssetsModifyForm) form;
 		if(null ==checkPlan )
 		{

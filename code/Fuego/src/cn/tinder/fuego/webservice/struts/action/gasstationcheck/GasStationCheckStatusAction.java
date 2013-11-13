@@ -71,14 +71,31 @@ public class GasStationCheckStatusAction extends Action
 
 		CheckPlanBo plan;
 		String transID = (String) request.getSession().getAttribute(RspBoNameConst.CHECK_TRANS_ID);
+
         plan = (CheckPlanBo) planService.getPlanByTransID(transID);
-		
+        
+		/* 
+ 		 *  修改时间：2013-11-12 23:34
+ 		 *  修改人：南博文
+ 		 *  源代码版本：d9166e8
+ 		 *  修改目的：更正盘点导出跳系统错误的bug---定位错误
+ 		 */
+        if(plan==null){
+        	log.error("CheckPlanBo is null");
+        }else{
+        	log.info("plan is :"+plan);
+        }
+        /*------------------------------------------*/
+        
+        
+
 		if(submitPara.equals(ParameterConst.DOWNLOAD_PARA_NAME))
         {
      		/*
      		 * 2.Download File
      		 */
-     		
+
+
      		request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE,planService.getExportFile(plan).getAbsolutePath()); 
 			
      		nextPage = PageNameConst.DOWNLOAD_ACTION;

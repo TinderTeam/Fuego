@@ -9,9 +9,16 @@
 package cn.tinder.fuego.service.impl.plan;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,7 +41,11 @@ import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
+import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
+import cn.tinder.fuego.service.util.ExcelIOService;
+import cn.tinder.fuego.util.date.DateService;
+import cn.tinder.fuego.util.engine.computer.ComputeService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanInfoBo;
@@ -42,6 +53,7 @@ import cn.tinder.fuego.webservice.struts.bo.check.CheckTransBo;
 import cn.tinder.fuego.webservice.struts.bo.receive.ReceivePlanBo;
 import cn.tinder.fuego.webservice.struts.bo.receive.ReceiveTransBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
+import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
 
 /** 
  * @ClassName: CheckPlanServiceImpl 
@@ -56,7 +68,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	private static final Log log = LogFactory.getLog(CheckPlanServiceImpl.class);
 
 	private TransEventDao transEventDao = DaoContext.getInstance().getTransEventDao();
-
+	ExcelIOService excelIOimpl=new ExcelIOServiceImpl();
 	private SystemUserDao systemUserDao = DaoContext.getInstance().getSystemUserDao();
 	private CheckPlanDao checkPlanDao = DaoContext.getInstance().getCheckPlanDao();
 	

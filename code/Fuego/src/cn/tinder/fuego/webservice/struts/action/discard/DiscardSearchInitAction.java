@@ -79,6 +79,7 @@ public class DiscardSearchInitAction extends Action
     	}
     	else
     	{
+
     		selectAssetsPage = assetsService.getAssetsByFilter(filterForm, false);
     		//assetsList = assetsService.getDiscardAssetsListBo(searchForm.getDate(), Arrays.asList(searchForm.getAssetsTypeList()), Arrays.asList(searchForm.getTechStatusList())); 
         }
