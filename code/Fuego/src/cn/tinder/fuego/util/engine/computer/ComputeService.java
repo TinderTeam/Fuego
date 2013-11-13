@@ -19,7 +19,11 @@ public class ComputeService {
 		v=v/((long)limit);		
 		v=value*v;
 
-		return v;	
+		/*
+		 * Update by Nanbowen
+		 * For Issue #43
+		 */
+		return value-v;	
 	}
 
 }
