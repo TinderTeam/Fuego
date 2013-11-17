@@ -113,7 +113,7 @@
 													</c:forEach>
 												</select>
 											</td>
-								 			<td style="text-align:center"><input type="text" name="manageName"/></td>
+								 			<td style="text-align:center"><input type="text" name="manageName" value="${searchForm.manageName}"></input></td>
 											
 											<td style="text-align:center"><input type="text" name="location"/></td>
 											<td style="text-align:center">	

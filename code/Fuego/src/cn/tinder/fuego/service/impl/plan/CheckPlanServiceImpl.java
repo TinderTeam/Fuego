@@ -1,4 +1,4 @@
-?/**   
+/**   
 * @Title: CheckPlanServiceImpl.java 
 * @Package cn.tinder.fuego.service.impl.plan 
 * @Description: TODO
@@ -12,12 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
 
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -46,9 +40,6 @@ import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
-
-import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
- 
 import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanBo;

@@ -21,6 +21,7 @@ public class PurchaseSumModel
 	private String assetsName;
 	private String manufacture;
 	private String spec;
+	private String gasName;
 	public String getAssetsName()
 	{
 		return assetsName;
@@ -45,21 +46,28 @@ public class PurchaseSumModel
 	{
 		this.spec = spec;
 	}
-	
+	public String getGasName()
+	{
+		return gasName;
+	}
+	public void setGasName(String gasName)
+	{
+		this.gasName = gasName;
+	}
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((assetsName == null) ? 0 : assetsName.hashCode());
-		result = prime * result
-				+ ((manufacture == null) ? 0 : manufacture.hashCode());
+		result = prime * result + ((assetsName == null) ? 0 : assetsName.hashCode());
+		result = prime * result + ((gasName == null) ? 0 : gasName.hashCode());
+		result = prime * result + ((manufacture == null) ? 0 : manufacture.hashCode());
 		result = prime * result + ((spec == null) ? 0 : spec.hashCode());
 		return result;
 	}
-	
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -67,17 +75,26 @@ public class PurchaseSumModel
 		if (getClass() != obj.getClass())
 			return false;
 		PurchaseSumModel other = (PurchaseSumModel) obj;
-		if (assetsName == null) {
+		if (assetsName == null)
+		{
 			if (other.assetsName != null)
 				return false;
 		} else if (!assetsName.equals(other.assetsName))
 			return false;
-		if (manufacture == null) {
+		if (gasName == null)
+		{
+			if (other.gasName != null)
+				return false;
+		} else if (!gasName.equals(other.gasName))
+			return false;
+		if (manufacture == null)
+		{
 			if (other.manufacture != null)
 				return false;
 		} else if (!manufacture.equals(other.manufacture))
 			return false;
-		if (spec == null) {
+		if (spec == null)
+		{
 			if (other.spec != null)
 				return false;
 		} else if (!spec.equals(other.spec))
@@ -87,9 +104,10 @@ public class PurchaseSumModel
 	@Override
 	public String toString()
 	{
-		return "PurchaseSumModel [assetsName=" + assetsName + ", manufacture=" + manufacture + ", spec=" + spec + "]";
+		return "PurchaseSumModel [assetsName=" + assetsName + ", manufacture=" + manufacture + ", spec=" + spec + ", gasName=" + gasName + "]";
 	}
 	
+ 
 	
 
 }

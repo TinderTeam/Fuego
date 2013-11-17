@@ -8,6 +8,7 @@ public class PurchasePlan implements Serializable
  	private String assetsName;
  	private String manufacture;
 	private String spec;
+	private String duty;
 	private String unit;
 	private int quantity;
 	private float price;
@@ -44,6 +45,15 @@ public class PurchasePlan implements Serializable
 	public void setSpec(String spec)
 	{
 		this.spec = spec;
+	}
+ 
+	public String getDuty()
+	{
+		return duty;
+	}
+	public void setDuty(String duty)
+	{
+		this.duty = duty;
 	}
 	public String getUnit()
 	{
@@ -85,14 +95,7 @@ public class PurchasePlan implements Serializable
 	{
 		this.note = note;
 	}
-	@Override
-	public String toString()
-	{
-		return "PurchasePlan [transID=" + transID + ", assetsName=" + assetsName + ", manufacture=" + manufacture + ", spec=" + spec + ", unit=" + unit + ", quantity=" + quantity + ", price=" + price
-				+ ", sum=" + sum + ", note=" + note + "]";
-	}
  
-	
 	
 	 
 }

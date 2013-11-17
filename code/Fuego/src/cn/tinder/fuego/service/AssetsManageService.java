@@ -50,13 +50,10 @@ public interface AssetsManageService
 	public List<PurchasePlanBo> getPurchaseSumAssetsList(PurchasePlanForm form);
 	public List<CheckPlanInfoBo> getCheckSumAssetsList(String dept);
 	
-	public void sendAssetsApply(GasAssetsApplyForm gasAssetsApplyForm);
-	public void updateAssetsStatus (List<PhysicalAssetsStatus> assestList);
-	public void updateAssetsStatus (AssetsInfoBo assetsInfo);
+  	public void updateAssets (AssetsInfoBo assetsInfo);
 	public void deleteAssets(AssetsInfoBo assetsInfo);
 
-	public void sendAssetsStatusChangeApply(GasAssetsApplyForm gasAssetsApplyForm);
-	public List<AssetsInfoBo> getDiscardAssetsListBo(String dueDate, List<String> assetsTypeList,List<String> statusList);
+ 	public List<AssetsInfoBo> getDiscardAssetsListBo(String dueDate, List<String> assetsTypeList,List<String> statusList);
 	public List<AssetsInfoBo> getRecaptureAssetsListBo(List<String> assetsDutyList, List<String> assetsTypeList);
 	
 	public List<String> getUserListByAssestList(List<AssetsInfoBo> assetsList);

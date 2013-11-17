@@ -39,6 +39,7 @@
 			<th>到期日</th>
 			<th>责任部门</th>
 			<th>责任人</th>
+			<th>经营管理部</th>
 			<th>资产分类</th>
 			<th>资产性质</th>
 			<th>存放地点</th>
@@ -100,6 +101,7 @@
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.dueDate}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.dept}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.duty}</label></td>
+	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.manageName}</label></td>	        
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.assetsType}</label></td>
 			 <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.attrType}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.location}</label></td>

@@ -188,10 +188,10 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		for(PhysicalAssetsStatus assets : physicalAssetsList)
 		{
 			assets.setDuty(dutyDept);
+			physicalAssetsStatusDao.saveOrUpdate(assets);
 
 		}	
-		assetsManageService.updateAssetsStatus(physicalAssetsList);
-
+ 
 	}
 
 	/*

@@ -92,6 +92,7 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 			purchasePlan.setTransID(transID);
 			purchasePlan.setAssetsName(assets.getAssetsBo().getAssetsName());
 			purchasePlan.setManufacture(assets.getAssetsBo().getManufacture());
+			purchasePlan.setDuty(assets.getAssetsBo().getDuty());
 			purchasePlan.setSpec(assets.getAssetsBo().getSpec());
 			purchasePlan.setQuantity(assets.getAssetsBo().getQuantity());
 			purchasePlan.setPrice(Float.valueOf(assets.getPrice()));

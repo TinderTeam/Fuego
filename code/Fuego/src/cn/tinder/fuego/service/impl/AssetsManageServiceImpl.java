@@ -24,8 +24,10 @@ import org.apache.commons.logging.LogFactory;
 import cn.tinder.fuego.dao.AssetsPriceDao;
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
+import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.domain.po.AssetsPrice;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
+import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.constant.AssetsConst;
@@ -40,7 +42,6 @@ import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.excelimport.ImportBasicDataExcelFile;
 import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
-import cn.tinder.fuego.webservice.struts.form.GasAssetsApplyForm;
 import cn.tinder.fuego.webservice.struts.form.purchase.PurchaseAssetsSelectForm;
 import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm;
 
@@ -59,6 +60,8 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	private AssetsPriceDao assetsPriceDao = DaoContext.getInstance().getAssetsPriceDao();
 
 	private PhysicalAssetsStatusDao assetsDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
+	private SystemUserDao userDao = DaoContext.getInstance().getSystemUserDao();
+
 
 	/*
 	 * (non-Javadoc)
@@ -144,7 +147,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		{	
 			assetsFilter.setManageName(null);
 		}else{
-			assetsFilter.setLocation(filter.getManageName());
+			assetsFilter.setManageName(filter.getManageName());
 		}
 		
 		assetsFilter.setPurchaseDate(DateService.stringToDate(filter.getStartPurchaseDate()));
@@ -258,6 +261,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			purchaseSumModel.setAssetsName(assets.getAssetsName());
 			purchaseSumModel.setManufacture(assets.getManufacture());
 			purchaseSumModel.setSpec(assets.getSpec());
+			purchaseSumModel.setGasName(assets.getDuty());
 			PurchasePlanBo purchasePlan;
 			if(null != purchasePlanMap.get(purchaseSumModel))
 			{
@@ -269,11 +273,11 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			{
 				purchasePlan = new PurchasePlanBo();
 				purchasePlan.setAssetsBo(ConvertAssetsModel.convertAssets(assets));
-				AssetsPrice assetPrice = assetsPriceDao.getBySpec("");
+				AssetsPrice assetPrice = null; //assetsPriceDao.getBySpec(""); todo
 				if(null == assetPrice)
 				{	
 					log.warn("the price is null for the stuff" + purchaseSumModel);
-					purchasePlan.setPrice(String.valueOf(0));
+					purchasePlan.setPrice(String.valueOf(assets.getOriginalValue()));
 					purchasePlan.countMoney();
 				}
 				else
@@ -304,98 +308,23 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		return purchasePlanList;
 	}
 
-	@Override
-	public void sendAssetsStatusChangeApply(
-			GasAssetsApplyForm gasAssetsApplyForm) {
-		// TODO Auto-generated method stub
-		
-	}
-	/* (non-Javadoc)
-	 * @see cn.tinder.fuego.service.AssetsManageService#getAssetsByAssetsIDList(java.util.List)
-	 */
-	@Override
-	public void updateAssetsStatus(List<PhysicalAssetsStatus> assestList)
-	{
-		
-		for(PhysicalAssetsStatus assets : assestList)
-		{
-			PhysicalAssetsStatus assetsUpdate = assetsDao.getByAssetsID(assets.getAssetsID());
-			if(null == assetsUpdate)
-			{
-				log.warn("can not find the assets by id. assets is " + assets);
-			}
-			else
-			{	
-				assetsUpdate.setAssetsName(assets.getAssetsName());
-				assetsUpdate.setAssetsSRC(assets.getAssetsSRC());
-				assetsUpdate.setAssetsType(assets.getAssetsType());
-				assetsUpdate.setTechState(assets.getTechState());
-				assetsUpdate.setCheckDate(assets.getCheckDate());
-				assetsUpdate.setDept(assets.getDept());
-				assetsUpdate.setDueDate(assets.getDueDate());
-				assetsUpdate.setDuty(assets.getDuty());
-				assetsUpdate.setExpectYear(assets.getExpectYear());
-				assetsUpdate.setLocation(assets.getLocation());
-				assetsUpdate.setManufacture(assets.getManufacture());
-				assetsUpdate.setNote(assets.getNote());
-				assetsUpdate.setOriginalValue(assets.getOriginalValue());
-				assetsUpdate.setPurchaseDate(assets.getPurchaseDate());
-				assetsUpdate.setQuantity(assets.getQuantity());
-				assetsUpdate.setSpec(assets.getSpec());
-				assetsUpdate.setTechState(assets.getTechState());
-				assetsUpdate.setUnit(assets.getUnit());
-				assetsUpdate.setCheckDate(assets.getCheckDate());
-				assetsDao.saveOrUpdate(assetsUpdate);
-			}
-		}
-
-	}
-	
-
+ 
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.AssetsManageService#updateAssetsStatus(cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo)
 	 */
-	@SuppressWarnings("null")
 	@Override
-	public void updateAssetsStatus(AssetsInfoBo assetsInfo)
+	public void updateAssets(AssetsInfoBo assetsInfo)
 	{
-		PhysicalAssetsStatus assets = ConvertAssetsModel.convertAssetsBo(assetsInfo);
-		PhysicalAssetsStatus assetsUpdate = assetsDao.getByAssetsID(assets.getAssetsID());
- 		PhysicalAssetsStatus assetsCreate =	new PhysicalAssetsStatus();
- 		
-		
+		PhysicalAssetsStatus assetsUpdate = assetsDao.getByAssetsID(assetsInfo.getAssets().getAssetsID());
+ 
 		if(null == assetsUpdate)
-		{   
-
-			
-			//log.info("newAssetsID is :"+assets.getAssetsID());
-			//log.warn("can not find the assets by id. assets is " + assets);
-			assetsCreate.setAssetsID(assets.getAssetsID());
-			
-			assetsCreate.setAssetsName(assets.getAssetsName());
-			assetsCreate.setAssetsSRC(assets.getAssetsSRC());
-			assetsCreate.setAssetsType(assets.getAssetsType());
-			assetsCreate.setTechState(assets.getTechState());
-			assetsCreate.setCheckDate(assets.getCheckDate());
-			assetsCreate.setDept(assets.getDept());
-			assetsCreate.setDueDate(assets.getDueDate());
-			assetsCreate.setDuty(assets.getDuty());
-			assetsCreate.setExpectYear(assets.getExpectYear());
-			assetsCreate.setLocation(assets.getLocation());
-			assetsCreate.setManufacture(assets.getManufacture());
-			assetsCreate.setNote(assets.getNote());
-			assetsCreate.setOriginalValue(assets.getOriginalValue());
-			assetsCreate.setPurchaseDate(assets.getPurchaseDate());
-			assetsCreate.setQuantity(assets.getQuantity());
-			assetsCreate.setSpec(assets.getSpec());
-			assetsCreate.setTechState(assets.getTechState());
-			assetsCreate.setUnit(assets.getUnit());
-			assetsCreate.setCheckDate(assets.getCheckDate());
-			assetsDao.create(assetsCreate);
-			
+		{   			
+			 this.createAssetsList(Arrays.asList(assetsInfo));
 		}
 		else
 		{	
+			PhysicalAssetsStatus assets = ConvertAssetsModel.convertAssetsBo(assetsInfo);
+
 			assetsUpdate.setAssetsName(assets.getAssetsName());
 			assetsUpdate.setAssetsSRC(assets.getAssetsSRC());
 			assetsUpdate.setAssetsType(assets.getAssetsType());
@@ -434,19 +363,11 @@ public class AssetsManageServiceImpl implements AssetsManageService
 
 		return ConvertAssetsModel.convertAssetsList(assetsList);
 	}
-
-	@Override
-	public void sendAssetsApply(GasAssetsApplyForm gasAssetsApplyForm) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
+ 
 
 	@Override
 	public List<AssetsInfoBo> getDiscardAssetsListBo(String dueDate, List<String> assetsTypeList,List<String> statusList)
 	{
- 		
-
 		return getAssetsListByFilterList(DateService.stringToDate(dueDate),assetsTypeList,null,statusList);
 	}
 
@@ -482,7 +403,21 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	@Override
 	public void createAssetsList(List<AssetsInfoBo> assetsList)
 	{
-		 assetsDao.create(ConvertAssetsModel.convertAssetsBoList(assetsList));
+		
+		 List<PhysicalAssetsStatus> physicalAssetsList = new ArrayList<PhysicalAssetsStatus>(); 
+		 for(AssetsInfoBo assets : assetsList)
+		 {
+			 PhysicalAssetsStatus physicalAssets = ConvertAssetsModel.convertAssetsBo(assets);
+			 
+			 SystemUser user = userDao.find(physicalAssets.getDuty());
+			 if(null != user)
+			 {
+				 physicalAssets.setManageName(user.getManageName());
+ 			 }
+			 
+			 physicalAssetsList.add(physicalAssets);
+		 }
+		 assetsDao.create(physicalAssetsList);
  
 	}
 

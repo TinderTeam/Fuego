@@ -12,6 +12,7 @@
            <key-property name="assetsName" column="ASSETS_NAME" ></key-property>
            <key-property name="manufacture" column="MANUFACTURE"  ></key-property>
            <key-property name="spec" column="SPEC"  ></key-property>
+           <key-property name="duty" column="DUTY"  ></key-property>
            
 	    </composite-id>
 	   
