@@ -61,6 +61,8 @@ public class RspBoNameConst
 	public static final String PAGE_BO = "pageBo";
 	
 	//assets enum
+	public static final String MANAGE_DEPT_LIST = "manageDeptList";
+
 	public static final String DEPT_INFO_LIST = "deptList";
 	public static final String TYPE_LIST = "typeList";
 	public static final String TECH_LIST = "techList";
@@ -68,6 +70,8 @@ public class RspBoNameConst
 	public static final String ASSETS_LIST = "assetsList";
 	public static final String ASSETS_STATUS_SEARCH_PAGE_BO = "assetsStatusSearchInitPageBo";
 
+	
+	public static final String TRANS_FILTER = "transFilter";
 	
 	public static final String USER_LIST = "userList";
 
@@ -79,8 +83,11 @@ public class RspBoNameConst
 
 	public static final String ASSETS_TYPE_LIST = "assetsTypeList";
 	
+	public static final String TRANS_NAME_LIST = "transNameList";
+	
 	
 	public static final String TRANS_INFO_LIST = "transInfoList";
+	public static final String TRANS_SUM_INFO = "transSumInfo";
 
 	public static final String HISTORY_LIST = "historyList";
 

@@ -16,5 +16,8 @@ public interface PurchasePlanDao
 	// public PurchasePlan find(String transid);
 	public List<PurchasePlan> getByTransID(String transid);
 	
+	public List<PurchasePlan> getByTransID(List<String> transIDList);
+
+	
 	public void deleteByTransID(String transID);
 }

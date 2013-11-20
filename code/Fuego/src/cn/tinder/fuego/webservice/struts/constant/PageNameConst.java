@@ -62,7 +62,11 @@ public class PageNameConst
 	// for index page
 	public static final String INDEX_INIT_ACTION = "IndexInit";
 	public static final String INDEX_PAGE = "Index";
-	// for System password reset
+	
+	public static final String GATHER_TRANS_INIT_PAGE = "GatherTransInit";
+	public static final String GATHER_TRANS_PAGE = "GatherTrans";
+
+ 	// for System password reset
 
 	public static final String USER_SYSTEM_PASSWORD_RESET_PAGE = "PurchasePlanEnsur";
 	public static final String SYSTEM_SUCCESS_PAGE = "Success";

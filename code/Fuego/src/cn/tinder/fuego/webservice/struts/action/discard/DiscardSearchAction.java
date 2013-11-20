@@ -35,7 +35,6 @@ import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
 public class DiscardSearchAction extends Action
 {
     private static final Log log = LogFactory.getLog(DiscardSearchAction.class);
-    private TransPlanService planService = ServiceContext.getInstance().getAssignPlanService(TransactionConst.ASSIGN_PLAN_TYPE);
     private AssetsManageService assetsService = ServiceContext.getInstance().getAssetsManageService();
 	
     @Override

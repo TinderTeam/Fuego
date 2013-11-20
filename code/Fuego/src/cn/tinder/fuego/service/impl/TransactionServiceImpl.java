@@ -29,7 +29,9 @@ import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.model.convert.ConvertTransactionModel;
+import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
+import cn.tinder.fuego.webservice.struts.form.TransFilterForm;
 
 /**
  * @ClassName: TransactionServiceImpl
@@ -338,6 +340,61 @@ public class TransactionServiceImpl implements TransactionService
 		transEvent.setStatus(TransactionConst.TRRANS_STATUS_REFUSE);
 		transEventDao.saveOrUpdate(transEvent);
 	}
-	 
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransactionService#getTransListByUser(java.lang.String, cn.tinder.fuego.webservice.struts.form.TransFilterForm)
+	 */
+	@Override
+	public List<TransactionBaseInfoBo> getTransListByUser(String userID, TransFilterForm filter)
+	{
+		TransEvent filter1 = new TransEvent();
+		TransEvent filter2 = new TransEvent();
+		filter1.setCreateUser(userID);
+		if(null  != filter)
+		{
+			filter1.setTransName(filter.getTransName());
+			filter1.setEndTime(DateService.stringToDate(filter.getFirstEndTime()));
+			filter2.setEndTime(DateService.stringToDate(filter.getLastEndTime()));
+		}
+		 
+		 
+		List<TransEvent> eventList = this.transEventDao.getTransByFilter(filter1, filter2);
+		
+		return ConvertTransactionModel.covertTransBaseList(eventList);
+ 	}
+	
+	
+	// get transName by transType
+	public  String getTransTypeByTransName(String name)
+	{
+		String type = "";
+		if (TransactionConst.ASSIGN_PLAN_NAME.equals(name))
+		{
+			type = TransactionConst.ASSIGN_PLAN_TYPE;
+		}
+		else if(TransactionConst.CHECK_PLAN_NAME.equals(name))
+		{
+			type = TransactionConst.CHECK_PLAN_TYPE;
+		}
+		else if(TransactionConst.DISCARD_PLAN_NAME.equals(name))
+		{
+			type = TransactionConst.DISCARD_PLAN_TYPE;
+		}
+		else if(TransactionConst.PURCHASE_PLAN_NAME.equals(name))
+		{
+			type = TransactionConst.PURCHASE_PLAN_TYPE;
+		}
+		else if(TransactionConst.RECAPTURE_PLAN_NAME.equals(name))
+		{
+			type = TransactionConst.RECAPTURE_PLAN_TYPE;
+		}
+		else if(TransactionConst.RECEIVE_PLAN_NAME.equals(name))
+		{
+			type = TransactionConst.RECEIVE_PLAN_TYPE;
+		}
+		
+		
+		return type;
+	}
 
 }

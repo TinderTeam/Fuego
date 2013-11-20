@@ -516,4 +516,24 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanCount(java.util.List)
+	 */
+	@Override
+	public int getPlanCount(List<String> transIDList)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanAssetsSumValue(java.util.List)
+	 */
+	@Override
+	public float getPlanAssetsSumValue(List<String> transIDList)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

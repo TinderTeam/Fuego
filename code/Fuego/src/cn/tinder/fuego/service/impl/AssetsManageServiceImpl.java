@@ -208,7 +208,26 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		techList.add(AssetsConst.ASSETS_STATUS_BAD);
 		techList.add(AssetsConst.ASSETS_STATUS_DISCARD);
 		
-		List<PhysicalAssetsStatus> assetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(dueDate, techList, assetsTypeList);
+		String duty = null;
+		String manageName = null;
+		if(form.getDuty().equals(AssetsConst.ASSETS_FITER_ALL))
+		{
+			duty = null;
+		}
+		else
+		{
+			duty = form.getDuty();
+		}
+		if(form.getManageName().equals(AssetsConst.ASSETS_FITER_ALL))
+		{
+			manageName = null;
+		}
+		else
+		{
+			manageName = form.getManageName();
+		}
+		
+		List<PhysicalAssetsStatus> assetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(dueDate, techList, assetsTypeList,duty,manageName);
  		
  		return convertAndSumAssets(assetsList);
 		 

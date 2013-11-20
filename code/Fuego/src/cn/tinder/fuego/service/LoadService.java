@@ -37,5 +37,7 @@ public interface LoadService
 	public List<String> loadGasNameList();
 	
 	public List<String> loadOperateType();
-
+	
+	public List<String> loadTransNameList();
+ 
 }

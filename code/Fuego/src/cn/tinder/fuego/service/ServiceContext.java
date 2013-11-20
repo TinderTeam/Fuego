@@ -161,7 +161,7 @@ public class ServiceContext
 		return transService;
 	}
 
-	public synchronized TransPlanService getAssignPlanService(String tranType)
+	public synchronized TransPlanService getAssignPlanService()
 	{
 		if(null == assignPlanService)
 		{
@@ -224,27 +224,27 @@ public class ServiceContext
 		
 		if(TransactionConst.ASSIGN_PLAN_TYPE.equals(tranType))
 		{
-			planService = this.getAssignPlanService(tranType);
+			planService = this.getAssignPlanService();
 		}
 		else if(TransactionConst.CHECK_PLAN_TYPE.equals(tranType))
 		{
-			planService = this.getAssignPlanService(tranType);
+			planService = this.getCheckPlanService();
 		}
 		else if(TransactionConst.DISCARD_PLAN_TYPE.equals(tranType))
 		{
-			planService = this.getAssignPlanService(tranType);
+			planService = this.getDiscardPlanService();
 		}
 		else if(TransactionConst.PURCHASE_PLAN_TYPE.equals(tranType))
 		{
-			planService = this.getAssignPlanService(tranType);
+			planService = this.getPurchasePlanService();
 		}
 		else if(TransactionConst.RECAPTURE_PLAN_TYPE.equals(tranType))
 		{
-			planService = this.getAssignPlanService(tranType);
+			planService = this.getReceivePlanService();
 		}
 		else if(TransactionConst.RECEIVE_PLAN_TYPE.equals(tranType))
 		{
-			planService = this.getAssignPlanService(tranType);
+			planService = this.getReceivePlanService();
 		}
 		
 		return planService;

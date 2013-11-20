@@ -52,9 +52,36 @@
 										</div>
 									
 									</div>
-									<div class="control-group">
-                                        <label class="control-label">采购部门</label>
-                                        <label class="control-label">${deptName}</label>
+ 
+                                    <div class="control-group">
+                                        <label class="control-label">部门</label>
+                                        <div class="controls">
+																							
+											<td style="text-align:center">	
+												<select name="duty"  style="width:200px">
+												
+												    <option selected=""  >全部</option>	
+													<c:forEach var="i" items= "${deptList}"> 																								  
+														<option id="${i}"/>${i}																							
+													</c:forEach>
+												</select>
+											</td>
+										</div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">经营管理部</label>
+                                        <div class="controls">
+																							
+											<td style="text-align:center">	
+												<select name="manageName"  style="width:200px">
+												
+												    <option selected=""  >全部</option>	
+													<c:forEach var="i" items= "${manageDeptList}"> 																								  
+														<option id="${i}"/>${i}																							
+													</c:forEach>
+												</select>
+											</td>
+										</div>
                                     </div>
 									<div class="control-group">
 										<label class="control-label">实物资产类型</label>

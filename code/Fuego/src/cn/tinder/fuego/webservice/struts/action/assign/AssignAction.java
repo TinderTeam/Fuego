@@ -40,7 +40,7 @@ public class AssignAction extends Action
 {
 	private static final Log log = LogFactory.getLog(AssignAction.class);
 
-	private TransPlanService planService = ServiceContext.getInstance().getAssignPlanService(TransactionConst.ASSIGN_PLAN_TYPE);
+	private TransPlanService planService = ServiceContext.getInstance().getAssignPlanService();
 
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
