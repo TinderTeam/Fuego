@@ -10,14 +10,5 @@
  
 <script src="js/unicorn.js"></script>
 <script src="js/unicorn.form_common.js"></script>
+<script src="cbb/js/pageControl.js"></script>
 
-
-	<script type="text/javascript">
-		function pageChange(eventID)
-		{
-		    alert(eventID);
-			document.getElementById(eventID).click();
-			
-		  
-		}
-	</script>

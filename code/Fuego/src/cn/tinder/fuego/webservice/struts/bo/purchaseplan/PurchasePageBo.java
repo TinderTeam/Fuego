@@ -7,13 +7,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
+import cn.tinder.fuego.webservice.struts.bo.page.PageModelBo;
 import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanCreateForm;
 
 public class PurchasePageBo {
 	 Log log = LogFactory.getLog(PurchasePageBo.class);
 	private List<PurchasePlanBo> assetsList = new ArrayList<PurchasePlanBo>();
 	
-
+	private PageModelBo<PurchasePlanBo> page = new PageModelBo<PurchasePlanBo>();
 	/*
 	 * 
 	 * 通过选择的序号筛选采购表条目
@@ -52,11 +53,7 @@ public class PurchasePageBo {
 		
 		
 	}
-
-	
-	
-	
-	
+ 
 	/*
 	 * 重构list 的index 序号 
 	 */
@@ -83,6 +80,16 @@ public class PurchasePageBo {
 
 
 
+
+	public PageModelBo<PurchasePlanBo> getPage()
+	{
+		return page;
+	}
+
+	public void setPage(PageModelBo<PurchasePlanBo> page)
+	{
+		this.page = page;
+	}
 
 	@Override
 	public String toString() {
@@ -118,13 +125,7 @@ public class PurchasePageBo {
 						)
 				);
 				assetsList.get(i).getAssetsBo().setNote(changeBo.getAssetsBo().getNote());
-				
-				
-				
-				
-				
-				
-				
+ 	
 			}
 
 			log.info("==FORM"+purchasePlanCreateForm.getAssetsCreateBo());

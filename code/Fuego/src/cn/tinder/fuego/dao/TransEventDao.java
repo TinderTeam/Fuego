@@ -19,7 +19,7 @@ public interface TransEventDao
 	
 	public List<TransEvent> getTransByFilter(TransEvent filter1,TransEvent filter2);
 
-	public List<TransEvent> getTransByHandlerUser(String userID);
+	public List<TransEvent> getTransByUser(String userID);
 	
 	public List<TransEvent> getTodoTransByHandlerUser(String userID);
 	

@@ -28,6 +28,8 @@ public class ParameterConst
 	public static final String NEXT_PARA_NAME = "next";       //下一步
 	public static final String DELETE_PARA_NAME = "delete";   //删除
 	public static final String SEARCH_PARA_NAME = "search";   //查询
+	public static final String VIEW_PARA_NAME = "view";   //查看模式
+
 	
  
 	public static final String SUBMIT_CHECK_STATUS = "submitCheckStatus";

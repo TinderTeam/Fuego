@@ -32,5 +32,7 @@ public interface ReceivePlanDao
 	public void deleteByTransID(String transID);
 
 	public List<ReceivePlan> getByTransID(String transid);
+	public List<ReceivePlan> getByTransID(List<String> transIDList);
+
 	
 }

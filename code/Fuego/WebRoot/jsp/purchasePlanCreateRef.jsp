@@ -39,7 +39,17 @@
 									<h5>采购计划参考表</h5>
 										
 								</div>
+								<div class="widget-content">
+								<div class="control-group">
+										                第<select name="pageNum" style = "width:70px" onchange="return pageChange('pageChange')" >
+												<option id="${purchasePlan.purchasePageBo.page.currentPage}">${purchasePlan.purchasePageBo.page.currentPage}</option>	
+												<c:forEach var="i" items= "${purchasePlan.purchasePageBo.page.pages}"> 																								  
+													<option id="${i}"/>${i}																							
+												</c:forEach>
+									 </select>页，共${purchasePlan.purchasePageBo.page.count}条记录							 
+									</div>
 							
+							    </div>	
 								<div class="widget-content nopadding" style="height:500px;overflow-y:auto;" >
 									<table class="table table-bordered " >
 										<thead>
@@ -58,7 +68,7 @@
 										</thead>
 										<tbody>
 										
-											<c:forEach var="item" items= "${refList}">  
+											<c:forEach var="item" items= "${purchasePlan.purchasePageBo.assetsList}">  
 											<tr>
 							
 												<td style="text-align:center">
@@ -86,7 +96,8 @@
 								</div>
 							
 							</div>
-							  
+							<button id ="pageChange"  type="submit" class="btn btn-success" style="display:none"  name="submit" value="pageChange">换页</button>
+							
 							<button type="submit" class="btn btn-success" name="submit" value="submit">选定资产</button>
 							<button type="submit" class="btn btn-primary" name="submit" value="back">返回</button>			
 						</form>

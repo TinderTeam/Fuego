@@ -101,7 +101,7 @@ public class ImportAssetsAction extends Action
 			
 			assetsPage.getPage().setAllPageData(assetsList);
  
-			assetsPage.setAssetsList(assetsPage.getPage().getAllPageData().subList(assetsPage.getPage().getStartNum(), assetsPage.getPage().getEndNum()));
+			assetsPage.setAssetsList(assetsPage.getPage().getCurrentPageData());
 			request.getSession().setAttribute(RspBoNameConst.ASSETS_PAGE_DATA,assetsPage);
   			
 			nextPage = PageNameConst.IMPORT_ASSETS_SUBMIT_INIT_ACTION;

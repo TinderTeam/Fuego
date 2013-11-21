@@ -233,6 +233,8 @@
                 type="cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchasePlanEnsureAction"              
                 name="PurchasePlanEnsureForm"
                 >
+            <forward name="IndexInit" path="/IndexInit.do"></forward>
+            
             <forward name="Success" path="/jsp/cbb/success.jsp"></forward>	
             <forward name="DownloadAction" path="/FileDownload.do"></forward> 
             <forward name="PurchasePlanEnsureInit" path="/PurchasePlanEnsureInit.do"></forward>
@@ -450,23 +452,8 @@
 			
        	</action>   
        	
-       	 <action path="/GasAssetsApplyInit"
-                type="cn.tinder.fuego.webservice.struts.action.apply.GasAssetsApplyInitAction"              
-               >          
-  			<forward name="GasAssetsApply" path="/jsp/gasAssetsApply.jsp"></forward>
-  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
-			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>				
-       	</action>
-       	
-       	 <action path="/GasAssetsApply"
-                type="cn.tinder.fuego.webservice.struts.action.apply.GasAssetsApplyAction"     
-                name="GasAssetsApplyForm"         
-               >          
-            <forward name="Success" path="/jsp/cbb/success.jsp"></forward>
-			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	       	</action>
-	
+ 
+ 
 	 	 <!-- only init -->
        	 
        	  <!-- AssetsRecapture -->

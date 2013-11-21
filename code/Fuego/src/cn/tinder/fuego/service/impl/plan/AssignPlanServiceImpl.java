@@ -22,6 +22,7 @@ import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.TransExtAttrDao;
 import cn.tinder.fuego.domain.po.AssignPlan;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
+import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.domain.po.TransExtAttr;
 import cn.tinder.fuego.service.AssetsManageService;
@@ -337,8 +338,12 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	@Override
 	public int getPlanCount(List<String> transIDList)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		List<AssignPlan> planList = assignPlanDao.getByTransID(transIDList);
+		if(null == planList)
+		{
+			return 0;
+		}
+		return planList.size();
 	}
 
 	/* (non-Javadoc)
@@ -347,8 +352,19 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	@Override
 	public float getPlanAssetsSumValue(List<String> transIDList)
 	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
+		float sumValue = 0;
 
+		List<AssignPlan> planList = assignPlanDao.getByTransID(transIDList);
+		List<String> assetsIDList = new ArrayList<String>();
+ 		for(AssignPlan plan : planList)
+		{
+			 assetsIDList.add(plan.getAssetsID());
+		}
+		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
+		for(PhysicalAssetsStatus assets : assetsStatusList)
+		{
+			sumValue += assets.getOriginalValue()* assets.getQuantity();
+		}
+		return sumValue;
+	}
 }
