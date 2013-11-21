@@ -1,5 +1,7 @@
 package cn.tinder.fuego.dao.impl;
 
+import java.util.List;
+
 import cn.tinder.fuego.dao.AssetsPriceDao;
 import cn.tinder.fuego.dao.hibernate.util.HibernateUtil;
 import cn.tinder.fuego.domain.po.AssetsPrice;
