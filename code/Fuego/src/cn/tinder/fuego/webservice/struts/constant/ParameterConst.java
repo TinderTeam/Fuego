@@ -45,4 +45,5 @@ public class ParameterConst
 	public static final String SHOW_MODIFY_BTN = "showModifyBtn";
 	public static final Object ADD_NEW_PARA_NAME = "addNew";
 	public static final String PAGE_PARA = "pageValue";
+	public static final String PRICE_UPLOAD_PARA_NAME = "price_upload";
 }
