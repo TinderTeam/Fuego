@@ -78,6 +78,7 @@
 											<th style="width: 130px">资产名称关键字</th>																					
 											<th style="width: 160px">责任部门</th>											
 											<th style="width: 160px">资产分类</th>
+											<th style="width: 160px">经营管理部</th>	
 											<th style="width: 150px">存放地点</th>
 											<th style="width: 70px">技术状态</th>										
 										</tr>
@@ -90,10 +91,16 @@
 											
 											<td style="text-align:center">	
 												<select name="duty" style="width: 200px"  >
-													<option selected=""  >${searchForm.assetsName}</option>	
-													<option selected=""  >全部</option>	
 													<c:forEach var="i" items= "${deptList}"> 																								  
-														<option id="${i.name}"/>${i.name}																							
+												      <c:choose>
+														  <c:when test="${searchForm.duty == i}">
+													           <option selected=""  >${searchForm.duty}</option>	
+														  </c:when>
+														  <c:otherwise>  
+														       <option id="${i}"/>${i}		
+													
+														  </c:otherwise>
+													  </c:choose>																		
 													</c:forEach>
 												</select>
 											</td>
@@ -106,6 +113,8 @@
 													</c:forEach>
 												</select>
 											</td>
+								 			<td style="text-align:center"><input type="text" name="manageName" value="${searchForm.manageName}"></input></td>
+											
 											<td style="text-align:center"><input type="text" name="location"/></td>
 											<td style="text-align:center">	
 												<select name="techState">

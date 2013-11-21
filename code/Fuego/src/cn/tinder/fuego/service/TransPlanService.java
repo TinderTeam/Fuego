@@ -41,5 +41,8 @@ public interface TransPlanService<E>
 	public void validate(E plan);
 	
 	public File getExportFile(E plan);
+	
+	public int getPlanCount(List<String> transIDList);
+	public float getPlanAssetsSumValue(List<String> transIDList);
 
 }

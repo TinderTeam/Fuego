@@ -47,10 +47,7 @@ public class SelectAssetsAction extends Action
 		log.info(LogKeyConst.INPUT_ACTION);
 		String pageName = PageNameConst.ASSIGN_PAGE;
 
-		// get department information list
-		List<DeptInfoBo> deptInfoList = loadService.loadAllDeptInfo();
-
-	 
+ 
 
 		log.info(LogKeyConst.NEXT_PAGE + pageName);
 		return mapping.findForward(pageName);

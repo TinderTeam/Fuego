@@ -239,8 +239,11 @@ s	 *
 	@Override
 	public void backward(String transID)
 	{
-		// TODO Auto-generated method stub
-		
+		/**
+		 * Issue #36
+		 * need backward
+		 */
+		super.backward(transID);
 	}
 	
 	
@@ -389,6 +392,26 @@ s	 *
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanCount(java.util.List)
+	 */
+	@Override
+	public int getPlanCount(List<String> transIDList)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanAssetsSumValue(java.util.List)
+	 */
+	@Override
+	public float getPlanAssetsSumValue(List<String> transIDList)
+	{
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

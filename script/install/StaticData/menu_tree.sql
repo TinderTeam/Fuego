@@ -2,6 +2,9 @@ USE `feugodb`;
 
 
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (1,'assertsManage','首页','','icon icon-home','IndexInit.do',0);
+INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (2,'assertsManage','事务管理','submenu','icon icon-shopping-cart',NULL,0);
+INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (21,'assertsManage','事务查看','','icon icon-file','IndexInit.do',2);
+INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (22,'assertsManage','事务统计','','icon icon-file','GatherTransInit.do',2);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (10000,'assertsManage','实物资产管理','submenu','icon icon-briefcase',NULL,0);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (11000,'assertsManage','实物资产采购','','icon icon-shopping-cart','PurchasePlanInit.do',10000);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (12000,'assertsManage','实物资产验收','','icon icon-hdd','ImportAssetsInit.do',10000);

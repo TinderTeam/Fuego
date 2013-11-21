@@ -12,7 +12,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -30,7 +35,6 @@ import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.domain.po.CheckPlan;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
-import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.AssetsManageService;
@@ -42,16 +46,12 @@ import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
-import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
+
 import cn.tinder.fuego.service.util.ExcelIOService;
-import cn.tinder.fuego.util.date.DateService;
-import cn.tinder.fuego.util.engine.computer.ComputeService;
+
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanBo;
-import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckTransBo;
-import cn.tinder.fuego.webservice.struts.bo.receive.ReceivePlanBo;
-import cn.tinder.fuego.webservice.struts.bo.receive.ReceiveTransBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
 
@@ -76,7 +76,9 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 
 	private AssetsManageService assetsManageService = ServiceContext.getInstance().getAssetsManageService();
 
-	/* (non-Javadoc)
+	private ExcelIOService excelIOimpl= new ExcelIOServiceImpl();
+	
+ 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.TransPlanService#createPlan(java.lang.String)
 	 */
 	@Override
@@ -498,7 +500,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	@Override
 	public void backward(String transID)
 	{
-		// TODO Auto-generated method stub
+		super.backward(transID);
 		
 	}
 
@@ -520,6 +522,26 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanCount(java.util.List)
+	 */
+	@Override
+	public int getPlanCount(List<String> transIDList)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanAssetsSumValue(java.util.List)
+	 */
+	@Override
+	public float getPlanAssetsSumValue(List<String> transIDList)
+	{
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

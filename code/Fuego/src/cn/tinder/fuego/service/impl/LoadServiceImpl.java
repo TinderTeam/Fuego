@@ -19,6 +19,7 @@ import cn.tinder.fuego.domain.po.MenuTree;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.constant.AssetsConst;
+import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
@@ -110,18 +111,16 @@ public class LoadServiceImpl implements LoadService
 	 * @see cn.tinder.fuego.service.LoadService#loadAllDeptInfo()
 	 */
 	@Override
-	public List<DeptInfoBo> loadAllDeptInfo()
+	public List<String> loadAllDeptInfo()
 	{
-		Set<DeptInfoBo> deptList = new HashSet<DeptInfoBo>();
+		Set<String> deptList = new HashSet<String>();
 		List<SystemUser> allUserList = systemUserDao.getAllSystemUser();
 		for (SystemUser user : allUserList)
 		{
-			DeptInfoBo dept = new DeptInfoBo();
-			dept.setName(user.getDepartment());
-			deptList.add(dept);
+ 			deptList.add(user.getDepartment());
 		}
 
-		return new ArrayList<DeptInfoBo>(deptList);
+		return new ArrayList<String>(deptList);
 	}
 	/*
 	 * (non-Javadoc)
@@ -198,6 +197,25 @@ public class LoadServiceImpl implements LoadService
 	
 		
 		return techList;
+	}
+	
+	@Override
+	public List<String> loadTransNameList()
+	{
+		List<String> transNameList = new ArrayList<String>();
+		
+		transNameList.add(TransactionConst.PURCHASE_PLAN_NAME);
+		transNameList.add(TransactionConst.DISCARD_PLAN_NAME);
+
+//		transNameList.add(TransactionConst.ASSIGN_PLAN_NAME);
+//
+//		transNameList.add(TransactionConst.CHECK_PLAN_NAME);
+//		transNameList.add(TransactionConst.RECAPTURE_PLAN_NAME);
+//		transNameList.add(TransactionConst.RECEIVE_PLAN_NAME);
+
+	
+		
+		return transNameList;
 	}
 
 	

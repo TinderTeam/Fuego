@@ -77,7 +77,7 @@ public class AssetsModifyAction extends Action
 		AssetsModifyForm assetsForm = (AssetsModifyForm)form;
 		if(ParameterConst.SUBMIT_PARA_NAME.equals(submitPara))
 		{
-	    	assetsManageService.updateAssetsStatus(assetsForm.getAssetsInfo());
+	    	assetsManageService.updateAssets(assetsForm.getAssetsInfo());
 		}
 		else if(ParameterConst.DELETE_PARA_NAME.equals(submitPara))
 		{

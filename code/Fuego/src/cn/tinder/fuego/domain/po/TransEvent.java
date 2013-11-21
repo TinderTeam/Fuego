@@ -1,6 +1,8 @@
 package cn.tinder.fuego.domain.po;
 
-import java.sql.Date;
+import java.util.Date;
+
+
 
 public class TransEvent
 {
@@ -11,6 +13,7 @@ public class TransEvent
 	private Date endTime;
 	private String handleUser;
 	private int currentStep;
+	private String status;
 	private String type;
 	private String parentTransID;
 
@@ -168,6 +171,17 @@ public class TransEvent
 	public void setParentTransID(String parentTransID)
 	{
 		this.parentTransID = parentTransID;
+	}
+
+	
+	public String getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(String status)
+	{
+		this.status = status;
 	}
 
 	@Override

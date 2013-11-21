@@ -92,6 +92,7 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 			purchasePlan.setTransID(transID);
 			purchasePlan.setAssetsName(assets.getAssetsBo().getAssetsName());
 			purchasePlan.setManufacture(assets.getAssetsBo().getManufacture());
+			purchasePlan.setDuty(assets.getAssetsBo().getDuty());
 			purchasePlan.setSpec(assets.getAssetsBo().getSpec());
 			purchasePlan.setQuantity(assets.getAssetsBo().getQuantity());
 			purchasePlan.setPrice(Float.valueOf(assets.getPrice()));
@@ -215,8 +216,40 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 	@Override
 	public E createPlan(String user, List<String> childUserList)
 	{
-		// TODO Auto-generated method stub
+
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanCount(java.util.List)
+	 */
+	@Override
+	public int getPlanCount(List<String> transIDList)
+	{
+		int cnt = 0;
+
+		List<PurchasePlan> purchasePlanList = purchasePlanDao.getByTransID(transIDList);
+		for(PurchasePlan plan : purchasePlanList)
+		{
+			cnt +=  plan.getQuantity();
+		}
+		return cnt;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanAssetsSumValue(java.util.List)
+	 */
+	@Override
+	public float getPlanAssetsSumValue(List<String> transIDList)
+	{
+		float sumValue = 0;
+		List<PurchasePlan> purchasePlanList = purchasePlanDao.getByTransID(transIDList);
+		for(PurchasePlan plan : purchasePlanList)
+		{
+			sumValue += plan.getPrice()*plan.getQuantity();
+		}
+ 
+		return sumValue;
 	}
 
 }

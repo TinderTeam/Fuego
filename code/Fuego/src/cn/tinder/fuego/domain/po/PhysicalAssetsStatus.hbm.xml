@@ -21,6 +21,7 @@
 			<property name="expectYear" column="EXPECT_YEAR" not-null="false"></property>
 			<property name="dueDate" column="DUE_DATE" not-null="false"></property>
 			<property name="dept" column="DEPT" not-null="false"></property>
+			<property name="manageName" column="MANAGE_NAME" not-null="false"></property>
 			<property name="duty" column="DUTY" not-null="false"></property>
 			<property name="assetsType" column="ASSETS_TYPE" not-null="false"></property>
 			<property name="location" column="LOCATION" not-null="false"></property>

@@ -12,22 +12,17 @@ public class ConvertTransactionModel
 	
 	public static TransactionBaseInfoBo covertTransBase(TransEvent transEvent)
 	{
-		int currentStep;
-		TransactionBaseInfoBo transactionBaseInfoBo = new TransactionBaseInfoBo();
+ 		TransactionBaseInfoBo transactionBaseInfoBo = new TransactionBaseInfoBo();
 		transactionBaseInfoBo.setTransID(transEvent.getTransID());
 		transactionBaseInfoBo.setTransName(transEvent.getTransName());
 		transactionBaseInfoBo.setCreateTime(transEvent.getCreateTime());
 		transactionBaseInfoBo.setCreateUser(transEvent.getCreateUser());
 		transactionBaseInfoBo.setEndTime(transEvent.getEndTime());
 		transactionBaseInfoBo.setHandleUser(transEvent.getHandleUser());
-		currentStep = transEvent.getCurrentStep();
-		if (TransactionConst.END_STEP_FLAG == currentStep)
-		{
-			transactionBaseInfoBo.setState(TransactionConst.TRANS_STATUS_DONE);
-		} else
-		{
-			transactionBaseInfoBo.setState(TransactionConst.TRRANS_STATUS_DOING);
-		}
+		transactionBaseInfoBo.setState(transEvent.getStatus());
+		 
+		transactionBaseInfoBo.setUrl(getUrlByTransType(transEvent.getType(),transEvent.getTransID(),transEvent.getCurrentStep()));
+		
 
 		return transactionBaseInfoBo;
 	}
@@ -37,24 +32,10 @@ public class ConvertTransactionModel
 		List<TransactionBaseInfoBo> baseInfoList = new ArrayList<TransactionBaseInfoBo>();
 		for(TransEvent transEvent : transEventList )
 		{	
-			int currentStep;
 			TransactionBaseInfoBo baseInfo = new TransactionBaseInfoBo();
-			baseInfo.setTransID(transEvent.getTransID());
-			baseInfo.setTransName(transEvent.getTransName());
-			baseInfo.setCreateTime(transEvent.getCreateTime());
-			baseInfo.setCreateUser(transEvent.getCreateUser());
-			baseInfo.setEndTime(transEvent.getEndTime());
-			baseInfo.setHandleUser(transEvent.getHandleUser());
-			currentStep = transEvent.getCurrentStep();
-			if (TransactionConst.END_STEP_FLAG == currentStep)
-			{
-				baseInfo.setState(TransactionConst.TRANS_STATUS_DONE);
-			} else
-			{
-				baseInfo.setState(TransactionConst.TRRANS_STATUS_DOING);
-			}
-			baseInfo.setUrl(getUrlByTransType(transEvent.getType(),transEvent.getTransID(),transEvent.getCurrentStep()));
-			
+
+			baseInfo = covertTransBase(transEvent);
+		 
 			baseInfoList.add(baseInfo);
 		}
 
@@ -94,6 +75,8 @@ public class ConvertTransactionModel
 		
 		return transName;
 	}
+	
+	
 	
 	public static  String getUrlByTransType(String transType,String transID,int step)
 	{

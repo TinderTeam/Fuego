@@ -22,7 +22,7 @@ public interface LoadService
 	 */
 	public List<MenuTreeBo> loadMenuTreeByUserID(String userID);
 
-	public List<DeptInfoBo> loadAllDeptInfo();
+	public List<String> loadAllDeptInfo();
 	
 	public List<DeptInfoBo> getAssignListByUser(String userName);
 	
@@ -37,5 +37,7 @@ public interface LoadService
 	public List<String> loadGasNameList();
 	
 	public List<String> loadOperateType();
-
+	
+	public List<String> loadTransNameList();
+ 
 }

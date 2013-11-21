@@ -16,6 +16,8 @@ public class AssetsFilterForm extends ActionForm
 	
 	private String assetsName;       //approximately match
 	private String duty;             //approximately match
+	
+	private String manageName;       //approximately match
 	private String location;         //approximately match
 	
 	private String startPurchaseDate;  // Start time of purchase date
@@ -176,13 +178,30 @@ public class AssetsFilterForm extends ActionForm
 
 
 
+	public String getManageName()
+	{
+		return manageName;
+	}
+
+
+
+	public void setManageName(String manageName)
+	{
+		this.manageName = manageName;
+	}
+
+
+
 	@Override
 	public String toString()
 	{
 		return "AssetsFilterForm [assetsIDList=" + Arrays.toString(assetsIDList) + ", assetsID=" + assetsID + ", assetsType=" + assetsType + ", techState=" + techState + ", assetsName=" + assetsName
-				+ ", duty=" + duty + ", location=" + location + ", startPurchaseDate=" + startPurchaseDate + ", startDueDate=" + startDueDate + ", endPurchaseDate=" + endPurchaseDate
-				+ ", endDueDate=" + endDueDate + ", pageNum=" + pageNum + "]";
+				+ ", duty=" + duty + ", manageName=" + manageName + ", location=" + location + ", startPurchaseDate=" + startPurchaseDate + ", startDueDate=" + startDueDate + ", endPurchaseDate="
+				+ endPurchaseDate + ", endDueDate=" + endDueDate + ", pageNum=" + pageNum + "]";
 	}
+
+
+ 
 
 	
 

@@ -22,6 +22,10 @@
 			<c:if test="${true == assetsPage.showCheckBox}"> 
 			  <th>选择</th>
 			</c:if>
+				<c:if test="${true == assetsPage.showCheckState}"> 
+			  <th>盘点状态</th>
+			  <th>实际数量</th>
+			</c:if>
 			<th>资产编号</th>
 			<th>资产名称</th>											
 			<th>生产厂家</th>
@@ -35,6 +39,7 @@
 			<th>到期日</th>
 			<th>责任部门</th>
 			<th>责任人</th>
+			<th>经营管理部</th>
 			<th>资产分类</th>
 			<th>资产性质</th>
 			<th>存放地点</th>
@@ -42,10 +47,7 @@
 			<th>最后盘点日期</th>
 
 			
-			<c:if test="${true == assetsPage.showCheckState}"> 
-			  <th>盘点状态</th>
-			  <th>实际数量</th>
-			</c:if>
+		
 			<c:if test="${true == assetsPage.showReceiveState}"> 
 			  <th>验收状态</th>
 			</c:if>
@@ -63,6 +65,29 @@
 	       	<c:if test="${true == assetsPage.showCheckBox}"> 
 	          <td><input type="checkbox"  name="assetsIDList" value="${assetsInfo.assets.assetsID}" style="width:40px"></td>
 	        </c:if>  
+				<c:if test="${true == assetsPage.showCheckState}"> 
+			  <td style="text-align:center"> 
+			  	<select name="assetsList[${iterStatus.index}].extAttr.checkState" style="width: 100px"  >
+							 <option>${assetsInfo.extAttr.checkState}</option>
+							  <c:if test="${'盘点无误' != assetsInfo.extAttr.checkState}">
+							 	<option>盘点无误</option>	
+							 </c:if>
+							 <c:if test="${'未盘点' != assetsInfo.extAttr.checkState}"> 
+							    <option>未盘点</option>
+							 </c:if>
+						
+							 <c:if test="${'盘盈' != assetsInfo.extAttr.checkState}">
+							 	<option>盘盈</option>	
+							 </c:if>
+							 <c:if test="${'盘亏' != assetsInfo.extAttr.checkState}">
+							 	<option>盘亏</option>	
+							 </c:if>
+				</select>
+			    <td style="text-align:center">
+			      <input style="width:80px" type="text" value="${assetsInfo.extAttr.checkCnt}" name="assetsList[${iterStatus.index}].extAttr.checkCnt" />
+			    </td>	
+	 
+			</c:if>
             <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsID}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.assetsID" value="${assetsInfo.assets.assetsID}"></input></td>	        
 	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.assetsName}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.assetsName" value="${assetsInfo.assets.assetsName}"></td>
 	        <td style="text-align:center"><label style="width:150px">${assetsInfo.assets.manufacture}</label><input style="width:120px; display:none"  name="assetsList[${iterStatus.index}].assets.manufacture" value="${assetsInfo.assets.manufacture}"></td>
@@ -76,6 +101,7 @@
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.dueDate}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.dept}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.duty}</label></td>
+	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.manageName}</label></td>	        
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.assetsType}</label></td>
 			 <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.attrType}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.location}</label></td>
@@ -85,28 +111,7 @@
 			  <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.note}</label></td>
 			</c:if>
 
-			<c:if test="${true == assetsPage.showCheckState}"> 
-			  <td style="text-align:center"> 
-			  	<select name="assetsList[${iterStatus.index}].extAttr.checkState" style="width: 100px"  >
-							 <option>${assetsInfo.extAttr.checkState}</option>
-							 <c:if test="${'未盘点' != assetsInfo.extAttr.checkState}"> 
-							    <option>未盘点</option>
-							 </c:if>
-							 <c:if test="${'盘点无误' != assetsInfo.extAttr.checkState}">
-							 	<option>盘点无误</option>	
-							 </c:if>
-							 <c:if test="${'盘盈' != assetsInfo.extAttr.checkState}">
-							 	<option>盘盈</option>	
-							 </c:if>
-							 <c:if test="${'盘亏' != assetsInfo.extAttr.checkState}">
-							 	<option>盘亏</option>	
-							 </c:if>
-				</select>
-			    <td style="text-align:center">
-			      <input style="width:80px" type="text" value="${assetsInfo.extAttr.checkCnt}" name="assetsList[${iterStatus.index}].extAttr.checkCnt" />
-			    </td>	
-	 
-			</c:if>
+		
 			<c:if test="${true == assetsPage.showReceiveState}"> 
 			  <td style="text-align:center">
 			   <select name="assetsList[${iterStatus.index}].extAttr.receiveState" style="width: 100px"  >

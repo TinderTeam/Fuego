@@ -91,15 +91,23 @@ public class ImportAssetsSubmitAction extends Action
 			plan.getPlanInfo().setAssetsPage(assetsPage);
 			try{
 				planService.updatePlan(plan);
-			}catch(ConstraintViolationException ex){
-				if(ex.getCause().getClass().equals(BatchUpdateException.class)){
+			}
+			catch(ConstraintViolationException ex)
+			{
+				//delete the transaction when import assets list failed.
+				//Issue 37
+				planService.deletePlan(plan.getTransInfo().getTransInfo().getTransID());
+				if(ex.getCause().getClass().equals(BatchUpdateException.class))
+				{
 					log.error("导入数据主键重复："+ex.getCause().getMessage());
 					String errid = ex.getCause().getMessage().split(" ")[2];
 					String errMsg= ExceptionMsg.ASSETS_NAME_ISEXIST+errid;
 					
 					request.setAttribute(RspBoNameConst.OPERATE_EXCEPION,errMsg);
 					nextPage = PageNameConst.ERROR_PAGE; 
-				}else{
+				}
+				else
+				{
 					throw ex;
 				}
 				

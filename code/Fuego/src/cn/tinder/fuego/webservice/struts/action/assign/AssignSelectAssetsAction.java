@@ -44,7 +44,7 @@ import cn.tinder.fuego.webservice.struts.form.SelectAssetsForm;
 public class AssignSelectAssetsAction extends Action
 {
 	private static final Log log = LogFactory.getLog(AssignCreateInitAction.class);
-	private TransPlanService planService = ServiceContext.getInstance().getAssignPlanService(TransactionConst.ASSIGN_PLAN_TYPE);
+	private TransPlanService planService = ServiceContext.getInstance().getAssignPlanService();
 
 	private AssetsManageService assetsService = ServiceContext.getInstance().getAssetsManageService();
 

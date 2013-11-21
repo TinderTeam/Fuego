@@ -135,6 +135,36 @@ public class DiscardPlanDaoImpl implements DiscardPlanDao
 
 		return discardList;
 	}
+	@Override
+	public List<DiscardPlan> getByTransID(List<String> transIDList)
+	{
+		// TODO Auto-generated method stub
+		log.debug("[DAO] get the TransID by ID:" + transIDList);
+		List<DiscardPlan> discardList;
+		Session s = null;
+		try
+		{
+			s = HibernateUtil.getSession();
+
+			Criteria c = s.createCriteria(DiscardPlan.class);
+			c.add(Restrictions.in("transID", transIDList));
+
+			discardList = c.list();
+
+		} catch (RuntimeException e)
+		{
+			log.error("get discardplan id by transid failed." + transIDList, e);
+			throw e;
+		} finally
+		{
+			if (s != null)
+			{
+				s.close();
+			}
+		}
+
+		return discardList;
+	}
 
 	/*
 	 * (non-Javadoc)

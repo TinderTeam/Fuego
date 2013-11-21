@@ -81,6 +81,9 @@
                    type="cn.tinder.fuego.webservice.struts.form.ImportAssetsForm">
         </form-bean>         
         
+        <form-bean name="TransFilterForm"
+                   type="cn.tinder.fuego.webservice.struts.form.TransFilterForm">
+        </form-bean>      
          
       
         
@@ -847,8 +850,26 @@
 	
 	     </action>	  
  
-       	
-       	       	  	       	
+       	<action path="/GatherTransInit"
+                type="cn.tinder.fuego.webservice.struts.action.trans.GatherTransInitAction"
+                     
+               >          
+  			<forward name="GatherTransInit" path="/jsp/trans/gatherTransInit.jsp"></forward>
+  			<forward name="Index" path="/jsp/index.jsp"></forward>
+  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>					
+       	</action>   
+       	<action path="/GatherTrans"
+                type="cn.tinder.fuego.webservice.struts.action.trans.GatherTransAction"
+                name="TransFilterForm"     
+               >          
+  			<forward name="GatherTrans" path="/jsp/trans/gatherTrans.jsp"></forward>
+  			<forward name="Index" path="/jsp/index.jsp"></forward>
+  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>					
+       	</action>          	  	       	
        	  	       	
        </action-mappings>   	
       
