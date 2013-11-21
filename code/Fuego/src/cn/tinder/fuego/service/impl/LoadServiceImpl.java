@@ -207,11 +207,11 @@ public class LoadServiceImpl implements LoadService
 		transNameList.add(TransactionConst.PURCHASE_PLAN_NAME);
 		transNameList.add(TransactionConst.DISCARD_PLAN_NAME);
 
-//		transNameList.add(TransactionConst.ASSIGN_PLAN_NAME);
+ 		transNameList.add(TransactionConst.ASSIGN_PLAN_NAME);
 //
 //		transNameList.add(TransactionConst.CHECK_PLAN_NAME);
-//		transNameList.add(TransactionConst.RECAPTURE_PLAN_NAME);
-//		transNameList.add(TransactionConst.RECEIVE_PLAN_NAME);
+ 		transNameList.add(TransactionConst.RECAPTURE_PLAN_NAME);
+ 		transNameList.add(TransactionConst.RECEIVE_PLAN_NAME);
 
 	
 		
