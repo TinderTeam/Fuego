@@ -111,4 +111,97 @@ public class AssetsPriceDaoImpl implements AssetsPriceDao
 		}
 	}
 
+	@Override
+	public AssetsPrice getByAssetsPrice(AssetsPrice assetsPrice) {
+		// TODO Auto-generated method stub
+		log.debug("[DAO] get the AssetsPrice by assetsPrice:" + assetsPrice);
+		Session s = null;
+		AssetsPrice price = null;
+		try
+		{
+			s = HibernateUtil.getSession();
+			Criteria c = s.createCriteria(AssetsPrice.class);
+			c.add(Restrictions.eq("spec", assetsPrice.getSpec()));//
+			c.add(Restrictions.eq("assetsName", assetsPrice.getAssetsName()));//
+			c.add(Restrictions.eq("manufacture", assetsPrice.getManufacture()));//
+			price = (AssetsPrice) c.uniqueResult();
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			// HibernateUtil.closeSession();
+			if (s != null)
+			{
+				s.close();
+			}
+		}
+		if (price != null)
+		{
+			log.debug("[DAO] Success!  get the AssetsPrice:" + price.toString());
+		}
+		return price;
+	}
+
+	@Override
+	public List<AssetsPrice> getAll() {
+		List<AssetsPrice> price;
+		Session s = null;
+		try
+		{
+			s = HibernateUtil.getSession();
+
+			Criteria c = s.createCriteria(AssetsPrice.class);			
+			price = c.list();
+
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			if (s != null)
+			{
+				s.close();
+			}
+		}
+
+		return price;
+	}
+
+	@Override
+	public void createByList(List<AssetsPrice> list) {
+		// TODO Auto-generated method stub
+		log.debug("[DAO] Create a AssetsPrice:" + list.toString());
+		Session s = null;
+		Transaction tx = null;
+		try
+		{
+			
+				
+				try
+				{
+					s = HibernateUtil.getSession();
+					tx = s.beginTransaction();
+					for(AssetsPrice p:list){
+						s.save(list);
+					
+						tx.commit();
+					}
+				} finally
+				{
+					if (s != null)
+						s.close();
+				}
+		
+			
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			HibernateUtil.closeSession();
+		}
+	
+	}
+
 }

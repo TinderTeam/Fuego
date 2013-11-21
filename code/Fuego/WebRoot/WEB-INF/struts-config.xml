@@ -79,6 +79,10 @@
          
         <form-bean name="ImportAssetsForm"
                    type="cn.tinder.fuego.webservice.struts.form.ImportAssetsForm">
+        </form-bean>        
+        
+        <form-bean name="ImportPriceForm"
+                   type="cn.tinder.fuego.webservice.struts.form.ImportPriceForm">
         </form-bean>         
         
         <form-bean name="TransFilterForm"
@@ -452,8 +456,23 @@
 			
        	</action>   
        	
- 
- 
+       	 <action path="/GasAssetsApplyInit"
+                type="cn.tinder.fuego.webservice.struts.action.apply.GasAssetsApplyInitAction"              
+               >          
+  			<forward name="GasAssetsApply" path="/jsp/gasAssetsApply.jsp"></forward>
+  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>				
+       	</action>
+       	
+       	 <action path="/GasAssetsApply"
+                type="cn.tinder.fuego.webservice.struts.action.apply.GasAssetsApplyAction"     
+                name="GasAssetsApplyForm"         
+               >          
+            <forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	       	</action>
+	
 	 	 <!-- only init -->
        	 
        	  <!-- AssetsRecapture -->
@@ -816,7 +835,30 @@
   			<forward name="Index" path="/jsp/index.jsp"></forward>				
        	</action>             	     	  	       	
         	     	  	             	  	       	
-       	  	  
+       	  
+       	   <!--PriceDataInitAction-->  <!--Nanbowen--> 
+       	  <action path="/PriceDataInit"
+                type="cn.tinder.fuego.webservice.struts.action.pricedata.PriceDataInitAction"              
+               >          
+  			<forward name="PriceData" path="/jsp/assets/priceData.jsp"></forward>
+  			<forward name="Index" path="/jsp/index.jsp"></forward>				
+       	  </action>
+       	  
+       	       	       	   
+        <action path="/PriceData"
+                type="cn.tinder.fuego.webservice.struts.action.pricedata.ImportPriceDataAction"              
+               name="ImportPriceForm">          
+  			<forward name="DownloadAction" path="/FileDownload.do"></forward>		
+  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>				
+       	</action>     
+       	  
+       	  
+       
+       	  
+       	   <!-- END PriceDataInitAction-->  <!--Nanbowen--> 
+       	         	  
           <action   path="/UpLoad"
 	    		  type="cn.tinder.fuego.webservice.struts.action.upLoad.UpLoadAction" 
 	    		  name="UpLoadForm"
