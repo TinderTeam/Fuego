@@ -7,9 +7,15 @@
 <hibernate-mapping
 	package="cn.tinder.fuego.domain.po">
 	<class name="AssetsPrice" table="assets_price">
-	    <id name="spec" column="SPEC"  type="java.lang.String" >
-			<generator class="assigned"/>
-		</id>
+	
+		  <composite-id>
+	       
+           <key-property name="assetsName" column="ASSETS_NAME" ></key-property>
+           <key-property name="manufacture" column="MANUFACTURE"  ></key-property>
+           <key-property name="spec" column="SPEC"  type="java.lang.String" ></key-property>
+
+	    </composite-id>
+	    
 			<property name="price" column="PRICE" not-null="false"></property>
 					
 	</class>

@@ -35,7 +35,6 @@ public class ImportAssetsExcelFile {
 	
 	public static List<AssetsInfoBo> load(File uploadFile) {
 		
-		long start= System.currentTimeMillis();
 	
 		// TODO Auto-generated method stub
 		log.info(uploadFile.getAbsolutePath());
@@ -149,8 +148,7 @@ public class ImportAssetsExcelFile {
 			    	   setupID(assetsList,IDMap);
 			    	   
  			        
- 			        long end= System.currentTimeMillis();
-			        log.info("共导入"+assetsList.size()+"条数据,Runtime=" +(end-start)+"ms" );
+
 			        
 			        
 			} catch (BiffException e) {

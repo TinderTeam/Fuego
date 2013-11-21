@@ -8,6 +8,8 @@
 */ 
 package cn.tinder.fuego.service;
 
+import java.io.File;
+
 import cn.tinder.fuego.domain.po.SystemUser;
 
 /** 
@@ -28,5 +30,9 @@ public interface SystemMaintanceService
     public SystemUser deleteUserInfo(String userName);
     
     public SystemUser saveUserInfo(String userName,String deptName);
+
+	public void importPriceAssest(File uploadFile);
+
+	public File getPriceFile();
 
 }

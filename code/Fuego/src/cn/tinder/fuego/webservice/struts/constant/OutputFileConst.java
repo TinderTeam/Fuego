@@ -29,6 +29,9 @@ public class OutputFileConst {
 	public static final String GOOGLE_BROWSE_PATH = getToolPath() + File.separator + ConfigInformation.getPropertyByName(ConfigItemNameConst.GOOGLE_BROWSE);
 	public static final String CHECK_FILE_PATH = getResourcePath()+"CheckFile.xls";
 	public static final String CHECK_FILE_MODEL_PATH = getResourcePath()+"Model\\GasStationCheckModel.xls";
+	public static final String PRICEFILE_MODEL =getResourcePath()+"Model\\PriceModel.xls";
+	public static final String PRICEFILE = getResourcePath()+"\\PriceFile.xls";;
+
 
 
 	/**
