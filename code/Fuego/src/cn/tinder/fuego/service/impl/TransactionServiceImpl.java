@@ -322,7 +322,7 @@ public class TransactionServiceImpl implements TransactionService
 	@Override
 	public List<TransactionBaseInfoBo> getTransListByUser(String userID)
 	{
-		List<TransEvent> eventList = this.transEventDao.getTransByHandlerUser(userID);
+		List<TransEvent> eventList = this.transEventDao.getTransByUser(userID);
 		
 		return ConvertTransactionModel.covertTransBaseList(eventList);
 	}

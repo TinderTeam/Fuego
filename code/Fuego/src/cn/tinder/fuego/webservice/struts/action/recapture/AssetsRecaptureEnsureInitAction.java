@@ -32,6 +32,7 @@ import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.assign.AssignPageBo;
 import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
+import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
@@ -97,32 +98,44 @@ public class AssetsRecaptureEnsureInitAction extends Action
 		}
 		request.getSession().setAttribute(RspBoNameConst.RECAPTURE_PLAN, plan);
 
-		nextPage = controlPageBtnDis(nextPage,request);
- 
+    	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+
+   
+		nextPage = controlPageBtnDis(plan.getTransInfo().getTransInfo().canOperate(user),nextPage,request);
+
+
         return nextPage;	
     }
 	
-	private String controlPageBtnDis(String nextPage,HttpServletRequest request)
+	private String controlPageBtnDis(boolean canOperate,String nextPage,HttpServletRequest request)
 	{
 		//control page button display by the step
 		String pageCtr = RspBoNameConst.PAGE_CREATE;
 		String step = request.getParameter(ParameterConst.PLAN_STEP);
-		if(null == step)
+		if(!canOperate)
 		{
-			pageCtr = RspBoNameConst.PAGE_CREATE;
-		}
-		else if(TransactionConst.RECAPTURE_MAX_STEP.equals(step))
-		{
-			nextPage = PageNameConst.ASSETS_RECAPTURE_CREATE_INIT_PAGE;
-		}
-		else if(TransactionConst.RECAPTURE_APPROVAL_STEP.equals(step))
-		{
-			pageCtr = RspBoNameConst.PAGE_APPROVAL;
+			pageCtr = RspBoNameConst.PAGE_VIEW;
 		}
 		else
 		{
-			pageCtr = RspBoNameConst.PAGE_CONFIRM;
- 		}
+				
+			if(null == step)
+			{
+				pageCtr = RspBoNameConst.PAGE_CREATE;
+			}
+			else if(TransactionConst.RECAPTURE_MAX_STEP.equals(step))
+			{
+				nextPage = PageNameConst.ASSETS_RECAPTURE_CREATE_INIT_PAGE;
+			}
+			else if(TransactionConst.RECAPTURE_APPROVAL_STEP.equals(step))
+			{
+				pageCtr = RspBoNameConst.PAGE_APPROVAL;
+			}
+			else
+			{
+				pageCtr = RspBoNameConst.PAGE_CONFIRM;
+	 		}
+		}
 		request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, pageCtr);
 		return nextPage;
 	}

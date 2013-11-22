@@ -142,6 +142,7 @@ public class RspBoNameConst
 	public static final String PAGE_CREATE = "create";
 	public static final String PAGE_APPROVAL = "approval";
 	public static final String PAGE_CONFIRM = "confirm";
+	public static final String PAGE_VIEW = "view";
 
 	public static final String DISCARD_SEARCH_BO = "discardSearchBo";
 

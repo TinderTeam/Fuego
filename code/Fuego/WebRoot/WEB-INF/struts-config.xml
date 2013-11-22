@@ -237,6 +237,8 @@
                 type="cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchasePlanEnsureAction"              
                 name="PurchasePlanEnsureForm"
                 >
+            <forward name="IndexInit" path="/IndexInit.do"></forward>
+            
             <forward name="Success" path="/jsp/cbb/success.jsp"></forward>	
             <forward name="DownloadAction" path="/FileDownload.do"></forward> 
             <forward name="PurchasePlanEnsureInit" path="/PurchasePlanEnsureInit.do"></forward>

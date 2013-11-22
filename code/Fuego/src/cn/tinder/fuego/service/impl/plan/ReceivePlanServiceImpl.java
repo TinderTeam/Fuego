@@ -26,9 +26,12 @@ import org.apache.commons.logging.LogFactory;
 
 import cn.tinder.fuego.dao.CheckPlanDao;
 import cn.tinder.fuego.dao.DaoContext;
+import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.ReceivePlanDao;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
+import cn.tinder.fuego.domain.po.DiscardPlan;
+import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.AssetsManageService;
@@ -66,6 +69,7 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	private SystemUserDao systemUserDao = DaoContext.getInstance().getSystemUserDao();
 	private CheckPlanDao checkPlanDao = DaoContext.getInstance().getCheckPlanDao();
 	private ReceivePlanDao receivePlanDao = DaoContext.getInstance().getReceivePlanDao();
+	PhysicalAssetsStatusDao physicalAssetsStatusDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
 
 	private AssetsManageService assetsManageService = ServiceContext.getInstance().getAssetsManageService();
 
@@ -418,14 +422,15 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
       
 	}
 
-	/* (non-Javadoc)
-	 * @see cn.tinder.fuego.service.TransPlanService#getPlanCount(java.util.List)
-	 */
 	@Override
 	public int getPlanCount(List<String> transIDList)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		List<ReceivePlan> planList = receivePlanDao.getByTransID(transIDList);
+		if(null == planList)
+		{
+			return 0;
+		}
+		return planList.size();
 	}
 
 	/* (non-Javadoc)
@@ -434,7 +439,19 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	@Override
 	public float getPlanAssetsSumValue(List<String> transIDList)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		float sumValue = 0;
+
+		List<ReceivePlan> planList = receivePlanDao.getByTransID(transIDList);
+		List<String> assetsIDList = new ArrayList<String>();
+ 		for(ReceivePlan plan : planList)
+		{
+			 assetsIDList.add(plan.getAssetsID());
+		}
+		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
+		for(PhysicalAssetsStatus assets : assetsStatusList)
+		{
+			sumValue += assets.getOriginalValue()* assets.getQuantity();
+		}
+		return sumValue;
 	}
 }

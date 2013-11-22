@@ -104,6 +104,10 @@ public class DiscardSureAction extends Action
 			planService.deletePlan(plan.getTransInfo().getTransInfo().getTransID());
 			nextPage = PageNameConst.INDEX_INIT_ACTION;
 		}
+		else if(ParameterConst.VIEW_PARA_NAME.equals(submitPara))
+		{
+		 	nextPage = PageNameConst.INDEX_INIT_ACTION;
+		}
 		else if(ParameterConst.REFUSE_PARA_NAME.equals(submitPara))
 		{
 			planService.backward(plan.getTransInfo().getTransInfo().getTransID());

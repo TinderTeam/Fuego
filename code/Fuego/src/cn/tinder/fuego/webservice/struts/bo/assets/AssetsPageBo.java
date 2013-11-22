@@ -27,7 +27,7 @@ public class AssetsPageBo
 	private List<AssetsInfoBo> assetsList = new ArrayList<AssetsInfoBo>();
 	
 	
-	private PageModelBo page = new PageModelBo();
+	private PageModelBo<AssetsInfoBo> page = new PageModelBo<AssetsInfoBo>();
 	private boolean showCheckBox = false;
 
 	private boolean showModifyBtn = false;

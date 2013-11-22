@@ -21,9 +21,9 @@ import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
  *  
  */
 
-public class PageModelBo
+public class PageModelBo<E>
 {
-	private List<AssetsInfoBo> allPageData = new  ArrayList<AssetsInfoBo>();
+	private List<E> allPageData = new  ArrayList<E>();
 
 	private List<Integer> pages =new ArrayList<Integer>();
 	private int pageSize =100;  //defualt page size
@@ -31,13 +31,27 @@ public class PageModelBo
 	private int count = 0;
 	
 	
+	public List<E> getCurrentPageData()
+	{
+		List<E> currentPageData;
+		if(getEndNum()> allPageData.size())
+		{
+			currentPageData = allPageData.subList(getStartNum(), allPageData.size());
+		}
+		else
+		{
+			currentPageData = allPageData.subList(getStartNum(), getEndNum());
+
+		}
+		return currentPageData;
+	}
 	
-	public List<AssetsInfoBo> getAllPageData()
+	public List<E> getAllPageData()
 	{
 		return allPageData;
 	}
 
-	public void setAllPageData(List<AssetsInfoBo> allPageData)
+	public void setAllPageData(List<E> allPageData)
 	{
 		
 		this.allPageData = allPageData;

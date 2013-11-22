@@ -90,7 +90,8 @@ public class PurchasePlanAction extends Action {
 			/*
 			 * 1.Create Refferance
 			 */
-			purchasePlanSessionBo.getPurchasePageBo().setAssetsList(assetsManageService.getPurchaseSumAssetsList(purchasePlanForm).subList(0, 500));
+			purchasePlanSessionBo.getPurchasePageBo().getPage().setAllPageData(assetsManageService.getPurchaseSumAssetsList(purchasePlanForm));
+			purchasePlanSessionBo.getPurchasePageBo().setAssetsList(purchasePlanSessionBo.getPurchasePageBo().getPage().getCurrentPageData());
  
 			log.info(LogKeyConst.SESSION_BO
 					+ "output BO is refBO " + purchasePlanSessionBo);

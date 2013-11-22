@@ -120,6 +120,10 @@ public class AssetsRecaptureEnsureAction extends Action
 		{
 			planService.backward(plan.getTransInfo().getTransInfo().getTransID());
 		}
+		else if(ParameterConst.VIEW_PARA_NAME.equals(submitPara))
+		{
+			nextPage = PageNameConst.INDEX_INIT_ACTION;
+		}
 		return nextPage;
 	}
 

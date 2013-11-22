@@ -15,6 +15,7 @@ import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
@@ -69,11 +70,11 @@ public class PurchasePlanEnsureInitAction extends Action
  
 		// RequestOut
  
- 		PurchasePlanSessionBo purchasePlanSessionBo = null;
+ 		PurchasePlanSessionBo plan = null;
 		String transID = request.getParameter(ParameterConst.PLAN_TRANS_ID);
 		if(null != transID)
 		{
-			purchasePlanSessionBo = (PurchasePlanSessionBo) planService.getPlanByTransID(transID);
+			plan = (PurchasePlanSessionBo) planService.getPlanByTransID(transID);
   		}
 		else
 		{
@@ -81,41 +82,49 @@ public class PurchasePlanEnsureInitAction extends Action
 
 		}
  
-		if (null == purchasePlanSessionBo)
+		if (null == plan)
 		{
-			purchasePlanSessionBo = (PurchasePlanSessionBo) request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
+			plan = (PurchasePlanSessionBo) request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
 		}
-		else
-		{
- 		}
- 
-		request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, purchasePlanSessionBo);// "assetsList"
-		nextPage = controlPageBtnDis(nextPage,request);
+
+		request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, plan);// "assetsList"
+		
+    	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+
+		nextPage = controlPageBtnDis(plan.getPurchaseTransBo().getTransInfo().canOperate(user),nextPage,request);
 
 		return nextPage;
 	}
 	
-	private String controlPageBtnDis(String nextPage,HttpServletRequest request)
+	private String controlPageBtnDis(boolean canOperate,String nextPage,HttpServletRequest request)
 	{
 		//control page button display by the step
 		String pageCtr = RspBoNameConst.PAGE_CREATE;
 		String step = request.getParameter(ParameterConst.PLAN_STEP);
-		if(null == step)
+		if(!canOperate)
 		{
-			pageCtr = RspBoNameConst.PAGE_CREATE;
-		}
-		else if(TransactionConst.PURCHASE_MAX_STEP.equals(step))
-		{
-			nextPage = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
-		}
-		else if(TransactionConst.PURCHASE_APPROVAL_STEP.equals(step))
-		{
-			pageCtr = RspBoNameConst.PAGE_APPROVAL;
+			pageCtr = RspBoNameConst.PAGE_VIEW;
 		}
 		else
 		{
-			pageCtr = RspBoNameConst.PAGE_CONFIRM;
- 		}
+			if(null == step)
+			{
+				pageCtr = RspBoNameConst.PAGE_CREATE;
+			}
+			else if(TransactionConst.PURCHASE_MAX_STEP.equals(step))
+			{
+				nextPage = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
+			}
+			else if(TransactionConst.PURCHASE_APPROVAL_STEP.equals(step))
+			{
+				pageCtr = RspBoNameConst.PAGE_APPROVAL;
+			}
+			else
+			{
+				pageCtr = RspBoNameConst.PAGE_CONFIRM;
+	 		}
+		}
+
 		request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, pageCtr);
 		
 		return nextPage;

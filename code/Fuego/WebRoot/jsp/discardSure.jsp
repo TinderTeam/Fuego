@@ -58,7 +58,10 @@
 	 								 </c:if>
 	 								  <c:if test="${'confirm' == pageDisCtr}"> 
 										<button class="btn btn-success"  name="submit" value="confirm">确定</button>								
- 	 								 </c:if>		
+ 	 								 </c:if>	
+ 	 								  <c:if test="${'view' == pageDisCtr}"> 
+										<button class="btn btn-success"  name="submit" value="view">确定</button>								
+ 	 								 </c:if>	
 								</div>							
 						</form>
 						</div>

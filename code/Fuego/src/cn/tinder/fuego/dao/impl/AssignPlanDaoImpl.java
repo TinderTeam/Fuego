@@ -168,7 +168,42 @@ public class AssignPlanDaoImpl implements AssignPlanDao
 
 		return assignList;
 	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cn.tinder.fuego.dao.AssignPlanDao#getByTransID(java.lang.String)
+	 */
+	@Override
+	// public List<Integer> getMenuIDByRole(String role)
+	public List<AssignPlan> getByTransID(List<String> transIDList)
+	{
+		// TODO Auto-generated method stub
 
+		List<AssignPlan> assignList;
+		Session s = null;
+		try
+		{
+			s = HibernateUtil.getSession();
+
+			Criteria c = s.createCriteria(AssignPlan.class);
+			c.add(Restrictions.eq("transID", transIDList));
+
+			assignList = c.list();
+
+		} catch (RuntimeException e)
+		{
+			log.error("get assignplan id by transid failed." + transIDList, e);
+			throw e;
+		} finally
+		{
+			if (s != null)
+			{
+				s.close();
+			}
+		}
+
+		return assignList;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
