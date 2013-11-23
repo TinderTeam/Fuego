@@ -42,5 +42,8 @@ public class ExceptionMsg
 	public static final String ERR_ROW = "错误行号为：";
 	
 	
+	public static final String TRANS_IS_EMPTY = "没有相应的事务";
+	
+	
 
 }

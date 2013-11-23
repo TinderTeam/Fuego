@@ -87,10 +87,13 @@ public class GatherTransAction extends Action
  			TransPlanService transPlanService = ServiceContext.getInstance().getPlanServiceByType(transactionService.getTransTypeByTransName(filter.getTransName()));
  			
  			TransSumInfoBo sumInfo = new TransSumInfoBo();
- 			sumInfo.setTransNum(transIDList.size());
- 			sumInfo.setAssetsNum(transPlanService.getPlanCount(transIDList));
- 			sumInfo.setAssetsValue(transPlanService.getPlanAssetsSumValue(transIDList));
- 			
+ 			if(!transIDList.isEmpty())
+ 			{
+ 	 			sumInfo.setTransNum(transIDList.size());
+ 	 			sumInfo.setAssetsNum(transPlanService.getPlanCount(transIDList));
+ 	 			sumInfo.setAssetsValue(transPlanService.getPlanAssetsSumValue(transIDList));
+ 			}
+
   			request.setAttribute(RspBoNameConst.TRANS_INFO_LIST, transList);
   			request.setAttribute(RspBoNameConst.TRANS_SUM_INFO, sumInfo);
 

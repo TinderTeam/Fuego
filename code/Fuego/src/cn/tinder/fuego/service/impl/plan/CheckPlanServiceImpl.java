@@ -163,10 +163,10 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 			log.warn("the child is null,is not a parent transaction");
 			checkPlanDao.deleteByTransID(checkPlan.getTransInfo().getTransInfo().getTransID());
 			planList = convertCheckPlanByBo(checkPlan.getTransInfo().getTransInfo().getTransID(),checkPlan.getPlanInfo().getAssetsPage().getAssetsList());
-			if(checkPlan.getPlanInfo().getAssetsPage().isCheckFinished())
-			{
-				this.forwardNext(checkPlan.getTransInfo().getTransInfo().getTransID());
-			}
+//			if(checkPlan.getPlanInfo().getAssetsPage().isCheckFinished())
+//			{
+//				this.forwardNext(checkPlan.getTransInfo().getTransInfo().getTransID());
+//			}
 		}
 //		else
 //		{
@@ -197,6 +197,9 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		String handleUser;
 		switch(transEvent.getCurrentStep())
 		{
+		case 2 :
+		    handleUser = transEvent.getHandleUser();
+		    break;
 		case 1 :
 		    handleUser = transEvent.getHandleUser();
 		    break;

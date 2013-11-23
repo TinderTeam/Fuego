@@ -158,9 +158,9 @@ public class TransEventDaoImpl implements TransEventDao
 	 * @see cn.tinder.fuego.dao.TransEventDao#getByHandlerUser(java.lang.String)
 	 */
 	@Override
-	public List<TransEvent> getTransByUser(String userID)
+	public List<TransEvent> getTransByUser(List<String> userIDList)
 	{
-		log.debug("Get the TransEvent by User" + userID);
+		log.debug("Get the TransEvent by User" + userIDList);
 		Session s = null;
 
 		List<TransEvent> transList = null;
@@ -169,7 +169,7 @@ public class TransEventDaoImpl implements TransEventDao
 			s = HibernateUtil.getSession();
 			Criteria c = s.createCriteria(TransEvent.class);
 
-			c.add(Restrictions.or(Restrictions.and(Restrictions.isNull("parentTransID"),Restrictions.eq("createUser", userID)), Restrictions.eq("handleUser", userID)));
+			c.add(Restrictions.or(Restrictions.and(Restrictions.isNull("parentTransID"),Restrictions.in("createUser", userIDList)), Restrictions.in("handleUser", userIDList)));
 			
 
 			transList =   c.list();

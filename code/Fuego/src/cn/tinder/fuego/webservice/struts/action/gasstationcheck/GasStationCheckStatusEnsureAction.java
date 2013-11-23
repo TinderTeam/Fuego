@@ -79,13 +79,24 @@ public class GasStationCheckStatusEnsureAction extends Action
 
         if(submitPara.equals(ParameterConst.CONFIRM_PARA_NAME))
      	{
- 		   plan.getPlanInfo().getAssetsPage().setAssetsList(assetsListForm.getAssetsList());
+ 		    plan.getPlanInfo().getAssetsPage().setAssetsList(assetsListForm.getAssetsList());
 
-           planService.updatePlan(plan);
+            planService.updatePlan(plan);
+			planService.forwardNext(transID);
+
      	   nextPage=PageNameConst.SYSTEM_SUCCESS_PAGE;
      	   
      	}
+		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
+		{
+			planService.forwardNext(transID);
+
+		}
         
+        else if(submitPara.equals(ParameterConst.VIEW_PARA_NAME))
+        {
+      	   nextPage=PageNameConst.INDEX_INIT_ACTION;
+        }
         else if(submitPara.equals(ParameterConst.CANCEL_PARA_NAME))
         {
      	   nextPage=PageNameConst.INDEX_INIT_ACTION;

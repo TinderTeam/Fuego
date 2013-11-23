@@ -52,27 +52,7 @@ public class GasStationCheckInitAction extends Action
     	log.info(LogKeyConst.INPUT_ACTION+"GasStationCheckInitAction");
 
     	String nextPage =PageNameConst.GAS_STATION_CHECK_PAGE;      	
-    	
-    	GasStationCheckStatusForm gasStationCheckStatusForm = (GasStationCheckStatusForm) form;
-    	
-// Bo
-		
-    	GasStationCheckInitBo checkInitBo=new GasStationCheckInitBo();
-    	
-    	List<String> monthList =null ;
-    	
-    	monthList = ConstServiceTest.getMonthList();
-    	checkInitBo.setMonthList(monthList) ;
-    	checkInitBo.setTransID("201309");
-    	
-    	AssetsCheckBo bo= new AssetsCheckBo();
-    	      
-        bo.setDept("Dept");
-        bo.setGasName("gasName");
-
-        checkInitBo.getCheckList().add(bo);
-        request.setAttribute(RspBoNameConst.CHECK_INIT_BO, checkInitBo);
-		log.info(LogKeyConst.NEXT_PAGE + nextPage);
+ 
 		return mapping.findForward(nextPage);
 
 		

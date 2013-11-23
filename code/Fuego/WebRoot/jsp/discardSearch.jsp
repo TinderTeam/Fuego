@@ -92,7 +92,9 @@
 												</div>
 										</div>
 									</div>	
-										
+									<div class="control-group">
+									 <input type="text" name="manageName" value="${searchForm.manageName}"></input></td>
+									</div>		
 										
 									<div class="widget-content">
 										<div class="control-group">
