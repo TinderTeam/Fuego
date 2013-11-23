@@ -23,10 +23,15 @@ import cn.tinder.fuego.service.constant.AssetsConst;
 public class AssetsExtAttrBo extends ActionForm
 {
 	private String checkState = AssetsConst.CHECK_STATUS_TODO;
-	private int checkCnt = 1;
+	private int 	checkCnt = 1;
 	private String receiveState = AssetsConst.RECEIVE_STATUS_TODO;
 	private String note;
-
+	private String currentValue;
+	
+	/*
+		 * Edit By Bowen Nan
+		 * Issue #42
+		 * 17:02 2013/11/23*/
 
 	
 	public int getCheckCnt()
@@ -69,10 +74,23 @@ public class AssetsExtAttrBo extends ActionForm
 		this.receiveState = receiveState;
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
-	public String toString()
-	{
-		return "AssetsExtAttrBo [checkState=" + checkState + ", receiveStatus=" + receiveState + ", note=" + note + "]";
+	public String toString() {
+		return "AssetsExtAttrBo [checkState=" + checkState + ", checkCnt="
+				+ checkCnt + ", receiveState=" + receiveState + ", note="
+				+ note + ", currentValue=" + currentValue + "]";
+	}
+
+	public void setCurrentValue(String string) {
+		this.currentValue = string;
+	}
+
+	public String getCurrentValue() {
+		return currentValue;
 	}
 
 

@@ -21,6 +21,7 @@ import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.util.engine.computer.ComputeService;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.bo.search.AssetsStatusSearchInitPageBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
@@ -102,12 +103,20 @@ public class AssetsStatusSearchInitAction extends Action
             	pageBo.getPageBo().setShowModifyBtn(true);
     		}
     		
+    		pageBo.setPageBo(ComputeService.cptValueAsList(pageBo.getPageBo()));
+    		pageBo.getPageBo().setShowCurrentValue(true);
+    		/*
+    			 * Edit By Bowen Nan
+    			 * Issue #42
+    			 * 17:02 2013/11/23
+    			 * 
+    		*/
     		request.getSession().setAttribute(RspBoNameConst.ASSETS_PAGE_DATA,pageBo.getPageBo());//TechList
     	}
     	
     	log.info("PageBo="+pageBo.getPageBo().getPage());
 
-    	//if the user is gas station,he can just get the his assets 
+    	//if the user is gas station,he can just get his own assets (Edit By Bowen 	17:02 2013/11/23)
 		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);   	
 		List<String> deptList = new ArrayList<String>();
     	if(UserRoleConst.GASSTATION.equals(user.getRole()))

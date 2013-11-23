@@ -22,7 +22,7 @@
 			<c:if test="${true == assetsPage.showCheckBox}"> 
 			  <th>选择</th>
 			</c:if>
-				<c:if test="${true == assetsPage.showCheckState}"> 
+			<c:if test="${true == assetsPage.showCheckState}"> 
 			  <th>盘点状态</th>
 			  <th>实际数量</th>
 			</c:if>
@@ -35,6 +35,9 @@
 			<th>数量</th>
 			<th>购建日期</th>
 			<th>原值</th>
+			<c:if test="${true == assetsPage.showCurrentValue}"> 
+			  <th>现值</th>
+			</c:if>
 			<th>规定使用年限</th>								
 			<th>到期日</th>
 			<th>责任部门</th>
@@ -97,6 +100,10 @@
 	        <td style="text-align:center"><label style="width:60px">${assetsInfo.assets.quantity}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.purchaseDate}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.originalValue}</label></td>
+
+			<c:if test="${true == assetsPage.showCurrentValue}"> 
+			   <td style="text-align:center"><label style="width:80px">${assetsInfo.extAttr.currentValue}</label></td>
+			</c:if>
 	        <td style="text-align:center"><label style="width:60px">${assetsInfo.assets.expectYear}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.dueDate}</label></td>
 	        <td style="text-align:center"><label style="width:80px">${assetsInfo.assets.dept}</label></td>

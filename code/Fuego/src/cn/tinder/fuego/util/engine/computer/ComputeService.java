@@ -1,10 +1,14 @@
 package cn.tinder.fuego.util.engine.computer;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Test;
 
 import cn.tinder.fuego.util.date.DateService;
+import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
+import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
+import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 
 public class ComputeService {
 	static public float cptValue(Date startDate,int limit,float value){
@@ -25,5 +29,35 @@ public class ComputeService {
 		 */
 		return value-v;	
 	}
+
+	
+	
+	//cptValue By PageBo
+	public static AssetsPageBo cptValueAsList(AssetsPageBo pageBo) {
+		
+		List<AssetsInfoBo> assetInfoBo = pageBo.getAssetsList();
+		for(AssetsInfoBo infoBo:assetInfoBo){
+			try{
+				//Date
+				Date pDate =DateService.stringToDate(infoBo.getAssets().getPurchaseDate());
+				//limit
+				int limit=infoBo.getAssets().getExpectYear();
+				//
+				float value=infoBo.getAssets().getOriginalValue();
+				
+				infoBo.getExtAttr().setCurrentValue(String.format("%.2f",cptValue(pDate,limit,value)));
+			}catch(RuntimeException ex){
+				//If Err then set value = 0 ;
+				infoBo.getExtAttr().setCurrentValue("0");
+			}
+			
+		}			
+		return pageBo;
+	}	
+	/*
+	 * Edit By Bowen Nan
+	 * Issue #42
+	 * 17:02 2013/11/23
+	 * */
 
 }
