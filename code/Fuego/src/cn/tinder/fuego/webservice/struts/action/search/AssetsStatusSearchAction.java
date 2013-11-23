@@ -87,7 +87,7 @@ public class AssetsStatusSearchAction extends Action
      	/*
      	 * Get PageBo by DB.
      	 */
-     	if(submitPara.equals(ParameterConst.SUBMIT_PARA_NAME)){
+     	if(submitPara.equals(ParameterConst.SUBMIT_PARA_NAME)||submitPara.equals(ParameterConst.PAGECHANGE_PARA_NAME)){
      		log.info("Para is " + submitPara);
      		  
      		log.info("Bo is " + pageBo);

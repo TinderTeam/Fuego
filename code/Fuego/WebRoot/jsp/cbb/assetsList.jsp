@@ -6,7 +6,7 @@
 	
 	<div class="widget-content">
 		<div class="control-group">
-			                第<select name="pageNum" style = "width:70px" onchange="return pageChange('pageChange')" >
+			                第<select name="pageNum" style = "width:70px" onchange="return assetsPageChange('pageChange')" >
 					<option id="${assetsPage.page.currentPage}">${assetsPage.page.currentPage}</option>	
 					<c:forEach var="i" items= "${assetsPage.page.pages}"> 																								  
 						<option id="${i}"/>${i}																							
@@ -146,6 +146,7 @@
          </c:forEach>
        </tbody>
      </table>  
+	 <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>
 </div>
 
  

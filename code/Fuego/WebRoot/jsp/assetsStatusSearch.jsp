@@ -14,7 +14,8 @@
 	<script type="text/javascript" src="jsp/My97DatePicker/WdatePicker.js"></script>
 	
  	<jsp:include page="/jsp/cbb/includeCSS.jsp"/>
- 
+
+	
 
 <body>
  
@@ -191,8 +192,10 @@
 							
 							<div class="widget-content">
 								<div class="control-group">
-									<button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "submit">查询</button>
-									<button type="submit" class="btn btn-success" name="submit" value = "download">导出</button>					 
+									
+									<button  type="submit" class="btn btn-success" name="submit" value = "submit">查询</button>
+									<button type="submit" class="btn btn-success" name="submit" value = "download">导出</button>
+																		
 								</div>
 				
 							</div>						    

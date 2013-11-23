@@ -29,7 +29,7 @@ public class ParameterConst
 	public static final String DELETE_PARA_NAME = "delete";   //删除
 	public static final String SEARCH_PARA_NAME = "search";   //查询
 	public static final String VIEW_PARA_NAME = "view";   //查看模式
-
+	public static final Object PAGECHANGE_PARA_NAME = "pageChange"; //换页
 	
  
 	public static final String SUBMIT_CHECK_STATUS = "submitCheckStatus";
@@ -46,4 +46,5 @@ public class ParameterConst
 	public static final Object ADD_NEW_PARA_NAME = "addNew";
 	public static final String PAGE_PARA = "pageValue";
 	public static final String PRICE_UPLOAD_PARA_NAME = "price_upload";
+
 }
