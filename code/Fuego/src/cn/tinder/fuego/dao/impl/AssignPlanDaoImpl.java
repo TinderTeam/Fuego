@@ -186,7 +186,7 @@ public class AssignPlanDaoImpl implements AssignPlanDao
 			s = HibernateUtil.getSession();
 
 			Criteria c = s.createCriteria(AssignPlan.class);
-			c.add(Restrictions.eq("transID", transIDList));
+			c.add(Restrictions.in("transID", transIDList));
 
 			assignList = c.list();
 

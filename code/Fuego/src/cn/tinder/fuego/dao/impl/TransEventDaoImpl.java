@@ -168,8 +168,9 @@ public class TransEventDaoImpl implements TransEventDao
 		{
 			s = HibernateUtil.getSession();
 			Criteria c = s.createCriteria(TransEvent.class);
-			c.add(Restrictions.or(Restrictions.eq("createUser", userID), Restrictions.eq("handleUser", userID)));
-			c.add(Restrictions.isNull("parentTransID"));
+
+			c.add(Restrictions.or(Restrictions.and(Restrictions.isNull("parentTransID"),Restrictions.eq("createUser", userID)), Restrictions.eq("handleUser", userID)));
+			
 
 			transList =   c.list();
 		} catch (RuntimeException e)

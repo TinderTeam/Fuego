@@ -233,7 +233,7 @@ public class ReceivePlanDaoImpl implements ReceivePlanDao
 			s = HibernateUtil.getSession();
 
 			Criteria c = s.createCriteria(ReceivePlan.class);
-			c.add(Restrictions.eq("transID", transIDList));
+			c.add(Restrictions.in("transID", transIDList));
 
 			receiveList = c.list();
 
