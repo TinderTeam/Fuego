@@ -21,7 +21,7 @@ public class ParameterConst
  	public static final String CANCEL_PARA_NAME = "cancel";   //取消
 	public static final String ADD_PARA_NAME = "add";         //增加
 	public static final String CONFIRM_PARA_NAME = "confirm"; //确定
-	public static final String FINISH_PARA_NAME ="finish";
+	public static final String FINISH_PARA_NAME ="finish";    //完成
 	public static final String BACK_PARA_NAME = "back";       //返回
 	public static final String AGREE_PARA_NAME = "agree";     //同意
 	public static final String REFUSE_PARA_NAME = "refuse";   //拒绝
@@ -46,5 +46,4 @@ public class ParameterConst
 	public static final Object ADD_NEW_PARA_NAME = "addNew";
 	public static final String PAGE_PARA = "pageValue";
 	public static final String PRICE_UPLOAD_PARA_NAME = "price_upload";
-
 }

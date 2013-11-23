@@ -131,6 +131,11 @@ public class AssetsStatusSearchInitAction extends Action
     	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,deptList);//DeptList
     	request.setAttribute(RspBoNameConst.TYPE_LIST,loadService.loadAssetsTypeList());//TypeList
     	request.setAttribute(RspBoNameConst.TECH_LIST,loadService.loadAssetsTechList());//TechList
+    	List<String> manageList = new ArrayList<String>();
+    	manageList.add(AssetsConst.ASSETS_FITER_ALL);
+    	manageList.addAll(loadService.loadManageDeptList());
+    	request.setAttribute(RspBoNameConst.MANAGE_DEPT_LIST,manageList);//DeptList
+
 		request.setAttribute(ParameterConst.SHOW_MODIFY_BTN,modify);
      	
 		
