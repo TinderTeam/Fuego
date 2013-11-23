@@ -14,9 +14,11 @@ import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.constant.AssetsConst;
+import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
+import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
@@ -75,18 +77,18 @@ public class GasStationCheckStatusEnsureInitAction extends Action
 	{
 		String nextPage = PageNameConst.GAS_STATION_CHECK_STATUS_ENSURE_PAGE;
 		
-		CheckPlanBo checkPlan;
+		CheckPlanBo plan;
 		String transID = request.getParameter(ParameterConst.PLAN_TRANS_ID);
-        checkPlan = (CheckPlanBo) planService.getPlanByTransID(transID);
+        plan = (CheckPlanBo) planService.getPlanByTransID(transID);
         AssetsModifyForm assetsForm = (AssetsModifyForm) form;
-		if(null ==checkPlan )
+		if(null ==plan )
 		{
 	        log.info("can not get plan by transaction id." + transID);
-			checkPlan = (CheckPlanBo) request.getAttribute(RspBoNameConst.CHECK_PLAN_DATA);
+			plan = (CheckPlanBo) request.getAttribute(RspBoNameConst.CHECK_PLAN_DATA);
 		}
  
 		//the check transaction is child, so jump to assets check status
-		if(null == checkPlan.getTransInfo().getChildTransList() || checkPlan.getTransInfo().getChildTransList().isEmpty())
+		if(null == plan.getTransInfo().getChildTransList() || plan.getTransInfo().getChildTransList().isEmpty())
 		{
 			nextPage = PageNameConst.GAS_STATION_CHECK_STATUS_ENSURE_PAGE;
 			if(needCreateNewAssets(assetsForm))
@@ -96,8 +98,8 @@ public class GasStationCheckStatusEnsureInitAction extends Action
 				newAssets.getAssets().setManufacture(assetsForm.getAssetsInfo().getAssets().getManufacture());
 				newAssets.getAssets().setSpec(assetsForm.getAssetsInfo().getAssets().getSpec());
 				newAssets.getExtAttr().setCheckState(AssetsConst.CHECK_STATUS_MORE);
-				checkPlan.getPlanInfo().getAssetsPage().getAssetsList().add(newAssets);
-				planService.updatePlan(checkPlan);
+				plan.getPlanInfo().getAssetsPage().getAssetsList().add(newAssets);
+				planService.updatePlan(plan);
 			}
 		}
 		else
@@ -105,11 +107,19 @@ public class GasStationCheckStatusEnsureInitAction extends Action
 			nextPage = PageNameConst.GAS_STATION_CHECK_STATUS_PAGE;
 		}
 		
-		checkPlan.getPlanInfo().getAssetsPage().setShowNote(true);
-		checkPlan.getPlanInfo().getAssetsPage().setShowCheckState(true);
-        request.setAttribute(RspBoNameConst.CHECK_PLAN_DATA, checkPlan);
-        request.getSession().setAttribute(RspBoNameConst.CHECK_TRANS_ID, checkPlan.getTransInfo().getTransInfo().getTransID());
-		log.info(LogKeyConst.NEXT_PAGE + nextPage);
+
+		plan.getPlanInfo().getAssetsPage().setShowNote(true);
+		plan.getPlanInfo().getAssetsPage().setShowCheckState(true);
+
+		
+		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+
+ 	   
+		nextPage = controlPageBtnDis(plan.getTransInfo().getTransInfo().canOperate(user),nextPage,request);
+
+        request.setAttribute(RspBoNameConst.CHECK_PLAN_DATA, plan);
+        request.getSession().setAttribute(RspBoNameConst.CHECK_TRANS_ID, plan.getTransInfo().getTransInfo().getTransID());
+     	
 		return nextPage;
 	}
 	
@@ -123,6 +133,35 @@ public class GasStationCheckStatusEnsureInitAction extends Action
 		}
 		
 		return false; 
+	}
+	
+	private String controlPageBtnDis(boolean canOperate,String nextPage,HttpServletRequest request)
+	{
+		//control page button display by the step
+		String pageCtr = RspBoNameConst.PAGE_CREATE;
+		String step = request.getParameter(ParameterConst.PLAN_STEP);
+		if(!canOperate)
+		{
+			pageCtr = RspBoNameConst.PAGE_VIEW;
+		}
+		else
+		{
+			if(null == step)
+			{
+				pageCtr = RspBoNameConst.PAGE_CREATE;
+			}
+			else if(TransactionConst.CHECK_MAX_STEP.equals(step))
+			{
+				pageCtr = RspBoNameConst.PAGE_CREATE;
+			}
+			else
+			{
+				pageCtr = RspBoNameConst.PAGE_CONFIRM;
+	 		}
+		}
+
+		request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, pageCtr);
+		return nextPage;
 	}
 
 }

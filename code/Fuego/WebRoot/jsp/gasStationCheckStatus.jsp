@@ -74,10 +74,22 @@
 						</div>
 						
 						<form action="<%=request.getContextPath()%>/GasStationCheckStatus.do" method="post" class="form-horizontal" >
+					  <c:if test="${'create' == pageDisCtr}"> 
+						
 						<button type="submit" class="btn btn-primary" name="submit" value="confirm">确定</button>	
 						<button  id = "subID" type="submit" class="btn btn-primary"  name ="submit" value="download" style="display:none">导出全部</button>	
 		
-							
+	
+						   </c:if>
+						  <c:if test="${'confirm' == pageDisCtr}">
+						  	   <button  id = "subID" type="submit" class="btn btn-primary"  name ="submit" value="download" style="display:none">导出全部</button>	
+						   
+							  <button class="btn btn-success"  name="submit" value="finish">完成</button>
+ 	 					  </c:if>
+						  <c:if test="${'view' == pageDisCtr}"> 
+						      <button class="btn btn-success"  name="submit" value="view">确定</button>								
+ 	 					  </c:if>	
+ 	 					  							
 											<a href="#myAlert" data-toggle="modal" class="btn btn-primary" style="width:150px" onclick="submitFuction()">导出全部</a>		
 											<div id="myAlert" class="modal hide">
 												<div class="modal-header">													
@@ -88,7 +100,7 @@
 														<img border="0" alt="请等待" src="<%=request.getContextPath()%>/img/loading.gif" style="center"/></a>	
 															</div>
 												</div>											
-											</div>						
+											</div>				
 						</form>
 					</div>
 				</div>

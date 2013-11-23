@@ -54,16 +54,23 @@
 										<c:set var="assetsPage" value="${checkPlan.planInfo.assetsPage}" scope="request"/>
 										<jsp:include page="/jsp/cbb/assetsList.jsp"/>
 										<div class="form-actions">
+										
+									     <c:if test="${'create' == pageDisCtr}"> 
 											  <button class="btn btn-success"  name="submit" value="confirm">确定</button>
 											  <button class="btn  btn-inverse" name="submit" value="cancel">取消</button>
 											  <a href="#myAlert" data-toggle="modal" class="btn btn-success" style="width:100px">新增盘点资产</a>
-									 
+											  </c:if>
+									  	  <c:if test="${'confirm' == pageDisCtr}"> 
+										    <button class="btn btn-success"  name="submit" value="finish">完成</button>								
+ 	 								      </c:if>	
+ 	 								  <c:if test="${'view' == pageDisCtr}"> 
+										<button class="btn btn-success"  name="submit" value="view">确定</button>								
+ 	 								 </c:if>	
 
 							            </div>
 								    </form>
 								    <form action="<%=request.getContextPath()%>/GasStationCheckStatusEnsureInit.do?transID=${checkPlan.transInfo.transInfo.transID}" method="post" >
-								    
-								    <div id="myAlert" class="modal hide">
+                                       <div id="myAlert" class="modal hide">
 										<div class="modal-header">
 											<button data-dismiss="modal" class="close" type="button">×</button>
 											<h3>新增盘点资产</h3>
@@ -90,8 +97,13 @@
 											
 											<a data-dismiss="modal" class="btn btn-inverse" href="#">取消</a>
 										</div>
+										
 								       </div>	
-								      </form>
+									 
+	 
+	
+								    
+								    </form>
 							
 						 
 						</div>

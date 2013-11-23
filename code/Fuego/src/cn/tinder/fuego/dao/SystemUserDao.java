@@ -70,5 +70,6 @@ public interface SystemUserDao
     public List<SystemUser> getUserByDept(String dept);
 	public List<SystemUser> getAllSystemUser();
 	public List<SystemUser> getUserByRole(String role);
+    public List<SystemUser> getUserByManage(String manage);
 
 }

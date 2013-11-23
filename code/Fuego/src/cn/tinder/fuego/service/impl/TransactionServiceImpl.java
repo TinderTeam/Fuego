@@ -9,6 +9,7 @@
 package cn.tinder.fuego.service.impl;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -320,10 +321,18 @@ public class TransactionServiceImpl implements TransactionService
 	 * @see cn.tinder.fuego.service.TransactionService#getTransListByUser()
 	 */
 	@Override
-	public List<TransactionBaseInfoBo> getTransListByUser(String userID)
+	public List<TransactionBaseInfoBo> getDisTransByUser(String userID)
 	{
-		List<TransEvent> eventList = this.transEventDao.getTransByUser(userID);
+		List<SystemUser> gasList = this.systemUserDao.getUserByManage(userID);
+		List<String> userList = new ArrayList<String>();  
+		for(SystemUser user : gasList)
+		{
+			userList.add(user.getUserName());
+		}
+		userList.add(userID);
 		
+		List<TransEvent> eventList = this.transEventDao.getTransByUser(userList);
+
 		return ConvertTransactionModel.covertTransBaseList(eventList);
 	}
 

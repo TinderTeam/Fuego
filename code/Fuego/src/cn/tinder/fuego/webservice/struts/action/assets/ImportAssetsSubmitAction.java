@@ -126,6 +126,10 @@ public class ImportAssetsSubmitAction extends Action
 		{
 			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
 		}
+		else if(ParameterConst.VIEW_PARA_NAME.equals(submitPara))
+		{
+			nextPage = PageNameConst.INDEX_INIT_ACTION;
+		}
  
         return nextPage;
  

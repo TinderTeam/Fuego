@@ -225,6 +225,35 @@ public class SystemUserDaoImpl implements SystemUserDao
 
 		return userlist;
 	}
+	
+	@Override
+	public List<SystemUser> getUserByManage(String manage)
+	{
+		// TODO Auto-generated method stub
+		
+		List<SystemUser> userlist;
+		Session s = null;
+		try
+		{
+			s = HibernateUtil.getSession();
+
+			Criteria c = s.createCriteria(SystemUser.class);
+			c.add(Restrictions.eq("manageName", manage));
+			userlist = c.list();
+
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			if (s != null)
+			{
+				s.close();
+			}
+		}
+
+		return userlist;
+	}
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.dao.SystemUserDao#getUserByRole(java.lang.String)
 	 */

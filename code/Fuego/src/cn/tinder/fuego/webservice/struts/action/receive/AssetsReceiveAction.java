@@ -93,7 +93,18 @@ public class AssetsReceiveAction extends Action
     		{
     			plan.getPlanInfo().getAssetsPage().setAssetsList(assetsListForm.getAssetsList());
     			planService.updatePlan(plan);
+    			planService.forwardNext(transID);
      		}	
+    		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
+    		{
+    			planService.forwardNext(transID);
+
+    		}
+    		else if(ParameterConst.VIEW_PARA_NAME.equals(submitPara))
+    		{
+    			nextPage = PageNameConst.INDEX_INIT_ACTION;
+
+    		}
     	}
     	else
     	{
@@ -103,6 +114,10 @@ public class AssetsReceiveAction extends Action
 				request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, exportFile.getAbsolutePath());
 				nextPage = PageNameConst.DOWNLOAD_ACTION;
      		}
+    		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
+    		{
+    			planService.forwardNext(transID);
+    		}
     		else
     		{
     			nextPage =  PageNameConst.INDEX_INIT_ACTION;
