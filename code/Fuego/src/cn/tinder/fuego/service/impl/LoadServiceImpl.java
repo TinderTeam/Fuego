@@ -1,6 +1,7 @@
 package cn.tinder.fuego.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -312,19 +313,44 @@ public class LoadServiceImpl implements LoadService
 	@Override
 	public List<String> loadManageDeptList()
 	{
-		// TODO Auto-generated method stub
+	
 		List<String> manageDeptList =new ArrayList<String>();
  		
+		Set<String> manageDeptSet = new HashSet<String>();
+		/*
+		 * Edit By Bowen Nan
+		 * Issue #51
+		 * 16:28 2013/11/23 */
+		
+		
 		List<SystemUser> allUserList = systemUserDao.getAllSystemUser();
+		
 			for (SystemUser user : allUserList)
 			{
+				
+				manageDeptSet.add(user.getManageName());
+				/*
+				 * Edit By Bowen Nan
+				 * Issue #51
+				 * 16:28 2013/11/23 
+				 * Edit From
 				manageDeptList.add(user.getManageName());
+				*/
 			}
 
- 		
-		
+			String[] strArr = (String[])manageDeptSet.toArray(new String[0]);
+			log.info("Strarr :"+strArr);
+			manageDeptList=Arrays.asList(strArr);
+			log.info("List:"+manageDeptList);
+			/*
+			 * Edit By Bowen Nan
+			 * Issue #51
+			 * 16:28 2013/11/23 */
+ 			
 		return manageDeptList;
 	}
+	
+	
 	
 	public List<String> loadGasNameList()
 	{
