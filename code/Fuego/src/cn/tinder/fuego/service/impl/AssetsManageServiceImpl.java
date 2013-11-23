@@ -143,7 +143,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			assetsFilter.setLocation(filter.getLocation());
 		}
 		
-		if((null != filter.getManageName()) && (filter.getManageName().trim().isEmpty()))
+		if((null != filter.getManageName()) && (filter.getManageName().trim().isEmpty()||AssetsConst.ASSETS_FITER_ALL.equals(filter.getManageName())))
 		{	
 			assetsFilter.setManageName(null);
 		}else{

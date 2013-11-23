@@ -170,7 +170,8 @@ public class TransEventDaoImpl implements TransEventDao
 			Criteria c = s.createCriteria(TransEvent.class);
 
 			c.add(Restrictions.or(Restrictions.and(Restrictions.isNull("parentTransID"),Restrictions.in("createUser", userIDList)), Restrictions.in("handleUser", userIDList)));
-			
+			c.add(Restrictions.ne("currentStep", TransactionConst.END_STEP_FLAG));//
+
 
 			transList =   c.list();
 		} catch (RuntimeException e)

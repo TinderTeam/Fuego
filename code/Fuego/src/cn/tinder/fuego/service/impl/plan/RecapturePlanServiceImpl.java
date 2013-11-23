@@ -17,6 +17,7 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
 import cn.tinder.fuego.dao.DaoContext;
+import cn.tinder.fuego.dao.DiscardPlanDao;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.RecapturePlanDao;
 import cn.tinder.fuego.dao.SystemUserDao;
@@ -76,6 +77,7 @@ public class RecapturePlanServiceImpl <E> extends TransactionServiceImpl impleme
 	public void deletePlan(String transID)
 	{
 		super.deleteTransByID(transID);
+		recapturePlanDao.deleteByTransID(transID);
 
 	}
 

@@ -120,6 +120,7 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	public void deletePlan(String transID)
 	{
 		super.deleteTransByID(transID);
+		receivePlanDao.deleteByTransID(transID);
 		
 	}
 

@@ -62,7 +62,8 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 	@Override
 	public void deletePlan(String transID)
 	{
-		// TODO Auto-generated method stub
+		super.deleteTransByID(transID);
+		purchasePlanDao.deleteByTransID(transID);
 		
 	}
 

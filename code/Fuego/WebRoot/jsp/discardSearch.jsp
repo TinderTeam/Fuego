@@ -136,7 +136,7 @@
 										</div>
 									<div class="widget-content">
 										<div class="control-group">
-											 <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value ="search">查询</button>
+											 <button  type="submit" class="btn btn-success" name="submit" value ="search">查询</button>
 		 					 		 
 										</div>
 									</div>		
