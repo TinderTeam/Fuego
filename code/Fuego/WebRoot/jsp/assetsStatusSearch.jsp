@@ -114,7 +114,21 @@
 													</c:forEach>
 												</select>
 											</td>
-								 			<td style="text-align:center"><input type="text" name="manageName" value="${searchForm.manageName}"></input></td>
+								 			<td style="text-align:center">
+                                               <select name="manageName" style="width: 200px"  >
+													<c:forEach var="i" items= "${manageDeptList}"> 																								  
+												      <c:choose>
+														  <c:when test="${searchForm.manageName == i}">
+													           <option selected=""  >${searchForm.manageName}</option>	
+														  </c:when>
+														  <c:otherwise>  
+														       <option id="${i}"/>${i}		
+													
+														  </c:otherwise>
+													  </c:choose>																		
+													</c:forEach>
+												</select>		
+												</td>
 											
 											<td style="text-align:center"><input type="text" name="location"/></td>
 											<td style="text-align:center">	
