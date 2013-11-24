@@ -29,7 +29,7 @@ public class ImportPruchaseExcelFile {
 		
 		
 		List<PurchasePlanBo> list= new ArrayList<PurchasePlanBo>();
-		PurchasePlanBo planBo = new PurchasePlanBo();
+		
 	    
 	    
 	     if (uploadFile.getName().indexOf(".xls") <= 0){
@@ -55,6 +55,7 @@ public class ImportPruchaseExcelFile {
 			        
 			        Cell cell;
 			        for(int i=2;i<row;i++){
+			        	PurchasePlanBo planBo = new PurchasePlanBo();
 			        	cell = sheet.getCell(0,i);		
 			        	if(cell.getContents()==null||cell.getContents().isEmpty()){
 			        		;
