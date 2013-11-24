@@ -14,6 +14,7 @@ public class RecaptureForm extends ActionForm {
 
 	private String gasName ;
 	private String assetsType ;
+	private String location;
 	public String getGasName() {
 		return gasName;
 	}
@@ -25,6 +26,16 @@ public class RecaptureForm extends ActionForm {
 	}
 	public void setAssetsType(String assetsType) {
 		this.assetsType = assetsType;
+	}
+	
+	
+	public String getLocation()
+	{
+		return location;
+	}
+	public void setLocation(String location)
+	{
+		this.location = location;
 	}
 	@Override
 	public String toString() {

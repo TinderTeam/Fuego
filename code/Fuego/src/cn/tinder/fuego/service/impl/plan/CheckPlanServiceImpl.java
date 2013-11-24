@@ -91,7 +91,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		 List<CheckPlan> checkPlanList = new ArrayList<CheckPlan>();
 		for(SystemUser gasUser : gasUserList)
 		{
-			List<AssetsInfoBo> assestList = assetsManageService.getAssetsByDept(gasUser.getDepartment());
+			List<AssetsInfoBo> assestList = assetsManageService.getAssetsByDutyDept(gasUser.getDepartment());
 
  			if(null != assestList && !assestList.isEmpty())
  			{ 

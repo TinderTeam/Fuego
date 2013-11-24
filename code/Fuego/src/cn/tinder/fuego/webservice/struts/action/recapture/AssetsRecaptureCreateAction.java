@@ -107,6 +107,8 @@ public class AssetsRecaptureCreateAction extends Action
     		{
     			plan = (RecapturePlanBo) planService.createPlan(user.getUserID());
 
+
+
     		}
          	plan.getAssetsPage().setAssetsList(assetsList);
         	planService.validate(plan);

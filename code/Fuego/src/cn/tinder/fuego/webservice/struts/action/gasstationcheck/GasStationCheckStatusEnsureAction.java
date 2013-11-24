@@ -87,8 +87,9 @@ public class GasStationCheckStatusEnsureAction extends Action
 			plan.getPlanInfo().getAssetsPage().setShowNote(true);
 			plan.getPlanInfo().getAssetsPage().setShowCheckState(true);
 			request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, RspBoNameConst.PAGE_FINISH);
+	        request.setAttribute(RspBoNameConst.CHECK_PLAN_DATA, plan);
 
-     	   nextPage=PageNameConst.GAS_STATION_CHECK_STATUS_ENSURE_INIT_PAGE;
+     	   nextPage=PageNameConst.GAS_STATION_CHECK_STATUS_ENSURE_PAGE;
  
      	}
 		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))

@@ -13,6 +13,8 @@ import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 public class RecaptureTransBo
 {
 	private TransactionBaseInfoBo transInfo;
+	private String location;
+
 
 	public TransactionBaseInfoBo getTransInfo()
 	{
@@ -23,5 +25,16 @@ public class RecaptureTransBo
 	{
 		this.transInfo = transInfo;
 	}
+
+	public String getLocation()
+	{
+		return location;
+	}
+
+	public void setLocation(String location)
+	{
+		this.location = location;
+	}
+	
 
 }

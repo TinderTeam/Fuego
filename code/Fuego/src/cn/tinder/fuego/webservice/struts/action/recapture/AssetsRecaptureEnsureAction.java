@@ -31,6 +31,7 @@ import cn.tinder.fuego.webservice.struts.bo.recapture.RecapturePlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
+import cn.tinder.fuego.webservice.struts.form.RecaptureForm;
 
 /**
  * 
@@ -86,6 +87,8 @@ public class AssetsRecaptureEnsureAction extends Action
 		RecapturePlanBo plan = (RecapturePlanBo) request.getSession().getAttribute(RspBoNameConst.RECAPTURE_PLAN);
 		if (ParameterConst.SUBMIT_PARA_NAME.equals(submitPara))
 		{
+	    	RecaptureForm reForm = (RecaptureForm) request.getSession().getAttribute(RspBoNameConst.RECAPTURE_FORM);
+	    	plan.getTransInfo().setLocation(reForm.getLocation());
 			planService.updatePlan(plan);
 			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
 			

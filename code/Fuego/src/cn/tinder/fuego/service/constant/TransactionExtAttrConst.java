@@ -20,5 +20,7 @@ public class TransactionExtAttrConst
 {
 	public static final String ASSIGN_IN_DEPT = "ASSIGN_IN_DEPT";
 	public static final String ASSIGN_OUT_DEPT = "ASSIGN_OUT_DEPT";
+	
+	public static final String RECAPTURE_LOCATION = "RECAPTURE_LOCATION";
 
 }

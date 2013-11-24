@@ -82,7 +82,7 @@ public class AssetsRecaptureCreateInitAction extends Action
 	private String handle(ActionForm form,HttpServletRequest request)
 	{
 		String nextPage = PageNameConst.ASSETS_RECAPTURE_CREATE_PAGE;
-    	RecaptureForm reForm = (RecaptureForm) request.getAttribute("recaptureForm");
+    	RecaptureForm reForm = (RecaptureForm) request.getSession().getAttribute(RspBoNameConst.RECAPTURE_FORM);
     	List<AssetsInfoBo> assetsList;
     	if(null == reForm)
     	{

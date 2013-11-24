@@ -101,6 +101,8 @@ public class AssetsReceiveAction extends Action
     			request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, RspBoNameConst.PAGE_FINISH);
 
     			nextPage = PageNameConst.ASSETS_RECEIVE_PAGE;
+    	        request.setAttribute(RspBoNameConst.RECEIVE_PLAN_DATA, plan);
+
 
      		}	
     		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))

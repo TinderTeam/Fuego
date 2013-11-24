@@ -82,7 +82,7 @@
 									<div class="control-group">
 											 <label class="control-label">请输入回收存放地址</label >
 											<div class="controls"> 
-											   	<input type="text" name="gasname"> 
+											   	<input type="text" name="location"> 
 											</div>
 									</div>
 									
