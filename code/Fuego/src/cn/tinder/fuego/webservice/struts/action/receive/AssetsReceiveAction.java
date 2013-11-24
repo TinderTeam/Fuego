@@ -100,6 +100,12 @@ public class AssetsReceiveAction extends Action
     			planService.forwardNext(transID);
 
     		}
+    		if (ParameterConst.DOWNLOAD_PARA_NAME.equals(submitPara))
+    		{
+ 				File exportFile = planService.getExportFile(plan);
+				request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, exportFile.getAbsolutePath());
+				nextPage = PageNameConst.DOWNLOAD_ACTION;
+     		}
     		else if(ParameterConst.VIEW_PARA_NAME.equals(submitPara))
     		{
     			nextPage = PageNameConst.INDEX_INIT_ACTION;
