@@ -136,7 +136,7 @@ public class ImportAssetsSubmitInitAction extends Action
 				}
 				else
 				{
-					pageCtr = RspBoNameConst.PAGE_CONFIRM;
+					pageCtr = RspBoNameConst.PAGE_FINISH;
 				}
  			}
 		}

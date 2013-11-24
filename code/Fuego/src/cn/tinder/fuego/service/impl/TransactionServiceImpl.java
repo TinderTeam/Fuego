@@ -420,5 +420,28 @@ public class TransactionServiceImpl implements TransactionService
 		
 		return type;
 	}
+	
+	public List<String> getChildTransIDByIDList(List<String> transIDList)
+	{
+		List<String> allTransIDList = new ArrayList<String>();
+		for(String transID : transIDList)
+		{
+			List<TransEvent> transEventList = transEventDao.getTransByParentID(transID);
+			
+			//if the transaction is parent, we should get the plan by his child transaction
+			if(null == transEventList || transEventList.isEmpty())
+			{
+				allTransIDList.add(transID);
+			}
+			else
+			{	
+				for(TransEvent transEvent : transEventList)
+				{
+					allTransIDList.add(transEvent.getTransID());
+				}
+			}
+		}
+		return allTransIDList;
+	}
 
 }

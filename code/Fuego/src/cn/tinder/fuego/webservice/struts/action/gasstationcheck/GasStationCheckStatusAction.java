@@ -71,18 +71,22 @@ public class GasStationCheckStatusAction extends Action
 
 		CheckPlanBo plan;
 		String transID = (String) request.getSession().getAttribute(RspBoNameConst.CHECK_TRANS_ID);
-        plan = (CheckPlanBo) planService.getPlanByTransID(transID);
 		
 		if(submitPara.equals(ParameterConst.DOWNLOAD_PARA_NAME))
         {
      		/*
      		 * 2.Download File
      		 */
-     		
+	        plan = (CheckPlanBo) planService.getPlanByTransID(transID);
+
      		request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE,planService.getExportFile(plan).getAbsolutePath()); 
 			
      		nextPage = PageNameConst.DOWNLOAD_ACTION;
          }
+		else if(submitPara.equals(ParameterConst.FINISH_PARA_NAME))
+		{
+			planService.forwardNext(transID);
+		}
 		 
 		return nextPage;
 	}

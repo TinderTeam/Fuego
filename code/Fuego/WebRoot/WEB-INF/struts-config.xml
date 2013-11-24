@@ -598,7 +598,7 @@
                 name="AssetsListForm"              
                >          
             <forward name="DownloadAction" path="/FileDownload.do"></forward>
-               
+  			<forward name="AssetsReceive" path="/jsp/receive/assetsReceive.jsp"></forward>
    			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
    			<forward name="IndexInit" path="/IndexInit.do"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
@@ -771,6 +771,7 @@
                 type="cn.tinder.fuego.webservice.struts.action.gasstationcheck.GasStationCheckStatusEnsureAction"
                 name="AssetsListForm"              
                >          
+            <forward name="GasStationCheckStatusEnsure" path="/jsp/gasStationCheckStatusEnsure.jsp"></forward> 
   			<forward name="IndexInit" path="/IndexInit.do"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	

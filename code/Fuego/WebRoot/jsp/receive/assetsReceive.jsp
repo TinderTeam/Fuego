@@ -47,9 +47,11 @@
 								 	 <c:if test="${'create' == pageDisCtr}"> 
 									  <button class="btn btn-success"  name="submit" value="confirm">确定</button>
 									  <button class="btn  btn-inverse" name="submit" value="cancel">取消</button>		 	 								 </c:if>
- 	 				  	 			 <c:if test="${'confirm' == pageDisCtr}"> 
+ 	 				  	 			 <c:if test="${'finish' == pageDisCtr}"> 
 									  <button class="btn btn-success"  name="submit" value="finish">完成</button>
 									  <button class="btn btn-success"  name="submit" value="download">导出</button>
+									  <a class="btn btn-primary" href="javascript:history.go(-1);">返回</a>
+									  
 									  
  	 								 </c:if>
 								 	  <c:if test="${'view' == pageDisCtr}"> 

@@ -94,6 +94,14 @@ public class AssetsReceiveAction extends Action
     			plan.getPlanInfo().getAssetsPage().setAssetsList(assetsListForm.getAssetsList());
     			planService.updatePlan(plan);
     			planService.forwardNext(transID);
+    			
+    			//这里要直接跳转到下一步的完成页面
+    			plan.getPlanInfo().getAssetsPage().setShowReceiveState(true);
+				plan.getPlanInfo().getAssetsPage().setShowNote(true);
+    			request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, RspBoNameConst.PAGE_FINISH);
+
+    			nextPage = PageNameConst.ASSETS_RECEIVE_PAGE;
+
      		}	
     		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
     		{

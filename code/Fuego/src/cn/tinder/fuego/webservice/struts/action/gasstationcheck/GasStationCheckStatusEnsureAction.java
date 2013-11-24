@@ -83,15 +83,26 @@ public class GasStationCheckStatusEnsureAction extends Action
 
             planService.updatePlan(plan);
 			planService.forwardNext(transID);
+			
+			plan.getPlanInfo().getAssetsPage().setShowNote(true);
+			plan.getPlanInfo().getAssetsPage().setShowCheckState(true);
+			request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, RspBoNameConst.PAGE_FINISH);
 
-     	   nextPage=PageNameConst.SYSTEM_SUCCESS_PAGE;
-     	   
+     	   nextPage=PageNameConst.GAS_STATION_CHECK_STATUS_ENSURE_INIT_PAGE;
+ 
      	}
 		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
 		{
 			planService.forwardNext(transID);
 
 		}
+		else if(submitPara.equals(ParameterConst.DOWNLOAD_PARA_NAME))
+        {
+ 
+     		request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE,planService.getExportFile(plan).getAbsolutePath()); 
+			
+     		nextPage = PageNameConst.DOWNLOAD_ACTION;
+        }
         
         else if(submitPara.equals(ParameterConst.VIEW_PARA_NAME))
         {

@@ -225,7 +225,7 @@ public class CheckPlanDaoImpl implements CheckPlanDao
 		}
 	}
 	
-	public List<CheckPlan> getByTransIDList(List<String> transIDList)
+	public List<CheckPlan> getByTransID(List<String> transIDList)
 	{// TODO Auto-generated method stub
 		log.debug(" get the plan  by ID list:" + transIDList);
 		List<CheckPlan> checkList;

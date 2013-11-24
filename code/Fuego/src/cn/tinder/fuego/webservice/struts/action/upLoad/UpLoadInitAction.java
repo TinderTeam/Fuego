@@ -8,8 +8,6 @@
 */ 
 package cn.tinder.fuego.webservice.struts.action.upLoad;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,19 +17,9 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.upload.FormFile;
 
-import cn.tinder.fuego.service.AssetsManageService;
-import cn.tinder.fuego.service.GasAssetsApplyService;
-import cn.tinder.fuego.service.LoadService;
-import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.bo.apply.GasAssetsApplyInitPageBo;
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
-import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
-import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 
 /**
  * 
@@ -46,8 +34,7 @@ public class UpLoadInitAction extends Action
 {
     private static final Log log = LogFactory.getLog(UpLoadInitAction.class);
     
-    private GasAssetsApplyService  gasAssetsApplyService = ServiceContext.getInstance().getGasAssetsApplyService();
-    
+     
     //protected void saveFile(FormFile formFile) throws Exception ;
     
     @Override

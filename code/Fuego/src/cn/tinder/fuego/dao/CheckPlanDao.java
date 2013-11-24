@@ -16,5 +16,5 @@ public interface CheckPlanDao
 	// public CheckPlan getByTransID(String transid);
 	public List<CheckPlan> getByTransID(String transid);
 	
-	public List<CheckPlan> getByTransIDList(List<String> transID);
+	public List<CheckPlan> getByTransID(List<String> transID);
 }

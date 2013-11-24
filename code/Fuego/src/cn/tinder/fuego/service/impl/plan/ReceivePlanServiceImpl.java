@@ -279,16 +279,12 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		List<AssetsInfoBo> assetsList = new ArrayList<AssetsInfoBo>();
 		for(ReceivePlan receivePlan : receivePlanList)
 		{
-			AssetsInfoBo assets = new AssetsInfoBo();
-			for(PhysicalAssetsStatus physicalAssets : assetsStatusList)
+			AssetsInfoBo assets = assetsManageService.getAseestByAssetsIDFromAssetsLIst(assetsStatusList, receivePlan.getAssetsID());
+			if(assets == null)
 			{
-				if(receivePlan.getAssetsID().equals(physicalAssets.getAssetsID()))
-				{
-					assets.setAssets(ConvertAssetsModel.convertAssets(physicalAssets));
-					break;
-				}
+				assets = new AssetsInfoBo();
 			}
-			
+ 
  			assets.getExtAttr().setNote(receivePlan.getNote());
 			assets.getExtAttr().setReceiveState(receivePlan.getReceiveState());
 			assetsList.add(assets);
@@ -298,25 +294,8 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 
 	private List<ReceivePlan> getPlanListByTransIDList(List<String> transIDList)
 	{
-		//get the all the child list 
-		List<String> allTransIDList = new ArrayList<String>();
-		for(String transID : transIDList)
-		{
-			List<TransEvent> transEventList = transEventDao.getTransByParentID(transID);
-			
-			//if the transaction is parent, we should get the plan by his child transaction
-			if(null == transEventList || transEventList.isEmpty())
-			{
-				allTransIDList.add(transID);
-			}
-			else
-			{	
-				for(TransEvent transEvent : transEventList)
-				{
-					allTransIDList.add(transEvent.getTransID());
-				}
-			}
-		}
+		List<String> allTransIDList = super.getChildTransIDByIDList(transIDList);
+
 		List<ReceivePlan> receivePlanList = receivePlanDao.getByTransID(allTransIDList);
 		return receivePlanList;
 	}
