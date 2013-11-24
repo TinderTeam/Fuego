@@ -55,7 +55,8 @@ public class TransactionConst
 	public static final String RECEIVE_PLAN_URL = "ImportAssetsSubmitInit.do"; // assign plan type
 	public static final String RECEIVE_MAX_STEP = "2";
      
-	public static final String TRANS_FINISH_STEP = "1";
+	public static final String TRANS_LAST_STEP = "1";
+	public static final String TRANS_FINISH_STEP = "0";
 	
 	public static final String NOTICE_PLAN_TYPE = "盘点通知";  // transaction type NOTICE
 

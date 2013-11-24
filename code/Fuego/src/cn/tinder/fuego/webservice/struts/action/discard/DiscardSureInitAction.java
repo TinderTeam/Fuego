@@ -127,10 +127,14 @@ public class DiscardSureInitAction extends Action
 			{
 				pageCtr = RspBoNameConst.PAGE_APPROVAL;
 			}
-			else if(TransactionConst.TRANS_FINISH_STEP.equals(step))
+			else if(TransactionConst.TRANS_LAST_STEP.equals(step))
 			{
 				pageCtr = RspBoNameConst.PAGE_FINISH;
 			}
+			else if(TransactionConst.TRANS_FINISH_STEP.equals(step))
+			{
+				pageCtr = RspBoNameConst.PAGE_VIEW;
+	 		}
 			else
 			{
 				pageCtr = RspBoNameConst.PAGE_CONFIRM;
