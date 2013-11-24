@@ -168,7 +168,7 @@
 											
 											<td     style="text-align:center" >
 											
-												<input  type="text"  data-date="" data-date-format="yyyy-mm-dd" value="2010-01-01" onfocus="WdatePicker()" name="startPurchaseDate" />					
+												<input  type="text"  data-date="" data-date-format="yyyy-mm-dd" value="1900-01-01" onfocus="WdatePicker()" name="startPurchaseDate" />					
 											</td>
 											
 											<td>
@@ -176,12 +176,12 @@
 											</td>
 									
 											<td style="text-align:center">	
-												<input  type="text"  data-date="" data-date-format="yyyy-mm-dd" value="2020-01-01" onfocus="WdatePicker()" name="endPurchaseDate" />
+												<input  type="text"  data-date="" data-date-format="yyyy-mm-dd" value="2100-01-01" onfocus="WdatePicker()" name="endPurchaseDate" />
 											</td>
 											
 										
 											<td style="text-align:center">
-												<input type="text" data-date="" data-date-format="yyyy-mm-dd" value="2010-01-01" onfocus="WdatePicker()" name="startDueDate" />													
+												<input type="text" data-date="" data-date-format="yyyy-mm-dd" value="1900-01-01" onfocus="WdatePicker()" name="startDueDate" />													
 											</td>
 											
 											<td>
@@ -190,7 +190,7 @@
 											
 									
 											<td style="text-align:center">
-												<input type="text" data-date="" data-date-format="yyyy-mm-dd" value="2020-01-01" onfocus="WdatePicker()" name="endDueDate" />
+												<input type="text" data-date="" data-date-format="yyyy-mm-dd" value="2100-01-01" onfocus="WdatePicker()" name="endDueDate" />
 											
 											</td>
 										</tr>
