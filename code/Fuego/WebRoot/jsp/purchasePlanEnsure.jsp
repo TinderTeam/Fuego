@@ -44,6 +44,7 @@
 										<th>资产名称</th>
 										<th>品牌</th>
 										<th>资产型号</th>
+										<th>部门</th>
 										<th>购置数量</th>
 										<th>单位</th>
 										<th>预算单价</th>
@@ -59,7 +60,7 @@
 											
 												<td style="text-align:center">${i.assetsBo.manufacture}</td>
 												<td style="text-align:center">${i.assetsBo.spec}</td>
-														
+												<td style="text-align:center">${i.assetsBo.duty}</td>		
 												<td style="text-align:center">${i.assetsBo.quantity}</td>
 												<td style="text-align:center">${i.assetsBo.unit}</td>
 												<td style="text-align:center">￥ ${i.price}</td>

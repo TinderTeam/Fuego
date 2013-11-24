@@ -83,7 +83,7 @@ public class PurchasePlanAction extends Action {
 		}
 
 		// RequestOut
-		PurchasePlanSessionBo purchasePlanSessionBo = (PurchasePlanSessionBo) purchasePlanService.createPlan(user.getUserID());
+		PurchasePlanSessionBo purchasePlanSessionBo = new PurchasePlanSessionBo();
 
 
 		if (submitPara.equals(ParameterConst.SUBMIT_1)) {

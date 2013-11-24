@@ -43,8 +43,17 @@
 								<c:set var="assetsPage" value="${receivePlan.planInfo.assetsPage}" scope="request"/>
 								<jsp:include page="/jsp/cbb/assetsList.jsp"/>
 								<div class="form-actions">
+								
+								 	 <c:if test="${'create' == pageDisCtr}"> 
 									  <button class="btn btn-success"  name="submit" value="confirm">确定</button>
-									  <button class="btn  btn-inverse" name="submit" value="cancel">取消</button>								
+									  <button class="btn  btn-inverse" name="submit" value="cancel">取消</button>		 	 								 </c:if>
+ 	 				  	 			 <c:if test="${'confirm' == pageDisCtr}"> 
+									  <button class="btn btn-success"  name="submit" value="finish">完成</button>
+ 	 								 </c:if>
+								 	  <c:if test="${'view' == pageDisCtr}"> 
+										<button class="btn btn-success"  name="submit" value="view">确定</button>								
+ 	 								 </c:if>
+						
 								</div>	
 					          </div>
 					     </form>

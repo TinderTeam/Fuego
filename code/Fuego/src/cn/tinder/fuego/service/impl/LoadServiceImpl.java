@@ -313,17 +313,18 @@ public class LoadServiceImpl implements LoadService
 	public List<String> loadManageDeptList()
 	{
 		// TODO Auto-generated method stub
-		List<String> manageDeptList =new ArrayList<String>();
+		Set<String> manageDeptSet =new HashSet<String>();
  		
 		List<SystemUser> allUserList = systemUserDao.getAllSystemUser();
 			for (SystemUser user : allUserList)
 			{
-				manageDeptList.add(user.getManageName());
+				if((null != user.getManageName())&& (!user.getManageName().isEmpty()) )
+				{
+					manageDeptSet.add(user.getManageName());
+				}
 			}
-
- 		
-		
-		return manageDeptList;
+ 
+		return new ArrayList<String>(manageDeptSet);
 	}
 	
 	public List<String> loadGasNameList()

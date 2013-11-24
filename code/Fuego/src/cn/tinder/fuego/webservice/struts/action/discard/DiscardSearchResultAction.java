@@ -90,7 +90,6 @@ public class DiscardSearchResultAction extends Action
     		if(null == plan)
     		{
     			plan = (DiscardPlanBo) planService.createPlan(user.getUserID());
-
     		}
     		
         	List<AssetsInfoBo> assetsList = assetsService.getAssetsByAssetsIDList(assetsForm.getAssetsIDList());
@@ -100,6 +99,13 @@ public class DiscardSearchResultAction extends Action
 			nextPage = PageNameConst.DISCARD_SURE_INIT;
 		}
     	else if(submitPara.equals(ParameterConst.SEARCH_PARA_NAME))
+    	{
+    		request.setAttribute(RspBoNameConst.DISCARD_SEARCH_FORM, assetsForm);
+
+    		assetsForm.setPageNum(1);
+    		nextPage = PageNameConst.DISCARD_SEARCH_INIT;
+    	}
+    	else if(submitPara.equals(ParameterConst.PAGECHANGE_PARA_NAME))
     	{
     		request.setAttribute(RspBoNameConst.DISCARD_SEARCH_FORM, assetsForm);
 

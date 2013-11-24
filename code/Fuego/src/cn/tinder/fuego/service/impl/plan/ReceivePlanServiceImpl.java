@@ -120,6 +120,7 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	public void deletePlan(String transID)
 	{
 		super.deleteTransByID(transID);
+		receivePlanDao.deleteByTransID(transID);
 		
 	}
 
@@ -139,10 +140,10 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 			log.warn("the child is null,is not a parent transaction");
 			receivePlanDao.deleteByTransID(receivePlan.getTransInfo().getTransInfo().getTransID());
 			planList = convertReceivePlan(receivePlan.getPlanInfo().getAssetsPage().getAssetsList(),receivePlan.getTransInfo().getTransInfo().getTransID());
-			if(receivePlan.getPlanInfo().getAssetsPage().isReceiveFinished())
-			{
-				this.forwardNext(receivePlan.getTransInfo().getTransInfo().getTransID());
-			}
+//			if(receivePlan.getPlanInfo().getAssetsPage().isReceiveFinished())
+//			{
+//				this.forwardNext(receivePlan.getTransInfo().getTransInfo().getTransID());
+//			}
 		}
 		else
 		{
@@ -188,8 +189,11 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		String handleUser;
 		switch(transEvent.getCurrentStep())
 		{
+		case 2 :
+		    handleUser = transEvent.getHandleUser();
+		    break;
 		case 1 :
-		    handleUser = transEvent.getCreateUser();
+		    handleUser = transEvent.getHandleUser();
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();

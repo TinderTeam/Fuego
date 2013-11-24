@@ -24,7 +24,14 @@ public class SystemParaSetupForm extends ActionForm
 	 */
 	private static final long serialVersionUID = 1L;
 	private String gasname;
+	
+	/*
+	 * Edit By Bowen Nan
+	 * Issue #50
+	 * 16:17 2013/11/23
+	
 	private String username;
+	*/
 	private String dept1;
 	private String gasaccount;
 	private String dept2;
@@ -45,17 +52,26 @@ public class SystemParaSetupForm extends ActionForm
 	/**
 	 * @return the username
 	 */
+	
+	
+	/*
+	 * Edit By Bowen Nan
+	 * Issue #50
+	 * 16:17 2013/11/23
+
+	
 	public String getUsername()
 	{
 		return username;
 	}
-	/**
-	 * @param username the username to set
-	 */
+
 	public void setUsername(String username)
 	{
 		this.username = username;
 	}
+	*/
+	
+	
 	/**
 	 * @return the dept1
 	 */
@@ -106,7 +122,7 @@ public class SystemParaSetupForm extends ActionForm
 	{
 		return "SystemParaSetupForm [dept1=" + dept1 + ", dept2=" + dept2
 				+ ", gasaccount=" + gasaccount + ", gasname=" + gasname
-				+ ", username=" + username + "]";
+				+ "]";
 	}
 	
 

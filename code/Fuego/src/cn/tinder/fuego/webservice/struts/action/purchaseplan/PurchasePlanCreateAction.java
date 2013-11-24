@@ -45,7 +45,6 @@ public class PurchasePlanCreateAction extends Action {
 	ExcelIOService excelIOService = new ExcelIOServiceImpl();
 	FileLoadService fileLoadService = ServiceContext.getInstance()
 			.getFileLoadService();
-	private TransPlanService purchasePlanService = ServiceContext.getInstance().getPurchasePlanService();
 
 
 	@Override
@@ -84,52 +83,22 @@ public class PurchasePlanCreateAction extends Action {
 		// RequestIn
 		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(
 				RspBoNameConst.SYSTEM_USER);
-		if (null == user) {
-			log.error("the user is null");
-			pageName = PageNameConst.LOGIN_PAGE;
-			return pageName;
-		}
+ 
 		// Form
 		PurchasePlanCreateForm purchasePlanCreateForm = (PurchasePlanCreateForm) form;
 		// Form Empty test
-		if (purchasePlanCreateForm == null) {
-			log.error("cant find form!!");
-			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
-			return pageName;
-		} else {
-			log.info(LogKeyConst.PAGE_FORM + purchasePlanCreateForm.toString());
-		}
+ 
 
 		// Para
 		String submitPara = request
 				.getParameter(ParameterConst.SUBMIT_PARA_NAME);
-		if (null == submitPara || submitPara.isEmpty()) {
-			log.error("submit is null!!");
-			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
-			return pageName;
-		} else {
-			log.info(LogKeyConst.SUBMIT_VALUE + submitPara);
-		}
+ 
 	
 		// RequestIn Session
 		// SessionBo
 		PurchasePlanSessionBo purchasePlanSessionBo = (PurchasePlanSessionBo) request
 				.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
-		if (null == purchasePlanSessionBo) {
-			log.error("cant find purchasePlanSessionBo!!");
-			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
-			return pageName;
-		} else {
-			log.info(LogKeyConst.SESSION_BO + purchasePlanSessionBo.toString());
-		}
-
- 
-		// Main DO:
-
-		/*
-		 * Update The Session
-		 */
-
+  
 		if (submitPara.equals(ParameterConst.ADD_PARA_NAME)) {
 			// add the Item
 			/*
@@ -195,11 +164,7 @@ public class PurchasePlanCreateAction extends Action {
 			
 			pageName = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
 		} else if (submitPara.equals(ParameterConst.DOWNLOAD_PARA_NAME)) {
-			// DownLoad the Model Excel File!
-			/*
-			 * 1.download file
-			 */
-
+ 
 			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE,OutputFileConst.PURCHASE_PLAN_MODE); 
 		
 			pageName = PageNameConst.DOWNLOAD_ACTION;
@@ -210,8 +175,7 @@ public class PurchasePlanCreateAction extends Action {
 			 * 
 			 * 上载文件
 			 */			
-			purchasePlanSessionBo = (PurchasePlanSessionBo) purchasePlanService.createPlan(user.getUserID());
-			
+ 			
 			purchasePlanSessionBo.getPurchasePageBo().setAssetsList(
 					ImportPruchaseExcelFile.load(
 							excelIOService.uploadFile(purchasePlanCreateForm.getMyFile())

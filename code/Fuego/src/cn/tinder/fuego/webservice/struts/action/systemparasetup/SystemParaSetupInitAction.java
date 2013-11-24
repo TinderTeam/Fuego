@@ -54,6 +54,21 @@ public class SystemParaSetupInitAction extends Action
 		// Bo test
 		
 		SystemParaSetupBo setupBo=new SystemParaSetupBo();
+		
+		
+		
+	
+		
+		setupBo.setDeptList1(loadService.loadManageDeptList());
+        setupBo.setDeptList2(loadService.loadManageDeptList());
+        setupBo.setGasList(loadService.loadGasNameList());
+        
+    	/*
+		 * Edit By Bowen Nan
+		 * Issue #50
+		 * 16:17 2013/11/23
+		 * Edit From
+		 * 
 		List<String> l1=new ArrayList<String>();
 		List<String> l2=new ArrayList<String>();
 		List<String> l3=new ArrayList<String>();
@@ -70,6 +85,8 @@ public class SystemParaSetupInitAction extends Action
 		setupBo.setDeptList1(l1);
         setupBo.setDeptList2(l2);
         setupBo.setGasList(l3);
+        */
+		
         
 		SystemParaSetupBo modifyBo= (SystemParaSetupBo) request.getAttribute("modifyBo");
 

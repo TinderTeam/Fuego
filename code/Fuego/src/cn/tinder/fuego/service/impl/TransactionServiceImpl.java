@@ -9,6 +9,7 @@
 package cn.tinder.fuego.service.impl;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -62,9 +63,7 @@ public class TransactionServiceImpl implements TransactionService
 		Date creatTime;
 
 		TransEvent transEvent = new TransEvent();
-		TransEventType transEventType = new TransEventType();
-
-		transEventType = transEventTypeDao.getByType(transType); // get
+		TransEventType transEventType  = transEventTypeDao.getByType(transType); // get
 																	// transEventType
 		currentID = transEventType.getCurrentID() + 1; // get currentID
 		transEventType.setCurrentID(currentID); // set currentID to
@@ -225,6 +224,23 @@ public class TransactionServiceImpl implements TransactionService
  
 		transEventDao.saveOrUpdate(transEvent);
 	}
+	
+	public void updateTrans(TransactionBaseInfoBo trans)
+	{
+ 		TransEvent transEvent = new TransEvent();
+ 		transEvent.setTransID(trans.getTransID());
+ 		transEvent.setTransName(trans.getTransName());
+ 		transEvent.setCreateTime(trans.getCreateTime());
+ 		transEvent.setCreateUser(trans.getCreateUser());
+ 		//transEvent.setCurrentStep(tran);
+ 		transEvent.setEndTime(trans.getEndTime());
+ 		transEvent.setHandleUser(trans.getHandleUser());
+ 		//transEvent.setParentTransID(trans);
+ 		transEvent.setStatus(trans.getState());
+ 		//transEvent.setType(trans.get);
+  
+		transEventDao.saveOrUpdate(transEvent);
+	}
 
 
 
@@ -320,10 +336,18 @@ public class TransactionServiceImpl implements TransactionService
 	 * @see cn.tinder.fuego.service.TransactionService#getTransListByUser()
 	 */
 	@Override
-	public List<TransactionBaseInfoBo> getTransListByUser(String userID)
+	public List<TransactionBaseInfoBo> getDisTransByUser(String userID)
 	{
-		List<TransEvent> eventList = this.transEventDao.getTransByUser(userID);
+		List<SystemUser> gasList = this.systemUserDao.getUserByManage(userID);
+		List<String> userList = new ArrayList<String>();  
+		for(SystemUser user : gasList)
+		{
+			userList.add(user.getUserName());
+		}
+		userList.add(userID);
 		
+		List<TransEvent> eventList = this.transEventDao.getTransByUser(userList);
+
 		return ConvertTransactionModel.covertTransBaseList(eventList);
 	}
 

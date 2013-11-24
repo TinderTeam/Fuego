@@ -39,6 +39,10 @@ import cn.tinder.fuego.webservice.struts.form.SystemParaSetupForm;
  */
 public class SystemParaSetupAction extends Action
 {
+	/*
+	 * By Bowen Nan
+	 * 
+	 */
     private static final Log log = LogFactory.getLog(SystemParaSetupAction.class);
     //SystemMaintanceService service = ServiceContext.getInstance().getSystemMaintanceService();
     SystemMaintanceServiceImpl serviceImpl=ServiceContext.getInstance().getSystemMaintanceServiceImpl();
@@ -69,8 +73,18 @@ public class SystemParaSetupAction extends Action
 		 {
 		 
        		 try{
-       			serviceImpl.addGasStation(setForm.getGasname(), setForm.getUsername(), setForm.getDept1());
- 	 	
+       			 
+       			/*
+       			 * Edit By Bowen Nan
+       			 * Issue #50
+       			 * 16:17 2013/11/23
+       			 * Edit From:
+       				serviceImpl.addGasStation(setForm.getGasname(), setForm.getUsername(), setForm.getDept1());
+ 	 			*/
+       			 
+       			serviceImpl.addGasStation(setForm.getGasname(), setForm.getGasname(), setForm.getDept1());
+       			
+       			
   			 	log.info("setup successful");
  	
  			 	nextPage=PageNameConst.SYSTEM_SUCCESS_PAGE ;

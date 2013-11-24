@@ -338,6 +338,10 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	@Override
 	public int getPlanCount(List<String> transIDList)
 	{
+		if(null == transIDList || transIDList.isEmpty())
+		{
+			throw new ServiceException(ExceptionMsg.TRANS_IS_EMPTY);
+		}
 		List<AssignPlan> planList = assignPlanDao.getByTransID(transIDList);
 		if(null == planList)
 		{
@@ -353,6 +357,11 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	public float getPlanAssetsSumValue(List<String> transIDList)
 	{
 		float sumValue = 0;
+		
+		if(null == transIDList || transIDList.isEmpty())
+		{
+			throw new ServiceException(ExceptionMsg.TRANS_IS_EMPTY);
+		}
 
 		List<AssignPlan> planList = assignPlanDao.getByTransID(transIDList);
 		List<String> assetsIDList = new ArrayList<String>();

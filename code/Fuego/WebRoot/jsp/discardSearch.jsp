@@ -92,11 +92,51 @@
 												</div>
 										</div>
 									</div>	
-										
-										
+								<div class="control-group">
+									<div class="control-group">
+									 <label class="control-label">经营管理部</label>	
+								    	<div class="controls">
+									
+                                                 <select name="manageName" style="width: 200px"  >
+													<c:forEach var="i" items= "${manageDeptList}"> 																								  
+												      <c:choose>
+														  <c:when test="${searchForm.manageName == i}">
+													           <option selected=""  >${searchForm.manageName}</option>	
+														  </c:when>
+														  <c:otherwise>  
+														       <option id="${i}"/>${i}		
+													
+														  </c:otherwise>
+													  </c:choose>																		
+													</c:forEach>
+												</select>							
+									    </div>
+							          </div>
+							      </div>	
+							      	<div class="control-group">	
+										<div class="control-group">
+										   	<label class="control-label">加油站</label>	
+											<div class="controls">
+										    
+											   <select name="duty" style="width: 200px"  >
+													<c:forEach var="i" items= "${deptList}"> 																								  
+												      <c:choose>
+														  <c:when test="${searchForm.duty == i}">
+													           <option selected=""  >${searchForm.duty}</option>	
+														  </c:when>
+														  <c:otherwise>  
+														       <option id="${i}"/>${i}		
+													
+														  </c:otherwise>
+													  </c:choose>																		
+													</c:forEach>
+												</select>
+										     </div>
+										  </div>
+										</div>
 									<div class="widget-content">
 										<div class="control-group">
-											 <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value ="search">查询</button>
+											 <button  type="submit" class="btn btn-success" name="submit" value ="search">查询</button>
 		 					 		 
 										</div>
 									</div>		

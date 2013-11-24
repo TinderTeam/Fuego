@@ -1,6 +1,6 @@
- function pageChange(eventID)
+ function assetsPageChange(eventID)
 {
-		    alert(eventID);
+	  
 			document.getElementById(eventID).click();
 			
 		  

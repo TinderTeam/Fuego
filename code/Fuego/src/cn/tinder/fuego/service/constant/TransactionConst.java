@@ -48,7 +48,8 @@ public class TransactionConst
 	public static final String CHECK_PLAN_TYPE = "C"; //   plan type
 	public static final String CHECK_PLAN_NAME = "实物资产盘点单"; //   plan name
 	public static final String CHECK_PLAN_URL = "GasStationCheckStatusEnsureInit.do"; // assign plan type
-                   
+	public static final String CHECK_MAX_STEP = "2";
+
 	public static final String RECEIVE_PLAN_TYPE = "E"; //   plan type
 	public static final String RECEIVE_PLAN_NAME = "实物资产验收单"; //   plan name
 	public static final String RECEIVE_PLAN_URL = "ImportAssetsSubmitInit.do"; // assign plan type

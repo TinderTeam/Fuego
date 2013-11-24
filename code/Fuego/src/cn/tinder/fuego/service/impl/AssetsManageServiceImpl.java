@@ -30,6 +30,7 @@ import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
+import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
@@ -143,7 +144,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			assetsFilter.setLocation(filter.getLocation());
 		}
 		
-		if((null != filter.getManageName()) && (filter.getManageName().trim().isEmpty()))
+		if((null != filter.getManageName()) && (filter.getManageName().trim().isEmpty()||AssetsConst.ASSETS_FITER_ALL.equals(filter.getManageName())))
 		{	
 			assetsFilter.setManageName(null);
 		}else{
@@ -428,12 +429,11 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		 {
 			 PhysicalAssetsStatus physicalAssets = ConvertAssetsModel.convertAssetsBo(assets);
 			 
-			 SystemUser user = userDao.find(physicalAssets.getDuty());
-			 if(null != user)
-			 {
-				 physicalAssets.setManageName(user.getManageName());
- 			 }
+			 String manage = CacheContext.getInstance().getUserCache().getManageByUser(physicalAssets.getDuty());
 			 
+			 assets.getAssets().setManageName(manage);
+			 physicalAssets.setManageName(manage);
+ 		 
 			 physicalAssetsList.add(physicalAssets);
 		 }
 		 assetsDao.create(physicalAssetsList);

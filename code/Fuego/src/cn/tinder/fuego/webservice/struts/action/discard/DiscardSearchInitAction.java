@@ -2,6 +2,7 @@ package cn.tinder.fuego.webservice.struts.action.discard;
 
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
@@ -70,6 +72,16 @@ public class DiscardSearchInitAction extends Action
     	request.setAttribute(RspBoNameConst.DISCARD_SEARCH_BO,discardSearchBo);
  
     	AssetsFilterForm filterForm = (AssetsFilterForm) request.getAttribute(RspBoNameConst.DISCARD_SEARCH_FORM);
+    	
+    	List<String> deptList = new ArrayList<String>();
+    	deptList.add(AssetsConst.ASSETS_FITER_ALL);
+    	deptList.addAll(loadService.loadAllDeptInfo());
+    	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,deptList);//DeptList
+    	List<String> manageList = new ArrayList<String>();
+    	manageList.add(AssetsConst.ASSETS_FITER_ALL);
+    	manageList.addAll(loadService.loadManageDeptList());
+    	request.setAttribute(RspBoNameConst.MANAGE_DEPT_LIST,manageList);//DeptList
+
     	request.setAttribute(RspBoNameConst.SEARCH_FORM, filterForm);    	
 
 		AssetsPageBo selectAssetsPage = new AssetsPageBo();
@@ -80,7 +92,6 @@ public class DiscardSearchInitAction extends Action
     	else
     	{
     		selectAssetsPage = assetsService.getAssetsByFilter(filterForm, false);
-    		//assetsList = assetsService.getDiscardAssetsListBo(searchForm.getDate(), Arrays.asList(searchForm.getAssetsTypeList()), Arrays.asList(searchForm.getTechStatusList())); 
         }
  		selectAssetsPage.setShowCheckBox(true);
 

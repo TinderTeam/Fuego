@@ -66,8 +66,8 @@ public class PurchasePlanEnsureInitAction extends Action
 	{
 
 		String nextPage = PageNameConst.PURCHASE_PLAN_ENSURE_PAGE;
- 
- 
+		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+
 		// RequestOut
  
  		PurchasePlanSessionBo plan = null;
@@ -80,17 +80,21 @@ public class PurchasePlanEnsureInitAction extends Action
 		{
 			log.info("can not get check  by transaction id." + transID);
 
-		}
+		} 
  
 		if (null == plan)
 		{
+			
 			plan = (PurchasePlanSessionBo) request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
+			if(null == plan.getPurchaseTransBo().getTransInfo().getTransID())
+			{
+				plan.setPurchaseTransBo(((PurchasePlanSessionBo)planService.createPlan(user.getUserID())).getPurchaseTransBo());
+			}
 		}
 
 		request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, plan);// "assetsList"
 		
-    	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
-
+ 
 		nextPage = controlPageBtnDis(plan.getPurchaseTransBo().getTransInfo().canOperate(user),nextPage,request);
 
 		return nextPage;

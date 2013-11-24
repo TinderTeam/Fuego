@@ -38,7 +38,7 @@ public interface TransactionService
 	
 	public void backward(String transID);
 	
-	public List<TransactionBaseInfoBo> getTransListByUser(String userID);
+	public List<TransactionBaseInfoBo> getDisTransByUser(String userID);
 	
 	public List<TransactionBaseInfoBo> getTransListByUser(String userID,TransFilterForm filter);
 
