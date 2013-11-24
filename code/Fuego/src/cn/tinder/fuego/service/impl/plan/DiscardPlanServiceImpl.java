@@ -154,7 +154,7 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 			break;
 		case 1 :
 			handleUser = transEvent.getCreateUser();
-			DiscardAssets(transID);
+			discardAssets(transID);
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();
@@ -164,10 +164,10 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 
 	}
 
-	private void DiscardAssets(String transID)
+	private void discardAssets(String transID)
 	{
 		List<DiscardPlan> discardPlanList =  discardPlanDao.getByTransID(transID);
-		List<String> assetsIDList = null;
+		List<String> assetsIDList = new ArrayList<String>();
 		for(DiscardPlan assignPlan : discardPlanList)
 		{
 			String assetsID = assignPlan.getAssetsID();
