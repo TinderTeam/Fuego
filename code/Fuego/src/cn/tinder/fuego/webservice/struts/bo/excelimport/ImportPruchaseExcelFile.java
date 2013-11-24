@@ -13,6 +13,7 @@ import jxl.read.biff.BiffException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
@@ -74,6 +75,17 @@ public class ImportPruchaseExcelFile {
 			        	cell = sheet.getCell(8,i);
 			        	assBo.setNote(cell.getContents());
 			        	
+			        	
+			        	/*
+			        	 * Edit By Bowen
+			        	 * Added set dept
+			        	*/
+			        	cell = sheet.getCell(9,i);
+			        	assBo.setDuty(cell.getContents());
+			        	
+			        	assBo.setManageName(CacheContext.getInstance().getUserCache().getManageByUser(assBo.getDuty()));
+			        	
+			        	/*-------------*/
 			        	float price = Float.valueOf(planBo.getPrice())*(Float.valueOf((String.valueOf(assBo.getQuantity()))));
 			        	planBo.setMoney(String.valueOf(price));
 			        	planBo.setAssetsBo(assBo);
