@@ -123,6 +123,10 @@ public class PurchasePlanEnsureInitAction extends Action
 			{
 				pageCtr = RspBoNameConst.PAGE_APPROVAL;
 			}
+			else if(TransactionConst.TRANS_FINISH_STEP.equals(step))
+			{
+				pageCtr = RspBoNameConst.PAGE_FINISH;
+			}
 			else
 			{
 				pageCtr = RspBoNameConst.PAGE_CONFIRM;

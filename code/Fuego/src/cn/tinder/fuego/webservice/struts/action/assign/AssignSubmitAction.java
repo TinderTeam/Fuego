@@ -88,6 +88,12 @@ public class AssignSubmitAction extends Action
 		{
 			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
 		}
+		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
+		{
+			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
+
+		}
 		else if(ParameterConst.CONFIRM_PARA_NAME.equals(submitPara))
 		{
 			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
