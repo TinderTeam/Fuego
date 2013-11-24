@@ -55,8 +55,18 @@ public class ImportPruchaseExcelFile {
 			        
 			        Cell cell;
 			        for(int i=2;i<row;i++){
-			        	cell = sheet.getCell(0,i);		        	
-			        	planBo.setIndex(Integer.valueOf(cell.getContents()));
+			        	cell = sheet.getCell(0,i);		
+			        	if(cell.getContents()==null||cell.getContents().isEmpty()){
+			        		;
+			        	}else{
+			        		planBo.setIndex(Integer.valueOf(cell.getContents()));
+			        	}
+			        			        		
+			        	/*Edit By Bowen
+			        	 * for  Issue #58
+			        	 * 2013-11-24 21:07
+			        	 */
+			        	
 			        	cell = sheet.getCell(1,i);
 			        	AssetsBo assBo=new AssetsBo();
 			        	assBo.setAssetsID(cell.getContents());

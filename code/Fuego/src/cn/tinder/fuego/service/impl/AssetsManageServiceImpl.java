@@ -477,6 +477,9 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	public void importBasicAssest(File file)
 	{
 		List<PhysicalAssetsStatus> assetsList = ImportBasicDataExcelFile.load(file);
+		
+		initManageName(assetsList);
+		
 		try
 		{
 			assetsDao.create(assetsList);
@@ -494,6 +497,13 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			
 			throw new ServiceException(ExceptionMsg.ASSETS_NAME_ISEXIST+"("+errID+")");
 		}
+	}
+
+	private void initManageName(List<PhysicalAssetsStatus> assetsList) {
+		
+		for(PhysicalAssetsStatus ast:assetsList){
+			ast.setManageName(CacheContext.getInstance().getUserCache().getManageByUser(ast.getDuty()));
+		}			
 	}
 
 	/* (non-Javadoc)
