@@ -16,5 +16,7 @@ public interface RecapturePlanDao
 
 	// public DiscardPlan find(String transID);
 	public List<RecapturePlan> getByTransID(String transID);
+	public List<RecapturePlan> getByTransID(List<String> transID);
+
 
 }

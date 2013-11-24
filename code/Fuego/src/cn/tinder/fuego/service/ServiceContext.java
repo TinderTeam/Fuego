@@ -229,7 +229,7 @@ public class ServiceContext
 		}
 		else if(TransactionConst.RECAPTURE_PLAN_TYPE.equals(tranType))
 		{
-			planService = this.getReceivePlanService();
+			planService = this.getRecapturePlanService();
 		}
 		else if(TransactionConst.RECEIVE_PLAN_TYPE.equals(tranType))
 		{

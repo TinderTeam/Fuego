@@ -129,6 +129,35 @@ public class RecapturePlanDaoImpl implements RecapturePlanDao
 
 		return recaptureList;
 	}
+	public List<RecapturePlan> getByTransID(List<String> transIDList)
+	{
+		// TODO Auto-generated method stub
+		log.debug("[DAO] get the TransID by ID:" + transIDList);
+		List<RecapturePlan> recaptureList;
+		Session s = null;
+		try
+		{
+			s = HibernateUtil.getSession();
+
+			Criteria c = s.createCriteria(RecapturePlan.class);
+			c.add(Restrictions.in("transID", transIDList));
+
+			recaptureList = c.list();
+
+		} catch (RuntimeException e)
+		{
+			log.error("get discardplan id by transid failed." + transIDList, e);
+			throw e;
+		} finally
+		{
+			if (s != null)
+			{
+				s.close();
+			}
+		}
+
+		return recaptureList;
+	}
 
 	/*
 	 * (non-Javadoc)

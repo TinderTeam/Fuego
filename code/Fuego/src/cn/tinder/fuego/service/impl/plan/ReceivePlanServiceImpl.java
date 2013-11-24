@@ -31,6 +31,7 @@ import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.ReceivePlanDao;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
+import cn.tinder.fuego.domain.po.AssignPlan;
 import cn.tinder.fuego.domain.po.DiscardPlan;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.ReceivePlan;
@@ -463,12 +464,10 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	@Override
 	public int getPlanCount(List<String> transIDList)
 	{
-		List<ReceivePlan> planList = getPlanListByTransIDList(transIDList);
-		if(null == planList)
-		{
-			return 0;
-		}
-		return planList.size();
+		int cnt = super.getAssetsCount(getAssestByTransIDList(transIDList));
+	 
+		
+		return cnt;
 	}
 
 	/* (non-Javadoc)
@@ -477,19 +476,19 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	@Override
 	public float getPlanAssetsSumValue(List<String> transIDList)
 	{
-		float sumValue = 0;
-
-		List<ReceivePlan> planList = getPlanListByTransIDList(transIDList);
+		float sumValue = super.getAssetsSumValue(getAssestByTransIDList(transIDList));
+		return sumValue;
+	}
+	
+	private List<PhysicalAssetsStatus> getAssestByTransIDList(List<String> transIDList)
+	{
+		List<ReceivePlan> planList = receivePlanDao.getByTransID(transIDList);
 		List<String> assetsIDList = new ArrayList<String>();
  		for(ReceivePlan plan : planList)
 		{
 			 assetsIDList.add(plan.getAssetsID());
 		}
 		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
-		for(PhysicalAssetsStatus assets : assetsStatusList)
-		{
-			sumValue += assets.getOriginalValue()* assets.getQuantity();
-		}
-		return sumValue;
+		return assetsStatusList;
 	}
 }

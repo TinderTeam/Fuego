@@ -19,6 +19,7 @@ import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.TransEventTypeDao;
+import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.domain.po.TransEventType;
@@ -442,6 +443,33 @@ public class TransactionServiceImpl implements TransactionService
 			}
 		}
 		return allTransIDList;
+	}
+	
+	public int getAssetsCount(List<PhysicalAssetsStatus> assetsList)
+	{
+		
+		int cnt = 0;
+		for(PhysicalAssetsStatus assets : assetsList)
+		{
+			cnt +=   assets.getQuantity();
+		}
+		
+		return cnt;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanAssetsSumValue(java.util.List)
+	 */
+ 
+	public float getAssetsSumValue(List<PhysicalAssetsStatus> assetsList)
+	{
+		float sumValue = 0;
+ 
+		for(PhysicalAssetsStatus assets : assetsList)
+		{
+			sumValue += assets.getOriginalValue()* assets.getQuantity();
+		}
+		return sumValue;
 	}
 
 }
