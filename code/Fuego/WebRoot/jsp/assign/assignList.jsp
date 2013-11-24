@@ -16,9 +16,7 @@
 					<th>创建者</th>				
 					<th>调出部门</th>
 					<th>调入部门</th>							
-					<th>发起人确认</th>
-					<th>调出部门确认</th>
-					<th>调入部门确认</th>
+					
 			  </tr>
 			</thead>
 			<tbody>
@@ -28,9 +26,7 @@
 				  <td style="text-align:center">${assignPlan.transInfo.transInfo.createUser}</td>
 				  <td style="text-align:center">${assignPlan.transInfo.outDept}</td>
 				  <td style="text-align:center">${assignPlan.transInfo.inDept}</td>
-				  <td style="text-align:center">${assignPlan.transInfo.creatorStatus}</td>
-				  <td style="text-align:center">${assignPlan.transInfo.outDeptStatus}</td>
-				  <td style="text-align:center">${assignPlan.transInfo.inDeptStatus}</td>
+		
 			  </tr>
 			 </tbody>
 		</table>
