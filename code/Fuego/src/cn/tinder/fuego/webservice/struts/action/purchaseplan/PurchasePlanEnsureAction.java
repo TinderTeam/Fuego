@@ -91,10 +91,10 @@ public class PurchasePlanEnsureAction extends Action
 
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;// "PurchasePlanCreateInit"
 		}
-		else if (submitPara.equals(ParameterConst.BACK_PARA_NAME))
+		else if (submitPara.equals(ParameterConst.CANCEL_PARA_NAME))
 		{ 
-			
-			nextPage = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
+			purchasePlanService.deletePlan(purchasePlan.getPurchaseTransBo().getTransInfo().getTransID());
+			nextPage = PageNameConst.INDEX_INIT_ACTION;
 		} 
 		else if(ParameterConst.DOWNLOAD_PARA_NAME.equals(submitPara))
 		{
@@ -111,7 +111,7 @@ public class PurchasePlanEnsureAction extends Action
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 
 		}
-		else if(ParameterConst.CONFIRM_PARA_NAME.equals(submitPara))
+		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
 		{
 			purchasePlanService.forwardNext(purchasePlan.getPurchaseTransBo().getTransInfo().getTransID());
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;

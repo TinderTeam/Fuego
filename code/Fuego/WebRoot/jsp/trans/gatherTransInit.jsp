@@ -44,7 +44,7 @@
 									<div class="control-group">
 										<div class="alert alert-info">
 											<button class="close" data-dismiss="alert">×</button>
-											<strong>说明</strong>"实物资产采购参考计划"是由系统根据现有实物资产的购置日期及使用期限,自动筛选出到期需采购的资产。并由管理员在此基础上生成采购计划。
+											<strong>说明</strong>"通过事务类型和日期，对事务进行统计"
 										</div>
 									
 									</div>
