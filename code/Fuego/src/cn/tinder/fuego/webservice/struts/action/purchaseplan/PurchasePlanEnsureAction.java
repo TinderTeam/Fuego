@@ -12,8 +12,10 @@ import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
+import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.download.PurchasePlanFile;
 import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
@@ -37,6 +39,33 @@ public class PurchasePlanEnsureAction extends Action
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+    	log.info(LogKeyConst.INPUT_ACTION);
+        
+    	String nextPage = null;
+    	try
+    	{
+    		nextPage = handle(form,request);
+		} 
+    	catch(ServiceException e)
+    	{
+    		log.warn("opration failed",e);
+    		request.setAttribute(RspBoNameConst.OPERATE_EXCEPION, e.getMessage());
+			nextPage = PageNameConst.ERROR_PAGE; 
+    	}
+    	catch (Exception e)
+		{
+			log.error("system error",e);
+			nextPage = PageNameConst.SYSTEM_ERROR_PAGE; 
+		}
+     
+ 
+        log.info(LogKeyConst.NEXT_PAGE+nextPage);
+        return mapping.findForward(nextPage);	
+
+    }
+
+	private String handle(ActionForm form,HttpServletRequest request)
+	{
 		log.info(LogKeyConst.INPUT_ACTION + "PurchasePlanEnsureAction");
 		// Page
 		String nextPage = null;
@@ -44,22 +73,12 @@ public class PurchasePlanEnsureAction extends Action
 		// RequestIn
 		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
 
-		if (null == user)
-		{
- 			log.error("the user is null");
-			nextPage = PageNameConst.LOGIN_PAGE;
-			return mapping.findForward(nextPage);
-		}
+ 
 
 		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
 		log.info(LogKeyConst.SUBMIT_VALUE + submitPara);
 
-		if (null == submitPara || submitPara.isEmpty())
-		{
-			log.error("can't find submitPara!");
-			nextPage = PageNameConst.SYSTEM_ERROR_PAGE;
-			return mapping.findForward(nextPage);
-		}
+ 
 		
 		PurchasePlanSessionBo purchasePlan  = (PurchasePlanSessionBo) request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
 
@@ -114,9 +133,13 @@ public class PurchasePlanEnsureAction extends Action
 		}
 
 		log.info(LogKeyConst.NEXT_PAGE + nextPage);
+		
+		return nextPage;
 
-		return mapping.findForward(nextPage);
+ 
 
 	}
+
+		
 
 }

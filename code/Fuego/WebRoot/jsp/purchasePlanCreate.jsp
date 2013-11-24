@@ -43,6 +43,7 @@
 										<th >资产名称</th>
 										<th >资产型号（生产厂家）</th>
 										<th width="120px">规格型号</th>
+										<th>部门</th>
 										<th >单位</th>
 										<th >数量</th>									
 										<th >单价</th>	
@@ -65,10 +66,12 @@
 												<td style="text-align:center" >
 													<input style="width:120px" type="text" name="assetsCreateBo[${i.index-1}].assetsBo.manufacture"  value="${i.assetsBo.manufacture}"/>
 												</td>
-											
+										     
 												<td style="text-align:center">
 													<input style="width:100px" type="text" value="${i.assetsBo.spec}" name="assetsCreateBo[${i.index-1}].assetsBo.spec" />
-										
+											    <td style="text-align:center">
+													<input style="width:100px" type="text" value="${i.assetsBo.duty}" name="assetsCreateBo[${i.index-1}].assetsBo.duty" />
+												</td>
 													
 												</td>
 													

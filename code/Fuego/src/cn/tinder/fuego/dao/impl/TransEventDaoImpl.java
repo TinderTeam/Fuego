@@ -144,7 +144,8 @@ public class TransEventDaoImpl implements TransEventDao
 		// TODO Auto-generated method stub
 		try
 		{
-			HibernateUtil.update(trans);
+			delete(trans);
+			create(trans);
 		} catch (RuntimeException re)
 		{
 			throw re;

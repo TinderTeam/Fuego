@@ -96,7 +96,7 @@ public class ConvertAssetsModel
 		assets.setDept(assetsBo.getDept());
 		assets.setDueDate(DateService.addYear(assetsBo.getPurchaseDate(), assetsBo.getExpectYear()));
 		assets.setDuty(assetsBo.getDuty());
-		assets.setManageName(assets.getAssetsName());
+		assets.setManageName(assets.getManageName());
 		assets.setExpectYear(assetsBo.getExpectYear());
 		assets.setLocation(assetsBo.getLocation());
 		assets.setManufacture(assetsBo.getManufacture());
