@@ -45,17 +45,31 @@ public ActionForward execute(ActionMapping mapping, ActionForm form,
     
 	String nextPage = PageNameConst.BASIC_DATA_PAGE;
 
+	/* Modify By Nanbowen
+	 * 2013-11-21
+	 * 原因：发现多余代码，基础数据导入界面不需要显示任何信息故将下列代码删除
+	
+	
 	//SessionBo
 	//PurchaseWarehousingPageBo purchaseWarehousingPage = null;
 	//DisplayBo
 	List<AssetsPuchaseDeployBo> assetsPuchaseDeployBo = null;
 	/*
 	 * Search and show exist purchasePlan. 
-	 */
+	
+	
+	
+	
 	assetsPuchaseDeployBo = TransactioServiceTest.getAssetsPDBo();
 	
 	request.setAttribute(RspBoNameConst.DEPLOY_LIST, assetsPuchaseDeployBo);
-
+	 */
+	
+	
+	
+	
+	
+	
     log.info(LogKeyConst.NEXT_PAGE+nextPage);
     return mapping.findForward(nextPage);	
 
