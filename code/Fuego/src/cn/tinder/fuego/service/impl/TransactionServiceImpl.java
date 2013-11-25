@@ -366,6 +366,33 @@ public class TransactionServiceImpl implements TransactionService
 		transEventDao.saveOrUpdate(transEvent);
 	}
 
+	public boolean hasChildTrans(String transID)
+	{
+		List<TransEvent> eventList = transEventDao.getTransByParentID(transID);
+		if(null == eventList || eventList.isEmpty())
+		{
+			return false;
+		}
+		return true;
+	}
+	public boolean isParentTransFinish(String transID)
+	{
+        List<TransEvent>  childList = transEventDao.getTransByParentID(transID);
+		
+		boolean finished = true;
+
+		if(null != childList && !childList.isEmpty())
+		{
+			for(TransEvent child : childList)
+			{	
+				if(TransactionConst.END_STEP_FLAG != child.getCurrentStep())
+				{
+					finished = false;
+				}
+			}
+		}
+		return finished;
+	}
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.TransactionService#getTransListByUser(java.lang.String, cn.tinder.fuego.webservice.struts.form.TransFilterForm)
 	 */
