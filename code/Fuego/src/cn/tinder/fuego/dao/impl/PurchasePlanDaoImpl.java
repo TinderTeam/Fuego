@@ -77,10 +77,13 @@ public class PurchasePlanDaoImpl implements PurchasePlanDao
 
 			tx = session.beginTransaction();
 
-			hql = "delete from PurchasePlan where trans_id=? and assets_name = ?";
+			hql = "delete from PurchasePlan where trans_id=? and assets_name = ? and manufacture = ? and spec = ? and duty = ?";
 			Query query = session.createQuery(hql);
 			query.setString(0, plan.getTransID());
 			query.setString(1, plan.getAssetsName());
+			query.setString(2, plan.getManufacture());
+			query.setString(3, plan.getSpec());
+			query.setString(4, plan.getDuty());
 
 			query.executeUpdate();
 
