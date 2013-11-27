@@ -199,8 +199,11 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	@Override
 	public void forwardNext(String transID)
 	{
+		
 		TransEvent transEvent =transEventDao.getByTransID(transID);
-
+		
+		log.info("now the transaction need forward next."+transEvent);
+		
 		String handleUser;
 		switch(transEvent.getCurrentStep())
 		{
@@ -216,6 +219,16 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 			
 		}
 		super.forwardNext(transID, handleUser);
+		
+		if(!super.hasChildTrans(transID))
+		{
+			log.info("the transation is child transaction,will update the parent transaction status" + transID);
+			if(super.isParentTransFinish(transEvent.getParentTransID()))
+			{
+				log.info("the parent id is finish.the parent transaction id is " + transEvent.getParentTransID());
+				forwardNext(transEvent.getParentTransID());
+			}
+		}
 		
 		
 	}

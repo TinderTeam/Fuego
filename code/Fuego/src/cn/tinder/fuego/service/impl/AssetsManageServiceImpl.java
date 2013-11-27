@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.mail.Quota;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -37,9 +39,11 @@ import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.model.PurchaseSumModel;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
+import cn.tinder.fuego.util.constant.ConfigItemNameConst;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
+import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.excelimport.ImportBasicDataExcelFile;
@@ -60,7 +64,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	private static final Log log = LogFactory.getLog(AssetsManageServiceImpl.class);
 
 	private AssetsPriceDao assetsPriceDao = DaoContext.getInstance().getAssetsPriceDao();
-
+	private QuotaDao quotaDao = DaoContext.getInstance().getQuotaDao();
 	private PhysicalAssetsStatusDao assetsDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
 	private SystemUserDao userDao = DaoContext.getInstance().getSystemUserDao();
 
@@ -189,6 +193,120 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	public List<PurchasePlanBo> getPurchaseSumAssetsList(PurchasePlanForm form)
 	{
 		
+		/*
+		 * Edit by Bowen
+		 * 2013-11-27
+		 */
+		
+		/*
+		 * step1: get RefBo By Due Date 
+		 */
+		List<PurchasePlanBo> pruchasePlanBo = getRefByDueDate(form);
+		
+		
+		/*
+		 * step2: get RefBo By RefList
+		 */
+		List<Quota>  diffQuota = getRefByRefList(form);
+		
+		/*
+		 * step3: merge RefBo
+		 * 
+		 */
+		
+		
+	
+		
+ 		return 	mergeRefBo( pruchasePlanBo,diffQuota);
+		 
+	}
+	
+	private List<PurchasePlanBo> mergeRefBo(List<PurchasePlanBo> pruchasePlanBo,List<Quota> diffQuota){
+		/*
+		 * 合并两表，并合并注释信息
+		 */
+		
+		
+		for(Quota quota:diffQuota){
+			for(PurchasePlanBo planBo:pruchasePlanBo){
+				AssetsBo assetBo=planBo.getAssetsBo();
+				if(assetBo.getAssetsName().equals(quota.getAssetsName())){
+					assetBo.setNote(assetBo.getNote+ConfigItemNameConst.PURCHASE_REFLIST_NOTE+quota.getQuantity());
+					assetBo.setQuantity(Math.max(assetBo.getQuantity(), quota.getQuantity());
+				}
+			}
+		}
+	}
+
+	private List<Quota>  getRefByRefList(PurchasePlanForm form) {
+		/*
+		 * Edit By Bowen
+		 */
+		List<String> assetsTypeList = null;
+		if(null == form.getTypeList() || form.getTypeList().length == 0)
+		{
+			log.warn("the type list is empty");
+			assetsTypeList = null;
+		}
+		else
+		{
+			assetsTypeList = Arrays.asList(form.getTypeList());
+		}
+		if(assetsTypeList.contains(AssetsConst.ASSETS_FITER_ALL))
+		{
+			assetsTypeList = null;
+		}
+		
+		List<String> techList = new ArrayList<String>();
+		techList.add(AssetsConst.ASSETS_STATUS_ALL);
+		
+		String duty = null;
+		String manageName = null;
+		if(form.getDuty().equals(AssetsConst.ASSETS_FITER_ALL))
+		{
+			duty = null;
+		}
+		else
+		{
+			duty = form.getDuty();
+		}
+		if(form.getManageName().equals(AssetsConst.ASSETS_FITER_ALL))
+		{
+			manageName = null;
+		}
+		else
+		{
+			manageName = form.getManageName();
+		}
+		
+		List<PhysicalAssetsStatus> assetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(null, techList, assetsTypeList,duty,manageName);
+		List<Quota> quotaList = quotaDao.getQuotaListByStatuListAndTypeList(techList, assetsTypeList,duty,manageName);
+		
+		List<Quota> diffQuotaList = cmpQuotaAndAssets(assetsList,quotaList);
+		
+		
+		return diffQuotaList;
+	}
+	
+	private List<Quota> cmpQuotaAndAssets( List<PhysicalAssetsStatus> assetsList, List<Quota> quotaList){
+		/*
+		 * 匹配配置表
+		 */
+		for(PhysicalAssetsStatus assets:assetsList){
+			for(Quota quota:quotaList){
+				if(assets.getAssetsName().equals(quota.getAssetsName)){
+					/*
+					 * 匹配
+					 */
+					quota.setQuantity(quota.getQuantity()-1);
+				}
+				
+			}
+		}
+		return quotaList;
+	}
+
+	private List<PurchasePlanBo> getRefByDueDate(PurchasePlanForm form) {
 		Date dueDate = DateService.stringToDate(form.getDate());
 
 		List<String> assetsTypeList = null;
@@ -231,8 +349,8 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		
 		List<PhysicalAssetsStatus> assetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(dueDate, techList, assetsTypeList,duty,manageName);
  		
- 		return convertAndSumAssets(assetsList);
-		 
+		List<PurchasePlanBo> pruchasePlanBo = convertAndSumAssets(assetsList);
+		return pruchasePlanBo;
 	}
 	
  
@@ -280,14 +398,22 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		{
 			PurchaseSumModel purchaseSumModel = new PurchaseSumModel();
 			purchaseSumModel.setAssetsName(assets.getAssetsName());
+			
+			/*
+			 * Edit By Bowen
+			 * 
+			 * note : no need to identify the assets by Name,Manufacture and spec. here just need name.
 			purchaseSumModel.setManufacture(assets.getManufacture());
 			purchaseSumModel.setSpec(assets.getSpec());
+			 */
+			
 			purchaseSumModel.setGasName(assets.getDuty());
 			PurchasePlanBo purchasePlan;
 			if(null != purchasePlanMap.get(purchaseSumModel))
 			{
 			    purchasePlan = purchasePlanMap.get(purchaseSumModel);
 				purchasePlan.getAssetsBo().setQuantity(purchasePlan.getAssetsBo().getQuantity()+1);
+				purchasePlan.getAssetsBo().setNote(ConfigItemNameConst.PURCHASE_DUEDATE_NOTE+purchasePlan.getAssetsBo().getQuantity());
 				purchasePlan.countMoney();
 			}
 			else
@@ -310,6 +436,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 				//set index for page display
 				purchasePlan.setIndex(index);
  				index++;
+ 				purchasePlan.getAssetsBo().setNote(ConfigItemNameConst.PURCHASE_DUEDATE_NOTE+purchasePlan.getAssetsBo().getQuantity());
 				purchasePlanMap.put(purchaseSumModel, purchasePlan);
 			}
 			if(AssetsConst.ASSETS_STATUS_DISCARD.equals(purchasePlan.getAssetsBo().getTechState()))

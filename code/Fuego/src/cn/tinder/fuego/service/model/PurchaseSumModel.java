@@ -19,8 +19,10 @@ package cn.tinder.fuego.service.model;
 public class PurchaseSumModel
 {
 	private String assetsName;
+	/* Edit By Bowen 
 	private String manufacture;
 	private String spec;
+	*/
 	private String gasName;
 	public String getAssetsName()
 	{
@@ -30,22 +32,8 @@ public class PurchaseSumModel
 	{
 		this.assetsName = assetsName;
 	}
-	public String getManufacture()
-	{
-		return manufacture;
-	}
-	public void setManufacture(String manufacture)
-	{
-		this.manufacture = manufacture;
-	}
-	public String getSpec()
-	{
-		return spec;
-	}
-	public void setSpec(String spec)
-	{
-		this.spec = spec;
-	}
+	
+	
 	public String getGasName()
 	{
 		return gasName;
@@ -54,20 +42,24 @@ public class PurchaseSumModel
 	{
 		this.gasName = gasName;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((assetsName == null) ? 0 : assetsName.hashCode());
+		result = prime * result
+				+ ((assetsName == null) ? 0 : assetsName.hashCode());
 		result = prime * result + ((gasName == null) ? 0 : gasName.hashCode());
-		result = prime * result + ((manufacture == null) ? 0 : manufacture.hashCode());
-		result = prime * result + ((spec == null) ? 0 : spec.hashCode());
 		return result;
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -75,37 +67,19 @@ public class PurchaseSumModel
 		if (getClass() != obj.getClass())
 			return false;
 		PurchaseSumModel other = (PurchaseSumModel) obj;
-		if (assetsName == null)
-		{
+		if (assetsName == null) {
 			if (other.assetsName != null)
 				return false;
 		} else if (!assetsName.equals(other.assetsName))
 			return false;
-		if (gasName == null)
-		{
+		if (gasName == null) {
 			if (other.gasName != null)
 				return false;
 		} else if (!gasName.equals(other.gasName))
 			return false;
-		if (manufacture == null)
-		{
-			if (other.manufacture != null)
-				return false;
-		} else if (!manufacture.equals(other.manufacture))
-			return false;
-		if (spec == null)
-		{
-			if (other.spec != null)
-				return false;
-		} else if (!spec.equals(other.spec))
-			return false;
 		return true;
 	}
-	@Override
-	public String toString()
-	{
-		return "PurchaseSumModel [assetsName=" + assetsName + ", manufacture=" + manufacture + ", spec=" + spec + ", gasName=" + gasName + "]";
-	}
+	
 	
  
 	

@@ -203,23 +203,15 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		super.forwardNext(transID, handleUser);
 		
 		//update  parent transaction status.
-		List<TransEvent>  childList = transEventDao.getTransByParentID(transEvent.getParentTransID());
-		
-		if(null != childList && !childList.isEmpty())
+		if(!super.hasChildTrans(transID))
 		{
-			boolean finished = true;
-			for(TransEvent child : childList)
-			{	
-				if(TransactionConst.END_STEP_FLAG != child.getCurrentStep())
-				{
-					finished = false;
-				}
-			}
-			if(finished)
+			if(super.isParentTransFinish(transEvent.getParentTransID()))
 			{
 				forwardNext(transEvent.getParentTransID());
 			}
 		}
+
+ 
 		
 		
 	}
