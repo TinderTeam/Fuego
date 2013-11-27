@@ -126,5 +126,6 @@ public class PageNameConst
 	public static final String ASSETS_STATUS_MODIFY_PAGE = "AssetsModify";
 	public static final String ASSETS_STATUS_MODIFY_INIT_PAGE = "AssetsModifyInit";
 	public static final String PRICE_DATA_PAGE = "PriceData";
+	public static final String QUOTA_DATA_PAGE = "QuotaData";
 	
 }

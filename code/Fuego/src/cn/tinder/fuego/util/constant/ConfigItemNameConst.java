@@ -20,7 +20,5 @@ public class ConfigItemNameConst
 {
 	
 	public static final String GOOGLE_BROWSE = "GOOGLE_BROWSE";
-	public static final String PURCHASE_DUEDATE_NOTE = "超期或损坏资产数量：";
-	public static final String PURCHASE_REFLIST_NOTE = "    与标准配置相差数量：";
 
 }

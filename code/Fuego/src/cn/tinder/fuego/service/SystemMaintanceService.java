@@ -35,4 +35,8 @@ public interface SystemMaintanceService
 
 	public File getPriceFile();
 
+	public File getQuotaFile();
+
+	public void importQuotaAssest(File uploadFile);
+
 }
