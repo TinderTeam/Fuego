@@ -11,6 +11,8 @@ package cn.tinder.fuego.webservice.struts.bo.page;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
+
 /** 
  * @ClassName: PageModel 
  * @Description: TODO
@@ -19,13 +21,46 @@ import java.util.List;
  *  
  */
 
-public class PageModelBo
+public class PageModelBo<E>
 {
+	private List<E> allPageData = new  ArrayList<E>();
+
 	private List<Integer> pages =new ArrayList<Integer>();
 	private int pageSize =100;  //defualt page size
 	private int currentPage = 1;
 	private int count = 0;
 	
+	
+	public List<E> getCurrentPageData()
+	{
+		List<E> currentPageData;
+		if(getEndNum()> allPageData.size())
+		{
+			currentPageData = allPageData.subList(getStartNum(), allPageData.size());
+		}
+		else
+		{
+			currentPageData = allPageData.subList(getStartNum(), getEndNum());
+
+		}
+		return currentPageData;
+	}
+	
+	public List<E> getAllPageData()
+	{
+		return allPageData;
+	}
+
+	public void setAllPageData(List<E> allPageData)
+	{
+		
+		this.allPageData = allPageData;
+		if(null != allPageData)
+		{
+			this.count = this.allPageData.size();
+		}
+	}
+
 	public int getStartNum()
 	{
 		return (currentPage-1)*pageSize;  

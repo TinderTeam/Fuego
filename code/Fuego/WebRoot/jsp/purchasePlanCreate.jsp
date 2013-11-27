@@ -43,6 +43,7 @@
 										<th >资产名称</th>
 										<th >资产型号（生产厂家）</th>
 										<th width="120px">规格型号</th>
+										<th>部门</th>
 										<th >单位</th>
 										<th >数量</th>									
 										<th >单价</th>	
@@ -65,10 +66,12 @@
 												<td style="text-align:center" >
 													<input style="width:120px" type="text" name="assetsCreateBo[${i.index-1}].assetsBo.manufacture"  value="${i.assetsBo.manufacture}"/>
 												</td>
-											
+										     
 												<td style="text-align:center">
 													<input style="width:100px" type="text" value="${i.assetsBo.spec}" name="assetsCreateBo[${i.index-1}].assetsBo.spec" />
-										
+											    <td style="text-align:center">
+													<input style="width:100px" type="text" value="${i.assetsBo.duty}" name="assetsCreateBo[${i.index-1}].assetsBo.duty" />
+												</td>
 													
 												</td>
 													
@@ -104,8 +107,7 @@
 							</div>
 						</div>
 							<a href="#myAlert" data-toggle="modal" class="btn btn-primary" style="width:60px">新建资产</a>
-							<button type="submit" class="btn btn-primary" name ="submit" value="add">查询添加</button>
-							
+ 							
 							
 								<div id="myAlert" class="modal hide">
 										<div class="modal-header">
@@ -139,7 +141,6 @@
 								<div class="widget-content">
 								
 									<button   type="submit"  class="btn btn-success"   name ="submit" value="submit">提交</button>								
-									<button  type="submit" class="btn  btn-primary" name ="submit" value="reDo">重新填写</button>	
 									<button  type="submit" class="btn  btn-primary" name ="submit" value="back">返回</button>	
 								</div>
 	

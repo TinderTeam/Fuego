@@ -39,7 +39,17 @@
 									<h5>采购计划参考表</h5>
 										
 								</div>
+								<div class="widget-content">
+								<div class="control-group">
+										                第<select name="pageNum" style = "width:70px" onchange="return pageChange('pageChange')" >
+												<option id="${purchasePlan.purchasePageBo.page.currentPage}">${purchasePlan.purchasePageBo.page.currentPage}</option>	
+												<c:forEach var="i" items= "${purchasePlan.purchasePageBo.page.pages}"> 																								  
+													<option id="${i}"/>${i}																							
+												</c:forEach>
+									 </select>页，共${purchasePlan.purchasePageBo.page.count}条记录							 
+									</div>
 							
+							    </div>	
 								<div class="widget-content nopadding" style="height:500px;overflow-y:auto;" >
 									<table class="table table-bordered " >
 										<thead>
@@ -48,6 +58,7 @@
 											<th>资产名称</th>
 											<th>品牌</th>
 											<th>规格/参数</th>
+											<th>部门</th>
 											<th>购置数量</th>
 											<th>单位</th>
 											<th>预算单价</th>
@@ -57,7 +68,7 @@
 										</thead>
 										<tbody>
 										
-											<c:forEach var="item" items= "${refList}">  
+											<c:forEach var="item" items= "${purchasePlan.purchasePageBo.assetsList}">  
 											<tr>
 							
 												<td style="text-align:center">
@@ -66,6 +77,7 @@
 													<td style="text-align:center" >${item.assetsBo.assetsName}</td>												
 													<td style="text-align:center">${item.assetsBo.manufacture}</td>
 													<td style="text-align:center">${item.assetsBo.spec}</td>
+													<td style="text-align:center">${item.assetsBo.duty}</td>
 													<td style="text-align:center">${item.assetsBo.quantity}</td>
 													
 													<td style="text-align:center" >${item.assetsBo.unit}</td>
@@ -84,7 +96,8 @@
 								</div>
 							
 							</div>
-							  
+							<button id ="pageChange"  type="submit" class="btn btn-success" style="display:none"  name="submit" value="pageChange">换页</button>
+							
 							<button type="submit" class="btn btn-success" name="submit" value="submit">选定资产</button>
 							<button type="submit" class="btn btn-primary" name="submit" value="back">返回</button>			
 						</form>

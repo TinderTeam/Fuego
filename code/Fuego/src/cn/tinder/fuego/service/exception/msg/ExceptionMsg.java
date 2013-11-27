@@ -22,6 +22,8 @@ public class ExceptionMsg
 	public static final String EXCEL_READ_ERR =  "很抱歉,Excel文件损坏无法导入：";
 	
 	public static final String ASSETS_LIST_EMPTY = "选择资产的资产为空，请重新选择";
+	
+	public static final String NO_NEED_CHECK ="资产为空，不需要盘点";
 	public static final String NO_DATA = "没有相应数据，请重新查询或选择。";
 	
 	public static final String ASSETS_DATA_FORMART_WRONG ="资产数据格式错误，请检查修改后重新导入";
@@ -35,4 +37,13 @@ public class ExceptionMsg
 	public static final String GDZC_QUANTITY_ERR = "导入数据中的实物资产数量必须为1!";
 	public static final String CELL_WRONG = "导入数据中单元格读取错误";
 	public static final String ASSETS_NAME_ISEXIST ="导入数据中资产编号已经存在:错误的资产编号为";
+	public static final String ASSETS_ID_ISEXIST ="资产编号已经存在";
+	public static final String IDISNULL = "自动分配资产ID错误";
+	public static final String ERR_ROW = "错误行号为：";
+	
+	
+	public static final String TRANS_IS_EMPTY = "没有相应的事务";
+	
+	
+
 }

@@ -27,7 +27,7 @@
 			<div class="container-fluid">
 				<div class="row-fluid">
 					<div class="span12">
-						<form action="<%=request.getContextPath()%>/DiscardSearch.do"  name="myForm" method="post">						
+						<form action="<%=request.getContextPath()%>/DiscardSearchResult.do"  name="myForm2" method="post">
 						<div class="widget-box">
 							
 							<div class="widget-title">
@@ -52,7 +52,7 @@
                                         <label class="control-label">统计截止日期</label>
 										
                                         <div class="controls">
-                                            <input type="text" data-date="2013-4-9" name="date" data-date-format="yyyy-mm-dd" value="${discardSearchBo.date}" onfocus="WdatePicker()" />
+                                            <input type="text" data-date="2013-4-9" name="endDueDate" data-date-format="yyyy-mm-dd" value="${discardSearchBo.date}" onfocus="WdatePicker()" />
                                         </div>
 										
                                     </div>
@@ -63,7 +63,7 @@
 											<label class="control-label">状态</label>					
 											<div class="controls">
 
-												<select name="techStatusList"  style="width:100px">
+												<select name="techState"  style="width:100px">
 												
 												    <option selected=""  >全部</option>	
 													<c:forEach var="i" items= "${discardSearchBo.techStatusList}"> 																								  
@@ -81,7 +81,7 @@
 
 													
 																									
-												<select name="assetsTypeList"  style="width:200px">
+												<select name="assetsType"  style="width:200px">
 												
 												    <option selected=""  >全部</option>	
 													<c:forEach var="i" items= "${discardSearchBo.assetsTypeList}"> 																								  
@@ -92,20 +92,59 @@
 												</div>
 										</div>
 									</div>	
-										
-										
-									<div class="form-actions">
-										
-											<button type="submit" class="btn btn-primary" name="submit" value="submit1">查询待处置资产</button>
+								<div class="control-group">
+									<div class="control-group">
+									 <label class="control-label">经营管理部</label>	
+								    	<div class="controls">
 									
-									</div>
+                                                 <select name="manageName" style="width: 200px"  >
+													<c:forEach var="i" items= "${manageDeptList}"> 																								  
+												      <c:choose>
+														  <c:when test="${searchForm.manageName == i}">
+													           <option selected=""  >${searchForm.manageName}</option>	
+														  </c:when>
+														  <c:otherwise>  
+														       <option id="${i}"/>${i}		
+													
+														  </c:otherwise>
+													  </c:choose>																		
+													</c:forEach>
+												</select>							
+									    </div>
+							          </div>
+							      </div>	
+							      	<div class="control-group">	
+										<div class="control-group">
+										   	<label class="control-label">加油站</label>	
+											<div class="controls">
+										    
+											   <select name="duty" style="width: 200px"  >
+													<c:forEach var="i" items= "${deptList}"> 																								  
+												      <c:choose>
+														  <c:when test="${searchForm.duty == i}">
+													           <option selected=""  >${searchForm.duty}</option>	
+														  </c:when>
+														  <c:otherwise>  
+														       <option id="${i}"/>${i}		
+													
+														  </c:otherwise>
+													  </c:choose>																		
+													</c:forEach>
+												</select>
+										     </div>
+										  </div>
+										</div>
+									<div class="widget-content">
+										<div class="control-group">
+											 <button  type="submit" class="btn btn-success" name="submit" value ="search">查询</button>
+		 					 		 
+										</div>
+									</div>		
 								</div>
 							</div>
 	
 						</div>
-							</form>
-						
-						<form action="<%=request.getContextPath()%>/DiscardSearchResult.do"  name="myForm" method="post">
+						 
 						<div class="widget-box">
 								<div class="widget-title">
 									<span class="icon">
@@ -121,7 +160,7 @@
 										 
 									<div class="form-actions">
 
-										<button type="submit" class="btn btn-success" name="submit" value="submit2">提交</button>
+										<button type="submit" class="btn btn-success" name="submit" value="submit">提交</button>
 										<button type="submit" class="btn btn-primary" name="submit" value="back">返回</button>
 													
 									</div>							

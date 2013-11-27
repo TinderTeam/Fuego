@@ -34,27 +34,12 @@
 								</div>
 								<div class="widget-content nopadding">
 									
-									<form action="<%=request.getContextPath()%>/SystemParaSetup.do" method="post" class="form-horizontal" />
-										
-										<div class="control-group">
-											<div class="alert alert-danger">
-												<button class="close" data-dismiss="alert">×</button>
-												<strong>注意！系统初始数据维护。。。。。</strong> 加油站名称与用户名输入一致
-											</div>									
-										</div>
-											 
+									<form action="<%=request.getContextPath()%>/SystemParaSetup.do" method="post" class="form-horizontal" />																														 
 										<div class="control-group">
 											 <label class="control-label">油站名称</label >
 											<div class="controls"> 
 											   	<input type="text" name="gasname"> 
-											</div>
-												<label class="control-label">用户名</label >
-											<div class="controls"> 	
-											    <input type="text" name="username" >
-											 
-											</div>
-                                  																									
-											                      
+											</div>																                      
 										</div>
 										
 										<div class="control-group">
@@ -92,13 +77,7 @@
 							<div class="widget-content nopadding">
 								
 								<form action="<%=request.getContextPath()%>/SystemParaSetup.do" method="post" class="form-horizontal" />
-									
-									<div class="control-group">
-										<div class="alert alert-danger">
-											<button class="close" data-dismiss="alert">×</button>
-											<strong>注意！系统初始数据维护。。。。。</strong> 
-										</div>									
-									</div>
+							
                                          
 								
 									<div class="control-group">

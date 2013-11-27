@@ -1,5 +1,6 @@
 package cn.tinder.fuego.webservice.struts.form;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForm;
@@ -8,12 +9,15 @@ import cn.tinder.fuego.util.date.DateService;
 
 public class AssetsFilterForm extends ActionForm
 {
+	private String [] assetsIDList ; //selected assets 
 	private String assetsID;         //exact match
 	private String assetsType;       //exact match
 	private String techState;        //exact match
 	
 	private String assetsName;       //approximately match
 	private String duty;             //approximately match
+	
+	private String manageName;       //approximately match
 	private String location;         //approximately match
 	
 	private String startPurchaseDate;  // Start time of purchase date
@@ -22,6 +26,7 @@ public class AssetsFilterForm extends ActionForm
 	private String endPurchaseDate;    // End time of purchase date
 
 	private String endDueDate;         // End time of due date
+ 
 
 
 	
@@ -146,20 +151,7 @@ public class AssetsFilterForm extends ActionForm
 		this.endDueDate = endDueDate;
 	}
 
-
-
-	@Override
-	public String toString() {
-		return "AssetsFilterForm [assetsID=" + assetsID + ", assetsType="
-				+ assetsType + ", techState=" + techState + ", assetsName="
-				+ assetsName + ", duty=" + duty + ", location=" + location
-				+ ", startPurchaseDate=" + startPurchaseDate
-				+ ", startDueDate=" + startDueDate + ", endPurchaseDate="
-				+ endPurchaseDate + ", endDueDate=" + endDueDate + "]";
-	}
-
-
-
+ 
 	public void setPageNum(int pageNum) {
 		this.pageNum = pageNum;
 	}
@@ -169,6 +161,47 @@ public class AssetsFilterForm extends ActionForm
 	public int getPageNum() {
 		return pageNum;
 	}
+
+
+
+	public String[] getAssetsIDList()
+	{
+		return assetsIDList;
+	}
+
+
+
+	public void setAssetsIDList(String[] assetsIDList)
+	{
+		this.assetsIDList = assetsIDList;
+	}
+
+
+
+	public String getManageName()
+	{
+		return manageName;
+	}
+
+
+
+	public void setManageName(String manageName)
+	{
+		this.manageName = manageName;
+	}
+
+
+
+	@Override
+	public String toString()
+	{
+		return "AssetsFilterForm [assetsIDList=" + Arrays.toString(assetsIDList) + ", assetsID=" + assetsID + ", assetsType=" + assetsType + ", techState=" + techState + ", assetsName=" + assetsName
+				+ ", duty=" + duty + ", manageName=" + manageName + ", location=" + location + ", startPurchaseDate=" + startPurchaseDate + ", startDueDate=" + startDueDate + ", endPurchaseDate="
+				+ endPurchaseDate + ", endDueDate=" + endDueDate + ", pageNum=" + pageNum + "]";
+	}
+
+
+ 
 
 	
 

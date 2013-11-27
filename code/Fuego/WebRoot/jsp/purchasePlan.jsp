@@ -52,9 +52,36 @@
 										</div>
 									
 									</div>
-									<div class="control-group">
-                                        <label class="control-label">采购部门</label>
-                                        <label class="control-label">${deptName}</label>
+ 
+                                    <div class="control-group">
+                                        <label class="control-label">部门</label>
+                                        <div class="controls">
+																							
+											<td style="text-align:center">	
+												<select name="duty"  style="width:200px">
+												
+												    <option selected=""  >全部</option>	
+													<c:forEach var="i" items= "${deptList}"> 																								  
+														<option id="${i}"/>${i}																							
+													</c:forEach>
+												</select>
+											</td>
+										</div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">经营管理部</label>
+                                        <div class="controls">
+																							
+											<td style="text-align:center">	
+												<select name="manageName"  style="width:200px">
+												
+												    <option selected=""  >全部</option>	
+													<c:forEach var="i" items= "${manageDeptList}"> 																								  
+														<option id="${i}"/>${i}																							
+													</c:forEach>
+												</select>
+											</td>
+										</div>
                                     </div>
 									<div class="control-group">
 										<label class="control-label">实物资产类型</label>
@@ -111,34 +138,7 @@
 						</div>	
 					</div>	
 				</div>				
-			    <div class="container-fluid">
-					<div class="row-fluid">
-						<div class="span12">
-							<div class="widget-box">
-								<div class="widget-title">
-									<span class="icon">
-										<i class="icon-align-justify"></i>									
-									</span>
-									<h5>手工创建采购计划</h5>
-								</div>
-								<div class="widget-content nopadding">
-									<form action="<%=request.getContextPath()%>/PurchasePlan.do"  name="Form2" method="get" class="form-horizontal">	
-										<div class="control-group">
-											<div class="alert alert-info">
-												<button class="close" data-dismiss="alert">×</button>
-												<strong>说明</strong> 由管理选人工选择需要列入采购的实物资产类型及项目。
-											</div>									
-										</div>
-									
-										<div class="form-actions">
-											<button type="submit" class="btn btn-primary" name="submit" value="submit2">开始手工创建采购计划</button>
-										</div>
-									</form>
-								</div>
-							</div>						
-						</div>
-				</div>
- 
+			<div class="container-fluid">
 				<div class="row-fluid">
 					<div id="footer" class="span12">
 						2013  Copyright Reserved by Tinder

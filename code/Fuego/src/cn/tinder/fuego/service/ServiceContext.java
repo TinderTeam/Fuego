@@ -2,8 +2,6 @@ package cn.tinder.fuego.service;
 
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.impl.AssetsManageServiceImpl;
-import cn.tinder.fuego.service.impl.GasAssetsApplyServiceImpl;
-import cn.tinder.fuego.service.impl.GasStationCheckServiceImpl;
 import cn.tinder.fuego.service.impl.LoadServiceImpl;
 import cn.tinder.fuego.service.impl.LoginServiceImpl;
 import cn.tinder.fuego.service.impl.SystemMaintanceServiceImpl;
@@ -32,8 +30,7 @@ public class ServiceContext
 	private LoadService loadService;
 
 	private LoginService loginService;
-	private GasAssetsApplyService  gasAssetsApplyService ;
-
+ 
 	private AssetsManageService assetsManageService;
 
 	private SystemParaService systemParaService;
@@ -44,8 +41,7 @@ public class ServiceContext
 	
 	private ConstService constService;
 	
-	private GasStationCheckService gasStationCheckService;
-	
+	 
  	private FileLoadService fileLoadService;
 
 	private TransPlanService assignPlanService;
@@ -109,14 +105,7 @@ public class ServiceContext
 		return loadService;
 	}
 	
-	public synchronized GasAssetsApplyService getGasAssetsApplyService()
-	{
-		if(null == gasAssetsApplyService)
-		{
-			gasAssetsApplyService = new GasAssetsApplyServiceImpl();
-		}
-		return gasAssetsApplyService;
-	}
+ 
 	public synchronized LoginService getLoginService()
 	{
 		if (null == loginService)
@@ -161,7 +150,7 @@ public class ServiceContext
 		return transService;
 	}
 
-	public synchronized TransPlanService getAssignPlanService(String tranType)
+	public synchronized TransPlanService getAssignPlanService()
 	{
 		if(null == assignPlanService)
 		{
@@ -224,27 +213,27 @@ public class ServiceContext
 		
 		if(TransactionConst.ASSIGN_PLAN_TYPE.equals(tranType))
 		{
-			planService = this.getAssignPlanService(tranType);
+			planService = this.getAssignPlanService();
 		}
 		else if(TransactionConst.CHECK_PLAN_TYPE.equals(tranType))
 		{
-			planService = this.getAssignPlanService(tranType);
+			planService = this.getCheckPlanService();
 		}
 		else if(TransactionConst.DISCARD_PLAN_TYPE.equals(tranType))
 		{
-			planService = this.getAssignPlanService(tranType);
+			planService = this.getDiscardPlanService();
 		}
 		else if(TransactionConst.PURCHASE_PLAN_TYPE.equals(tranType))
 		{
-			planService = this.getAssignPlanService(tranType);
+			planService = this.getPurchasePlanService();
 		}
 		else if(TransactionConst.RECAPTURE_PLAN_TYPE.equals(tranType))
 		{
-			planService = this.getAssignPlanService(tranType);
+			planService = this.getRecapturePlanService();
 		}
 		else if(TransactionConst.RECEIVE_PLAN_TYPE.equals(tranType))
 		{
-			planService = this.getAssignPlanService(tranType);
+			planService = this.getReceivePlanService();
 		}
 		
 		return planService;
@@ -254,15 +243,7 @@ public class ServiceContext
 
 
 	
-	public synchronized GasStationCheckService getGasStationCheckService()
-	{
-		if(null == gasStationCheckService)
-		{
-			gasStationCheckService = new GasStationCheckServiceImpl();
-		}
-		return gasStationCheckService;
-	}
-
+ 
  
 	public synchronized IDCreateService getAssetsIDCreateService()
 	{

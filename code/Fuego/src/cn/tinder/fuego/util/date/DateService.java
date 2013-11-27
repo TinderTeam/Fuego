@@ -30,6 +30,10 @@ public class DateService {
 		String str = null;
 		DateFormat d = DateFormat.getDateInstance(DateFormat.MEDIUM);
 		
+		if(null == date)
+		{	
+			return "";
+		}
 		try
 		{
 			str=d.format(date);
@@ -78,7 +82,29 @@ public class DateService {
 		return addYear(stringToDate(purchaseDate),expectYear);
 	}
 	
+	/**
+	 * get the first date of current month
+	 * @return
+	 */
+	public static String getCurMonthFirstDate()
+	{
+		Calendar   cal_1=Calendar.getInstance();//获取当前日期 
+        cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+	    Date date = cal_1.getTime();
+	    return DateToString(date);
+	}
+	/**
+	 * get the last date of current month
+	 * @return
+	 */
+	public static String getCurMonthLastDate()
+	{
+		Calendar ca = Calendar.getInstance();    
+        ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
+	    Date date = ca.getTime();
 
+        return DateToString(date);
+	}
 	
 	
 }

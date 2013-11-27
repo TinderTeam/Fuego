@@ -96,30 +96,51 @@ public class DiscardSureInitAction extends Action
 		} 
 		request.getSession().setAttribute(RspBoNameConst.DISCARD_PLAN_INFO, plan);
 
-		nextPage = controlPageBtnDis(nextPage,request);
+    	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+
+    	   
+		nextPage = controlPageBtnDis(plan.getTransInfo().getTransInfo().canOperate(user),nextPage,request);
+
+
 		return nextPage;
 	}
-	private String controlPageBtnDis(String nextPage,HttpServletRequest request)
+	private String controlPageBtnDis(boolean canOperate,String nextPage,HttpServletRequest request)
 	{
 		//control page button display by the step
 		String pageCtr = RspBoNameConst.PAGE_CREATE;
 		String step = request.getParameter(ParameterConst.PLAN_STEP);
-		if(null == step)
+		if(!canOperate)
 		{
-			pageCtr = RspBoNameConst.PAGE_CREATE;
-		}
-		else if(TransactionConst.DISCARD_MAX_STEP.equals(step))
-		{
-			nextPage = PageNameConst.DISCARD_SEARCH_INIT;
-		}
-		else if(TransactionConst.DISCARD_APPROVAL_STEP.equals(step))
-		{
-			pageCtr = RspBoNameConst.PAGE_APPROVAL;
+			pageCtr = RspBoNameConst.PAGE_VIEW;
 		}
 		else
 		{
-			pageCtr = RspBoNameConst.PAGE_CONFIRM;
- 		}
+			if(null == step)
+			{
+				pageCtr = RspBoNameConst.PAGE_CREATE;
+			}
+			else if(TransactionConst.DISCARD_MAX_STEP.equals(step))
+			{
+				nextPage = PageNameConst.DISCARD_SEARCH_INIT;
+			}
+			else if(TransactionConst.DISCARD_APPROVAL_STEP.equals(step))
+			{
+				pageCtr = RspBoNameConst.PAGE_APPROVAL;
+			}
+			else if(TransactionConst.TRANS_LAST_STEP.equals(step))
+			{
+				pageCtr = RspBoNameConst.PAGE_FINISH;
+			}
+			else if(TransactionConst.TRANS_FINISH_STEP.equals(step))
+			{
+				pageCtr = RspBoNameConst.PAGE_VIEW;
+	 		}
+			else
+			{
+				pageCtr = RspBoNameConst.PAGE_CONFIRM;
+	 		}
+		}
+
 		request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, pageCtr);
 		return nextPage;
 	}

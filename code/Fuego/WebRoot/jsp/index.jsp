@@ -32,7 +32,7 @@
 						<div class="widget-box">
 							<div class="widget-title">
 								<span class="icon">
-									<i class="icon-th"></i>
+									<i class="icon-th-list"></i>
 								</span>
 								<h5>重要通知</h5>
 							</div>

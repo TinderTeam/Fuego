@@ -200,4 +200,36 @@ public class PurchasePlanDaoImpl implements PurchasePlanDao
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.dao.PurchasePlanDao#getByTransID(java.util.List)
+	 */
+	@Override
+	public List<PurchasePlan> getByTransID(List<String> transIDList)
+	{
+		List<PurchasePlan> purchaseList;
+		Session s = null;
+		try
+		{
+			s = HibernateUtil.getSession();
+
+			Criteria c = s.createCriteria(PurchasePlan.class);
+			c.add(Restrictions.in("transID", transIDList));
+
+			purchaseList = c.list();
+
+		} catch (RuntimeException e)
+		{
+			log.error("get purchaseplan id by transid failed." + transIDList, e);
+			throw e;
+		} finally
+		{
+			if (s != null)
+			{
+				s.close();
+			}
+		}
+
+		return purchaseList;
+	}
+
 }

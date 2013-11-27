@@ -8,6 +8,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
  	<jsp:include page="/jsp/cbb/includeCSS.jsp"/>
+		<script type="text/javascript">
+		function submitFuction()
+		{
+			document.getElementById("subID").click();
+		}	
+		</script>
 <body>
  
      	<jsp:include page="/jsp/cbb/header.jsp"/>
@@ -68,7 +74,40 @@
 						</div>
 						
 						<form action="<%=request.getContextPath()%>/GasStationCheckStatus.do" method="post" class="form-horizontal" >
-						<button type="submit" class="btn btn-primary" name="submit" value="confirm">确定</button>						
+					  <c:if test="${'create' == pageDisCtr}"> 
+						
+						<button type="submit" class="btn btn-primary" name="submit" value="confirm">确定</button>	
+						<button  id = "subID" type="submit" class="btn btn-primary"  name ="submit" value="download" style="display:none">导出</button>	
+		
+	
+						   </c:if>
+						   <c:if test="${'confirm' == pageDisCtr}">
+						   
+							  <button class="btn btn-success"  name="submit" value="confirm">完成</button>
+						  	   <button  id = "subID" type="submit" class="btn btn-primary"  name ="submit" value="download" style="display:none">导出</button>	
+							  
+ 	 					  </c:if>
+						  <c:if test="${'finish' == pageDisCtr}">
+						   
+							  <button class="btn btn-success"  name="submit" value="finish">完成</button>
+						  	   <button  id = "subID" type="submit" class="btn btn-primary"  name ="submit" value="download" style="display:none">导出</button>	
+							  
+ 	 					  </c:if>
+						  <c:if test="${'view' == pageDisCtr}"> 
+						      <button class="btn btn-success"  name="submit" value="view">确定</button>								
+ 	 					  </c:if>	
+ 	 					  							
+											<a href="#myAlert" data-toggle="modal" class="btn btn-primary" style="width:150px" onclick="submitFuction()">导出</a>		
+											<div id="myAlert" class="modal hide">
+												<div class="modal-header">													
+													<h3>正在导出全部盘点信息（请耐心等候）</h3>
+												</div>
+												<div class="modal-body">
+													<div class="span12 center" style="text-align: center;">	
+														<img border="0" alt="请等待" src="<%=request.getContextPath()%>/img/loading.gif" style="center"/></a>	
+															</div>
+												</div>											
+											</div>				
 						</form>
 					</div>
 				</div>

@@ -85,7 +85,7 @@ public class AssetsRecaptureAction extends Action
 		String nextPage = null;
     	
     	RecaptureForm recaptureForm = (RecaptureForm) form;   	
-    	request.setAttribute(RspBoNameConst.RECAPTURE_FORM, recaptureForm);
+    	request.getSession().setAttribute(RspBoNameConst.RECAPTURE_FORM, recaptureForm);
 
  		log.info("[Info]AssetsRecoverForm:" + recaptureForm);
 		

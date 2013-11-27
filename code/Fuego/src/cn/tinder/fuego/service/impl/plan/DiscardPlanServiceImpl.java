@@ -31,6 +31,7 @@ import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.TransExtAttrDao;
 import cn.tinder.fuego.domain.po.DiscardPlan;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
+import cn.tinder.fuego.domain.po.PurchasePlan;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.constant.TransactionConst;
@@ -153,7 +154,7 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 			break;
 		case 1 :
 			handleUser = transEvent.getCreateUser();
-			DiscardAssets(transID);
+			discardAssets(transID);
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();
@@ -163,10 +164,10 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 
 	}
 
-	private void DiscardAssets(String transID)
+	private void discardAssets(String transID)
 	{
 		List<DiscardPlan> discardPlanList =  discardPlanDao.getByTransID(transID);
-		List<String> assetsIDList = null;
+		List<String> assetsIDList = new ArrayList<String>();
 		for(DiscardPlan assignPlan : discardPlanList)
 		{
 			String assetsID = assignPlan.getAssetsID();
@@ -209,17 +210,18 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 		discardTrans.setTransInfo(baseTrans);
 		discardPlan.setTransInfo(discardTrans);
 
+		 //init the all page data
+		 discardPlan.getAssetsPage().getPage().setAllPageData(discardPlan.getAssetsPage().getAssetsList());
+
 		return (E) discardPlan;
 	}
 	private List<String> getAssetsIDListByTransID(String transID)
 	{
 		List<DiscardPlan> discardPlanList = discardPlanDao.getByTransID(transID);
 		List<String> assetsIDList = new ArrayList<String>();
-        String assetsID = null;
-		for(DiscardPlan discardAssetsPlan : discardPlanList)
+ 		for(DiscardPlan discardAssetsPlan : discardPlanList)
 		{
-			 assetsID = discardAssetsPlan.getAssetsID();
-			 assetsIDList.add(assetsID);
+			 assetsIDList.add(discardAssetsPlan.getAssetsID());
 		}
 		return assetsIDList;
 	}
@@ -396,5 +398,41 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanCount(java.util.List)
+	 */
+	@Override
+	public int getPlanCount(List<String> transIDList)
+	{
+		List<DiscardPlan> planList = this.discardPlanDao.getByTransID(transIDList);
+		if(null == planList)
+		{
+			return 0;
+		}
+		return planList.size();
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanAssetsSumValue(java.util.List)
+	 */
+	@Override
+	public float getPlanAssetsSumValue(List<String> transIDList)
+	{
+		float sumValue = 0;
+
+		List<DiscardPlan> planList = discardPlanDao.getByTransID(transIDList);
+		List<String> assetsIDList = new ArrayList<String>();
+ 		for(DiscardPlan plan : planList)
+		{
+			 assetsIDList.add(plan.getAssetsID());
+		}
+		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
+		for(PhysicalAssetsStatus assets : assetsStatusList)
+		{
+			sumValue += assets.getOriginalValue()* assets.getQuantity();
+		}
+		return sumValue;
 	}
 }

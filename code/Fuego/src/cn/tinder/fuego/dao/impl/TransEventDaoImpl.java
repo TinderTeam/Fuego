@@ -21,6 +21,7 @@ import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.hibernate.util.HibernateUtil;
 import cn.tinder.fuego.domain.po.CheckPlan;
 import cn.tinder.fuego.domain.po.DiscardPlan;
+import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
@@ -143,7 +144,8 @@ public class TransEventDaoImpl implements TransEventDao
 		// TODO Auto-generated method stub
 		try
 		{
-			HibernateUtil.update(trans);
+			delete(trans);
+			create(trans);
 		} catch (RuntimeException re)
 		{
 			throw re;
@@ -157,9 +159,9 @@ public class TransEventDaoImpl implements TransEventDao
 	 * @see cn.tinder.fuego.dao.TransEventDao#getByHandlerUser(java.lang.String)
 	 */
 	@Override
-	public List<TransEvent> getTransByHandlerUser(String userID)
+	public List<TransEvent> getTransByUser(List<String> userIDList)
 	{
-		log.debug("Get the TransEvent by User" + userID);
+		log.debug("Get the TransEvent by User" + userIDList);
 		Session s = null;
 
 		List<TransEvent> transList = null;
@@ -167,7 +169,11 @@ public class TransEventDaoImpl implements TransEventDao
 		{
 			s = HibernateUtil.getSession();
 			Criteria c = s.createCriteria(TransEvent.class);
-			c.add(Restrictions.eq("handleUser", userID));//
+
+			c.add(Restrictions.or(Restrictions.and(Restrictions.isNull("parentTransID"),Restrictions.in("createUser", userIDList)), Restrictions.in("handleUser", userIDList)));
+			c.add(Restrictions.ne("currentStep", TransactionConst.END_STEP_FLAG));//
+
+
 			transList =   c.list();
 		} catch (RuntimeException e)
 		{
@@ -277,6 +283,64 @@ public class TransEventDaoImpl implements TransEventDao
 			}
 		}
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.dao.TransEventDao#getTransByFilter(cn.tinder.fuego.domain.po.TransEvent, cn.tinder.fuego.domain.po.TransEvent)
+	 */
+	@Override
+	public List<TransEvent> getTransByFilter(TransEvent filter1, TransEvent filter2)
+	{
+		     Session s = null;
+
+			List<TransEvent> transList = null;
+			try
+			{
+				s = HibernateUtil.getSession();
+				Criteria c  = s.createCriteria(TransEvent.class);
+				if(null != filter1)
+				{
+					if(null != filter1.getCreateUser())
+					{
+						c.add(Restrictions.eq("createUser", filter1.getCreateUser()));
+					}
+					if(null != filter1.getTransName())
+					{
+						c.add(Restrictions.eq("transName", filter1.getTransName()));
+					}
+					if(null != filter1.getStatus())
+					{
+						c.add(Restrictions.eq("status", filter1.getStatus()));
+					}
+					if(null != filter1.getEndTime())
+					{
+						c.add(Restrictions.ge("endTime", filter1.getEndTime()));
+					}
+				}
+				if(null != filter2)
+				{ 
+					if(null != filter2.getEndTime())
+					{
+						c.add(Restrictions.le("endTime", filter2.getEndTime()));
+					}
+				}
+
+	 
+				transList =   c.list();
+			} catch (RuntimeException e)
+			{
+				log.error("get trans envent faile",e);
+				throw e;
+			} finally
+			{
+				// HibernateUtil.closeSession();
+				if (s != null)
+				{
+					s.close();
+				}
+			}
+	 
+			return transList;
 	}
 	
 

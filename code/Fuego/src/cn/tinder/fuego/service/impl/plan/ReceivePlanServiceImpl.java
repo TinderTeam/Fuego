@@ -11,6 +11,7 @@ package cn.tinder.fuego.service.impl.plan;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,9 +27,13 @@ import org.apache.commons.logging.LogFactory;
 
 import cn.tinder.fuego.dao.CheckPlanDao;
 import cn.tinder.fuego.dao.DaoContext;
+import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.ReceivePlanDao;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
+import cn.tinder.fuego.domain.po.AssignPlan;
+import cn.tinder.fuego.domain.po.DiscardPlan;
+import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.AssetsManageService;
@@ -63,9 +68,8 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 
 	private TransEventDao transEventDao = DaoContext.getInstance().getTransEventDao();
 
-	private SystemUserDao systemUserDao = DaoContext.getInstance().getSystemUserDao();
-	private CheckPlanDao checkPlanDao = DaoContext.getInstance().getCheckPlanDao();
-	private ReceivePlanDao receivePlanDao = DaoContext.getInstance().getReceivePlanDao();
+    private ReceivePlanDao receivePlanDao = DaoContext.getInstance().getReceivePlanDao();
+    private PhysicalAssetsStatusDao physicalAssetsStatusDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
 
 	private AssetsManageService assetsManageService = ServiceContext.getInstance().getAssetsManageService();
 
@@ -116,6 +120,7 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	public void deletePlan(String transID)
 	{
 		super.deleteTransByID(transID);
+		receivePlanDao.deleteByTransID(transID);
 		
 	}
 
@@ -135,16 +140,16 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 			log.warn("the child is null,is not a parent transaction");
 			receivePlanDao.deleteByTransID(receivePlan.getTransInfo().getTransInfo().getTransID());
 			planList = convertReceivePlan(receivePlan.getPlanInfo().getAssetsPage().getAssetsList(),receivePlan.getTransInfo().getTransInfo().getTransID());
-			if(receivePlan.getPlanInfo().getAssetsPage().isReceiveFinished())
-			{
-				this.forwardNext(receivePlan.getTransInfo().getTransInfo().getTransID());
-			}
+//			if(receivePlan.getPlanInfo().getAssetsPage().isReceiveFinished())
+//			{
+//				this.forwardNext(receivePlan.getTransInfo().getTransInfo().getTransID());
+//			}
 		}
 		else
 		{
 			Map<String,List<AssetsInfoBo>> deptMapAssestList = ConvertAssetsModel.convertAssestsListBoToDeptMap(receivePlan.getPlanInfo().getAssetsPage().getAssetsList());
 
-			assetsManageService.createAssetsList(receivePlan.getPlanInfo().getAssetsPage().getAssetsList());
+			assetsManageService.createAssetsList(receivePlan.getPlanInfo().getAssetsPage().getPage().getAllPageData());
 
 			
  			//get all the plan for every child transaction
@@ -184,8 +189,11 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		String handleUser;
 		switch(transEvent.getCurrentStep())
 		{
+		case 2 :
+		    handleUser = transEvent.getHandleUser();
+		    break;
 		case 1 :
-		    handleUser = transEvent.getCreateUser();
+		    handleUser = transEvent.getHandleUser();
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();
@@ -244,18 +252,53 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 			plan.getTransInfo().getChildTransList().add(child);
 		 } 
 		
-		 List<ReceivePlan> receivePlanList = receivePlanDao.getByTransID(transID);
-		 
-		 for(ReceivePlan receivePlan : receivePlanList)
-		 {
-			AssetsInfoBo assets =  assetsManageService.getAssetsByAssetID(receivePlan.getAssetsID());
-			assets.getExtAttr().setNote(receivePlan.getNote());
-			assets.getExtAttr().setReceiveState(receivePlan.getReceiveState());
-			plan.getPlanInfo().getAssetsPage().getAssetsList().add(assets);
-		 }
+		 List<AssetsInfoBo> assetsList = getAssetsListByTransID(Arrays.asList(transID));
+		 plan.getPlanInfo().getAssetsPage().setAssetsList(assetsList);
+		 //init the all page data
+		 plan.getPlanInfo().getAssetsPage().getPage().setAllPageData(plan.getPlanInfo().getAssetsPage().getAssetsList());
 
 	 
 		return (E) plan;
+	}
+
+	private List<AssetsInfoBo> getAssetsListByTransID(List<String> transIDList)
+	{
+		
+		List<ReceivePlan> receivePlanList = getPlanListByTransIDList(transIDList);
+		 
+ 		List<String> assetsIDList = new ArrayList<String>();
+ 		for(ReceivePlan plan : receivePlanList)
+		{
+			 assetsIDList.add(plan.getAssetsID());
+		}
+ 		
+ 		//for performance use batch query method 
+		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
+		
+		
+		
+		List<AssetsInfoBo> assetsList = new ArrayList<AssetsInfoBo>();
+		for(ReceivePlan receivePlan : receivePlanList)
+		{
+			AssetsInfoBo assets = assetsManageService.getAseestByAssetsIDFromAssetsLIst(assetsStatusList, receivePlan.getAssetsID());
+			if(assets == null)
+			{
+				assets = new AssetsInfoBo();
+			}
+ 
+ 			assets.getExtAttr().setNote(receivePlan.getNote());
+			assets.getExtAttr().setReceiveState(receivePlan.getReceiveState());
+			assetsList.add(assets);
+		}
+		return  assetsList;
+	}
+
+	private List<ReceivePlan> getPlanListByTransIDList(List<String> transIDList)
+	{
+		List<String> allTransIDList = super.getChildTransIDByIDList(transIDList);
+
+		List<ReceivePlan> receivePlanList = receivePlanDao.getByTransID(allTransIDList);
+		return receivePlanList;
 	}
 
 	 
@@ -273,6 +316,7 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		//step1: force transform 
  		ReceivePlanBo planBo = new ReceivePlanBo();
  		planBo = (ReceivePlanBo) plan;
+ 	
 		
 		return getDownfile(planBo); 	
 	}
@@ -387,8 +431,10 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 				excelIOimpl.writeLabel(sheet, 5, 11, String.valueOf(bo.getAssets().getOriginalValue()));	
 				excelIOimpl.writeLabel(sheet, 5, 12, bo.getAssets().getLocation());
 				excelIOimpl.writeLabel(sheet, 5, 13, String.valueOf(bo.getAssets().getExpectYear()));
-				excelIOimpl.writeLabel(sheet, 5, 14, bo.getAssets().getDept());
-				excelIOimpl.writeLabel(sheet, 5, 15, bo.getExtAttr().getNote());
+				excelIOimpl.writeLabel(sheet, 5, 14, bo.getAssets().getDuty());
+				excelIOimpl.writeLabel(sheet, 5, 15, bo.getExtAttr().getReceiveState());
+
+				excelIOimpl.writeLabel(sheet, 5, 16, bo.getExtAttr().getNote());
 			}
 
 		
@@ -413,5 +459,36 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		}
 		return file;
       
+	}
+
+	@Override
+	public int getPlanCount(List<String> transIDList)
+	{
+		int cnt = super.getAssetsCount(getAssestByTransIDList(transIDList));
+	 
+		
+		return cnt;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanAssetsSumValue(java.util.List)
+	 */
+	@Override
+	public float getPlanAssetsSumValue(List<String> transIDList)
+	{
+		float sumValue = super.getAssetsSumValue(getAssestByTransIDList(transIDList));
+		return sumValue;
+	}
+	
+	private List<PhysicalAssetsStatus> getAssestByTransIDList(List<String> transIDList)
+	{
+		List<ReceivePlan> planList = receivePlanDao.getByTransID(transIDList);
+		List<String> assetsIDList = new ArrayList<String>();
+ 		for(ReceivePlan plan : planList)
+		{
+			 assetsIDList.add(plan.getAssetsID());
+		}
+		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
+		return assetsStatusList;
 	}
 }

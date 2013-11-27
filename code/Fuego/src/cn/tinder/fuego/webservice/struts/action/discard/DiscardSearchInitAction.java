@@ -2,6 +2,7 @@ package cn.tinder.fuego.webservice.struts.action.discard;
 
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -20,17 +21,16 @@ import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
-import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.discard.DiscardSearchBo;
-import cn.tinder.fuego.webservice.struts.bo.discard.DiscardSessionBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
-import cn.tinder.fuego.webservice.struts.form.DiscardSearchForm;
+import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
 
 
 
@@ -70,26 +70,30 @@ public class DiscardSearchInitAction extends Action
     	discardSearchBo.setAssetsTypeList(assetsTypeList);
     	discardSearchBo.setTechStatusList(assetsStatusList);
     	request.setAttribute(RspBoNameConst.DISCARD_SEARCH_BO,discardSearchBo);
-    	    	
-    	//discardSearchBo = DiscardSearchTest.discardSearch();
+ 
+    	AssetsFilterForm filterForm = (AssetsFilterForm) request.getAttribute(RspBoNameConst.DISCARD_SEARCH_FORM);
     	
-    	//For displaying
-    				
-    	DiscardSearchForm searchForm = (DiscardSearchForm) request.getAttribute(RspBoNameConst.DISCARD_SEARCH_FORM);
-    	List<AssetsInfoBo> assetsList = null;
-    	if(null == searchForm )
+    	List<String> deptList = new ArrayList<String>();
+    	deptList.add(AssetsConst.ASSETS_FITER_ALL);
+    	deptList.addAll(loadService.loadAllDeptInfo());
+    	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,deptList);//DeptList
+    	List<String> manageList = new ArrayList<String>();
+    	manageList.add(AssetsConst.ASSETS_FITER_ALL);
+    	manageList.addAll(loadService.loadManageDeptList());
+    	request.setAttribute(RspBoNameConst.MANAGE_DEPT_LIST,manageList);//DeptList
+
+    	request.setAttribute(RspBoNameConst.SEARCH_FORM, filterForm);    	
+
+		AssetsPageBo selectAssetsPage = new AssetsPageBo();
+    	if(null == filterForm )
     	{
-    		//assetsList = assetsService.getDiscardAssetsListBo(discardSearchBo.getDate(), null, null);
+    		filterForm = new AssetsFilterForm();
     	}
     	else
     	{
-    		assetsList = assetsService.getDiscardAssetsListBo(searchForm.getDate(), Arrays.asList(searchForm.getAssetsTypeList()), Arrays.asList(searchForm.getTechStatusList())); 
+    		selectAssetsPage = assetsService.getAssetsByFilter(filterForm, false);
         }
-		AssetsPageBo selectAssetsPage = new AssetsPageBo();
-
-		selectAssetsPage.setAssetsList(assetsList);
-		selectAssetsPage.setShowCheckBox(true);
-	
+ 		selectAssetsPage.setShowCheckBox(true);
 
 		request.setAttribute(RspBoNameConst.ASSETS_PAGE_DATA,selectAssetsPage);
         

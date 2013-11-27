@@ -17,6 +17,7 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
 import cn.tinder.fuego.dao.DaoContext;
+import cn.tinder.fuego.dao.DiscardPlanDao;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.RecapturePlanDao;
 import cn.tinder.fuego.dao.SystemUserDao;
@@ -24,10 +25,13 @@ import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.TransExtAttrDao;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.RecapturePlan;
+import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
+import cn.tinder.fuego.domain.po.TransExtAttr;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.constant.TransactionConst;
+import cn.tinder.fuego.service.constant.TransactionExtAttrConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
@@ -76,6 +80,7 @@ public class RecapturePlanServiceImpl <E> extends TransactionServiceImpl impleme
 	public void deletePlan(String transID)
 	{
 		super.deleteTransByID(transID);
+		recapturePlanDao.deleteByTransID(transID);
 
 	}
 
@@ -96,7 +101,12 @@ public class RecapturePlanServiceImpl <E> extends TransactionServiceImpl impleme
 		String transID = planInfo.getTransInfo().getTransInfo().getTransID();
 		String handleUser = planInfo.getTransInfo().getTransInfo().getHandleUser();
 		super.updateTrans(transID,handleUser);
-
+		TransExtAttr ext = new TransExtAttr();
+		ext.setTransID(transID);
+		//step3.1 save input department to transaction extend attribute
+		ext.setAttrName(TransactionExtAttrConst.RECAPTURE_LOCATION);
+		ext.setAttrValue(planInfo.getTransInfo().getLocation());
+		transExtAtrrDao.saveOrUpdate(ext);
 		//step3: save assign plan list
 		recapturePlanDao.deleteByTransID(transID);
 		List<AssetsInfoBo> recaptureAssetsList = planInfo.getAssetsPage().getAssetsList();
@@ -134,7 +144,7 @@ public class RecapturePlanServiceImpl <E> extends TransactionServiceImpl impleme
 			break;
 		case 1 :
 			handleUser = transEvent.getCreateUser();
-			RecaptureAssets(transID,department);
+			recaptureAssets(transID);
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();
@@ -144,18 +154,16 @@ public class RecapturePlanServiceImpl <E> extends TransactionServiceImpl impleme
 
 	}
 
-	private void RecaptureAssets(String transID , String department)
+	private void recaptureAssets(String transID)
 	{
+		RecapturePlanBo plan = (RecapturePlanBo) this.getPlanByTransID(transID);
 		List<RecapturePlan> recapturePlanList =  recapturePlanDao.getByTransID(transID);
-		AssetsBo assets = new AssetsBo();
-		for(RecapturePlan assignPlan : recapturePlanList)
+ 		for(AssetsInfoBo assets : plan.getAssetsPage().getAssetsList())
 		{
-			String assetsID = assignPlan.getAssetsID();
-			PhysicalAssetsStatus assetsStatus = physicalAssetsStatusDao.getByAssetsID(assetsID);
-			// update Duty department
-			assetsStatus.setDuty(department);
+ 			PhysicalAssetsStatus assetsStatus = physicalAssetsStatusDao.getByAssetsID(assets.getAssets().getAssetsID());
+		 
 			// update Location
-			assetsStatus.setLocation(assets.getLocation());
+ 			assetsStatus.setLocation(plan.getTransInfo().getLocation());
 			// set AssetsStatus to DB
 			physicalAssetsStatusDao.saveOrUpdate(assetsStatus);
 		    
@@ -193,6 +201,19 @@ s	 *
 		RecaptureTransBo recaptureTrans = new RecaptureTransBo();
 		recaptureTrans.setTransInfo(baseTrans);
 		recapturePlan.setTransInfo(recaptureTrans);
+		List<TransExtAttr> extAtrrList = transExtAtrrDao.getByTransID(transID);
+		
+		String location ="";
+ 		for(TransExtAttr extAttr : extAtrrList )
+		{
+			if(TransactionExtAttrConst.RECAPTURE_LOCATION.equals(extAttr.getAttrName()))
+			{
+				location = extAttr.getAttrValue();
+			}
+		}
+ 		recapturePlan.getTransInfo().setLocation(location);
+		 //init the all page data
+		recapturePlan.getAssetsPage().getPage().setAllPageData(recapturePlan.getAssetsPage().getAssetsList());
 
 		return (E) recapturePlan;
 	}
@@ -236,8 +257,11 @@ s	 *
 	@Override
 	public void backward(String transID)
 	{
-		// TODO Auto-generated method stub
-		
+		/**
+		 * Issue #36
+		 * need backward
+		 */
+		super.backward(transID);
 	}
 	
 	
@@ -386,6 +410,40 @@ s	 *
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanCount(java.util.List)
+	 */
+	@Override
+	public int getPlanCount(List<String> transIDList)
+	{
+		int cnt = super.getAssetsCount(getAssestByTransIDList(transIDList));
+	 
+		
+		return cnt;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanAssetsSumValue(java.util.List)
+	 */
+	@Override
+	public float getPlanAssetsSumValue(List<String> transIDList)
+	{
+		float sumValue = super.getAssetsSumValue(getAssestByTransIDList(transIDList));
+		return sumValue;
+	}
+
+	private List<PhysicalAssetsStatus> getAssestByTransIDList(List<String> transIDList)
+	{
+		List<RecapturePlan> planList = recapturePlanDao.getByTransID(transIDList);
+		List<String> assetsIDList = new ArrayList<String>();
+ 		for(RecapturePlan plan : planList)
+		{
+			 assetsIDList.add(plan.getAssetsID());
+		}
+		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
+		return assetsStatusList;
 	}
 
 }

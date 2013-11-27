@@ -86,7 +86,7 @@ public class IndexInitAction extends Action
 			// Init Notice
 			List<TransactionBaseInfoBo> infoBoList = null;
 
-			infoBoList = transactionService.getTransListByUser(user.getUserID());
+			infoBoList = transactionService.getDisTransByUser(user.getUserID());
  
 			request.setAttribute(RspBoNameConst.TRANS_INFO_LIST, infoBoList);
 		}

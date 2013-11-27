@@ -26,7 +26,8 @@ public class AssetsPageBo
 {
 	private List<AssetsInfoBo> assetsList = new ArrayList<AssetsInfoBo>();
 	
-	private PageModelBo page = new PageModelBo();
+	
+	private PageModelBo<AssetsInfoBo> page = new PageModelBo<AssetsInfoBo>();
 	private boolean showCheckBox = false;
 
 	private boolean showModifyBtn = false;
@@ -36,6 +37,36 @@ public class AssetsPageBo
 	private boolean showReceiveState = false;
 
 	private boolean showNote = false;
+	
+	private boolean showCurrentValue = false;
+	/*
+	 * Edit By Bowen Nan
+	 * Issue #42
+	 * 17:02 2013/11/23
+	 */
+	
+	
+ 
+	/**
+	 * @return the showCurrentValue
+	 */
+	public boolean isShowCurrentValue() {
+		return showCurrentValue;
+	}
+
+	/**
+	 * @param page the page to set
+	 */
+	public void setPage(PageModelBo<AssetsInfoBo> page) {
+		this.page = page;
+	}
+
+	/**
+	 * @param showCurrentValue the showCurrentValue to set
+	 */
+	public void setShowCurrentValue(boolean showCurrentValue) {
+		this.showCurrentValue = showCurrentValue;
+	}
 
 	public List<AssetsInfoBo> getAssetsList()
 	{
@@ -93,10 +124,7 @@ public class AssetsPageBo
 		return page;
 	}
 
-	public void setPage(PageModelBo page)
-	{
-		this.page = page;
-	}
+
 
 	public boolean isShowReceiveState()
 	{
@@ -124,7 +152,7 @@ public class AssetsPageBo
 	{
  		for(AssetsInfoBo assetsInfo : this.getAssetsList())
 		{	
-			if(AssetsConst.CHECK_STATUS_TODO.equals(assetsInfo.getExtAttr().getCheckCnt()))
+			if(AssetsConst.CHECK_STATUS_TODO.equals(assetsInfo.getExtAttr().getCheckState()))
 			{
 				return false;
 			}
@@ -132,11 +160,17 @@ public class AssetsPageBo
  		return true;
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
-	public String toString()
-	{
-		return "AssetsPageBo [assetsList=" + assetsList + ", page=" + page + ", showCheckBox=" + showCheckBox + ", showModifyBtn=" + showModifyBtn + ", showCheckState=" + showCheckState
-				+ ", showReceiveState=" + showReceiveState + ", showNote=" + showNote + "]";
+	public String toString() {
+		return "AssetsPageBo [assetsList=" + assetsList + ", page=" + page
+				+ ", showCheckBox=" + showCheckBox + ", showModifyBtn="
+				+ showModifyBtn + ", showCheckState=" + showCheckState
+				+ ", showReceiveState=" + showReceiveState + ", showNote="
+				+ showNote + ", currentValue=" + showCurrentValue + "]";
 	}
 
 

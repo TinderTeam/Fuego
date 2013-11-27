@@ -16,4 +16,6 @@ public interface DiscardPlanDao
 
 	// public DiscardPlan find(String transid);
 	public List<DiscardPlan> getByTransID(String transid);
+	public List<DiscardPlan> getByTransID(List<String> transIDList);
+
 }

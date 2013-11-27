@@ -13,6 +13,7 @@ import jxl.read.biff.BiffException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
@@ -28,7 +29,7 @@ public class ImportPruchaseExcelFile {
 		
 		
 		List<PurchasePlanBo> list= new ArrayList<PurchasePlanBo>();
-		PurchasePlanBo planBo = new PurchasePlanBo();
+		
 	    
 	    
 	     if (uploadFile.getName().indexOf(".xls") <= 0){
@@ -54,8 +55,19 @@ public class ImportPruchaseExcelFile {
 			        
 			        Cell cell;
 			        for(int i=2;i<row;i++){
-			        	cell = sheet.getCell(0,i);		        	
-			        	planBo.setIndex(Integer.valueOf(cell.getContents()));
+			        	PurchasePlanBo planBo = new PurchasePlanBo();
+			        	cell = sheet.getCell(0,i);		
+			        	if(cell.getContents()==null||cell.getContents().isEmpty()){
+			        		;
+			        	}else{
+			        		planBo.setIndex(Integer.valueOf(cell.getContents()));
+			        	}
+			        			        		
+			        	/*Edit By Bowen
+			        	 * for  Issue #58
+			        	 * 2013-11-24 21:07
+			        	 */
+			        	
 			        	cell = sheet.getCell(1,i);
 			        	AssetsBo assBo=new AssetsBo();
 			        	assBo.setAssetsID(cell.getContents());
@@ -74,6 +86,17 @@ public class ImportPruchaseExcelFile {
 			        	cell = sheet.getCell(8,i);
 			        	assBo.setNote(cell.getContents());
 			        	
+			        	
+			        	/*
+			        	 * Edit By Bowen
+			        	 * Added set dept
+			        	*/
+			        	cell = sheet.getCell(9,i);
+			        	assBo.setDuty(cell.getContents());
+			        	
+			        	assBo.setManageName(CacheContext.getInstance().getUserCache().getManageByUser(assBo.getDuty()));
+			        	
+			        	/*-------------*/
 			        	float price = Float.valueOf(planBo.getPrice())*(Float.valueOf((String.valueOf(assBo.getQuantity()))));
 			        	planBo.setMoney(String.valueOf(price));
 			        	planBo.setAssetsBo(assBo);

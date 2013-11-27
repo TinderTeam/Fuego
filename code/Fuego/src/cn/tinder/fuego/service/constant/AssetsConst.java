@@ -40,8 +40,10 @@ public class AssetsConst
 	  public static String ASSETS_STATUS_NORMAL = "正常";
 	  public static String ASSETS_STATUS_BAD = "故障";
 	  
-	  public static String CHECK_STATUS_DONE = "已盘点";
+	  public static String CHECK_STATUS_DONE = "盘点无误";
 	  public static String CHECK_STATUS_TODO = "未盘点";
+	  public static String CHECK_STATUS_MORE = "盘盈";
+	  public static String CHECK_STATUS_LESS = "盘亏";
 	  
 	  public static String RECEIVE_STATUS_DONE = "已验收";
 	  public static String RECEIVE_STATUS_TODO = "未验收";

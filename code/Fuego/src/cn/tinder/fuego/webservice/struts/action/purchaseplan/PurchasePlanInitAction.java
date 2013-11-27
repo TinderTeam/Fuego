@@ -2,6 +2,7 @@ package cn.tinder.fuego.webservice.struts.action.purchaseplan;
 
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
+import cn.tinder.fuego.service.constant.AssetsConst;
+import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.PurchasePlanRefSelectBoTest;
@@ -64,18 +67,20 @@ public class PurchasePlanInitAction extends Action
     	//Out for show
     	//Department Name for show
     	String departName = user.getDeptName();
-    	List<String> typeList = loadService.loadAssetsTypeList();
-    	String today = DateService.DateToString(new Date(System.currentTimeMillis()));    	
+     	String today = DateService.DateToString(new Date(System.currentTimeMillis()));    	
     	
-    	log.info("BO Show: dptName="+departName+";typeList="+typeList+";today="+today+";");
-    	
+     	
     	request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, new PurchasePlanSessionBo());
 		
     	//request
         request.setAttribute(RspBoNameConst.DEPT_NAME,departName);
-        request.setAttribute(RspBoNameConst.TYPE_LIST,typeList);
         request.setAttribute(RspBoNameConst.TODAY,today);
-        
+	 
+    	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,loadService.loadAllDeptInfo());//DeptList
+    	request.setAttribute(RspBoNameConst.MANAGE_DEPT_LIST,loadService.loadManageDeptList());//DeptList
+
+    	request.setAttribute(RspBoNameConst.TYPE_LIST,loadService.loadAssetsTypeList());//TypeList
+ 		
 
         log.info(LogKeyConst.NEXT_PAGE+pageName);
         return mapping.findForward(pageName);	

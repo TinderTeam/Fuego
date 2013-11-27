@@ -239,7 +239,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		return count;
 	}
 
- 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,int startNum,int endNum)
+ 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,int startNum,int pageSize)
 	{
 		// TODO Auto-generated method stub
 		log.debug("[DAO] Get the PhysicalAssetsStatus by ID:" + filter);
@@ -253,7 +253,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			s = HibernateUtil.getSession();
 			Criteria c = getCriteriaByFilter(filter, filterDate,s);
 			c.setFirstResult(startNum);  
-	        c.setMaxResults(endNum); 
+	        c.setMaxResults(pageSize); 
 
 			assetsList = c.list();
 		} catch (RuntimeException re)
@@ -295,6 +295,10 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			if(null != filter.getTechState())
 			{
 				c.add(Restrictions.eq("techState", filter.getTechState()));
+			}
+			if(null != filter.getManageName())
+			{
+				c.add(Restrictions.eq("manageName", filter.getManageName()));
 			}
 			if(null != filter.getDuty())
 			{
@@ -379,7 +383,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		return assetsList;
 	}
  	
- 	public List<PhysicalAssetsStatus> getAssetsListByDateOrStatuListAndTypeList(Date dueDate,List<String> techStatusList,List<String> assetsTypeList)
+ 	public List<PhysicalAssetsStatus> getAssetsListByDateOrStatuListAndTypeList(Date dueDate,List<String> techStatusList,List<String> assetsTypeList,String duty,String manageName)
 	{
  
 		Session s = null;
@@ -407,6 +411,17 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			{
 				c.add(Restrictions.in("assetsType", assetsTypeList));
 			}
+			
+			if(null != duty)
+			{
+				c.add(Restrictions.eq("duty", duty));
+			}
+			
+			if(null != manageName)
+			{
+				c.add(Restrictions.eq("manageName", manageName));
+			}
+		 
 
  
 			assetsList = c.list();

@@ -15,6 +15,7 @@ import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanBo;
+import cn.tinder.fuego.webservice.struts.bo.download.AssetsStatuesFile;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
@@ -78,12 +79,36 @@ public class GasStationCheckStatusEnsureAction extends Action
 
         if(submitPara.equals(ParameterConst.CONFIRM_PARA_NAME))
      	{
- 		   plan.getPlanInfo().getAssetsPage().setAssetsList(assetsListForm.getAssetsList());
+ 		    plan.getPlanInfo().getAssetsPage().setAssetsList(assetsListForm.getAssetsList());
 
-           planService.updatePlan(plan);
-     	   nextPage=PageNameConst.SYSTEM_SUCCESS_PAGE;
-     	   
+            planService.updatePlan(plan);
+			planService.forwardNext(transID);
+			
+			plan.getPlanInfo().getAssetsPage().setShowNote(true);
+			plan.getPlanInfo().getAssetsPage().setShowCheckState(true);
+			request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, RspBoNameConst.PAGE_FINISH);
+	        request.setAttribute(RspBoNameConst.CHECK_PLAN_DATA, plan);
+
+     	   nextPage=PageNameConst.GAS_STATION_CHECK_STATUS_ENSURE_PAGE;
+ 
      	}
+		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
+		{
+			planService.forwardNext(transID);
+
+		}
+		else if(submitPara.equals(ParameterConst.DOWNLOAD_PARA_NAME))
+        {
+ 
+     		request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE,planService.getExportFile(plan).getAbsolutePath()); 
+			
+     		nextPage = PageNameConst.DOWNLOAD_ACTION;
+        }
+        
+        else if(submitPara.equals(ParameterConst.VIEW_PARA_NAME))
+        {
+      	   nextPage=PageNameConst.INDEX_INIT_ACTION;
+        }
         else if(submitPara.equals(ParameterConst.CANCEL_PARA_NAME))
         {
      	   nextPage=PageNameConst.INDEX_INIT_ACTION;

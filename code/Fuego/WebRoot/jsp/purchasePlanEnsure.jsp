@@ -44,6 +44,7 @@
 										<th>资产名称</th>
 										<th>品牌</th>
 										<th>资产型号</th>
+										<th>归属部门</th>
 										<th>购置数量</th>
 										<th>单位</th>
 										<th>预算单价</th>
@@ -59,7 +60,7 @@
 											
 												<td style="text-align:center">${i.assetsBo.manufacture}</td>
 												<td style="text-align:center">${i.assetsBo.spec}</td>
-														
+												<td style="text-align:center">${i.assetsBo.duty}</td>		
 												<td style="text-align:center">${i.assetsBo.quantity}</td>
 												<td style="text-align:center">${i.assetsBo.unit}</td>
 												<td style="text-align:center">￥ ${i.price}</td>
@@ -90,7 +91,7 @@
 								
 								 <c:if test="${'create' == pageDisCtr}"> 
 									<button class="btn btn-success"  name="submit" value="submit">提交并送审</button>								
-									<button class="btn  btn-primary" name="submit" value="back">返回上一步</button>	
+									<button class="btn  btn-primary" name="submit" value="cancel">取消</button>	
 									<button class="btn  btn-inverse" name="submit" value="download">导出Excel审批会签表</button>
 								 </c:if>
 								 <c:if test="${'approval' == pageDisCtr}"> 
@@ -98,9 +99,15 @@
 									<button class="btn  btn-primary" name="submit" value="refuse">拒绝</button>	
  								 </c:if>
 								 <c:if test="${'confirm' == pageDisCtr}"> 
-										<button class="btn btn-success"  name="submit" value="confirm">确定</button>								
+										<button class="btn btn-success"  name="submit" value="finish">完成</button>								
 								</c:if>
-
+								 <c:if test="${'finish' == pageDisCtr}"> 
+							        <button class="btn btn-success"  name="submit" value="finish">完成</button>
+							        <button class="btn  btn-primary" name="submit" value="download">导出</button>
+ 	 					         </c:if>
+                                <c:if test="${'view' == pageDisCtr}"> 
+										<button class="btn btn-success"  name="submit" value="view">确定</button>								
+ 	 							</c:if>
 								</div>
 				</div>	
 				

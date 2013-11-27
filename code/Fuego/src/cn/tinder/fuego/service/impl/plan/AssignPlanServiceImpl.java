@@ -22,6 +22,8 @@ import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.TransExtAttrDao;
 import cn.tinder.fuego.domain.po.AssignPlan;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
+import cn.tinder.fuego.domain.po.RecapturePlan;
+import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.domain.po.TransExtAttr;
 import cn.tinder.fuego.service.AssetsManageService;
@@ -188,10 +190,10 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		for(PhysicalAssetsStatus assets : physicalAssetsList)
 		{
 			assets.setDuty(dutyDept);
+			physicalAssetsStatusDao.saveOrUpdate(assets);
 
 		}	
-		assetsManageService.updateAssetsStatus(physicalAssetsList);
-
+ 
 	}
 
 	/*
@@ -243,6 +245,9 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		assignPlan.getTransInfo().setOutDept(outDept);
 
 		assignPlan.getTransInfo().setTransInfo(baseTrans);
+		
+		 //init the all page data
+		 assignPlan.getAssetsPage().getPage().setAllPageData(assignPlan.getAssetsPage().getAssetsList());
 
 		return (E) assignPlan;
 	}
@@ -328,4 +333,37 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanCount(java.util.List)
+	 */
+	@Override
+	public int getPlanCount(List<String> transIDList)
+	{
+		int cnt = super.getAssetsCount(getAssestByTransIDList(transIDList));
+	 
+		
+		return cnt;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getPlanAssetsSumValue(java.util.List)
+	 */
+	@Override
+	public float getPlanAssetsSumValue(List<String> transIDList)
+	{
+		float sumValue = super.getAssetsSumValue(getAssestByTransIDList(transIDList));
+		return sumValue;
+	}
+	
+	private List<PhysicalAssetsStatus> getAssestByTransIDList(List<String> transIDList)
+	{
+		List<AssignPlan> planList = assignPlanDao.getByTransID(transIDList);
+		List<String> assetsIDList = new ArrayList<String>();
+ 		for(AssignPlan plan : planList)
+		{
+			 assetsIDList.add(plan.getAssetsID());
+		}
+		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
+		return assetsStatusList;
+	}
 }

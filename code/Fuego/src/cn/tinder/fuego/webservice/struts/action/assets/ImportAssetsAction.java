@@ -95,9 +95,13 @@ public class ImportAssetsAction extends Action
 			 * 
 			 * 上载文件
 			 */			
-		
-			AssetsPageBo assetsPage=ImportAssetsExcelFile.load(excelIOService.uploadFile(importAssetsForm.getAssetsFile()));
+			AssetsPageBo assetsPage = new AssetsPageBo();
 			
+			List<AssetsInfoBo> assetsList =ImportAssetsExcelFile.load(excelIOService.uploadFile(importAssetsForm.getAssetsFile()));
+			
+			assetsPage.getPage().setAllPageData(assetsList);
+ 
+			assetsPage.setAssetsList(assetsPage.getPage().getCurrentPageData());
 			request.getSession().setAttribute(RspBoNameConst.ASSETS_PAGE_DATA,assetsPage);
   			
 			nextPage = PageNameConst.IMPORT_ASSETS_SUBMIT_INIT_ACTION;

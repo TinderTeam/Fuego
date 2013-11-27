@@ -93,7 +93,34 @@ public class AssetsReceiveAction extends Action
     		{
     			plan.getPlanInfo().getAssetsPage().setAssetsList(assetsListForm.getAssetsList());
     			planService.updatePlan(plan);
+    			planService.forwardNext(transID);
+    			
+    			//这里要直接跳转到下一步的完成页面
+    			plan.getPlanInfo().getAssetsPage().setShowReceiveState(true);
+				plan.getPlanInfo().getAssetsPage().setShowNote(true);
+    			request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, RspBoNameConst.PAGE_FINISH);
+
+    			nextPage = PageNameConst.ASSETS_RECEIVE_PAGE;
+    	        request.setAttribute(RspBoNameConst.RECEIVE_PLAN_DATA, plan);
+
+
      		}	
+    		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
+    		{
+    			planService.forwardNext(transID);
+
+    		}
+    		if (ParameterConst.DOWNLOAD_PARA_NAME.equals(submitPara))
+    		{
+ 				File exportFile = planService.getExportFile(plan);
+				request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, exportFile.getAbsolutePath());
+				nextPage = PageNameConst.DOWNLOAD_ACTION;
+     		}
+    		else if(ParameterConst.VIEW_PARA_NAME.equals(submitPara))
+    		{
+    			nextPage = PageNameConst.INDEX_INIT_ACTION;
+
+    		}
     	}
     	else
     	{
@@ -103,6 +130,10 @@ public class AssetsReceiveAction extends Action
 				request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, exportFile.getAbsolutePath());
 				nextPage = PageNameConst.DOWNLOAD_ACTION;
      		}
+    		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
+    		{
+    			planService.forwardNext(transID);
+    		}
     		else
     		{
     			nextPage =  PageNameConst.INDEX_INIT_ACTION;

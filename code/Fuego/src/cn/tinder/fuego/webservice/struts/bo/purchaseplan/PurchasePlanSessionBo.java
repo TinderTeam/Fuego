@@ -21,7 +21,6 @@ public class PurchasePlanSessionBo {
 	.getLog(PurchasePlanSessionBo.class);
 	
 	
-	
 	private PurchasePageBo purchasePageBo = new PurchasePageBo();	
 	private PurchasePageBo purchaseAddPageBo = new PurchasePageBo();	
 	private PurchaseTransBo purchaseTransBo = new PurchaseTransBo();

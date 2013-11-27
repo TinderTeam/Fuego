@@ -219,4 +219,37 @@ public class ReceivePlanDaoImpl implements ReceivePlanDao
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.dao.ReceivePlanDao#getByTransID(java.util.List)
+	 */
+	@Override
+	public List<ReceivePlan> getByTransID(List<String> transIDList)
+	{
+		log.debug("[DAO] get the TransID by ID:" + transIDList);
+		List<ReceivePlan> receiveList;
+		Session s = null;
+		try
+		{
+			s = HibernateUtil.getSession();
+
+			Criteria c = s.createCriteria(ReceivePlan.class);
+			c.add(Restrictions.in("transID", transIDList));
+
+			receiveList = c.list();
+
+		} catch (RuntimeException e)
+		{
+			log.error("get ReceivePlan id by transaction id list failed." + transIDList, e);
+			throw e;
+		} finally
+		{
+			if (s != null)
+			{
+				s.close();
+			}
+		}
+
+		return receiveList;
+	}
+
 }

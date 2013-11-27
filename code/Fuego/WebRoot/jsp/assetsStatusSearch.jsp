@@ -14,15 +14,9 @@
 	<script type="text/javascript" src="jsp/My97DatePicker/WdatePicker.js"></script>
 	
  	<jsp:include page="/jsp/cbb/includeCSS.jsp"/>
- 
-	<script type="text/javascript">
-		function pageChange(page)
-		{
-			document.getElementById("subID").click();
-			
-		  
-		}
-	</script>
+
+	
+
 <body>
  
      	<jsp:include page="/jsp/cbb/header.jsp"/>
@@ -85,6 +79,7 @@
 											<th style="width: 130px">资产名称关键字</th>																					
 											<th style="width: 160px">责任部门</th>											
 											<th style="width: 160px">资产分类</th>
+											<th style="width: 160px">经营管理部</th>	
 											<th style="width: 150px">存放地点</th>
 											<th style="width: 70px">技术状态</th>										
 										</tr>
@@ -97,10 +92,16 @@
 											
 											<td style="text-align:center">	
 												<select name="duty" style="width: 200px"  >
-													<option selected=""  >${searchForm.assetsName}</option>	
-													<option selected=""  >全部</option>	
 													<c:forEach var="i" items= "${deptList}"> 																								  
-														<option id="${i.name}"/>${i.name}																							
+												      <c:choose>
+														  <c:when test="${searchForm.duty == i}">
+													           <option selected=""  >${searchForm.duty}</option>	
+														  </c:when>
+														  <c:otherwise>  
+														       <option id="${i}"/>${i}		
+													
+														  </c:otherwise>
+													  </c:choose>																		
 													</c:forEach>
 												</select>
 											</td>
@@ -113,6 +114,22 @@
 													</c:forEach>
 												</select>
 											</td>
+								 			<td style="text-align:center">
+                                               <select name="manageName" style="width: 200px"  >
+													<c:forEach var="i" items= "${manageDeptList}"> 																								  
+												      <c:choose>
+														  <c:when test="${searchForm.manageName == i}">
+													           <option selected=""  >${searchForm.manageName}</option>	
+														  </c:when>
+														  <c:otherwise>  
+														       <option id="${i}"/>${i}		
+													
+														  </c:otherwise>
+													  </c:choose>																		
+													</c:forEach>
+												</select>		
+												</td>
+											
 											<td style="text-align:center"><input type="text" name="location"/></td>
 											<td style="text-align:center">	
 												<select name="techState">
@@ -151,7 +168,7 @@
 											
 											<td     style="text-align:center" >
 											
-												<input  type="text"  data-date="" data-date-format="yyyy-mm-dd" value="2010-01-01" onfocus="WdatePicker()" name="startPurchaseDate" />					
+												<input  type="text"  data-date="" data-date-format="yyyy-mm-dd" value="1900-01-01" onfocus="WdatePicker()" name="startPurchaseDate" />					
 											</td>
 											
 											<td>
@@ -159,12 +176,12 @@
 											</td>
 									
 											<td style="text-align:center">	
-												<input  type="text"  data-date="" data-date-format="yyyy-mm-dd" value="2020-01-01" onfocus="WdatePicker()" name="endPurchaseDate" />
+												<input  type="text"  data-date="" data-date-format="yyyy-mm-dd" value="2100-01-01" onfocus="WdatePicker()" name="endPurchaseDate" />
 											</td>
 											
 										
 											<td style="text-align:center">
-												<input type="text" data-date="" data-date-format="yyyy-mm-dd" value="2010-01-01" onfocus="WdatePicker()" name="startDueDate" />													
+												<input type="text" data-date="" data-date-format="yyyy-mm-dd" value="1900-01-01" onfocus="WdatePicker()" name="startDueDate" />													
 											</td>
 											
 											<td>
@@ -173,7 +190,7 @@
 											
 									
 											<td style="text-align:center">
-												<input type="text" data-date="" data-date-format="yyyy-mm-dd" value="2020-01-01" onfocus="WdatePicker()" name="endDueDate" />
+												<input type="text" data-date="" data-date-format="yyyy-mm-dd" value="2100-01-01" onfocus="WdatePicker()" name="endDueDate" />
 											
 											</td>
 										</tr>
@@ -189,14 +206,10 @@
 							
 							<div class="widget-content">
 								<div class="control-group">
-									 <button id ="subID" type="submit" class="btn btn-success" name="submit" value = "submit">查询</button>
+									
+									<button  type="submit" class="btn btn-success" name="submit" value = "submit">查询</button>
 									<button type="submit" class="btn btn-success" name="submit" value = "download">导出</button>
-											第<select name="pageNum" style = "width:70px" onchange="return pageChange(this.value)" >
-											<option id="${searchForm.pageNum}">${searchForm.pageNum}</option>	
-											<c:forEach var="i" items= "${assetsPage.page.pages}"> 																								  
-												<option id="${i}"/>${i}																							
-											</c:forEach>
-								 </select>页，共${assetsPage.page.count}条记录							 
+																		
 								</div>
 				
 							</div>						    
@@ -222,8 +235,7 @@
 
 							
 						    	</div>
-						</div>
-				</div>
+			 
 			</form>
 			</div>
 			

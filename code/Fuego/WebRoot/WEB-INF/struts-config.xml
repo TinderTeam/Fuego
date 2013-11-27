@@ -81,6 +81,13 @@
                    type="cn.tinder.fuego.webservice.struts.form.ImportAssetsForm">
         </form-bean>         
         
+        <form-bean name="ImportPriceForm"
+                   type="cn.tinder.fuego.webservice.struts.form.ImportPriceForm">
+        </form-bean>         
+        
+        <form-bean name="TransFilterForm"
+                   type="cn.tinder.fuego.webservice.struts.form.TransFilterForm">
+        </form-bean>      
          
       
         
@@ -90,7 +97,7 @@
         </form-bean>         
         
          
-        <form-bean name="AssetsStatusSearchForm"
+        <form-bean name="AssetsFilterForm"
                    type="cn.tinder.fuego.webservice.struts.form.AssetsFilterForm">
         </form-bean>  
                
@@ -230,6 +237,8 @@
                 type="cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchasePlanEnsureAction"              
                 name="PurchasePlanEnsureForm"
                 >
+            <forward name="IndexInit" path="/IndexInit.do"></forward>
+            
             <forward name="Success" path="/jsp/cbb/success.jsp"></forward>	
             <forward name="DownloadAction" path="/FileDownload.do"></forward> 
             <forward name="PurchasePlanEnsureInit" path="/PurchasePlanEnsureInit.do"></forward>
@@ -413,7 +422,7 @@
        	
        	 <action path="/AssetsStatusSearch"
                 type="cn.tinder.fuego.webservice.struts.action.search.AssetsStatusSearchAction"              
-              	name="AssetsStatusSearchForm"
+              	name="AssetsFilterForm"
                >          
   		  	<forward name="AssetsStatusSearchInitEnableBtn" path="/AssetsStatusSearchInit.do?showModifyBtn=true"></forward>		
   			<forward name="AssetsStatusSearchInitDisableBtn" path="/AssetsStatusSearchInit.do?showModifyBtn=false"></forward>			
@@ -437,26 +446,18 @@
                 name="AssetsModifyForm">          
    			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>		
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	
+			<forward name="AssetsModifyInit" path="/AssetsModifyInit.do"></forward>
+            <forward name="AssetsModify" path="/AssetsModify.do"></forward>
+            <forward name="AssetsStatusSearchInit" path="/assetsStatusSearchInit.do"></forward>
+            <forward name="IndexInit" path="/IndexInit.do"></forward>
+          <forward name="AssetsStatusSearchInitEnableBtn" path="/AssetsStatusSearchInit.do?showModifyBtn=true"></forward>	
+			
+			
        	</action>   
        	
-       	 <action path="/GasAssetsApplyInit"
-                type="cn.tinder.fuego.webservice.struts.action.apply.GasAssetsApplyInitAction"              
-               >          
-  			<forward name="GasAssetsApply" path="/jsp/gasAssetsApply.jsp"></forward>
-  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
-			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>				
-       	</action>
-       	
-       	 <action path="/GasAssetsApply"
-                type="cn.tinder.fuego.webservice.struts.action.apply.GasAssetsApplyAction"     
-                name="GasAssetsApplyForm"         
-               >          
-            <forward name="Success" path="/jsp/cbb/success.jsp"></forward>
-			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	       	</action>
-	
+ 
+ 
 	 	 <!-- only init -->
        	 
        	  <!-- AssetsRecapture -->
@@ -597,7 +598,7 @@
                 name="AssetsListForm"              
                >          
             <forward name="DownloadAction" path="/FileDownload.do"></forward>
-               
+  			<forward name="AssetsReceive" path="/jsp/receive/assetsReceive.jsp"></forward>
    			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
    			<forward name="IndexInit" path="/IndexInit.do"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
@@ -660,7 +661,7 @@
        	
        	<action path="/DiscardSearch"
                 type="cn.tinder.fuego.webservice.struts.action.discard.DiscardSearchAction"
-                name="DiscardSearchForm"              
+                name="AssetsFilterForm"              
                >          
   			<forward name="DiscardSearchInit" path="/DiscardSearchInit.do"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
@@ -671,8 +672,9 @@
        	
        	<action path="/DiscardSearchResult"
                 type="cn.tinder.fuego.webservice.struts.action.discard.DiscardSearchResultAction"
-                name="SelectAssetsForm"              
+                name="AssetsFilterForm"              
                >          
+             <forward name="DiscardSearchInit" path="/DiscardSearchInit.do"></forward>
   			<forward name="DiscardSureInit" path="/DiscardSureInit.do"></forward>
   			<forward name="IndexInit" path="/IndexInit.do"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
@@ -743,36 +745,17 @@
   			<forward name="IndexInit" path="/IndexInit.do"></forward>	
             <forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	       	</action>        	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	       	
+			<forward name="DownloadAction" path="/FileDownload.do"></forward>	
+			</action>        	
        	       	       	       	
-       	 <!--CheckResultINITAction-->
-       	<action path="/CheckResultInit"
-                type="cn.tinder.fuego.webservice.struts.action.gasstationcheck.CheckResultInitAction"              
-               >          
-  			<forward name="CheckResult" path="/jsp/checkResult.jsp"></forward>
-  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
-			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>				
-       	</action> 
-       	
-       	
-       	 <!--CheckResultAction-->
-       	<action path="/CheckResult"
-                type="cn.tinder.fuego.webservice.struts.action.gasstationcheck.CheckResultAction"              
-               name="CheckResultForm">          
-  			<forward name="CheckResultInit" path="/CheckResultInit.do"></forward>
-  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
-			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	
-  			  				
-  					
-       	</action>        	
+ 
 
       	       	
        	 <!--GasStationCheckStatusEnsureInitAction-->
        	<action path="/GasStationCheckStatusEnsureInit"
                 type="cn.tinder.fuego.webservice.struts.action.gasstationcheck.GasStationCheckStatusEnsureInitAction"              
-               >          
+                name="AssetsModifyForm">          
   			<forward name="GasStationCheckStatusEnsure" path="/jsp/gasStationCheckStatusEnsure.jsp"></forward>
   			<forward name="GasStationCheckStatus" path="/jsp/gasStationCheckStatus.jsp"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
@@ -788,6 +771,7 @@
                 type="cn.tinder.fuego.webservice.struts.action.gasstationcheck.GasStationCheckStatusEnsureAction"
                 name="AssetsListForm"              
                >          
+            <forward name="GasStationCheckStatusEnsure" path="/jsp/gasStationCheckStatusEnsure.jsp"></forward> 
   			<forward name="IndexInit" path="/IndexInit.do"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
@@ -837,7 +821,30 @@
   			<forward name="Index" path="/jsp/index.jsp"></forward>				
        	</action>             	     	  	       	
         	     	  	             	  	       	
-       	  	  
+       	  
+       	   <!--PriceDataInitAction-->  <!--Nanbowen--> 
+       	  <action path="/PriceDataInit"
+                type="cn.tinder.fuego.webservice.struts.action.pricedata.PriceDataInitAction"              
+               >          
+  			<forward name="PriceData" path="/jsp/assets/priceData.jsp"></forward>
+  			<forward name="Index" path="/jsp/index.jsp"></forward>				
+       	  </action>
+       	  
+       	       	       	   
+        <action path="/PriceData"
+                type="cn.tinder.fuego.webservice.struts.action.pricedata.ImportPriceDataAction"              
+               name="ImportPriceForm">          
+  			<forward name="DownloadAction" path="/FileDownload.do"></forward>		
+  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>				
+       	</action>     
+       	  
+       	  
+       
+       	  
+       	   <!-- END PriceDataInitAction-->  <!--Nanbowen--> 
+       	         	  
           <action   path="/UpLoad"
 	    		  type="cn.tinder.fuego.webservice.struts.action.upLoad.UpLoadAction" 
 	    		  name="UpLoadForm"
@@ -858,8 +865,26 @@
 	
 	     </action>	  
  
-       	
-       	       	  	       	
+       	<action path="/GatherTransInit"
+                type="cn.tinder.fuego.webservice.struts.action.trans.GatherTransInitAction"
+                     
+               >          
+  			<forward name="GatherTransInit" path="/jsp/trans/gatherTransInit.jsp"></forward>
+  			<forward name="Index" path="/jsp/index.jsp"></forward>
+  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>					
+       	</action>   
+       	<action path="/GatherTrans"
+                type="cn.tinder.fuego.webservice.struts.action.trans.GatherTransAction"
+                name="TransFilterForm"     
+               >          
+  			<forward name="GatherTrans" path="/jsp/trans/gatherTrans.jsp"></forward>
+  			<forward name="Index" path="/jsp/index.jsp"></forward>
+  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>					
+       	</action>          	  	       	
        	  	       	
        </action-mappings>   	
       

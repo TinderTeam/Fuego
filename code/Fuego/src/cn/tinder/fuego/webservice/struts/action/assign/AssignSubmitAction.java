@@ -41,7 +41,7 @@ import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 public class AssignSubmitAction extends Action
 {
 	private static final Log log = LogFactory.getLog(AssignSubmitAction.class);
-	private TransPlanService planService = ServiceContext.getInstance().getAssignPlanService(TransactionConst.ASSIGN_PLAN_TYPE);
+	private TransPlanService planService = ServiceContext.getInstance().getAssignPlanService();
 
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
@@ -88,6 +88,12 @@ public class AssignSubmitAction extends Action
 		{
 			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
 		}
+		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
+		{
+			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
+
+		}
 		else if(ParameterConst.CONFIRM_PARA_NAME.equals(submitPara))
 		{
 			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
@@ -102,6 +108,10 @@ public class AssignSubmitAction extends Action
 		{
 			planService.deletePlan(plan.getTransInfo().getTransInfo().getTransID());
 			nextPage = PageNameConst.INDEX_INIT_ACTION;
+		}
+		else if(ParameterConst.VIEW_PARA_NAME.equals(submitPara))
+		{
+		 	nextPage = PageNameConst.INDEX_INIT_ACTION;
 		}
 		else if(ParameterConst.REFUSE_PARA_NAME.equals(submitPara))
 		{

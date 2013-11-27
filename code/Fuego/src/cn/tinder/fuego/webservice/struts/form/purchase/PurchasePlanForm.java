@@ -18,7 +18,28 @@ public class PurchasePlanForm extends ActionForm
 {
 
 	private String date;
+	private String duty;
+	private String manageName;
 	private String[] typeList;
+	
+	
+ 
+	public String getDuty()
+	{
+		return duty;
+	}
+	public void setDuty(String duty)
+	{
+		this.duty = duty;
+	}
+	public String getManageName()
+	{
+		return manageName;
+	}
+	public void setManageName(String manageName)
+	{
+		this.manageName = manageName;
+	}
 	public String getDate() {
 		return date;
 	}

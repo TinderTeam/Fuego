@@ -17,7 +17,9 @@ public interface TransEventDao
 	// public Transaction find(String transid);
 	public TransEvent getByTransID(String transid);
 	
-	public List<TransEvent> getTransByHandlerUser(String userID);
+	public List<TransEvent> getTransByFilter(TransEvent filter1,TransEvent filter2);
+
+	public List<TransEvent> getTransByUser(List<String> userIDList);
 	
 	public List<TransEvent> getTodoTransByHandlerUser(String userID);
 	

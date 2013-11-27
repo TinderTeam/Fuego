@@ -19,13 +19,13 @@
 
 		<div id="content">
 			<div id="content-header">
-				<h1>Common Form Elements</h1>
+				<h1><font  face="微软雅黑">盘点确认</font></h1>
 
 			</div>
 			<div id="breadcrumb">
-				<a href="<%=request.getContextPath()%>/IndexInit.do" title="返回主页" class="tip-bottom"><i class="icon-home"></i> Home</a>
-				<a href="#" class="tip-bottom">Form elements</a>
-				<a href="#" class="current">Common elements</a>
+				<a href="<%=request.getContextPath()%>/IndexInit.do" title="返回主页" class="tip-bottom"><i class="icon-home"></i>主页</a>
+				<a href="#" class="tip-bottom">盘点管理</a>
+				<a href="#" class="current">盘点情况查看</a>
 			</div>
 			<div class="container-fluid">
 				<div class="row-fluid">
@@ -54,11 +54,58 @@
 										<c:set var="assetsPage" value="${checkPlan.planInfo.assetsPage}" scope="request"/>
 										<jsp:include page="/jsp/cbb/assetsList.jsp"/>
 										<div class="form-actions">
+										
+									     <c:if test="${'create' == pageDisCtr}"> 
 											  <button class="btn btn-success"  name="submit" value="confirm">确定</button>
-											  <button class="btn  btn-inverse" name="submit" value="cancel">取消</button>								 	
+											  <button class="btn  btn-inverse" name="submit" value="cancel">取消</button>
+											  <a href="#myAlert" data-toggle="modal" class="btn btn-success" style="width:100px">新增盘点资产</a>
+											  </c:if>
+									  	  <c:if test="${'finish' == pageDisCtr}"> 
+										    <button class="btn btn-success"  name="submit" value="finish">完成</button>
+										    <button class="btn btn-success"  name="submit" value="finish">导出</button>
+									   	    <a class="btn btn-primary" href="javascript:history.go(-1);">返回</a>
+ 	 								      </c:if>	
+ 	 								  <c:if test="${'view' == pageDisCtr}"> 
+										<button class="btn btn-success"  name="submit" value="view">确定</button>								
+ 	 								 </c:if>	
+
 							            </div>
 								    </form>
-								</div>	
+								    <form action="<%=request.getContextPath()%>/GasStationCheckStatusEnsureInit.do?transID=${checkPlan.transInfo.transInfo.transID}" method="post" >
+                                       <div id="myAlert" class="modal hide">
+										<div class="modal-header">
+											<button data-dismiss="modal" class="close" type="button">×</button>
+											<h3>新增盘点资产</h3>
+										</div>
+										<div class="modal-body">
+											<div class="control-group">
+												<label class="control-label">*请输入资产名称</label>
+												<div class="controls">
+													<input type="text" name="assetsInfo.assets.assetsName" value=""/>
+												</div>
+												<label class="control-label">请输入生产厂家</label>
+												<div class="controls">
+													<input type="text" name="assetsInfo.assets.manufacture" value=""/>
+												</div>
+													<label class="control-label">请输入资产规格</label>
+												<div class="controls">
+													<input type="text" name="assetsInfo.assets.spec" value=""/>
+												</div>
+											
+											</div>										
+										</div>
+										<div class="modal-footer">
+											<button type="submit" class="btn btn-success"  name ="submit" value="addNew">确定</button>
+											
+											<a data-dismiss="modal" class="btn btn-inverse" href="#">取消</a>
+										</div>
+										
+								       </div>	
+									 
+	 
+	
+								    
+								    </form>
 							
 						 
 						</div>
@@ -67,12 +114,12 @@
 			
 				<div class="row-fluid">
 					<div id="footer" class="span12">
-						2012 &copy; Unicorn Admin. Brought to you by <a href="https://wrapbootstrap.com/user/diablo9983">diablo9983</a>
+						2013 Copyright Reserved by Tinder
 					</div>
 				</div>
 			</div>
 		</div>
-		
-
+		 </div>
+         </div>
 	</body>
 </html>

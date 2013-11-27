@@ -18,6 +18,7 @@ public class PhysicalAssetsStatus
 	private String dept;
 	private String duty;
 	private String assetsType;
+	private String manageName;
 	private String location;
 	private String techState;
 	private Date checkDate;
@@ -204,6 +205,18 @@ public class PhysicalAssetsStatus
 	public void setNote(String note)
 	{
 		this.note = note;
+	}
+	
+	
+
+	public String getManageName()
+	{
+		return manageName;
+	}
+
+	public void setManageName(String manageName)
+	{
+		this.manageName = manageName;
 	}
 
 	@Override

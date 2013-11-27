@@ -1,7 +1,5 @@
 package cn.tinder.fuego.webservice.struts.action.purchaseplan;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,26 +10,16 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import cn.tinder.fuego.service.PurchasePlanService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.bo.assign.AssignPageBo;
-import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
-import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanEnsureBo;
-import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanRefBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
-import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanBo;
-import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanCreatePageBo;
-import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanEnsurePageBo;
 import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
-import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm;
-import cn.tinder.fuego.webservice.struts.form.purchase.RefPlanCreateForm;
 
 /**
  * 
@@ -78,57 +66,77 @@ public class PurchasePlanEnsureInitAction extends Action
 	{
 
 		String nextPage = PageNameConst.PURCHASE_PLAN_ENSURE_PAGE;
- 
- 
+		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+
 		// RequestOut
  
- 		PurchasePlanSessionBo purchasePlanSessionBo = null;
+ 		PurchasePlanSessionBo plan = null;
 		String transID = request.getParameter(ParameterConst.PLAN_TRANS_ID);
 		if(null != transID)
 		{
-			purchasePlanSessionBo = (PurchasePlanSessionBo) planService.getPlanByTransID(transID);
+			plan = (PurchasePlanSessionBo) planService.getPlanByTransID(transID);
   		}
 		else
 		{
 			log.info("can not get check  by transaction id." + transID);
 
-		}
+		} 
  
-		if (null == purchasePlanSessionBo)
+		if (null == plan)
 		{
-			purchasePlanSessionBo = (PurchasePlanSessionBo) request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
+			
+			plan = (PurchasePlanSessionBo) request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
+			if(null == plan.getPurchaseTransBo().getTransInfo().getTransID())
+			{
+				plan.setPurchaseTransBo(((PurchasePlanSessionBo)planService.createPlan(user.getUserID())).getPurchaseTransBo());
+			}
 		}
-		else
-		{
- 		}
+
+		request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, plan);// "assetsList"
+		
  
-		request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, purchasePlanSessionBo);// "assetsList"
-		nextPage = controlPageBtnDis(nextPage,request);
+		nextPage = controlPageBtnDis(plan.getPurchaseTransBo().getTransInfo().canOperate(user),nextPage,request);
 
 		return nextPage;
 	}
 	
-	private String controlPageBtnDis(String nextPage,HttpServletRequest request)
+	private String controlPageBtnDis(boolean canOperate,String nextPage,HttpServletRequest request)
 	{
 		//control page button display by the step
 		String pageCtr = RspBoNameConst.PAGE_CREATE;
 		String step = request.getParameter(ParameterConst.PLAN_STEP);
-		if(null == step)
+		if(!canOperate)
 		{
-			pageCtr = RspBoNameConst.PAGE_CREATE;
-		}
-		else if(TransactionConst.PURCHASE_MAX_STEP.equals(step))
-		{
-			nextPage = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
-		}
-		else if(TransactionConst.PURCHASE_APPROVAL_STEP.equals(step))
-		{
-			pageCtr = RspBoNameConst.PAGE_APPROVAL;
+			pageCtr = RspBoNameConst.PAGE_VIEW;
 		}
 		else
 		{
-			pageCtr = RspBoNameConst.PAGE_CONFIRM;
- 		}
+			if(null == step)
+			{
+				pageCtr = RspBoNameConst.PAGE_CREATE;
+			}
+			else if(TransactionConst.PURCHASE_MAX_STEP.equals(step))
+			{
+				nextPage = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
+			}
+			else if(TransactionConst.PURCHASE_APPROVAL_STEP.equals(step))
+			{
+				pageCtr = RspBoNameConst.PAGE_APPROVAL;
+			}
+			else if(TransactionConst.TRANS_LAST_STEP.equals(step))
+			{
+				pageCtr = RspBoNameConst.PAGE_FINISH;
+			}
+			else if(TransactionConst.TRANS_FINISH_STEP.equals(step))
+			{
+				pageCtr = RspBoNameConst.PAGE_VIEW;
+	 		}
+			else
+			{
+				pageCtr = RspBoNameConst.PAGE_CONFIRM;
+	 		}
+		}
+
 		request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, pageCtr);
 		
 		return nextPage;

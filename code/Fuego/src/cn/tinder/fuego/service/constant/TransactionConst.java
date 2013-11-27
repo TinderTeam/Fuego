@@ -48,12 +48,15 @@ public class TransactionConst
 	public static final String CHECK_PLAN_TYPE = "C"; //   plan type
 	public static final String CHECK_PLAN_NAME = "实物资产盘点单"; //   plan name
 	public static final String CHECK_PLAN_URL = "GasStationCheckStatusEnsureInit.do"; // assign plan type
-                   
+	public static final String CHECK_MAX_STEP = "2";
+
 	public static final String RECEIVE_PLAN_TYPE = "E"; //   plan type
 	public static final String RECEIVE_PLAN_NAME = "实物资产验收单"; //   plan name
 	public static final String RECEIVE_PLAN_URL = "ImportAssetsSubmitInit.do"; // assign plan type
 	public static final String RECEIVE_MAX_STEP = "2";
      
+	public static final String TRANS_LAST_STEP = "1";
+	public static final String TRANS_FINISH_STEP = "0";
 	
 	public static final String NOTICE_PLAN_TYPE = "盘点通知";  // transaction type NOTICE
 
@@ -63,6 +66,8 @@ public class TransactionConst
 	public static final String TRRANS_STATUS_TODO = "未提交"; // Transaction state
 	public static final String TRANS_STATUS_DONE = "已完成"; // Transaction state
 	public static final String TRRANS_STATUS_DOING = "未完成";
+	public static final String TRRANS_STATUS_REFUSE = "审批不通过";
+	
 	public static final String TRRANS_STATUS_READ = "已读";
 	public static final String TRRANS_STATUS_NO_READ = "未读";
 	

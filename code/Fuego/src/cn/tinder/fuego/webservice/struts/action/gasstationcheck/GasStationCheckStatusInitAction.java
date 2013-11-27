@@ -40,8 +40,7 @@ public class GasStationCheckStatusInitAction extends Action
 {
 	private static final Log log = LogFactory.getLog(GasStationCheckStatusInitAction.class);
 
-	private GasStationCheckService gasStationCheckStatusService = ServiceContext.getInstance().getGasStationCheckService();
-
+ 
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)	throws Exception
 	{

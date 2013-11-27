@@ -17,4 +17,7 @@ public interface AssignPlanDao
 	public AssignPlan getByPriKey(String transID, String assetsID);
 
 	public List<AssignPlan> getByTransID(String transID);
+	
+	public List<AssignPlan> getByTransID(List<String> transIDList);
+
 }

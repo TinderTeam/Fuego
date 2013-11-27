@@ -2,7 +2,6 @@ package cn.tinder.fuego.webservice.struts.action.discard;
 
 
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,21 +17,15 @@ import org.apache.struts.action.ActionMapping;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
-import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
-import cn.tinder.fuego.webservice.struts.bo.discard.DiscardSearchBo;
-import cn.tinder.fuego.webservice.struts.bo.discard.DiscardSessionBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
-import cn.tinder.fuego.webservice.struts.form.DiscardSearchForm;
-import cn.tinder.fuego.webservice.struts.form.DiscardSearchSelectForm;
-import cn.tinder.fuego.webservice.struts.form.SelectAssetsForm;
+import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
 
 
 
@@ -84,34 +77,42 @@ public class DiscardSearchResultAction extends Action
 	private String handle(ActionForm form, HttpServletRequest request)
 	{
 		String nextPage = null;
-    	SelectAssetsForm discardSearchSelectForm = (SelectAssetsForm)form;	
+		AssetsFilterForm assetsForm = (AssetsFilterForm)form;	
     	String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME); 
     	log.info(LogKeyConst.SUBMIT_VALUE+submitPara);
  
 
     	DiscardPlanBo plan = null;
-    	if(submitPara.equals(ParameterConst.SUBMIT_2))
+    	if(submitPara.equals(ParameterConst.SUBMIT_PARA_NAME))
     	{
     		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
     		plan = (DiscardPlanBo) request.getSession().getAttribute(RspBoNameConst.DISCARD_PLAN_INFO);
     		if(null == plan)
     		{
     			plan = (DiscardPlanBo) planService.createPlan(user.getUserID());
-
     		}
     		
-        	List<AssetsInfoBo> assetsList = assetsService.getAssetsByAssetsIDList(discardSearchSelectForm.getAssetsIDList());
+        	List<AssetsInfoBo> assetsList = assetsService.getAssetsByAssetsIDList(assetsForm.getAssetsIDList());
         	plan.getAssetsPage().setAssetsList(assetsList);
         	planService.validate(plan);
 
 			nextPage = PageNameConst.DISCARD_SURE_INIT;
 		}
-    	
-
-    	
-    	if(submitPara.equals(ParameterConst.BACK_PARA_NAME))
+    	else if(submitPara.equals(ParameterConst.SEARCH_PARA_NAME))
     	{
-			
+    		request.setAttribute(RspBoNameConst.DISCARD_SEARCH_FORM, assetsForm);
+
+    		assetsForm.setPageNum(1);
+    		nextPage = PageNameConst.DISCARD_SEARCH_INIT;
+    	}
+    	else if(submitPara.equals(ParameterConst.PAGECHANGE_PARA_NAME))
+    	{
+    		request.setAttribute(RspBoNameConst.DISCARD_SEARCH_FORM, assetsForm);
+
+    		nextPage = PageNameConst.DISCARD_SEARCH_INIT;
+    	}
+    	else if(submitPara.equals(ParameterConst.BACK_PARA_NAME))
+    	{
 			nextPage = PageNameConst.INDEX_INIT_ACTION;
 		}
  

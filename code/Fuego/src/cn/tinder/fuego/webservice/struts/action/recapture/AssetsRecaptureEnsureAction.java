@@ -31,6 +31,7 @@ import cn.tinder.fuego.webservice.struts.bo.recapture.RecapturePlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
+import cn.tinder.fuego.webservice.struts.form.RecaptureForm;
 
 /**
  * 
@@ -86,6 +87,8 @@ public class AssetsRecaptureEnsureAction extends Action
 		RecapturePlanBo plan = (RecapturePlanBo) request.getSession().getAttribute(RspBoNameConst.RECAPTURE_PLAN);
 		if (ParameterConst.SUBMIT_PARA_NAME.equals(submitPara))
 		{
+	    	RecaptureForm reForm = (RecaptureForm) request.getSession().getAttribute(RspBoNameConst.RECAPTURE_FORM);
+	    	plan.getTransInfo().setLocation(reForm.getLocation());
 			planService.updatePlan(plan);
 			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
 			
@@ -94,6 +97,12 @@ public class AssetsRecaptureEnsureAction extends Action
 		else if (ParameterConst.AGREE_PARA_NAME.equals(submitPara))
 		{
 			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+
+		}
+		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
+		{
+			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 
 		}
 		else if(ParameterConst.CONFIRM_PARA_NAME.equals(submitPara))
@@ -119,6 +128,10 @@ public class AssetsRecaptureEnsureAction extends Action
 		else if(ParameterConst.REFUSE_PARA_NAME.equals(submitPara))
 		{
 			planService.backward(plan.getTransInfo().getTransInfo().getTransID());
+		}
+		else if(ParameterConst.VIEW_PARA_NAME.equals(submitPara))
+		{
+			nextPage = PageNameConst.INDEX_INIT_ACTION;
 		}
 		return nextPage;
 	}

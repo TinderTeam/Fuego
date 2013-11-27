@@ -74,11 +74,11 @@ public class ImportAssetsSubmitInitAction extends Action
     	String nextPage = PageNameConst.IMPORT_ASSETS_SUBMIT_PAGE;// "PurchaseWarehousingEnsure"->"/jsp/purchaseWarehousingEnsure.jsp"
  
 
-		ReceivePlanBo receivePlan;
+		ReceivePlanBo plan;
 		String transID = request.getParameter(ParameterConst.PLAN_TRANS_ID);
-        receivePlan = (ReceivePlanBo) planService.getPlanByTransID(transID);
+		plan = (ReceivePlanBo) planService.getPlanByTransID(transID);
 		
-		if(null ==receivePlan )
+		if(null ==plan )
 		{
 	        log.info("can not get plan by transaction id." + transID);
 	        nextPage = PageNameConst.IMPORT_ASSETS_SUBMIT_PAGE;
@@ -86,38 +86,67 @@ public class ImportAssetsSubmitInitAction extends Action
 		else
 		{
 			//the receive transaction is child, so jump to assets receive status
-			if(null == receivePlan.getTransInfo().getChildTransList() || receivePlan.getTransInfo().getChildTransList().isEmpty())
+			if(null == plan.getTransInfo().getChildTransList() || plan.getTransInfo().getChildTransList().isEmpty())
 			{
 				nextPage = PageNameConst.ASSETS_RECEIVE_PAGE;
-				receivePlan.getPlanInfo().getAssetsPage().setShowReceiveState(true);
-				receivePlan.getPlanInfo().getAssetsPage().setShowNote(true);
+				plan.getPlanInfo().getAssetsPage().setShowReceiveState(true);
+				plan.getPlanInfo().getAssetsPage().setShowNote(true);
 			}
 			else
 			{
 				nextPage = PageNameConst.RECEIVE_STATUS_PAGE;
 	 		}
-	        request.setAttribute(RspBoNameConst.RECEIVE_PLAN_DATA, receivePlan);
+	        request.setAttribute(RspBoNameConst.RECEIVE_PLAN_DATA, plan);
+	    	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
 
+			nextPage = controlPageBtnDis(plan.getTransInfo().getTransInfo().canOperate(user),nextPage,request);
+	 
 		}
 
-        
-    	nextPage = controlPageBtnDis(nextPage,request);
- 
+
 		return nextPage;
 
     }
-	private String controlPageBtnDis(String nextPage,HttpServletRequest request)
+	private String controlPageBtnDis(boolean canOperate,String nextPage,HttpServletRequest request)
 	{
 		//control page button display by the step
 		String pageCtr = RspBoNameConst.PAGE_CREATE;
 		String transID = request.getParameter(ParameterConst.PLAN_TRANS_ID);
-		if(null == transID)
+		String step = request.getParameter(ParameterConst.PLAN_STEP);
+
+		if(!canOperate)
 		{
-			pageCtr = RspBoNameConst.PAGE_CREATE;
+			pageCtr = RspBoNameConst.PAGE_VIEW;
 		}
-		else 
+		else
 		{
-			pageCtr = RspBoNameConst.PAGE_CONFIRM;
+			if(null == transID)
+			{
+				pageCtr = RspBoNameConst.PAGE_CREATE;
+			}
+			else 
+			{
+				if(null == step)
+				{
+					pageCtr = RspBoNameConst.PAGE_CREATE;
+				}
+				else if(TransactionConst.RECEIVE_MAX_STEP.equals(step))
+				{
+					pageCtr = RspBoNameConst.PAGE_CREATE;
+				}
+				else if(TransactionConst.TRANS_LAST_STEP.equals(step))
+				{
+					pageCtr = RspBoNameConst.PAGE_FINISH;
+				}
+				else if(TransactionConst.TRANS_FINISH_STEP.equals(step))
+				{
+					pageCtr = RspBoNameConst.PAGE_VIEW;
+		 		}
+				else
+				{
+					pageCtr = RspBoNameConst.PAGE_FINISH;
+				}
+ 			}
 		}
  
 		request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, pageCtr);

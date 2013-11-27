@@ -35,6 +35,7 @@ public class AssetsBo extends ActionForm
 	private String dueDate;
 	private String dept;
 	private String duty;
+	private String manageName;
 	private String assetsType;
 	private String location;
 	private String techState;
@@ -45,7 +46,7 @@ public class AssetsBo extends ActionForm
 
 	
 	public AssetsBo(){
-		quantity=0;
+		quantity= 1;
 		originalValue=(float)0;
 		expectYear=0;
 	}
@@ -279,6 +280,19 @@ public class AssetsBo extends ActionForm
 	{
 		this.attrType = attrType;
 	}
+
+	
+	public String getManageName()
+	{
+		return manageName;
+	}
+
+
+	public void setManageName(String manageName)
+	{
+		this.manageName = manageName;
+	}
+
 
 	@Override
 	public String toString()

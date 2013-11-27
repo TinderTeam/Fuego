@@ -12,8 +12,10 @@ import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
+import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.download.PurchasePlanFile;
 import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
@@ -37,29 +39,46 @@ public class PurchasePlanEnsureAction extends Action
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+    	log.info(LogKeyConst.INPUT_ACTION);
+        
+    	String nextPage = null;
+    	try
+    	{
+    		nextPage = handle(form,request);
+		} 
+    	catch(ServiceException e)
+    	{
+    		log.warn("opration failed",e);
+    		request.setAttribute(RspBoNameConst.OPERATE_EXCEPION, e.getMessage());
+			nextPage = PageNameConst.ERROR_PAGE; 
+    	}
+    	catch (Exception e)
+		{
+			log.error("system error",e);
+			nextPage = PageNameConst.SYSTEM_ERROR_PAGE; 
+		}
+     
+ 
+        log.info(LogKeyConst.NEXT_PAGE+nextPage);
+        return mapping.findForward(nextPage);	
+
+    }
+
+	private String handle(ActionForm form,HttpServletRequest request)
+	{
 		log.info(LogKeyConst.INPUT_ACTION + "PurchasePlanEnsureAction");
 		// Page
-		String pageName = null;
+		String nextPage = null;
 
 		// RequestIn
 		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
 
-		if (null == user)
-		{
- 			log.error("the user is null");
-			pageName = PageNameConst.LOGIN_PAGE;
-			return mapping.findForward(pageName);
-		}
+ 
 
 		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
 		log.info(LogKeyConst.SUBMIT_VALUE + submitPara);
 
-		if (null == submitPara || submitPara.isEmpty())
-		{
-			log.error("can't find submitPara!");
-			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
-			return mapping.findForward(pageName);
-		}
+ 
 		
 		PurchasePlanSessionBo purchasePlan  = (PurchasePlanSessionBo) request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
 
@@ -70,12 +89,12 @@ public class PurchasePlanEnsureAction extends Action
 			purchasePlanService.updatePlan(purchasePlan);
 			purchasePlanService.forwardNext(purchasePlan.getPurchaseTransBo().getTransInfo().getTransID());
 
-			pageName = PageNameConst.SYSTEM_SUCCESS_PAGE;// "PurchasePlanCreateInit"
+			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;// "PurchasePlanCreateInit"
 		}
-		else if (submitPara.equals(ParameterConst.BACK_PARA_NAME))
+		else if (submitPara.equals(ParameterConst.CANCEL_PARA_NAME))
 		{ 
-			
-			pageName = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
+			purchasePlanService.deletePlan(purchasePlan.getPurchaseTransBo().getTransInfo().getTransID());
+			nextPage = PageNameConst.INDEX_INIT_ACTION;
 		} 
 		else if(ParameterConst.DOWNLOAD_PARA_NAME.equals(submitPara))
 		{
@@ -84,35 +103,43 @@ public class PurchasePlanEnsureAction extends Action
 			purchasePlan.getPurchaseTransBo().getTransInfo().setHandleUser(user.getDeptName());
 			PurchasePlanFile file = new PurchasePlanFile(purchasePlan);
 			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, file.getFile().getAbsolutePath());
-			pageName = PageNameConst.DOWNLOAD_ACTION;
+			nextPage = PageNameConst.DOWNLOAD_ACTION;
 		}
 		else if(ParameterConst.AGREE_PARA_NAME.equals(submitPara))
 		{
 			purchasePlanService.forwardNext(purchasePlan.getPurchaseTransBo().getTransInfo().getTransID());
-			pageName = PageNameConst.SYSTEM_SUCCESS_PAGE;
+			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 
 		}
-		else if(ParameterConst.CONFIRM_PARA_NAME.equals(submitPara))
+		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
 		{
 			purchasePlanService.forwardNext(purchasePlan.getPurchaseTransBo().getTransInfo().getTransID());
-			pageName = PageNameConst.SYSTEM_SUCCESS_PAGE;
+			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 
 		}else if(ParameterConst.REFUSE_PARA_NAME.equals(submitPara))
 		{
 			purchasePlanService.backward(purchasePlan.getPurchaseTransBo().getTransInfo().getTransID());
-			pageName = PageNameConst.SYSTEM_SUCCESS_PAGE;
+			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 
+		}
+		else if(ParameterConst.VIEW_PARA_NAME.equals(submitPara))
+		{
+		 	nextPage = PageNameConst.INDEX_INIT_ACTION;
 		}
 		else
 		{
 			log.error("can't match the submit Para!");
-			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
+			nextPage = PageNameConst.SYSTEM_ERROR_PAGE;
 		}
 
-		log.info(LogKeyConst.NEXT_PAGE + pageName);
+		log.info(LogKeyConst.NEXT_PAGE + nextPage);
+		
+		return nextPage;
 
-		return mapping.findForward(pageName);
+ 
 
 	}
+
+		
 
 }

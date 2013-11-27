@@ -10,6 +10,8 @@ package cn.tinder.fuego.webservice.struts.bo.trans;
 
 import java.util.Date;
 
+import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
+
 /**
  * @ClassName: TransactionBo
  * @Description: TODO
@@ -114,6 +116,16 @@ public class TransactionBaseInfoBo
 
 	public String getUrl() {
 		return url;
+	}
+	
+	public boolean canOperate(SystemUserBo user)
+	{
+		boolean canOperate = false;
+		if(user.getUserID().equals(this.handleUser))
+		{
+			canOperate = true;
+		}
+		return canOperate;
 	}
 
 }

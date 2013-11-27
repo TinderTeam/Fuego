@@ -21,6 +21,7 @@
             <property name="quantity" column="QUANTITY" not-null="false"></property>
             <property name="checkCnt" column="CHECK_CNT" not-null="false"></property>
             <property name="checkState" column="CHECK_STATE" not-null="false"></property>
+            <property name="note" column="NOTE" not-null="false"></property>
  
 	</class>
 </hibernate-mapping>

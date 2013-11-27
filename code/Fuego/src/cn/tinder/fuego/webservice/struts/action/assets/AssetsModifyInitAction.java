@@ -22,6 +22,7 @@ import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
+import cn.tinder.fuego.webservice.struts.form.AssetsModifyForm;
 
 
 
@@ -73,23 +74,29 @@ public class AssetsModifyInitAction extends Action
     }
 	private String handle(ActionForm form,HttpServletRequest request)
 	{
- 
-    	String nextPage = PageNameConst.ASSETS_STATUS_MODIFY_PAGE;
-    	String assetsID = request.getParameter("assetsID");   
-    	 
-    	AssetsInfoBo assets = assetsManageService.getAssetsByAssetID(assetsID);
-    	
-    	List<String> assetsTypeList = loadService.loadAssetsTypeList();
-    	List<String> assetsStatusList = loadService.loadAssetsTechList();
-    	List<String> assetsSrcList = loadService.loadAssetsSrcList();
-    	
-    	request.setAttribute(RspBoNameConst.ASSETS_INFO_DATA, assets);
-    	request.setAttribute(RspBoNameConst.TYPE_LIST, assetsTypeList);
-    	request.setAttribute(RspBoNameConst.TECH_LIST, assetsStatusList);
-    	request.setAttribute(RspBoNameConst.ASSETS_SRC_LIST, assetsSrcList);
+		String nextPage = PageNameConst.ASSETS_STATUS_MODIFY_PAGE;
 
+		String newAssetsID = request.getParameter("newAssetsID");
 
-    	 
+		String assetsID = request.getParameter("assetsID");
+
+		AssetsInfoBo assets;
+
+		if (null != newAssetsID)
+		{
+			assets = assetsManageService.getNewAssetsByAssetsID(newAssetsID);
+		} else
+		{
+			assets = assetsManageService.getAssetsByAssetID(assetsID);
+		}
+		request.setAttribute(RspBoNameConst.ASSETS_INFO_DATA, assets);
+		List<String> assetsTypeList = loadService.loadAssetsTypeList();
+		List<String> assetsStatusList = loadService.loadAssetsTechList();
+		List<String> assetsSrcList = loadService.loadAssetsSrcList();
+		request.setAttribute(RspBoNameConst.TYPE_LIST, assetsTypeList);
+		request.setAttribute(RspBoNameConst.TECH_LIST, assetsStatusList);
+		request.setAttribute(RspBoNameConst.ASSETS_SRC_LIST, assetsSrcList);
+
 		return nextPage;
 	}
  
