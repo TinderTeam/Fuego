@@ -111,7 +111,6 @@ public class ImportQuotaDataAction extends Action
 			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, quotaFile.getAbsolutePath());
 		}
  
-
 		return nextPage;
 	}
 

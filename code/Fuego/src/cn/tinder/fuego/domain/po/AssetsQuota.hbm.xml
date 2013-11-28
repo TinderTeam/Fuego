@@ -7,10 +7,14 @@
 <hibernate-mapping
 	package="cn.tinder.fuego.domain.po">
 	<class name="AssetsQuota" table="assets_quota">
-	    <id name="assetsName" column="ASSETS_NAME"  type="java.lang.String" >
-			<generator class="assigned"/>
-		</id>
-			<property name="deptID" column="DEPT_ID" not-null="false"></property>
+	
+		<composite-id>
+  	       <key-property name="assetsName" column="ASSETS_NAME" ></key-property> 
+	       <key-property name="duty" column="DUTY"  ></key-property>
+
+	    </composite-id>
+ 
+			<property name="manufacture" column="MANUFACTURE" not-null="false"></property>
 			<property name="spec" column="SPEC" not-null="false"></property>
 			<property name="quantity" column="QUANTITY" not-null="false"></property>
 			<property name="expectYear" column="EXPECT_YEAR" not-null="false"></property>

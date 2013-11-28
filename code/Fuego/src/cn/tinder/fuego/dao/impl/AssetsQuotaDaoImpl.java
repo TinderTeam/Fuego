@@ -8,9 +8,12 @@
  */
 package cn.tinder.fuego.dao.impl;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -63,17 +66,24 @@ public class AssetsQuotaDaoImpl implements AssetsQuotaDao
 	public void delete(AssetsQuota quota)
 	{
 		// TODO Auto-generated method stub
-		log.debug("[DAO] Delete the AssetsQuota:" + quota.toString());
+		log.debug("[DAO] Delete the DiscardPlan:" + quota.toString());
+
 		Session session = null;
 		Transaction tx = null;
+		String hql = null;
+		// SystemUser user = null;
 		try
 		{
 			session = HibernateUtil.getSession();
-			tx = (Transaction) session.beginTransaction();
 
-			Object classObj = session.load(AssetsQuota.class, quota.getSpec());
+			tx = session.beginTransaction();
 
-			session.delete(classObj);
+			hql = "delete from DiscardPlan where assets_name =? and  duty = ?";
+			Query query = session.createQuery(hql);
+			query.setString(0, quota.getAssetsName());
+			query.setString(1, quota.getDuty());
+
+			query.executeUpdate();
 
 			tx.commit();
 		} catch (RuntimeException re)
@@ -81,13 +91,13 @@ public class AssetsQuotaDaoImpl implements AssetsQuotaDao
 			throw re;
 		} finally
 		{
-			if (session != null)
+			if(null != session)
 			{
 				session.close();
 			}
 		}
 
-		log.debug("[DAO] Success!Delete the AssetsQuota:" + quota.toString());
+		log.debug("[DAO] Success!Delete the DiscardPlan:" + quota.toString());
 	}
 
 	/*
@@ -139,7 +149,8 @@ public class AssetsQuotaDaoImpl implements AssetsQuotaDao
 		// TODO Auto-generated method stub
 		try
 		{
-			HibernateUtil.update(quota);
+			this.delete(quota);
+			this.create(quota);
 		} catch (RuntimeException re)
 		{
 			throw re;
@@ -147,6 +158,76 @@ public class AssetsQuotaDaoImpl implements AssetsQuotaDao
 		{
 			HibernateUtil.closeSession();
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.dao.AssetsQuotaDao#getByDuty(java.lang.String)
+	 */
+	@Override
+	public List<AssetsQuota> getByDuty(String duty)
+	{
+		// TODO Auto-generated method stub
+		log.debug("[DAO] get the AssetsQuota by Name:" + duty);
+		Session s = null;
+		// Transaction tx = null;
+		// String hql = null;
+		List<AssetsQuota> quotaList = null;
+		try
+		{
+			s = HibernateUtil.getSession();
+			Criteria c = s.createCriteria(AssetsQuota.class);
+			c.add(Restrictions.eq("duty", duty));//
+			quotaList = c.list();
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			// HibernateUtil.closeSession();
+			if (s != null)
+			{
+				s.close();
+			}
+		}
+		if (quotaList != null)
+		{
+			log.debug("[DAO] Success!  get the AssetsName by Name:" + quotaList.toString());
+		}
+		return quotaList;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.dao.AssetsQuotaDao#getAllAssetsQuota()
+	 */
+	@Override
+	public List<AssetsQuota> getAllAssetsQuota()
+	{
+	 
+		Session s = null;
+		// Transaction tx = null;
+		// String hql = null;
+		List<AssetsQuota> quotaList = null;
+		try
+		{
+			s = HibernateUtil.getSession();
+			Criteria c = s.createCriteria(AssetsQuota.class);
+ 			quotaList = c.list();
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			// HibernateUtil.closeSession();
+			if (s != null)
+			{
+				s.close();
+			}
+		}
+		if (quotaList != null)
+		{
+			log.debug("[DAO] Success!  get the AssetsName by Name:" + quotaList.toString());
+		}
+		return quotaList;
 	}
 
 }

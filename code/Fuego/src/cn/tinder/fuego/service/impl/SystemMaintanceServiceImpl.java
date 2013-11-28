@@ -522,7 +522,7 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 				e.printStackTrace();
 			}
 			
-			log.info("Result:"+assetsQuota);
+			log.info("Result:"+assetsQuotaList);
 			return assetsQuotaList;
 	}
 }

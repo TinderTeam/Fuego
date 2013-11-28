@@ -2,6 +2,8 @@ package cn.tinder.fuego.webservice.struts.bo.base;
 
 import org.apache.struts.action.ActionForm;
 
+import cn.tinder.fuego.service.model.PurchaseSumModel;
+
 public class PurchasePlanBo extends ActionForm
 {
 	private int index;
@@ -186,6 +188,16 @@ public class PurchasePlanBo extends ActionForm
 
 	public String getValue() {
 		return value;
+	}
+	
+	public PurchaseSumModel getPurchaseSumModel()
+	{
+		PurchaseSumModel sumModel = new PurchaseSumModel();
+		sumModel.setAssetsName(this.getAssetsBo().getAssetsID());
+		sumModel.setManufacture(this.getAssetsBo().getManufacture());
+		sumModel.setSpec(this.getAssetsBo().getSpec());
+		sumModel.setGasName(this.getAssetsBo().getDuty());
+		return sumModel;
 	}
 
 }

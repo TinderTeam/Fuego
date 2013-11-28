@@ -900,6 +900,8 @@
                >          
   			<forward name="GatherTrans" path="/jsp/trans/gatherTrans.jsp"></forward>
   			<forward name="Index" path="/jsp/index.jsp"></forward>
+  			<forward name="IndexInit" path="/IndexInit.do"></forward>
+  			
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>					
