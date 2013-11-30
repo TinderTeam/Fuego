@@ -101,7 +101,7 @@ public class TransactionServiceImpl implements TransactionService
 		currentStep = transEventType.getStep();
 		transEvent.setCurrentStep(currentStep); // get CurrentStep and set to
 												// transEvent
-		transEvent.setStatus(TransactionConst.TRRANS_STATUS_TODO);
+		transEvent.setStatus(TransactionConst.TRANS_STATUS_TODO);
 
 		transEvent.setType(transType); // get type and set to transEvent
 
@@ -198,7 +198,7 @@ public class TransactionServiceImpl implements TransactionService
 		}
 		if(null !=  transInfo)
 		{
-			addTransOperInfo(transEvent,transInfo);
+			addTransOperInfo(transEvent,transInfo,true);
 		}
 		//get the status by current step 
 		if(TransactionConst.END_STEP_FLAG == curStep)
@@ -210,7 +210,7 @@ public class TransactionServiceImpl implements TransactionService
 		}
 		else
 		{	
-			transEvent.setStatus(TransactionConst.TRRANS_STATUS_DOING);
+			transEvent.setStatus(TransactionConst.TRANS_STATUS_DOING);
 
 		}
 		
@@ -223,14 +223,39 @@ public class TransactionServiceImpl implements TransactionService
 		
 	}
 
-	private void addTransOperInfo(TransEvent transEvent,String transInfo)
+	private void addTransOperInfo(TransEvent transEvent,String transInfo,boolean isPass)
 	{
 		TransOperRecord transOperRecord = new TransOperRecord();
 		transOperRecord.setTransID(transEvent.getTransID());
-		transOperRecord.setOperTime(DateService.getCurrentDate());
+		transOperRecord.setOperTime(DateService.getCurrentDateTimeStr());
 		transOperRecord.setUserName(transEvent.getHandleUser());
 		transOperRecord.setStep(transEvent.getCurrentStep());
 		transOperRecord.setTransInfo(transInfo);
+		
+		TransPlanService service = ServiceContext.getInstance().getPlanServiceByType(transEvent.getType());
+		if(isPass)
+		{
+			if(service.isApporalStep(transEvent.getCurrentStep()))
+			{
+				transOperRecord.setResult(TransactionConst.TRANS_RESULT_AGREE);
+			}
+			else
+			{
+				transOperRecord.setResult(TransactionConst.TRANS_RESULT_SUCCESS);
+			}
+		}
+		else
+		{
+			if(service.isApporalStep(transEvent.getCurrentStep()))
+			{
+				transOperRecord.setResult(TransactionConst.TRANS_RESULT_REFUSE);
+			}
+			else
+			{
+				transOperRecord.setResult(TransactionConst.TRANS_RESULT_FAILED);
+			}
+		}
+
 		transOperRecordDao.create(transOperRecord);
 	}
 
@@ -383,13 +408,13 @@ public class TransactionServiceImpl implements TransactionService
 	{
 		TransEvent transEvent =transEventDao.getByTransID(transID);
 		
-		this.addTransOperInfo(transEvent, transInfo);
+		this.addTransOperInfo(transEvent, transInfo,false);
 
 		TransEventType type = transEventTypeDao.getByType(transEvent.getType());
 		transEvent.setCurrentStep(type.getStep());
 		transEvent.setHandleUser(transEvent.getCreateUser());
 		transEvent.setHandleTime(DateService.getCurrentDate());
-		transEvent.setStatus(TransactionConst.TRRANS_STATUS_REFUSE);
+		transEvent.setStatus(TransactionConst.TRANS_RESULT_REFUSE);
 		transEventDao.saveOrUpdate(transEvent);
 	}
 

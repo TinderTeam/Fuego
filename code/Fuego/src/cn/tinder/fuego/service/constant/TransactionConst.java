@@ -71,13 +71,17 @@ public class TransactionConst
 	public static final int END_STEP_FLAG = 0; // end step
 	public static final int ID_LENGTH = 9; // ID length
 
-	public static final String TRRANS_STATUS_TODO = "未提交"; // Transaction state
+	public static final String TRANS_STATUS_TODO = "未提交"; // Transaction state
 	public static final String TRANS_STATUS_DONE = "已完成"; // Transaction state
-	public static final String TRRANS_STATUS_DOING = "未完成";
-	public static final String TRRANS_STATUS_REFUSE = "审批不通过";
+	public static final String TRANS_STATUS_DOING = "未完成";
 	
-	public static final String TRRANS_STATUS_READ = "已读";
-	public static final String TRRANS_STATUS_NO_READ = "未读";
+	public static final String TRANS_RESULT_SUCCESS = "成功";
+	public static final String TRANS_RESULT_FAILED = "失败";
+	public static final String TRANS_RESULT_AGREE = "审批通过";
+	public static final String TRANS_RESULT_REFUSE = "审批不通过";
+	
+	public static final String TRANS_STATUS_READ = "已读";
+	public static final String TRANS_STATUS_NO_READ = "未读";
 	
 	public static final String TRANS_OPERATE_SUBMIT = "提交";
 	public static final String TRANS_OPERATE_FINISH = "完成";

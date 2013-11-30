@@ -24,7 +24,7 @@ public class TransOperInfoBo
 	private String transName;
 	private String userName;
 	private String nickName;
-	private Date operTime;
+	private String operTime;
 	private int step;
 	private String stepName;
 	private String result;
@@ -61,11 +61,12 @@ public class TransOperInfoBo
 	{
 		this.nickName = nickName;
 	}
-	public Date getOperTime()
+ 
+	public String getOperTime()
 	{
 		return operTime;
 	}
-	public void setOperTime(Date operTime)
+	public void setOperTime(String operTime)
 	{
 		this.operTime = operTime;
 	}

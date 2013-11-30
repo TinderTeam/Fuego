@@ -60,8 +60,9 @@ public class AssignSelectAssetsInitAction extends Action
 		{
 			List<AssetsInfoBo> assetsList = assetsService.getAssetsByDutyDept(plan.getTransInfo().getOutDept());
 			AssetsPageBo selectAssetsPage = new AssetsPageBo();
-
-			selectAssetsPage.setAssetsList(assetsList);
+			selectAssetsPage.getPage().setAllPageData(assetsList);
+			selectAssetsPage.setAssetsList(selectAssetsPage.getPage().getCurrentPageData());
+			
 			selectAssetsPage.setShowCheckBox(true);
 			request.setAttribute(RspBoNameConst.ASSETS_PAGE_DATA, selectAssetsPage);
 		}

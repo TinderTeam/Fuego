@@ -1,5 +1,6 @@
 package cn.tinder.fuego.util.date;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -110,6 +111,18 @@ public class DateService {
 	{
 		 
         return new Date(System.currentTimeMillis());
+	}
+	
+	public static Timestamp getCurrentDateTime()
+	{
+		 
+        return new Timestamp(System.currentTimeMillis());
+	}
+	public static String getCurrentDateTimeStr()
+	{
+		Date time = new Timestamp(System.currentTimeMillis());
+		
+        return time.toString();
 	}
 	
 	public static int countDayNum(Date startDate,Date endDate)

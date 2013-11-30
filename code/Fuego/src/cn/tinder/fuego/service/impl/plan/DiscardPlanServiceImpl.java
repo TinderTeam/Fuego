@@ -169,9 +169,13 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
         	if(null == UserCache.getInstance().getUserByName(handleUser))
         	{
         		 log.warn("can not get the user by name." + handleUser);
-        		 forwardNext(transID,transInfo);
+        		 throw new ServiceException(ExceptionMsg.ASSETS_TYPE_WRONG);
         	}
-        	transInfo = TransactionConst.TRANS_OPERATE_SUBMIT;
+        	if(UserNameConst.CWZCB.equals(handleUser))
+        	{
+        		super.forwardNext(transID,handleUser,TransactionConst.TRANS_OPERATE_SUBMIT);
+        	}
+        	transInfo = null;
         	break;
         case 4 :
         	handleUser = UserNameConst.CWZCB;

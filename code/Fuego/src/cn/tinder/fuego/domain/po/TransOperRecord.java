@@ -22,7 +22,7 @@ public class TransOperRecord implements Serializable
 {
 	private String transID;
 	private String userName;
-	private Date operTime;
+	private String operTime;  //can not use timestamp, use the string temp
 	private int step;
 	private String stepName;
 	private String result;
@@ -55,19 +55,15 @@ public class TransOperRecord implements Serializable
 	{
 		this.userName = userName;
 	}
-	/**
-	 * @return the time
-	 */
-	public Date getOperTime()
+ 
+ 
+	public String getOperTime()
 	{
 		return operTime;
 	}
-	/**
-	 * @param time the time to set
-	 */
-	public void setOperTime(Date time)
+	public void setOperTime(String operTime)
 	{
-		this.operTime = time;
+		this.operTime = operTime;
 	}
 	/**
 	 * @return the step
