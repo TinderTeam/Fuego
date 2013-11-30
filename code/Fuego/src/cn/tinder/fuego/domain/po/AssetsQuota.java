@@ -1,6 +1,8 @@
 package cn.tinder.fuego.domain.po;
 
-public class AssetsQuota
+import java.io.Serializable;
+
+public class AssetsQuota implements Serializable
 {
 	private String assetsName;
 	private String manufacture;

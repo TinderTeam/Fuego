@@ -246,22 +246,32 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		}
 		else
 		{
+			log.info("部门："+duty);
 			quataList = CacheContext.getInstance().getQuotaCache().getQuataByDept(duty);
 			allAssetsList = assetsDao.getAssetsByDept(duty);
 		}
 		
+		/*
+		 * 以上获得了配置表和已有资产列表
+		 */
+		log.info("配置表："+quataList);
+		log.info("油站所有的表："+allAssetsList);
 		
-		List<PurchasePlanBo> quotaPlanList = null;
+		List<PurchasePlanBo> quotaPlanList = new ArrayList<PurchasePlanBo>();
 		
 		
 		for(PhysicalAssetsStatus physicalAssets : allAssetsList)
 		{   
+			/*
+			 * 遍历油站所有资产
+			 */
 			PurchaseSumModel sumModel = new PurchaseSumModel();
 			sumModel.setAssetsName(physicalAssets.getAssetsName());
 			sumModel.setManufacture(physicalAssets.getManufacture());
 			sumModel.setSpec(physicalAssets.getSpec());
 			sumModel.setGasName(physicalAssets.getDept());
 			PurchasePlanBo purchasePlan = getPurchaseFromList(quotaPlanList,sumModel);
+
 			if(null != purchasePlan)
 			{
 				int cnt = purchasePlan.getAssetsBo().getQuantity();

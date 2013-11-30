@@ -40,7 +40,7 @@
 								</div>
 							
 							<div class="widget-content">
-								<form action="<%=request.getContextPath()%>/PriceData.do" name="Form" method="post" enctype="multipart/form-data"  >	
+								<form action="<%=request.getContextPath()%>/QuotaData.do" name="Form" method="post" enctype="multipart/form-data"  >	
 
 									<div class="form-actions">
 											<button type="submit" class="btn btn-primary" name ="submit" value="download">价格参考表下载（模版下载）</button>

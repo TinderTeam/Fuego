@@ -19,6 +19,7 @@ import org.jgroups.util.Rsp;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.SystemMaintanceService;
+import cn.tinder.fuego.service.cache.QuotaCache;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
@@ -98,6 +99,7 @@ public class ImportQuotaDataAction extends Action
 		
 	    if(ParameterConst.PRICE_UPLOAD_PARA_NAME.equals(submitPara)){
 	    	systemMaintanceService.importQuotaAssest(excelIOService.uploadFile(importPriceForm.getPriceFile()));
+	    	QuotaCache.getInstance().load();
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 		}
 		else			

@@ -31,7 +31,7 @@ public class OutputFileConst {
 	public static final String CHECK_FILE_MODEL_PATH = getResourcePath()+"Model\\GasStationCheckModel.xls";
 	public static final String PRICEFILE_MODEL =getResourcePath()+"Model\\PriceModel.xls";
 	public static final String PRICEFILE = getResourcePath()+"\\PriceFile.xls";
-	public static final String QUOTAFILE_MODEL = getResourcePath()+"\\QuotaModel.xls";
+	public static final String QUOTAFILE_MODEL = getResourcePath()+"Model\\QuotaModel.xls";
 	public static final String QUOTAFILE = getResourcePath()+"\\QuotaFile.xls";
 
 
