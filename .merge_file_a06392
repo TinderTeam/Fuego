@@ -21,20 +21,13 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.opensymphony.oscache.base.Cache;
-
 import cn.tinder.fuego.dao.AssetsPriceDao;
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
-import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.domain.po.AssetsPrice;
-import cn.tinder.fuego.domain.po.AssetsQuota;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
-import cn.tinder.fuego.domain.po.ReceivePlan;
-import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
-import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
@@ -47,6 +40,7 @@ import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.excelimport.ImportBasicDataExcelFile;
 import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
+import cn.tinder.fuego.webservice.struts.form.GasAssetsApplyForm;
 import cn.tinder.fuego.webservice.struts.form.purchase.PurchaseAssetsSelectForm;
 import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm;
 
@@ -65,8 +59,6 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	private AssetsPriceDao assetsPriceDao = DaoContext.getInstance().getAssetsPriceDao();
 
 	private PhysicalAssetsStatusDao assetsDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
-	private SystemUserDao userDao = DaoContext.getInstance().getSystemUserDao();
-
 
 	/*
 	 * (non-Javadoc)
@@ -148,13 +140,6 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			assetsFilter.setLocation(filter.getLocation());
 		}
 		
-		if((null != filter.getManageName()) && (filter.getManageName().trim().isEmpty()||AssetsConst.ASSETS_FITER_ALL.equals(filter.getManageName())))
-		{	
-			assetsFilter.setManageName(null);
-		}else{
-			assetsFilter.setManageName(filter.getManageName());
-		}
-		
 		assetsFilter.setPurchaseDate(DateService.stringToDate(filter.getStartPurchaseDate()));
 		assetsFilter.setDueDate(DateService.stringToDate(filter.getStartDueDate()));		
 		assetsFilterDate.setPurchaseDate(DateService.stringToDate(filter.getEndPurchaseDate()));
@@ -213,108 +198,10 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		techList.add(AssetsConst.ASSETS_STATUS_BAD);
 		techList.add(AssetsConst.ASSETS_STATUS_DISCARD);
 		
-		String duty = null;
-		String manageName = null;
-		if(form.getDuty().equals(AssetsConst.ASSETS_FITER_ALL))
-		{
-			duty = null;
-		}
-		else
-		{
-			duty = form.getDuty();
-		}
-		if(form.getManageName().equals(AssetsConst.ASSETS_FITER_ALL))
-		{
-			manageName = null;
-		}
-		else
-		{
-			manageName = form.getManageName();
-		}
-		
-		List<PhysicalAssetsStatus> assetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(dueDate, techList, assetsTypeList,duty,manageName);
-		List<PurchasePlanBo> planList =  convertAndSumAssets(assetsList);
-
-		//get the assets need to purchase by assets quota
-		//1:get all the quata by
-		List<PhysicalAssetsStatus> allAssetsList;
-		List<PurchasePlanBo> quotaPlanList = new ArrayList<PurchasePlanBo>();
-
-		List<AssetsQuota> quataList;
-		if(null == duty)
-		{	
-			quataList = CacheContext.getInstance().getQuotaCache().getAllQuota();
-			allAssetsList = assetsDao.getAssetsListByFilter(null, null, null, null);
-		}
-		else
-		{
-			quataList = CacheContext.getInstance().getQuotaCache().getQuataByDept(duty);
-			allAssetsList = assetsDao.getAssetsByDept(duty);
-		}
-		for(AssetsQuota quota: quataList)
-		{
-			PurchasePlanBo purchasePlan = new PurchasePlanBo();
-			purchasePlan.getAssetsBo().setAssetsName(quota.getAssetsName());
-			purchasePlan.getAssetsBo().setManufacture(quota.getManufacture());
-			purchasePlan.getAssetsBo().setSpec(quota.getSpec());
-			purchasePlan.getAssetsBo().setDuty(quota.getDuty());
-			quotaPlanList.add(purchasePlan);
-		}
-		
-		
-		
-		for(PhysicalAssetsStatus physicalAssets : allAssetsList)
-		{   
-			PurchaseSumModel sumModel = new PurchaseSumModel();
-			sumModel.setAssetsName(physicalAssets.getAssetsName());
-			sumModel.setManufacture(physicalAssets.getManufacture());
-			sumModel.setSpec(physicalAssets.getSpec());
-			sumModel.setGasName(physicalAssets.getDept());
-			PurchasePlanBo purchasePlan = getPurchaseFromList(quotaPlanList,sumModel);
-			if(null != purchasePlan)
-			{
-				int cnt = purchasePlan.getAssetsBo().getQuantity();
-				cnt -= physicalAssets.getQuantity();
-				if(cnt<0)
-				{
-					cnt = 0;
-				}
-				purchasePlan.getAssetsBo().setQuantity(cnt); 
-					
-			}
-		}
-		for(PurchasePlanBo plan: quotaPlanList)
-		{
-			if(0 != plan.getAssetsBo().getQuantity())
-			{
-				PurchasePlanBo purchasePlan = getPurchaseFromList(planList,plan.getPurchaseSumModel());
-				if(null == purchasePlan)
-				{
-					planList.add(plan);
-				}
-				else
-				{
-					purchasePlan.getAssetsBo().setQuantity(purchasePlan.getAssetsBo().getQuantity()+plan.getAssetsBo().getQuantity());
-				}
-			}
- 
-		}
-		
-		
-  		return convertAndSumAssets(assetsList);
+		List<PhysicalAssetsStatus> assetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(dueDate, techList, assetsTypeList);
+ 		
+ 		return convertAndSumAssets(assetsList);
 		 
-	}
-	
-	public PurchasePlanBo getPurchaseFromList(List<PurchasePlanBo> planList,PurchaseSumModel sumModel)
-	{
-		for(PurchasePlanBo plan : planList)
-		{
-			if(plan.equals(sumModel))
-			{
-				return plan;
-			}
-		}
-		return null;
 	}
 	
  
@@ -364,7 +251,6 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			purchaseSumModel.setAssetsName(assets.getAssetsName());
 			purchaseSumModel.setManufacture(assets.getManufacture());
 			purchaseSumModel.setSpec(assets.getSpec());
-			purchaseSumModel.setGasName(assets.getDuty());
 			PurchasePlanBo purchasePlan;
 			if(null != purchasePlanMap.get(purchaseSumModel))
 			{
@@ -376,11 +262,11 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			{
 				purchasePlan = new PurchasePlanBo();
 				purchasePlan.setAssetsBo(ConvertAssetsModel.convertAssets(assets));
-				AssetsPrice assetPrice = null; //assetsPriceDao.getBySpec(""); todo
+				AssetsPrice assetPrice = assetsPriceDao.getBySpec("");
 				if(null == assetPrice)
 				{	
 					log.warn("the price is null for the stuff" + purchaseSumModel);
-					purchasePlan.setPrice(String.valueOf(assets.getOriginalValue()));
+					purchasePlan.setPrice(String.valueOf(0));
 					purchasePlan.countMoney();
 				}
 				else
@@ -411,23 +297,98 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		return purchasePlanList;
 	}
 
- 
+	@Override
+	public void sendAssetsStatusChangeApply(
+			GasAssetsApplyForm gasAssetsApplyForm) {
+		// TODO Auto-generated method stub
+		
+	}
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.AssetsManageService#getAssetsByAssetsIDList(java.util.List)
+	 */
+	@Override
+	public void updateAssetsStatus(List<PhysicalAssetsStatus> assestList)
+	{
+		
+		for(PhysicalAssetsStatus assets : assestList)
+		{
+			PhysicalAssetsStatus assetsUpdate = assetsDao.getByAssetsID(assets.getAssetsID());
+			if(null == assetsUpdate)
+			{
+				log.warn("can not find the assets by id. assets is " + assets);
+			}
+			else
+			{	
+				assetsUpdate.setAssetsName(assets.getAssetsName());
+				assetsUpdate.setAssetsSRC(assets.getAssetsSRC());
+				assetsUpdate.setAssetsType(assets.getAssetsType());
+				assetsUpdate.setTechState(assets.getTechState());
+				assetsUpdate.setCheckDate(assets.getCheckDate());
+				assetsUpdate.setDept(assets.getDept());
+				assetsUpdate.setDueDate(assets.getDueDate());
+				assetsUpdate.setDuty(assets.getDuty());
+				assetsUpdate.setExpectYear(assets.getExpectYear());
+				assetsUpdate.setLocation(assets.getLocation());
+				assetsUpdate.setManufacture(assets.getManufacture());
+				assetsUpdate.setNote(assets.getNote());
+				assetsUpdate.setOriginalValue(assets.getOriginalValue());
+				assetsUpdate.setPurchaseDate(assets.getPurchaseDate());
+				assetsUpdate.setQuantity(assets.getQuantity());
+				assetsUpdate.setSpec(assets.getSpec());
+				assetsUpdate.setTechState(assets.getTechState());
+				assetsUpdate.setUnit(assets.getUnit());
+				assetsUpdate.setCheckDate(assets.getCheckDate());
+				assetsDao.saveOrUpdate(assetsUpdate);
+			}
+		}
+
+	}
+	
+
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.AssetsManageService#updateAssetsStatus(cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo)
 	 */
+	@SuppressWarnings("null")
 	@Override
-	public void updateAssets(AssetsInfoBo assetsInfo)
+	public void updateAssetsStatus(AssetsInfoBo assetsInfo)
 	{
-		PhysicalAssetsStatus assetsUpdate = assetsDao.getByAssetsID(assetsInfo.getAssets().getAssetsID());
- 
+		PhysicalAssetsStatus assets = ConvertAssetsModel.convertAssetsBo(assetsInfo);
+		PhysicalAssetsStatus assetsUpdate = assetsDao.getByAssetsID(assets.getAssetsID());
+ 		PhysicalAssetsStatus assetsCreate =	new PhysicalAssetsStatus();
+ 		
+		
 		if(null == assetsUpdate)
-		{   			
-			 this.createAssetsList(Arrays.asList(assetsInfo));
+		{   
+
+			
+			//log.info("newAssetsID is :"+assets.getAssetsID());
+			//log.warn("can not find the assets by id. assets is " + assets);
+			assetsCreate.setAssetsID(assets.getAssetsID());
+			
+			assetsCreate.setAssetsName(assets.getAssetsName());
+			assetsCreate.setAssetsSRC(assets.getAssetsSRC());
+			assetsCreate.setAssetsType(assets.getAssetsType());
+			assetsCreate.setTechState(assets.getTechState());
+			assetsCreate.setCheckDate(assets.getCheckDate());
+			assetsCreate.setDept(assets.getDept());
+			assetsCreate.setDueDate(assets.getDueDate());
+			assetsCreate.setDuty(assets.getDuty());
+			assetsCreate.setExpectYear(assets.getExpectYear());
+			assetsCreate.setLocation(assets.getLocation());
+			assetsCreate.setManufacture(assets.getManufacture());
+			assetsCreate.setNote(assets.getNote());
+			assetsCreate.setOriginalValue(assets.getOriginalValue());
+			assetsCreate.setPurchaseDate(assets.getPurchaseDate());
+			assetsCreate.setQuantity(assets.getQuantity());
+			assetsCreate.setSpec(assets.getSpec());
+			assetsCreate.setTechState(assets.getTechState());
+			assetsCreate.setUnit(assets.getUnit());
+			assetsCreate.setCheckDate(assets.getCheckDate());
+			assetsDao.create(assetsCreate);
+			
 		}
 		else
 		{	
-			PhysicalAssetsStatus assets = ConvertAssetsModel.convertAssetsBo(assetsInfo);
-
 			assetsUpdate.setAssetsName(assets.getAssetsName());
 			assetsUpdate.setAssetsSRC(assets.getAssetsSRC());
 			assetsUpdate.setAssetsType(assets.getAssetsType());
@@ -466,11 +427,19 @@ public class AssetsManageServiceImpl implements AssetsManageService
 
 		return ConvertAssetsModel.convertAssetsList(assetsList);
 	}
- 
+
+	@Override
+	public void sendAssetsApply(GasAssetsApplyForm gasAssetsApplyForm) 
+	{
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public List<AssetsInfoBo> getDiscardAssetsListBo(String dueDate, List<String> assetsTypeList,List<String> statusList)
 	{
+ 		
+
 		return getAssetsListByFilterList(DateService.stringToDate(dueDate),assetsTypeList,null,statusList);
 	}
 
@@ -506,20 +475,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	@Override
 	public void createAssetsList(List<AssetsInfoBo> assetsList)
 	{
-		
-		 List<PhysicalAssetsStatus> physicalAssetsList = new ArrayList<PhysicalAssetsStatus>(); 
-		 for(AssetsInfoBo assets : assetsList)
-		 {
-			 PhysicalAssetsStatus physicalAssets = ConvertAssetsModel.convertAssetsBo(assets);
-			 
-			 String manage = CacheContext.getInstance().getUserCache().getManageByUser(physicalAssets.getDuty());
-			 
-			 assets.getAssets().setManageName(manage);
-			 physicalAssets.setManageName(manage);
- 		 
-			 physicalAssetsList.add(physicalAssets);
-		 }
-		 assetsDao.create(physicalAssetsList);
+		 assetsDao.create(ConvertAssetsModel.convertAssetsBoList(assetsList));
  
 	}
 
@@ -543,21 +499,6 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		return assetsInfo;
 	}
 	
-	public AssetsInfoBo getAseestByAssetsIDFromAssetsLIst(List<PhysicalAssetsStatus> assetsStatusList,String assetsID)
-	{
-		AssetsInfoBo assets = null;
-		for(PhysicalAssetsStatus physicalAssets : assetsStatusList)
-		{
-			if(physicalAssets.getAssetsID().equals(assetsID))
-			{
-				assets = new AssetsInfoBo();
-				assets.setAssets(ConvertAssetsModel.convertAssets(physicalAssets));
-				break;
-			}
-		}
- 		return assets;
-	}
-	
 	public void deleteAssets(AssetsInfoBo assetsInfo)
 	{
 		if(null == assetsInfo)
@@ -575,9 +516,6 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	public void importBasicAssest(File file)
 	{
 		List<PhysicalAssetsStatus> assetsList = ImportBasicDataExcelFile.load(file);
-		
-		initManageName(assetsList);
-		
 		try
 		{
 			assetsDao.create(assetsList);
@@ -595,13 +533,6 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			
 			throw new ServiceException(ExceptionMsg.ASSETS_NAME_ISEXIST+"("+errID+")");
 		}
-	}
-
-	private void initManageName(List<PhysicalAssetsStatus> assetsList) {
-		
-		for(PhysicalAssetsStatus ast:assetsList){
-			ast.setManageName(CacheContext.getInstance().getUserCache().getManageByUser(ast.getDuty()));
-		}			
 	}
 
 	/* (non-Javadoc)
