@@ -25,6 +25,11 @@ public class CacheContext
 	{
 		return UserCache.getInstance();
 	}
+	
+	public QuotaCache getQuotaCache()
+	{
+		return QuotaCache.getInstance();
+	}
 
 	 
 }

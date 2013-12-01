@@ -1,107 +1,69 @@
 package cn.tinder.fuego.domain.po;
 
-public class AssetsQuota
+import java.io.Serializable;
+
+public class AssetsQuota implements Serializable
 {
 	private String assetsName;
-	private String deptID;
+	private String manufacture;
+	private String duty;
 	private String spec;
-	private String quantity;
 	private String expectYear;
-
-	/**
-	 * @return the assetsName
-	 */
+	private int quantity;
 	public String getAssetsName()
 	{
 		return assetsName;
 	}
-
-	/**
-	 * @param assetsName
-	 *            the assetsName to set
-	 */
 	public void setAssetsName(String assetsName)
 	{
 		this.assetsName = assetsName;
 	}
-
-	/**
-	 * @return the deptID
-	 */
-	public String getDeptID()
+	public String getManufacture()
 	{
-		return deptID;
+		return manufacture;
 	}
-
-	/**
-	 * @param deptID
-	 *            the deptID to set
-	 */
-	public void setDeptID(String deptID)
+	public void setManufacture(String manufacture)
 	{
-		this.deptID = deptID;
+		this.manufacture = manufacture;
 	}
-
-	/**
-	 * @return the spec
-	 */
+	public String getDuty()
+	{
+		return duty;
+	}
+	public void setDuty(String duty)
+	{
+		this.duty = duty;
+	}
 	public String getSpec()
 	{
 		return spec;
 	}
-
-	/**
-	 * @param spec
-	 *            the spec to set
-	 */
 	public void setSpec(String spec)
 	{
 		this.spec = spec;
 	}
-
-	/**
-	 * @return the quantity
-	 */
-	public String getQuantity()
+	public int getQuantity()
 	{
 		return quantity;
 	}
-
-	/**
-	 * @param quantity
-	 *            the quantity to set
-	 */
-	public void setQuantity(String quantity)
+	public void setQuantity(int quantity)
 	{
 		this.quantity = quantity;
 	}
-
-	/**
-	 * @return the expectYear
-	 */
 	public String getExpectYear()
 	{
 		return expectYear;
 	}
-
-	/**
-	 * @param expectYear
-	 *            the expectYear to set
-	 */
 	public void setExpectYear(String expectYear)
 	{
 		this.expectYear = expectYear;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString()
 	{
-		return "AssetsQuota [assetsName=" + assetsName + ", deptID=" + deptID + ", expectYear=" + expectYear + ", quantity=" + quantity + ", spec=" + spec + "]";
+		return "AssetsQuota [assetsName=" + assetsName + ", manufacture=" + manufacture + ", duty=" + duty + ", spec=" + spec + ", expectYear=" + expectYear + ", quantity=" + quantity + "]";
 	}
-
+ 
+	
+	
 }

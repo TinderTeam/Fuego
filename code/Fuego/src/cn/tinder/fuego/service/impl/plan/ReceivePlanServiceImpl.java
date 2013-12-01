@@ -48,6 +48,7 @@ import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
 import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
+import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.receive.ReceivePlanBo;
 import cn.tinder.fuego.webservice.struts.bo.receive.ReceivePlanInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.receive.ReceiveTransBo;
@@ -482,5 +483,12 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		}
 		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
 		return assetsStatusList;
+	}
+
+	@Override
+	public List<AssetsInfoBo> importByFile(File file) {
+		return null;
+		// TODO Auto-generated method stub
+		
 	}
 }

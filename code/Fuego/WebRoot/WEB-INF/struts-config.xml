@@ -85,6 +85,10 @@
                    type="cn.tinder.fuego.webservice.struts.form.ImportPriceForm">
         </form-bean>         
         
+        <form-bean name="ImportQuotaForm"
+                   type="cn.tinder.fuego.webservice.struts.form.ImportQuotaForm">
+        </form-bean>    
+        
         <form-bean name="TransFilterForm"
                    type="cn.tinder.fuego.webservice.struts.form.TransFilterForm">
         </form-bean>      
@@ -287,7 +291,8 @@
   			<forward name="AssignCreateInit" path="/AssignCreateInit.do"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>		
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	
+			<forward name="DownloadAction" path="/FileDownload.do"></forward> 	
        	</action>	
        	
        	<action path="/AssignCreateInit"
@@ -667,7 +672,7 @@
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	
-  		
+  			<forward name="DownloadAction" path="/FileDownload.do"></forward>	
        	</action>
        	
        	<action path="/DiscardSearchResult"
@@ -680,7 +685,7 @@
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	
-  						
+  			<forward name="DownloadAction" path="/FileDownload.do"></forward>				
        	</action>
        	
        	<action path="/DiscardSureInit"
@@ -840,7 +845,22 @@
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>				
        	</action>     
        	  
+       	  <action path="/QuotaDataInit"
+                type="cn.tinder.fuego.webservice.struts.action.quotadata.QuotaDataInitAction"              
+               >          
+  			<forward name="QuotaData" path="/jsp/assets/quotaData.jsp"></forward>
+  			<forward name="Index" path="/jsp/index.jsp"></forward>				
+       	  </action>
        	  
+       	       	       	   
+        <action path="/QuotaData"
+                type="cn.tinder.fuego.webservice.struts.action.quotadata.ImportQuotaDataAction"              
+               name="ImportQuotaForm">          
+  			<forward name="DownloadAction" path="/FileDownload.do"></forward>		
+  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>				
+       	</action>       
        
        	  
        	   <!-- END PriceDataInitAction-->  <!--Nanbowen--> 

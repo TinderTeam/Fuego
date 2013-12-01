@@ -58,5 +58,7 @@ public interface AssetsManageService
 	public List<AssetsInfoBo> getRecaptureAssetsListBo(List<String> assetsDutyList, List<String> assetsTypeList);
 	
 	public List<String> getUserListByAssestList(List<AssetsInfoBo> assetsList);
+
+	
 	
 }

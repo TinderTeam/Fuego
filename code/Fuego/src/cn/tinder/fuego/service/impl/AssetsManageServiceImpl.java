@@ -21,11 +21,14 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.opensymphony.oscache.base.Cache;
+
 import cn.tinder.fuego.dao.AssetsPriceDao;
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.domain.po.AssetsPrice;
+import cn.tinder.fuego.domain.po.AssetsQuota;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.SystemUser;
@@ -230,9 +233,88 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		}
 		
 		List<PhysicalAssetsStatus> assetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(dueDate, techList, assetsTypeList,duty,manageName);
- 		
- 		return convertAndSumAssets(assetsList);
+		List<PurchasePlanBo> planList =  convertAndSumAssets(assetsList);
+
+		//get the assets need to purchase by assets quota
+		//1:get all the quata by
+		List<PhysicalAssetsStatus> allAssetsList;
+		List<PurchasePlanBo> quotaPlanList = new ArrayList<PurchasePlanBo>();
+
+		List<AssetsQuota> quataList;
+		if(null == duty)
+		{	
+			quataList = CacheContext.getInstance().getQuotaCache().getAllQuota();
+			allAssetsList = assetsDao.getAssetsListByFilter(null, null, null, null);
+		}
+		else
+		{
+			quataList = CacheContext.getInstance().getQuotaCache().getQuataByDept(duty);
+			allAssetsList = assetsDao.getAssetsByDept(duty);
+		}
+		for(AssetsQuota quota: quataList)
+		{
+			PurchasePlanBo purchasePlan = new PurchasePlanBo();
+			purchasePlan.getAssetsBo().setAssetsName(quota.getAssetsName());
+			purchasePlan.getAssetsBo().setManufacture(quota.getManufacture());
+			purchasePlan.getAssetsBo().setSpec(quota.getSpec());
+			purchasePlan.getAssetsBo().setDuty(quota.getDuty());
+			quotaPlanList.add(purchasePlan);
+		}
+		
+		
+		
+		for(PhysicalAssetsStatus physicalAssets : allAssetsList)
+		{   
+			PurchaseSumModel sumModel = new PurchaseSumModel();
+			sumModel.setAssetsName(physicalAssets.getAssetsName());
+			sumModel.setManufacture(physicalAssets.getManufacture());
+			sumModel.setSpec(physicalAssets.getSpec());
+			sumModel.setGasName(physicalAssets.getDept());
+			PurchasePlanBo purchasePlan = getPurchaseFromList(quotaPlanList,sumModel);
+			if(null != purchasePlan)
+			{
+				int cnt = purchasePlan.getAssetsBo().getQuantity();
+				cnt -= physicalAssets.getQuantity();
+				if(cnt<0)
+				{
+					cnt = 0;
+				}
+				purchasePlan.getAssetsBo().setQuantity(cnt); 
+					
+			}
+		}
+		for(PurchasePlanBo plan: quotaPlanList)
+		{
+			if(0 != plan.getAssetsBo().getQuantity())
+			{
+				PurchasePlanBo purchasePlan = getPurchaseFromList(planList,plan.getPurchaseSumModel());
+				if(null == purchasePlan)
+				{
+					planList.add(plan);
+				}
+				else
+				{
+					purchasePlan.getAssetsBo().setQuantity(purchasePlan.getAssetsBo().getQuantity()+plan.getAssetsBo().getQuantity());
+				}
+			}
+ 
+		}
+		
+		
+  		return convertAndSumAssets(assetsList);
 		 
+	}
+	
+	public PurchasePlanBo getPurchaseFromList(List<PurchasePlanBo> planList,PurchaseSumModel sumModel)
+	{
+		for(PurchasePlanBo plan : planList)
+		{
+			if(plan.equals(sumModel))
+			{
+				return plan;
+			}
+		}
+		return null;
 	}
 	
  
@@ -515,6 +597,8 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		}
 	}
 
+	
+	
 	private void initManageName(List<PhysicalAssetsStatus> assetsList) {
 		
 		for(PhysicalAssetsStatus ast:assetsList){
@@ -568,6 +652,8 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	   }
 		
 	}
+
+
 
 
 }

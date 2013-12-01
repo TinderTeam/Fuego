@@ -23,6 +23,8 @@ import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
+import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
+import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
@@ -252,6 +254,13 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 		}
  
 		return sumValue;
+	}
+
+	@Override
+	public List<AssetsInfoBo> importByFile(File file) {
+		return null;
+		// TODO Auto-generated method stub
+		
 	}
 
 }

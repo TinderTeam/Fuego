@@ -11,6 +11,9 @@ package cn.tinder.fuego.service;
 import java.io.File;
 import java.util.List;
 
+import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
+import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
+
 
 /**
  * 
@@ -41,6 +44,7 @@ public interface TransPlanService<E>
 	public void validate(E plan);
 	
 	public File getExportFile(E plan);
+	public List<AssetsInfoBo> importByFile(File file);
 	
 	public int getPlanCount(List<String> transIDList);
 	public float getPlanAssetsSumValue(List<String> transIDList);

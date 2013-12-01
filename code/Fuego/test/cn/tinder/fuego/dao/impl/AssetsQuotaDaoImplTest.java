@@ -32,11 +32,7 @@ public class AssetsQuotaDaoImplTest
 	@Test
 	public final void testCreate()
 	{
-		// fail("Not yet implemented"); // TODO
-		aq.setAssetsName("a油箱");
-		aq.setDeptID("02");
-		aq.setExpectYear("2015-12-31");
-		aq.setQuantity("5");
+ 
 		aq.setSpec("A");
 		aqdi.create(aq);
 
@@ -49,12 +45,7 @@ public class AssetsQuotaDaoImplTest
 	public final void testDelete()
 	{
 		// fail("Not yet implemented"); // TODO
-		aq.setAssetsName("a油箱");
-		aq.setDeptID("02");
-		aq.setExpectYear("2015-12-31");
-		aq.setQuantity("5");
-		aq.setSpec("A");
-		aqdi.delete(aq);
+ 
 	}
 
 	/**
@@ -77,7 +68,7 @@ public class AssetsQuotaDaoImplTest
 	{
 		// fail("Not yet implemented"); // TODO
 		aq.setAssetsName("油罐");
-		aq.setQuantity("10");
+		aq.setQuantity(10);
 		aqdi.saveOrUpdate(aq);
 
 	}
