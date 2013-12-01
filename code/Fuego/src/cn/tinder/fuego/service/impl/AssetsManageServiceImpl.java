@@ -238,6 +238,8 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		//get the assets need to purchase by assets quota
 		//1:get all the quata by
 		List<PhysicalAssetsStatus> allAssetsList;
+		List<PurchasePlanBo> quotaPlanList = new ArrayList<PurchasePlanBo>();
+
 		List<AssetsQuota> quataList;
 		if(null == duty)
 		{	
@@ -246,32 +248,29 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		}
 		else
 		{
-			log.info("部门："+duty);
 			quataList = CacheContext.getInstance().getQuotaCache().getQuataByDept(duty);
 			allAssetsList = assetsDao.getAssetsByDept(duty);
 		}
+		for(AssetsQuota quota: quataList)
+		{
+			PurchasePlanBo purchasePlan = new PurchasePlanBo();
+			purchasePlan.getAssetsBo().setAssetsName(quota.getAssetsName());
+			purchasePlan.getAssetsBo().setManufacture(quota.getManufacture());
+			purchasePlan.getAssetsBo().setSpec(quota.getSpec());
+			purchasePlan.getAssetsBo().setDuty(quota.getDuty());
+			quotaPlanList.add(purchasePlan);
+		}
 		
-		/*
-		 * 以上获得了配置表和已有资产列表
-		 */
-		log.info("配置表："+quataList);
-		log.info("油站所有的表："+allAssetsList);
-		
-		List<PurchasePlanBo> quotaPlanList = new ArrayList<PurchasePlanBo>();
 		
 		
 		for(PhysicalAssetsStatus physicalAssets : allAssetsList)
 		{   
-			/*
-			 * 遍历油站所有资产
-			 */
 			PurchaseSumModel sumModel = new PurchaseSumModel();
 			sumModel.setAssetsName(physicalAssets.getAssetsName());
 			sumModel.setManufacture(physicalAssets.getManufacture());
 			sumModel.setSpec(physicalAssets.getSpec());
 			sumModel.setGasName(physicalAssets.getDept());
 			PurchasePlanBo purchasePlan = getPurchaseFromList(quotaPlanList,sumModel);
-
 			if(null != purchasePlan)
 			{
 				int cnt = purchasePlan.getAssetsBo().getQuantity();
