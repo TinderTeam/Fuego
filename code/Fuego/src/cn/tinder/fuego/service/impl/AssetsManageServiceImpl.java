@@ -258,6 +258,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			purchasePlan.getAssetsBo().setManufacture(quota.getManufacture());
 			purchasePlan.getAssetsBo().setSpec(quota.getSpec());
 			purchasePlan.getAssetsBo().setDuty(quota.getDuty());
+			purchasePlan.getAssetsBo().setQuantity(quota.getQuantity());
 			quotaPlanList.add(purchasePlan);
 		}
 		
@@ -265,11 +266,11 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		
 		for(PhysicalAssetsStatus physicalAssets : allAssetsList)
 		{   
-			PurchaseSumModel sumModel = new PurchaseSumModel();
-			sumModel.setAssetsName(physicalAssets.getAssetsName());
-			sumModel.setManufacture(physicalAssets.getManufacture());
-			sumModel.setSpec(physicalAssets.getSpec());
-			sumModel.setGasName(physicalAssets.getDept());
+			PurchasePlanBo sumModel = new PurchasePlanBo();
+			sumModel.getAssetsBo().setAssetsName(physicalAssets.getAssetsName());
+			sumModel.getAssetsBo().setManufacture(physicalAssets.getManufacture());
+			sumModel.getAssetsBo().setSpec(physicalAssets.getSpec());
+			sumModel.getAssetsBo().setDuty(physicalAssets.getDept());
 			PurchasePlanBo purchasePlan = getPurchaseFromList(quotaPlanList,sumModel);
 			if(null != purchasePlan)
 			{
@@ -287,7 +288,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		{
 			if(0 != plan.getAssetsBo().getQuantity())
 			{
-				PurchasePlanBo purchasePlan = getPurchaseFromList(planList,plan.getPurchaseSumModel());
+				PurchasePlanBo purchasePlan = getPurchaseFromList(planList,plan);
 				if(null == purchasePlan)
 				{
 					planList.add(plan);
@@ -301,11 +302,11 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		}
 		
 		
-  		return convertAndSumAssets(assetsList);
+  		return planList;
 		 
 	}
 	
-	public PurchasePlanBo getPurchaseFromList(List<PurchasePlanBo> planList,PurchaseSumModel sumModel)
+	public PurchasePlanBo getPurchaseFromList(List<PurchasePlanBo> planList,PurchasePlanBo sumModel)
 	{
 		for(PurchasePlanBo plan : planList)
 		{
