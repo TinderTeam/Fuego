@@ -20,12 +20,12 @@
     
 	<div id="content">
 			<div id="content-header">
-				<h1><font  face="微软雅黑">价格参考表维护</font></h1>
+				<h1><font  face="微软雅黑">加油站配置参考表维护</font></h1>
 				
 			</div>
 			<div id="breadcrumb">
 				<a href="<%=request.getContextPath()%>/IndexInit.do" title="返回主页" class="tip-bottom"><i class="icon-home"></i>主页</a>
-				<a href="#" class="tip-bottom">价格参考表维护</a>				
+				<a href="#" class="tip-bottom">加油站配置参考表维护</a>				
 			</div>
 			
 			<div class="container-fluid">
@@ -35,7 +35,7 @@
 						
 								<div class="widget-title">
 								
-									<h5>价格参考表上载</h5>
+									<h5>加油站配置参考表上载</h5>
 										
 								</div>
 							
@@ -43,7 +43,7 @@
 								<form action="<%=request.getContextPath()%>/QuotaData.do" name="Form" method="post" enctype="multipart/form-data"  >	
 
 									<div class="form-actions">
-											<button type="submit" class="btn btn-primary" name ="submit" value="download">价格参考表下载（模版下载）</button>
+											<button type="submit" class="btn btn-primary" name ="submit" value="download">加油站配置参考表模版下载</button>
 											<input type="file" name ="priceFile"/>
 											<button id = "subID" type="submit" class="btn btn-inverse" name ="submit" value="price_upload" style="display:none" >通过Excel表格导入</button>	
 											
