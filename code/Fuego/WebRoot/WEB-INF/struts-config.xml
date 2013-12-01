@@ -672,7 +672,7 @@
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	
-  		
+  			<forward name="DownloadAction" path="/FileDownload.do"></forward>	
        	</action>
        	
        	<action path="/DiscardSearchResult"
@@ -685,7 +685,7 @@
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	
-  						
+  			<forward name="DownloadAction" path="/FileDownload.do"></forward>				
        	</action>
        	
        	<action path="/DiscardSureInit"

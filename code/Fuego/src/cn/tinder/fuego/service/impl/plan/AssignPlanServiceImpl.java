@@ -39,6 +39,7 @@ import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.assign.AssignTransBo;
+import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.download.AssignFile;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 
@@ -365,5 +366,12 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		}
 		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
 		return assetsStatusList;
+	}
+
+	@Override
+	public List<AssetsInfoBo> importByFile(File file) {
+		return null;
+		// TODO Auto-generated method stub
+		
 	}
 }

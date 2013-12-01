@@ -15,6 +15,7 @@ import org.apache.struts.action.ActionMapping;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
@@ -50,6 +51,10 @@ public class DiscardSearchAction extends Action
     	{
     		request.setAttribute(RspBoNameConst.DISCARD_SEARCH_FORM, discardSearchForm);
     		nextPage = PageNameConst.DISCARD_SEARCH_INIT;
+		}else if(ParameterConst.DOWNLOAD_PARA_NAME.equals(submitPara))	
+		{
+			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, OutputFileConst.DISCARD_FILE_MODEL_PATH);
+			nextPage = PageNameConst.DOWNLOAD_ACTION;
 		}
     	
         log.info("[Jump]:NextPage:"+nextPage);

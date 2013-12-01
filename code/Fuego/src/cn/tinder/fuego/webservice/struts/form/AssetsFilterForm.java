@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.upload.FormFile;
 
 import cn.tinder.fuego.util.date.DateService;
 
@@ -32,7 +33,20 @@ public class AssetsFilterForm extends ActionForm
 	
 	private int pageNum = 1; //default page 
 	
+	private FormFile assetsFile;
+	
+	
 
+	public FormFile getAssetsFile()
+	{
+		return assetsFile;
+	}
+
+	public void setAssetsFile(FormFile assetsFile)
+	{
+		this.assetsFile = assetsFile;
+	}
+	
 	public String getAssetsID() {
 		return assetsID;
 	}

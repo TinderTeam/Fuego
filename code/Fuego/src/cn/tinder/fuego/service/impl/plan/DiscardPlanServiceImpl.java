@@ -12,8 +12,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import jxl.Cell;
+import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 import jxl.write.WritableSheet;
@@ -34,6 +38,7 @@ import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.PurchasePlan;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
@@ -44,6 +49,7 @@ import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
+import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.discard.DiscardTransBo;
 import cn.tinder.fuego.webservice.struts.bo.recapture.RecapturePlanBo;
@@ -435,4 +441,67 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 		}
 		return sumValue;
 	}
+
+	@Override
+	public List<AssetsInfoBo> importByFile(File uploadFile) {
+		//通过Excel文件导入
+		
+		List<AssetsBo> assetslist = new ArrayList<AssetsBo>();
+		// TODO Auto-generated method stub
+		log.info(uploadFile.getAbsolutePath());
+		
+ 		List<String> assetsIDList = new ArrayList<String>();	
+	    if (uploadFile.getName().indexOf(".xls") <= 0){
+	    	throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG+uploadFile.getName());
+	    }
+	     
+	        // 2.判断文件是否存在
+	    File excelFile = uploadFile;
+	    if (!excelFile.exists()){
+	    	throw new ServiceException(ExceptionMsg.FILEPATH_NOT_EXIST+ uploadFile.getAbsolutePath());
+	    }
+	    	
+	        // 3.定义Excel对象,即workbook
+	    Workbook book;
+		try {
+				book = Workbook.getWorkbook(excelFile);
+				if (book == null) {
+					throw new ServiceException(ExceptionMsg.EXCEL_READ_ERR);
+				}
+				// 3. 获取所有workSheets
+				Sheet sheet = book.getSheet(0);
+				int column=sheet.getColumns();
+				int row = sheet.getRows();
+				        log.info("Excel Load Info: row="  +row + "; column=" + column + ";"); 
+				Cell cell;       
+				for(int i=2;i<row;i++){
+					try{
+						cell = sheet.getCell(0,i);
+						log.info(cell.getContents());
+						assetsIDList.add(cell.getContents());			    	
+					}catch(ServiceException ex){
+						throw new ServiceException(ex.getMessage()+ExceptionMsg.ERR_ROW+String.valueOf(i),ex);
+					}
+				}   	   
+ 			} catch (BiffException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
+			
+		/*
+		 * 導入后查詢系統
+		 */
+			
+		
+			return  ConvertAssetsModel.convertAssetsList(physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList));
+		
+		
+			
+			
+	}
+
 }

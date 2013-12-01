@@ -44,6 +44,7 @@ import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
 import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
+import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckTransBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
@@ -540,6 +541,13 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	{
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<AssetsInfoBo> importByFile(File file) {
+		return null;
+		// TODO Auto-generated method stub
+		
 	}
 
 }

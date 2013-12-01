@@ -18,10 +18,14 @@ import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.exception.ServiceException;
+import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
+import cn.tinder.fuego.service.sys.FileLoadService;
+import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
+import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
@@ -42,7 +46,9 @@ public class DiscardSearchResultAction extends Action
     private static final Log log = LogFactory.getLog(DiscardSearchResultAction.class);
     private TransPlanService planService = ServiceContext.getInstance().getDiscardPlanService();
     private AssetsManageService assetsService = ServiceContext.getInstance().getAssetsManageService();
-	
+    ExcelIOService excelIOService = new ExcelIOServiceImpl();
+	FileLoadService fileLoadService = ServiceContext.getInstance()
+			.getFileLoadService();
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
@@ -114,8 +120,24 @@ public class DiscardSearchResultAction extends Action
     	else if(submitPara.equals(ParameterConst.BACK_PARA_NAME))
     	{
 			nextPage = PageNameConst.INDEX_INIT_ACTION;
+		}else if(ParameterConst.DOWNLOAD_PARA_NAME.equals(submitPara))	
+		{
+			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, OutputFileConst.DISCARD_FILE_MODEL_PATH);
+			nextPage = PageNameConst.DOWNLOAD_ACTION;
+			
+		}else if(ParameterConst.UPLOAD_PARA_NAME.equals(submitPara)){
+			SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+    		if(null == plan)
+    		{
+    			plan = (DiscardPlanBo) planService.createPlan(user.getUserID());
+    		}
+
+			List<AssetsInfoBo> assetsInfoBo =planService.importByFile(excelIOService.uploadFile(assetsForm.getAssetsFile()));
+			plan.getAssetsPage().setAssetsList(assetsInfoBo);
+			
+			nextPage = PageNameConst.DISCARD_SURE_INIT;
+			
 		}
- 
 		request.getSession().setAttribute(RspBoNameConst.DISCARD_PLAN_INFO, plan);
 		return nextPage;
 	}

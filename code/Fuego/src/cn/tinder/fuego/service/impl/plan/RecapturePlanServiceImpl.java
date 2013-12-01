@@ -446,4 +446,11 @@ s	 *
 		return assetsStatusList;
 	}
 
+	@Override
+	public List<AssetsInfoBo> importByFile(File file) {
+		return null;
+		// TODO Auto-generated method stub
+		
+	}
+
 }

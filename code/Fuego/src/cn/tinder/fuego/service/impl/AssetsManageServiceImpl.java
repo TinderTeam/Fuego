@@ -597,6 +597,8 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		}
 	}
 
+	
+	
 	private void initManageName(List<PhysicalAssetsStatus> assetsList) {
 		
 		for(PhysicalAssetsStatus ast:assetsList){
@@ -650,6 +652,8 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	   }
 		
 	}
+
+
 
 
 }
