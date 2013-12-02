@@ -248,7 +248,7 @@
        	
        	<action path="/PurchasePlanEnsure"
                 type="cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchasePlanEnsureAction"              
-                name="PurchasePlanEnsureForm"
+                name="TransOperateInfoForm"
                 >
             <forward name="IndexInit" path="/IndexInit.do"></forward>
             
