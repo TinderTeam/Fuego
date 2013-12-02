@@ -269,7 +269,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			PurchasePlanBo sumModel = new PurchasePlanBo();
 			sumModel.getAssetsBo().setAssetsName(physicalAssets.getAssetsName());
 			sumModel.getAssetsBo().setManufacture(physicalAssets.getManufacture());
-			sumModel.getAssetsBo().setSpec(physicalAssets.getSpec());
+			//sumModel.getAssetsBo().setSpec(physicalAssets.getSpec());
 			sumModel.getAssetsBo().setDuty(physicalAssets.getDept());
 			PurchasePlanBo purchasePlan = getPurchaseFromList(quotaPlanList,sumModel);
 			if(null != purchasePlan)
@@ -598,8 +598,6 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		}
 	}
 
-	
-	
 	private void initManageName(List<PhysicalAssetsStatus> assetsList) {
 		
 		for(PhysicalAssetsStatus ast:assetsList){
@@ -653,8 +651,6 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	   }
 		
 	}
-
-
 
 
 }
