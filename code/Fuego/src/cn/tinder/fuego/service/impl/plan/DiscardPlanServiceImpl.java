@@ -138,10 +138,18 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 		}
 
 	}
+	
+	public void forwardNextBySystem(String transID)
+	{
+		TransEvent transEvent =transEventDao.getByTransID(transID);
+
+		super.forwardNext(transID,transEvent.getHandleUser(),null);
+
+	}
 	@Override
 	public void forwardNext(String transID)
 	{
-		forwardNext(transID,null);
+		forwardNext(transID,"");
 	}
 	/*
 	 * (non-Javadoc)
@@ -161,7 +169,11 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 		}
 		
 		String handleUser;
-  
+ 
+		if(transEvent.getCurrentStep() == getMaxStep(transID))
+		{
+        	transInfo = TransactionConst.TRANS_OPERATE_SUBMIT;
+		}
         switch(transEvent.getCurrentStep())
 		{
         case 5 :
@@ -173,9 +185,9 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
         	}
         	if(UserNameConst.CWZCB.equals(handleUser))
         	{
-        		super.forwardNext(transID,handleUser,TransactionConst.TRANS_OPERATE_SUBMIT);
+        		super.forwardNext(transID,handleUser,transInfo);
+            	transInfo = null;
         	}
-        	transInfo = null;
         	break;
         case 4 :
         	handleUser = UserNameConst.CWZCB;

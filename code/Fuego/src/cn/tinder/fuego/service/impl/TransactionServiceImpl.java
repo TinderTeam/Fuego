@@ -233,28 +233,39 @@ public class TransactionServiceImpl implements TransactionService
 		transOperRecord.setTransInfo(transInfo);
 		
 		TransPlanService service = ServiceContext.getInstance().getPlanServiceByType(transEvent.getType());
+		
+		String result = "";
 		if(isPass)
 		{
-			if(service.isApporalStep(transEvent.getCurrentStep()))
+			if(transEvent.getCurrentStep() == service.getMaxStep(transEvent.getTransID()))
 			{
-				transOperRecord.setResult(TransactionConst.TRANS_RESULT_AGREE);
+				result = TransactionConst.TRANS_RESULT_SUCCESS;
+			}
+			else if(service.isApporalStep(transEvent.getCurrentStep()))
+			{
+				result = TransactionConst.TRANS_RESULT_AGREE;
 			}
 			else
 			{
-				transOperRecord.setResult(TransactionConst.TRANS_RESULT_SUCCESS);
+				result = TransactionConst.TRANS_RESULT_SUCCESS;
 			}
 		}
 		else
 		{
-			if(service.isApporalStep(transEvent.getCurrentStep()))
+			if(transEvent.getCurrentStep() == service.getMaxStep(transEvent.getTransID()))
 			{
-				transOperRecord.setResult(TransactionConst.TRANS_RESULT_REFUSE);
+				result = TransactionConst.TRANS_RESULT_SUCCESS;
+			}
+			else if(service.isApporalStep(transEvent.getCurrentStep()))
+			{
+				result = TransactionConst.TRANS_RESULT_REFUSE;
 			}
 			else
 			{
-				transOperRecord.setResult(TransactionConst.TRANS_RESULT_FAILED);
+				result = TransactionConst.TRANS_RESULT_FAILED;
 			}
 		}
+		transOperRecord.setResult(result);
 
 		transOperRecordDao.create(transOperRecord);
 	}

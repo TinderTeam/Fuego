@@ -181,7 +181,15 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	@Override
 	public void forwardNext(String transID)
 	{
-		forwardNext(transID,null);
+		forwardNext(transID,"");
+	}
+	
+	public void forwardNextBySystem(String transID)
+	{
+		TransEvent transEvent =transEventDao.getByTransID(transID);
+
+		super.forwardNext(transID,transEvent.getHandleUser(),null);
+
 	}
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.TransPlanService#forwardNext(java.lang.String)
@@ -505,12 +513,15 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	public int getMaxStep(String transID)
 	{
 		// TODO Auto-generated method stub
-		return 0;
+		return Integer.valueOf(TransactionConst.RECEIVE_MAX_STEP);
 	}
 	@Override
 	public boolean isApporalStep(int step)
 	{
- 
+		if(2 == step )
+		{
+			return true;
+		}
 		return false;
 	}
 }

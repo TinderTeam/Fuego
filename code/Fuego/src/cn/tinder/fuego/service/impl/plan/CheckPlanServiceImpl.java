@@ -196,7 +196,15 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	@Override
 	public void forwardNext(String transID)
 	{
-		forwardNext(transID,null);
+		forwardNext(transID,"");
+	}
+	
+	public void forwardNextBySystem(String transID)
+	{
+		TransEvent transEvent =transEventDao.getByTransID(transID);
+
+		super.forwardNext(transID,transEvent.getHandleUser(),null);
+
 	}
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.TransPlanService#forwardNext(java.lang.String)
@@ -561,7 +569,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	public int getMaxStep(String transID)
 	{
 		// TODO Auto-generated method stub
-		return 0;
+		return Integer.valueOf(TransactionConst.CHECK_MAX_STEP);
 	}
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.TransPlanService#getAprovalStep(java.lang.String)

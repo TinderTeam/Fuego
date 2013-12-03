@@ -123,7 +123,14 @@ public class RecapturePlanServiceImpl <E> extends TransactionServiceImpl impleme
 	@Override
 	public void forwardNext(String transID)
 	{
-		forwardNext(transID,null);
+		forwardNext(transID,"");
+	}
+	public void forwardNextBySystem(String transID)
+	{
+		TransEvent transEvent =transEventDao.getByTransID(transID);
+
+		super.forwardNext(transID,transEvent.getHandleUser(),null);
+
 	}
 	/*
 	 * (non-Javadoc)

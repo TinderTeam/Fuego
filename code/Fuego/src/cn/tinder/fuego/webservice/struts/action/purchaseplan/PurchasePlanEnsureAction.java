@@ -90,17 +90,19 @@ public class PurchasePlanEnsureAction extends Action
 
  
 			planService.updatePlan(plan);
-			planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID());
 			if(user.getRole().equals(UserRoleConst.SUPER_DEPT))
 			{
-				planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID());
-				planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID());
+ 
+				planService.forwardNextBySystem(plan.getPurchaseTransBo().getTransInfo().getTransID());
+				planService.forwardNextBySystem(plan.getPurchaseTransBo().getTransInfo().getTransID());
             }
 			else if(user.getRole().equals(UserRoleConst.DEPT))
 			{	
-				planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID());
+				planService.forwardNextBySystem(plan.getPurchaseTransBo().getTransInfo().getTransID());
 
 			}
+			planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID());
+
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;// "PurchasePlanCreateInit"
 		}
 		else if (submitPara.equals(ParameterConst.CANCEL_PARA_NAME))

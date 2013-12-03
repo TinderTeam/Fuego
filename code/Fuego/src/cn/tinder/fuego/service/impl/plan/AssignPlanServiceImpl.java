@@ -127,7 +127,14 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	@Override
 	public void forwardNext(String transID)
 	{
-		forwardNext(transID,null);
+		forwardNext(transID,"");
+	}
+	public void forwardNextBySystem(String transID)
+	{
+		TransEvent transEvent =transEventDao.getByTransID(transID);
+
+		super.forwardNext(transID,transEvent.getHandleUser(),null);
+
 	}
 	/*
 	 * (non-Javadoc)
@@ -391,7 +398,7 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	public int getMaxStep(String transID)
 	{
 		// TODO Auto-generated method stub
-		return 0;
+		return Integer.valueOf(TransactionConst.ASSIGN_MAX_STEP);
 	}
 
 	/* (non-Javadoc)

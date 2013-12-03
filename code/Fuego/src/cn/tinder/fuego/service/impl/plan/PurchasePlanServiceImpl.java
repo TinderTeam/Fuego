@@ -121,7 +121,14 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 	@Override
 	public void forwardNext(String transID)
 	{
-		forwardNext(transID,null);
+		forwardNext(transID,"");
+	}
+	public void forwardNextBySystem(String transID)
+	{
+		TransEvent transEvent =transEventDao.getByTransID(transID);
+
+		super.forwardNext(transID,transEvent.getHandleUser(),null);
+
 	}
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.TransPlanService#forwardNext(java.lang.String)
@@ -140,6 +147,10 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 			type=planList.get(0).getAssetsType();
 		}
 		String handleUser;
+		if(transEvent.getCurrentStep() == getMaxStep(transID))
+		{
+        	transInfo = TransactionConst.TRANS_OPERATE_SUBMIT;
+		}
 		switch(transEvent.getCurrentStep())
 		{
  
@@ -154,9 +165,10 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
         	}
         	if(UserNameConst.CWZCB.equals(handleUser))
         	{
-        		super.forwardNext(transID,handleUser,TransactionConst.TRANS_OPERATE_SUBMIT);
+        		super.forwardNext(transID,handleUser,transInfo);
+            	transInfo = null;
+
         	}
-        	transInfo = null;
 
         	break;
         case 4 :
@@ -198,8 +210,7 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 
  		plan.getPurchaseTransBo().setTransInfo(baseTrans);
 		
- 		 
-
+ 
 		List<PurchasePlanBo> planBoList = new ArrayList<PurchasePlanBo>();
 		List<PurchasePlan> purchasePlanList = purchasePlanDao.getByTransID(transID);
 		for(PurchasePlan purchasePlan : purchasePlanList)

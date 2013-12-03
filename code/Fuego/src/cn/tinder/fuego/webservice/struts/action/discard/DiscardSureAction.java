@@ -80,18 +80,18 @@ public class DiscardSureAction extends Action
 		if (ParameterConst.SUBMIT_PARA_NAME.equals(submitPara))
 		{
 			planService.updatePlan(plan);
-			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID(),"");
 			if(user.getRole().equals(UserRoleConst.SUPER_DEPT))
 			{
-				planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
-				planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+				planService.forwardNextBySystem(plan.getTransInfo().getTransInfo().getTransID());
+				planService.forwardNextBySystem(plan.getTransInfo().getTransInfo().getTransID());
 			}
 			else if(user.getRole().equals(UserRoleConst.DEPT))
 			{	
-				planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+				planService.forwardNextBySystem(plan.getTransInfo().getTransInfo().getTransID());
 
 			}
-			
+			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID(),"");
+
  			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 		}
 		else if (ParameterConst.AGREE_PARA_NAME.equals(submitPara))

@@ -40,6 +40,7 @@ public interface TransPlanService<E>
 
 	public void updatePlan(E plan);
 
+	public void forwardNextBySystem(String transID);
 	public void forwardNext(String transID);
 	
 	public void forwardNext(String transID,String transInfo);
