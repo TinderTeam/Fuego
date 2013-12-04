@@ -115,7 +115,7 @@ public class PurchasePlanEnsureInitAction extends Action
 			{
 				pageCtr = RspBoNameConst.PAGE_CREATE;
 			}
-			else if(step.equals(planService.getMaxStep(transID)))
+			else if(step.equals(String.valueOf(planService.getMaxStep(transID))))
 			{
 				nextPage = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
 			}

@@ -338,11 +338,11 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 		{	
 			if(user.getRole().equals(UserRoleConst.GASSTATION))
 			{
-				return Integer.valueOf(TransactionConst.DISCARD_GAS_MAX_STEP);
+				return Integer.valueOf(TransactionConst.PURCHASE_GAS_MAX_STEP);
 			}
 			else if(user.getRole().equals(UserRoleConst.DEPT))
 			{
-				return Integer.valueOf(TransactionConst.DISCARD_MAX_STEP);
+				return Integer.valueOf(TransactionConst.PURCHASE_DEPT_MAX_STEP);
 
 			}
 			else

@@ -48,7 +48,7 @@ public class TransactionConst
 	public static final String PURCHASE_APPROVAL_STEP = "2";
  
 	public static final String PURCHASE_GAS_MAX_STEP = "5";
-	public static final String PURCHASE_DEPT_STEP = "4";
+	public static final String PURCHASE_DEPT_MAX_STEP = "4";
 	public static final String PURCHASE_MAX_STEP = "3";
 
 	

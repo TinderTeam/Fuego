@@ -14,14 +14,14 @@ public class PurchasePlanBo extends ActionForm {
 	private String value;
 
 	/**
-	 * TASK #7 #80 èµ„äº§é‡‡è´­å¢åŠ é…ç½®æ•°é‡æè¿°ä¿¡æ¯ 2014-1-1 é‡æ„ By Bowen Nan
+	 * TASK #7 #80 ×Ê²ú²É¹ºÔö¼ÓÅäÖÃÊıÁ¿ÃèÊöĞÅÏ¢ 2014-1-1 ÖØ¹¹ By Bowen Nan
 	 * 
 	 */
 
-	private int currentQuantity = 0; // ç°æœ‰æ•°é‡(å«ä¸å¯ç”¨çŠ¶æ€)
-	private int disableQuantity = 0; // ä¸å¯ç”¨æ•°é‡(å¾…æŠ¥åºŸã€æŸå)
-	private int quotaQuantity = 0; // é…ç½®æ•°é‡
-	private int purchaseQuantity = 0; // éœ€é‡‡è´­æ•°é‡
+	private int currentQuantity = 0; // ÏÖÓĞÊıÁ¿(º¬²»¿ÉÓÃ×´Ì¬)
+	private int disableQuantity = 0; // ²»¿ÉÓÃÊıÁ¿(´ı±¨·Ï¡¢Ëğ»µ)
+	private int quotaQuantity = 0; // ÅäÖÃÊıÁ¿
+	private int purchaseQuantity = 0; // Ğè²É¹ºÊıÁ¿
 
 	/**
 	 * @return the currentQuantity

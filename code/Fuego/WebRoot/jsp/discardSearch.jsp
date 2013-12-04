@@ -71,9 +71,17 @@
 
 												<select name="techState"  style="width:100px">
 												
-												    <option selected=""  >全部</option>	
-													<c:forEach var="i" items= "${discardSearchBo.techStatusList}"> 																								  
-														<option id="${i}"/>${i}																							
+ 													<c:forEach var="i" items= "${discardSearchBo.techStatusList}"> 																								  
+													 <c:choose>	
+														 <c:when test="${searchForm.techState==i}">
+													           <option selected=""  >${searchForm.techState}</option>	
+													           
+														  </c:when>
+														  <c:otherwise>  
+														       <option id="${i}"/>${i}		
+													
+														  </c:otherwise>	
+													  </c:choose>																					
 													</c:forEach>
 												</select>												
 											</div>
@@ -91,7 +99,15 @@
 												
 												     
 													<c:forEach var="i" items= "${discardSearchBo.assetsTypeList}"> 																								  
-														<option id="${i}"/>${i}																							
+														 <c:choose>
+														  <c:when test="${searchForm.assetsType == i}">
+													           <option selected=""  >${searchForm.assetsType}</option>	
+														  </c:when>
+														  <c:otherwise>  
+														       <option id="${i}"/>${i}		
+													
+														  </c:otherwise>
+														  </c:choose>																						
 													</c:forEach>
 												</select>
 										
@@ -106,7 +122,7 @@
                                                  <select name="manageName" style="width: 200px"  >
 													<c:forEach var="i" items= "${manageDeptList}"> 																								  
 												      <c:choose>
-														  <c:when test="${searchForm.manageName == i}">
+														  <c:when test="${searchForm.manageName==i}">
 													           <option selected=""  >${searchForm.manageName}</option>	
 														  </c:when>
 														  <c:otherwise>  

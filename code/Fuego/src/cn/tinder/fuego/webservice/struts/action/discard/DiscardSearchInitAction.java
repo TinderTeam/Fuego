@@ -90,7 +90,10 @@ public class DiscardSearchInitAction extends Action
     	
      	DiscardSearchBo discardSearchBo = new DiscardSearchBo();
     	List<String> assetsTypeList = loadService.loadAssetsTypeList();
-    	List<String> assetsStatusList = loadService.loadAssetsTechList();
+    	List<String> assetsStatusList = new ArrayList<String>();
+    	
+    	assetsStatusList.add(AssetsConst.ASSETS_FITER_ALL);
+    	assetsStatusList.addAll(loadService.loadAssetsTechList());
 
     	discardSearchBo.setDate(DateService.DateToString(new Date(System.currentTimeMillis())));
     	discardSearchBo.setAssetsTypeList(assetsTypeList);
