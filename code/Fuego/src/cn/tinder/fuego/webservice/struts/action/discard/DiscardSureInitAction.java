@@ -119,7 +119,7 @@ public class DiscardSureInitAction extends Action
 			{
 				pageCtr = RspBoNameConst.PAGE_CREATE;
 			}
-			else if(step.equals(String.valueOf(planService.getMaxStep(transID))))
+			else if(Integer.valueOf(step)>= planService.getMaxStep(transID))
 			{
 				nextPage = PageNameConst.DISCARD_SEARCH_INIT;
 			}
