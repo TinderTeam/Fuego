@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
+import cn.tinder.fuego.service.model.DomainFilterModel;
 
 /**
  * 
@@ -30,7 +31,7 @@ public interface PhysicalAssetsStatusDao
 	
 	public int getAssetsListByFilterCount(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate);
 
- 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,int startNum,int pageSize);
+ 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,DomainFilterModel domainFilter ,int startNum,int pageSize);
  	
 	public List<PhysicalAssetsStatus> getAssetsListByAssetsIDList(List<String> assetsIDList);
 

@@ -79,7 +79,7 @@ public class PurchasePlanInitAction extends Action
     	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,loadService.loadDeptInfoByUser(user.getUserID(),true));//DeptList
     	request.setAttribute(RspBoNameConst.MANAGE_DEPT_LIST,loadService.loadManageDeptList(user.getUserID(),true));//DeptList
 
-    	request.setAttribute(RspBoNameConst.TYPE_LIST,loadService.loadAssetsTypeList());//TypeList
+    	request.setAttribute(RspBoNameConst.TYPE_LIST,loadService.loadAssetsTypeList(user.getUserID()));//TypeList
  		
 
         log.info(LogKeyConst.NEXT_PAGE+pageName);

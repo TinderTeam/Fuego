@@ -49,8 +49,7 @@ public class SelectAssetsInitAction extends Action
 		String pageName = PageNameConst.SELECT_ASSETS_PAGE;
 
 		// get department information list
-		List<AssetsInfoBo> assetsList = assetsService.getAssetsByDept("");
-		AssetsPageBo selectAssetsPage = new AssetsPageBo();
+ 		AssetsPageBo selectAssetsPage = new AssetsPageBo();
  
 
 		log.info(LogKeyConst.NEXT_PAGE + pageName);

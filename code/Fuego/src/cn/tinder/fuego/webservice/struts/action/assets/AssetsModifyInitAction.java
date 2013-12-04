@@ -90,7 +90,7 @@ public class AssetsModifyInitAction extends Action
 			assets = assetsManageService.getAssetsByAssetID(assetsID);
 		}
 		request.setAttribute(RspBoNameConst.ASSETS_INFO_DATA, assets);
-		List<String> assetsTypeList = loadService.loadAssetsTypeList();
+		List<String> assetsTypeList = loadService.loadAssetsTypeList(null);
 		List<String> assetsStatusList = loadService.loadAssetsTechList();
 		List<String> assetsSrcList = loadService.loadAssetsSrcList();
 		request.setAttribute(RspBoNameConst.TYPE_LIST, assetsTypeList);

@@ -617,9 +617,11 @@
        	
        	<action path="/ImportAssetsSubmit"
                 type="cn.tinder.fuego.webservice.struts.action.assets.ImportAssetsSubmitAction"              
-               >      
+                name="AssetsFilterForm">      
                    
             <forward name="ImportAssetsInit" path="/ImportAssetsInit.do"></forward>
+            <forward name="ImportAssetsSubmitInit" path="/ImportAssetsSubmitInit.do"></forward>
+            
             <forward name="IndexInit" path="/IndexInit.do"></forward>    
    			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	

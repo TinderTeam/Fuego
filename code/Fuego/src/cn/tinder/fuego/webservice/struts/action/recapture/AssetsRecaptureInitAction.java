@@ -63,13 +63,14 @@ public class AssetsRecaptureInitAction extends Action
     	
     	String pageName = PageNameConst.ASSETS_RECAPTURE_PAGE;
     	
-		
+    	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+
 		RecaptureSearchBo recaptureSearch = new RecaptureSearchBo();
 		
  		
 		//get gasName information list
 		List<String> gasNameList = loadService.loadGasNameList();
-    	List<String> assetsTypeList = loadService.loadAssetsTypeList();
+    	List<String> assetsTypeList = loadService.loadAssetsTypeList(user.getUserID());
 
     	recaptureSearch.setGasNameList(gasNameList);
     	recaptureSearch.setAssetsTypeList(assetsTypeList);

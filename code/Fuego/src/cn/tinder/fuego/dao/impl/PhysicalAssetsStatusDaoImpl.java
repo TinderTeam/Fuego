@@ -22,6 +22,8 @@ import org.hibernate.criterion.Restrictions;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.hibernate.util.HibernateUtil;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
+import cn.tinder.fuego.service.model.DomainFilterModel;
+import cn.tinder.fuego.util.ValidatorUtil;
 
 /**
  * @ClassName: PhysicalAssetsStatusDaoImpl
@@ -239,7 +241,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		return count;
 	}
 
- 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,int startNum,int pageSize)
+ 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,DomainFilterModel domainFilter,int startNum,int pageSize)
 	{
 		// TODO Auto-generated method stub
 		log.debug("[DAO] Get the PhysicalAssetsStatus by ID:" + filter);
@@ -252,6 +254,23 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		{
 			s = HibernateUtil.getSession();
 			Criteria c = getCriteriaByFilter(filter, filterDate,s);
+			if(null != domainFilter)
+			{
+				if(!ValidatorUtil.isEmpty(domainFilter.getAssetsTypeList()))
+				{
+					c.add(Restrictions.in("assetsType", domainFilter.getAssetsTypeList()));
+				}
+				if(!ValidatorUtil.isEmpty(domainFilter.getDutyList()))
+				{
+					c.add(Restrictions.in("duty", domainFilter.getDutyList()));
+				}
+				if(!ValidatorUtil.isEmpty(domainFilter.getManageList()))
+				{
+					c.add(Restrictions.in("manageName", domainFilter.getManageList()));
+				}
+
+			}
+
 			c.setFirstResult(startNum);  
 	        c.setMaxResults(pageSize); 
 

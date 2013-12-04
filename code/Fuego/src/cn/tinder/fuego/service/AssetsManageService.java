@@ -37,10 +37,7 @@ public interface AssetsManageService
 	public AssetsInfoBo getAseestByAssetsIDFromAssetsLIst(List<PhysicalAssetsStatus> assetsStatusList,String assetsID);
 
 	public AssetsInfoBo getNewAssetsByAssetsID(String assetsID);
-
-	public List<AssetsInfoBo> getAssetsByDept(String deptName);
-	
-	public void importBasicAssest(File file);
+ 
 
 	public AssetsPageBo getAssetsByFilter(AssetsFilterForm filter,boolean isAll);
 	public List<AssetsInfoBo> getAssetsByDutyDept(String dutyDept);
@@ -49,15 +46,15 @@ public interface AssetsManageService
 	
 	public List<PurchasePlanBo> getPurchaseSumAssetsList(PurchaseAssetsSelectForm filter);
 
-	public List<CheckPlanInfoBo> getCheckSumAssetsList(String dept);
 	
   	public void updateAssets (AssetsInfoBo assetsInfo);
 	public void deleteAssets(AssetsInfoBo assetsInfo);
 
- 	public List<AssetsInfoBo> getDiscardAssetsListBo(String dueDate, List<String> assetsTypeList,List<String> statusList);
-	public List<AssetsInfoBo> getRecaptureAssetsListBo(List<String> assetsDutyList, List<String> assetsTypeList);
-	
+ 	
 	public List<String> getUserListByAssestList(List<AssetsInfoBo> assetsList);
+
+	
+	public void importBasicAssest(File file);
 
 	/*
 	 * TASK #16 Story93_1: 实现资产的批量增加与修改

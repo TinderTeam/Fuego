@@ -31,19 +31,20 @@ import cn.tinder.fuego.domain.po.AssetsQuota;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.IDCreateService;
+import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.id.AssetsIDCreateServiceImpl;
+import cn.tinder.fuego.service.model.DomainFilterModel;
 import cn.tinder.fuego.service.model.PurchaseSumModel;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
-import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.excelimport.ImportBasicDataExcelFile;
 import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
 import cn.tinder.fuego.webservice.struts.form.purchase.PurchaseAssetsSelectForm;
@@ -67,25 +68,6 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	private SystemUserDao userDao = DaoContext.getInstance().getSystemUserDao();
 
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cn.tinder.fuego.service.AssetsManageService#getAssetsByDept(java.lang .String)
-	 */
-	@Override
-	public List<AssetsInfoBo> getAssetsByDept(String dept)
-	{
-		// Beans
-		List<PhysicalAssetsStatus> assetsList = null;
-
-		assetsList = assetsDao.getAssetsByDept(dept);
-		if (null == assetsList)
-		{
-			return null;
-		}
-
-		return ConvertAssetsModel.convertAssetsList(assetsList);
-	}
 	
 	@Override
 	public List<AssetsInfoBo> getAssetsByDutyDept(String dutyDept)
@@ -166,12 +148,22 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		assetsPage.getPage().setCurrentPage(filter.getPageNum());
 		List<PhysicalAssetsStatus> assetsList;
 		if(isAll){
-			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate,0,count);								
+			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate,getDomainFilterByUser(null),0,count);								
 		}else{
-			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate,assetsPage.getPage().getStartNum(),assetsPage.getPage().getPageSize());				
+			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate,getDomainFilterByUser(null),assetsPage.getPage().getStartNum(),assetsPage.getPage().getPageSize());				
 		}
 	   assetsPage.setAssetsList(ConvertAssetsModel.convertAssetsList(assetsList));
-	    return assetsPage;
+	   return assetsPage;
+	}
+	
+	private DomainFilterModel getDomainFilterByUser(String userName)
+	{
+		LoadService service = ServiceContext.getInstance().getLoadService();
+		DomainFilterModel domainFilter = new DomainFilterModel();
+		domainFilter.setDutyList(service.loadDeptInfoByUser(userName,false));
+		domainFilter.setAssetsTypeList(service.loadAssetsTypeList(userName));
+		domainFilter.setDutyList(service.loadManageDeptList(userName, false));
+		return domainFilter;
 	}
 
 	public List<PurchasePlanBo> getPurchaseSumAssetsList(PurchaseAssetsSelectForm form)
@@ -311,39 +303,6 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		return ConvertAssetsModel.convertAssetsList(assetsList);
 	}
  
-
-	@Override
-	public List<AssetsInfoBo> getDiscardAssetsListBo(String dueDate, List<String> assetsTypeList,List<String> statusList)
-	{
-		return getAssetsListByFilterList(DateService.stringToDate(dueDate),assetsTypeList,null,statusList);
-	}
-
-	@Override
-	public List<AssetsInfoBo> getRecaptureAssetsListBo(List<String> assetsDutyList, List<String> assetsTypeList)
-	{
-		
-  		return 	getAssetsListByFilterList(null,assetsTypeList,assetsDutyList,null);
-
-	}
-	
-	private List<AssetsInfoBo> getAssetsListByFilterList(Date dueDate, List<String> assetsTypeList,List<String> dutyList,List<String> statusList)
-	{
-		if(null != assetsTypeList && assetsTypeList.contains(AssetsConst.ASSETS_FITER_ALL))
-		{
-			assetsTypeList = null;
-		}
-		if(null != dutyList && dutyList.contains(AssetsConst.ASSETS_FITER_ALL))
-		{	
-			dutyList = null;
-		}
-		if(null != statusList && statusList.contains(AssetsConst.ASSETS_FITER_ALL))
-		{
-			statusList = null;
-		}
-		List<PhysicalAssetsStatus> assetsList = assetsDao.getAssetsListByFilter(dueDate,assetsTypeList,dutyList,statusList);
-		return ConvertAssetsModel.convertAssetsList(assetsList);
-	}
-
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.AssetsManageService#createAssetsList(java.util.List)
 	 */
@@ -428,7 +387,6 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	private void createAssetsByList(List<PhysicalAssetsStatus> assetsList) {
 		try
 		{
-			
 			assetsDao.create(assetsList);
 		}
 		catch(Exception e)
@@ -512,7 +470,6 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		//处理导入资产的资产ID
 		List<PhysicalAssetsStatus> AssetsCreatedIDList = initAssetsID(assetsList); 
 		//将资产导入系统
-		
 		createAssetsByList(AssetsCreatedIDList);
 	}
 /**
@@ -948,11 +905,6 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		return true;
 	}
 
-	@Override
-	public List<CheckPlanInfoBo> getCheckSumAssetsList(String dept) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 }

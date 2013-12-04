@@ -121,7 +121,7 @@ public class AssetsStatusSearchInitAction extends Action
 		List<String> deptList = loadService.loadDeptInfoByUser(user.getUserID(),true);
  
     	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,deptList);//DeptList
-    	request.setAttribute(RspBoNameConst.TYPE_LIST,loadService.loadAssetsTypeList());//TypeList
+    	request.setAttribute(RspBoNameConst.TYPE_LIST,loadService.loadAssetsTypeList(user.getUserID()));//TypeList
     	request.setAttribute(RspBoNameConst.TECH_LIST,loadService.loadAssetsTechList());//TechList
     	List<String> manageList = loadService.loadManageDeptList(user.getUserID(),true);
  

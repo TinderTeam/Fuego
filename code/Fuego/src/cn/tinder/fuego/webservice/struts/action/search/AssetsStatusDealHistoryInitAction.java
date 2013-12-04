@@ -50,7 +50,8 @@ public class AssetsStatusDealHistoryInitAction extends Action
     	log.info(LogKeyConst.INPUT_ACTION);
         
     	String nextPage = PageNameConst.AssetsStatusDealHistory_PAGE;
-    	
+		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);   	
+
     	List<String> userNameList=null ;
     	List<String> operationTypeList=null ;
     	List<String> assetsTypeList=null;
@@ -61,7 +62,7 @@ public class AssetsStatusDealHistoryInitAction extends Action
     	userNameList = loadService.loadGasNameList();	//Fix it
     	
     	operationTypeList = loadService.loadAssetsTechList(); //Fix it
-    	assetsTypeList = loadService.loadAssetsTypeList();
+    	assetsTypeList = loadService.loadAssetsTypeList(user.getUserID());
     	techStateList =loadService.loadAssetsTechList();
  
     	request.setAttribute(RspBoNameConst.USER_NAME_LIST,userNameList);

@@ -26,7 +26,8 @@ public interface LoadService
 	
 	public List<DeptInfoBo> getAssignListByUser(String userName);
 	
-	public List<String> loadAssetsTypeList();
+	public List<String> loadAssetsTypeList(String userName);
+
 	
 	public List<String> loadAssetsTechList();
 	
