@@ -27,6 +27,7 @@ import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
+import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
@@ -82,19 +83,20 @@ public class AssetsRecaptureCreateInitAction extends Action
 		String nextPage = PageNameConst.ASSETS_RECAPTURE_CREATE_PAGE;
     	RecaptureForm reForm = (RecaptureForm) request.getSession().getAttribute(RspBoNameConst.RECAPTURE_FORM);
      	
+		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);   	
 
 		AssetsPageBo assetsPage = new AssetsPageBo();
 
     	if(null == reForm)
     	{
-    		assetsPage = assetsService.getAssetsByFilter(null,false); 
+    		assetsPage = assetsService.getAssetsByFilter(user.getUserID(),null,false); 
     	}
     	else
     	{
         	AssetsFilterForm filterForm = new AssetsFilterForm();
         	filterForm.setDuty(reForm.getGasName());
         	filterForm.setAssetsType(reForm.getAssetsType());
-    		assetsPage = assetsService.getAssetsByFilter(filterForm,false); 
+    		assetsPage = assetsService.getAssetsByFilter(user.getUserID(),filterForm,false); 
     	}
   
 		request.setAttribute(RspBoNameConst.ASSETS_PAGE_DATA, assetsPage);

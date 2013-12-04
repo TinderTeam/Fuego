@@ -121,7 +121,7 @@ public class DiscardSearchInitAction extends Action
     	}
     	else
     	{
-    		selectAssetsPage = assetsService.getAssetsByFilter(filterForm, false);
+    		selectAssetsPage = assetsService.getAssetsByFilter(user.getUserID(),filterForm, false);
         }
  		selectAssetsPage.setShowCheckBox(true);
 

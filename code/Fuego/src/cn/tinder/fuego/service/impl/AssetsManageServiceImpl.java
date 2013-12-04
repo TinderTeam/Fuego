@@ -85,7 +85,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	}
 
 	@Override
-	public AssetsPageBo getAssetsByFilter(AssetsFilterForm filter,boolean isAll)
+	public AssetsPageBo getAssetsByFilter(String userName,AssetsFilterForm filter,boolean isAll)
 	{
 		PhysicalAssetsStatus assetsFilter = new PhysicalAssetsStatus();
 		PhysicalAssetsStatus assetsFilterDate = new PhysicalAssetsStatus();
@@ -148,9 +148,9 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		assetsPage.getPage().setCurrentPage(filter.getPageNum());
 		List<PhysicalAssetsStatus> assetsList;
 		if(isAll){
-			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate,getDomainFilterByUser(null),0,count);								
+			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate,getDomainFilterByUser(userName),0,count);								
 		}else{
-			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate,getDomainFilterByUser(null),assetsPage.getPage().getStartNum(),assetsPage.getPage().getPageSize());				
+			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate,getDomainFilterByUser(userName),assetsPage.getPage().getStartNum(),assetsPage.getPage().getPageSize());				
 		}
 	   assetsPage.setAssetsList(ConvertAssetsModel.convertAssetsList(assetsList));
 	   return assetsPage;

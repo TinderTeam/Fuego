@@ -39,7 +39,7 @@ public interface AssetsManageService
 	public AssetsInfoBo getNewAssetsByAssetsID(String assetsID);
  
 
-	public AssetsPageBo getAssetsByFilter(AssetsFilterForm filter,boolean isAll);
+	public AssetsPageBo getAssetsByFilter(String userName,AssetsFilterForm filter,boolean isAll);
 	public List<AssetsInfoBo> getAssetsByDutyDept(String dutyDept);
 	
 	public List<AssetsInfoBo> getAssetsByAssetsIDList(String[] assestsList);
