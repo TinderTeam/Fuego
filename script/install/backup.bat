@@ -8,5 +8,5 @@ set t=%time:~0,8%
 set t=%t::=%
 set t=%t: =0%
  
-set BACKUP_FILE=backup_flle_%p%%d%%t%.sql
+set BACKUP_FILE=backup_file_%p%%d%%t%.sql
 mysqldump -hlocalhost -uroot -p1234 feugoDB > %BACKUP_PATH%\%BACKUP_FILE%
