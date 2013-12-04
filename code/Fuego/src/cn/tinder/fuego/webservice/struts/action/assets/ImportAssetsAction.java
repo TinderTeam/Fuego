@@ -105,7 +105,7 @@ public class ImportAssetsAction extends Action
 			 */			
 			AssetsPageBo assetsPage = new AssetsPageBo();
 			
-			List<AssetsInfoBo> assetsList =ImportAssetsExcelFile.load(excelIOService.uploadFile(importAssetsForm.getInitAssetsFile()));
+			List<AssetsInfoBo> assetsList =ImportAssetsExcelFile.load(excelIOService.uploadFile(importAssetsForm.getRecieveAssetsFile()));
 			
 			assetsPage.getPage().setAllPageData(assetsList);
  
@@ -120,19 +120,12 @@ public class ImportAssetsAction extends Action
 			assetsManageService.importBasicAssest(excelIOService.uploadFile(importAssetsForm.getInitAssetsFile()));
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 		}
-		else if(ParameterConst.ASSIGN_UPLOAD_PARA_NAME.equals(submitPara))
-		{
-		
-			
-			assetsManageService.addBasicAssets(excelIOService.uploadFile(importAssetsForm.getAssignAssetsFile()));
-			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
-		}
 		/*
 		 * TASK #16 Story93_1: 实现资产的批量增加与修改
 		 * 1.下载部分的捕获
 		 */
 		
-		else if(ParameterConst.ASSIGN_DOWNLOAD_PARA_NAME.equals(submitPara)||ParameterConst.INIT_DOWNLOAD_PARA_NAME.equals(submitPara)||ParameterConst.ADD_DOWNLOAD_PARA_NAME.equals(submitPara)||ParameterConst.UPDATE_DOWNLOAD_PARA_NAME.equals(submitPara))			
+		else if(ParameterConst.DOWNLOAD_PARA_NAME.equals(submitPara)||ParameterConst.INIT_DOWNLOAD_PARA_NAME.equals(submitPara)||ParameterConst.ADD_DOWNLOAD_PARA_NAME.equals(submitPara)||ParameterConst.UPDATE_DOWNLOAD_PARA_NAME.equals(submitPara))			
 		{
 			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, OutputFileConst.ASSETS_STATUES_FILE_MODEL_PATH);
 		}		

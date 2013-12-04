@@ -42,9 +42,9 @@
 							<div class="widget-content">
 								<form action="<%=request.getContextPath()%>/ImportAssets.do" name="UpLoadForm" method="post" enctype="multipart/form-data"  >	
 									<div class="form-actions">
-											<button type="submit" class="btn btn-primary" name ="submit" value="assignDownload">Excel数据模版</button>
-											<input type="file" name ="assignAssetsFile"/>										
-											<button id = "subID" type="submit" class="btn btn-inverse" name ="submit" value="assign_upload" style="display:none" >通过Excel表格导入</button>	
+											<button type="submit" class="btn btn-primary" name ="submit" value="download">Excel数据模版</button>
+											<input type="file" name ="recieveAssetsFile"/>										
+											<button id = "subID" type="submit" class="btn btn-inverse" name ="submit" value="upload" style="display:none" >通过Excel表格导入</button>	
 											
 										
 											
