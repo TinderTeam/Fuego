@@ -29,7 +29,7 @@ public interface PhysicalAssetsStatusDao
 	
 	public List<PhysicalAssetsStatus> getAssetsByDuty(String dutyDept);
 	
-	public int getAssetsListByFilterCount(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate);
+	public int getAssetsListByFilterCount(PhysicalAssetsStatus filter, PhysicalAssetsStatus filterDate,DomainFilterModel domainFilter);
 
  	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,DomainFilterModel domainFilter ,int startNum,int pageSize);
  	

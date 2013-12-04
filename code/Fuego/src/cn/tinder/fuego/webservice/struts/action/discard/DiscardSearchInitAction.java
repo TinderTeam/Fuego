@@ -89,7 +89,12 @@ public class DiscardSearchInitAction extends Action
     	String nextPage = PageNameConst.DISCARD_SEARCH;
     	
      	DiscardSearchBo discardSearchBo = new DiscardSearchBo();
-    	List<String> assetsTypeList = loadService.loadAssetsTypeList(user.getUserID());
+     	List<String> assetsTypeList = loadService.loadAssetsTypeList(user.getUserID());
+
+     	if(!UserRoleConst.GASSTATION.equals(user.getRole()))
+     	{
+     		assetsTypeList.add(0, AssetsConst.ASSETS_FITER_ALL);
+     	}
     	List<String> assetsStatusList = new ArrayList<String>();
     	
     	assetsStatusList.add(AssetsConst.ASSETS_FITER_ALL);

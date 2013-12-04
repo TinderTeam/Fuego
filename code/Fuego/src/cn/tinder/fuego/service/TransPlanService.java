@@ -12,8 +12,6 @@ import java.io.File;
 import java.util.List;
 
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
-import cn.tinder.fuego.webservice.struts.bo.trans.TransOperInfoBo;
 
 
 /**

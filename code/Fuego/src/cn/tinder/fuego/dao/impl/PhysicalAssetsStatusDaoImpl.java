@@ -214,7 +214,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 	 * @see cn.tinder.fuego.dao.PhysicalAssetsStatusDao#getAssetsListByFilterCount(cn.tinder.fuego.domain.po.PhysicalAssetsStatus, cn.tinder.fuego.domain.po.PhysicalAssetsStatus)
 	 */
 	@Override
-	public int getAssetsListByFilterCount(PhysicalAssetsStatus filter, PhysicalAssetsStatus filterDate)
+	public int getAssetsListByFilterCount(PhysicalAssetsStatus filter, PhysicalAssetsStatus filterDate,DomainFilterModel domainFilter)
 	{
 		
 		Session s = null;
@@ -223,7 +223,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		try
 		{
 			s = HibernateUtil.getSession();
-			Criteria c = getCriteriaByFilter(filter, filterDate,s);
+			Criteria c = getCriteriaByFilter(filter, filterDate,domainFilter,s);
 			count = (Integer)c.setProjection(Projections.rowCount()).uniqueResult(); 		
 		}
 		catch (RuntimeException re)
@@ -253,23 +253,8 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		try
 		{
 			s = HibernateUtil.getSession();
-			Criteria c = getCriteriaByFilter(filter, filterDate,s);
-			if(null != domainFilter)
-			{
-				if(!ValidatorUtil.isEmpty(domainFilter.getAssetsTypeList()))
-				{
-					c.add(Restrictions.in("assetsType", domainFilter.getAssetsTypeList()));
-				}
-				if(!ValidatorUtil.isEmpty(domainFilter.getDutyList()))
-				{
-					c.add(Restrictions.in("duty", domainFilter.getDutyList()));
-				}
-				if(!ValidatorUtil.isEmpty(domainFilter.getManageList()))
-				{
-					c.add(Restrictions.in("manageName", domainFilter.getManageList()));
-				}
+			Criteria c = getCriteriaByFilter(filter, filterDate,domainFilter,s);
 
-			}
 
 			c.setFirstResult(startNum);  
 	        c.setMaxResults(pageSize); 
@@ -290,7 +275,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		return assetsList;
 	}
 
-	private Criteria getCriteriaByFilter(PhysicalAssetsStatus filter, PhysicalAssetsStatus filterDate, Session s)
+	private Criteria getCriteriaByFilter(PhysicalAssetsStatus filter, PhysicalAssetsStatus filterDate, DomainFilterModel domainFilter,Session s)
 	{
 		Criteria c  = s.createCriteria(PhysicalAssetsStatus.class);
 		if(null != filter)
@@ -343,6 +328,23 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			{
 				c.add(Restrictions.le("dueDate", filterDate.getDueDate()));
 			}
+		}
+		
+		if(null != domainFilter)
+		{
+			if(!ValidatorUtil.isEmpty(domainFilter.getAssetsTypeList()))
+			{
+				c.add(Restrictions.in("assetsType", domainFilter.getAssetsTypeList()));
+			}
+			if(!ValidatorUtil.isEmpty(domainFilter.getDutyList()))
+			{
+				c.add(Restrictions.in("duty", domainFilter.getDutyList()));
+			}
+			if(!ValidatorUtil.isEmpty(domainFilter.getManageList()))
+			{
+				c.add(Restrictions.in("manageName", domainFilter.getManageList()));
+			}
+
 		}
 		return c;
 	}

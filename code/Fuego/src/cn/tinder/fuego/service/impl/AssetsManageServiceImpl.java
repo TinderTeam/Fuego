@@ -143,7 +143,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 
 	    AssetsPageBo assetsPage = new AssetsPageBo();
 
-		int count = assetsDao.getAssetsListByFilterCount(assetsFilter, assetsFilterDate);
+		int count = assetsDao.getAssetsListByFilterCount(assetsFilter, assetsFilterDate,getDomainFilterByUser(userName));
 		assetsPage.getPage().setCount(count);
 		assetsPage.getPage().setCurrentPage(filter.getPageNum());
 		List<PhysicalAssetsStatus> assetsList;
@@ -162,7 +162,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		DomainFilterModel domainFilter = new DomainFilterModel();
 		domainFilter.setDutyList(service.loadDeptInfoByUser(userName,false));
 		domainFilter.setAssetsTypeList(service.loadAssetsTypeList(userName));
-		domainFilter.setDutyList(service.loadManageDeptList(userName, false));
+		domainFilter.setManageList(service.loadManageDeptList(userName, false));
 		return domainFilter;
 	}
 
