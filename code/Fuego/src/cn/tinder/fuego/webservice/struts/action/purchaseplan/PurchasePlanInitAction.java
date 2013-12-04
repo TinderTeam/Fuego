@@ -76,8 +76,8 @@ public class PurchasePlanInitAction extends Action
         request.setAttribute(RspBoNameConst.DEPT_NAME,departName);
         request.setAttribute(RspBoNameConst.TODAY,today);
 	 
-    	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,loadService.loadAllDeptInfo());//DeptList
-    	request.setAttribute(RspBoNameConst.MANAGE_DEPT_LIST,loadService.loadManageDeptList());//DeptList
+    	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,loadService.loadDeptInfoByUser(user.getUserID(),true));//DeptList
+    	request.setAttribute(RspBoNameConst.MANAGE_DEPT_LIST,loadService.loadManageDeptList(user.getUserID(),true));//DeptList
 
     	request.setAttribute(RspBoNameConst.TYPE_LIST,loadService.loadAssetsTypeList());//TypeList
  		

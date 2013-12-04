@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionMapping;
 import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.bo.sys.SystemParaSetupBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
@@ -56,11 +57,11 @@ public class SystemParaSetupInitAction extends Action
 		SystemParaSetupBo setupBo=new SystemParaSetupBo();
 		
 		
+    	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+
 		
-	
-		
-		setupBo.setDeptList1(loadService.loadManageDeptList());
-        setupBo.setDeptList2(loadService.loadManageDeptList());
+		setupBo.setDeptList1(loadService.loadManageDeptList(user.getUserID(),false));
+        setupBo.setDeptList2(loadService.loadManageDeptList(user.getUserID(),false));
         setupBo.setGasList(loadService.loadGasNameList());
         
     	/*

@@ -18,6 +18,7 @@ import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.domain.po.MenuTree;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.service.LoadService;
+import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.UserRoleConst;
@@ -111,14 +112,28 @@ public class LoadServiceImpl implements LoadService
 	 * @see cn.tinder.fuego.service.LoadService#loadAllDeptInfo()
 	 */
 	@Override
-	public List<String> loadAllDeptInfo()
+	public List<String> loadDeptInfoByUser(String userName,boolean hasAll)
 	{
+		SystemUser user = UserCache.getInstance().getUserByName(userName);
+
 		Set<String> deptList = new HashSet<String>();
-		List<SystemUser> allUserList = systemUserDao.getAllSystemUser();
-		for (SystemUser user : allUserList)
-		{
- 			deptList.add(user.getDepartment());
-		}
+    	if(null !=user && UserRoleConst.GASSTATION.equals(user.getRole()))
+    	{
+    		deptList.add(user.getDepartment());
+    	}
+    	else
+    	{
+    		if(hasAll)
+    		{
+        		deptList.add(AssetsConst.ASSETS_FITER_ALL);
+    		}
+    		List<SystemUser> allUserList = systemUserDao.getAllSystemUser();
+    		for (SystemUser u : allUserList)
+    		{
+     			deptList.add(u.getDepartment());
+    		}
+    	}
+
 
 		return new ArrayList<String>(deptList);
 	}
@@ -310,19 +325,31 @@ public class LoadServiceImpl implements LoadService
 	 * @see cn.tinder.fuego.service.LoadService#loadManageDeptList()
 	 */
 	@Override
-	public List<String> loadManageDeptList()
+	public List<String> loadManageDeptList(String userName,boolean hasAll)
 	{
 		// TODO Auto-generated method stub
 		Set<String> manageDeptSet =new HashSet<String>();
- 		
-		List<SystemUser> allUserList = systemUserDao.getAllSystemUser();
-			for (SystemUser user : allUserList)
+ 		SystemUser user = UserCache.getInstance().getUserByName(userName);
+    	if(UserRoleConst.GASSTATION.equals(user.getRole()))
+    	{
+    		manageDeptSet.add(user.getManageName());
+    	}
+    	else
+    	{
+    		if(hasAll)
+    		{
+        		manageDeptSet.add(AssetsConst.ASSETS_FITER_ALL);
+    		}
+    		List<SystemUser> allUserList = systemUserDao.getAllSystemUser();
+			for (SystemUser u : allUserList)
 			{
 				if((null != user.getManageName())&& (!user.getManageName().isEmpty()) )
 				{
-					manageDeptSet.add(user.getManageName());
+					manageDeptSet.add(u.getManageName());
 				}
 			}
+    	}
+
  
 		return new ArrayList<String>(manageDeptSet);
 	}

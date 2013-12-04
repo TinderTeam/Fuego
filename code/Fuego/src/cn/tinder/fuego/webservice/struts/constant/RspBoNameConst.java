@@ -66,6 +66,7 @@ public class RspBoNameConst
 	public static final String MANAGE_DEPT_LIST = "manageDeptList";
 
 	public static final String DEPT_INFO_LIST = "deptList";
+	public static final String IN_DEPT_INFO_LIST = "inDeptList";
 	public static final String TYPE_LIST = "typeList";
 	public static final String TECH_LIST = "techList";
 	public static final String ASSETS_SRC_LIST = "assetsSrcList";

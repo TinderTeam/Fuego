@@ -29,8 +29,11 @@ import cn.tinder.fuego.domain.po.TransExtAttr;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.TransactionExtAttrConst;
+import cn.tinder.fuego.service.constant.UserNameConst;
+import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
@@ -166,8 +169,17 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		switch(transEvent.getCurrentStep())
 		{
 		case 5 :
-			handleUser = super.getLeader(transEvent.getCreateUser());
-        	transInfo = TransactionConst.TRANS_OPERATE_SUBMIT;
+
+        	if(UserRoleConst.GASSTATION.equals(UserCache.getInstance().getUserByName(transEvent.getCreateUser()).getRole()))
+        	{
+        		handleUser = UserNameConst.CWZCB;
+        	}
+        	else
+        	{
+    			handleUser = super.getLeader(transEvent.getCreateUser());
+    			 
+            	transInfo = TransactionConst.TRANS_OPERATE_SUBMIT;
+        	}
 
 			break;
 		case 4 :
@@ -178,6 +190,7 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 			break;	
 		case 2 :
 		    handleUser = transEvent.getCreateUser();
+		    break;
 		case 1 :
 		    handleUser = transEvent.getCreateUser();
         	transInfo = TransactionConst.TRANS_OPERATE_FINISH;

@@ -101,23 +101,11 @@ public class DiscardSearchInitAction extends Action
     	request.setAttribute(RspBoNameConst.DISCARD_SEARCH_BO,discardSearchBo);
     	
     	
-    	List<String> deptList = new ArrayList<String>();
-    	List<String> manageList = new ArrayList<String>();
+		List<String> deptList = loadService.loadDeptInfoByUser(user.getUserID(),true);
 
-    	if(user.getRole().equals(UserRoleConst.GASSTATION))
-    	{
-    		deptList.add(user.getDeptName());
-    		manageList.add(user.getManageName());
-    	}
-    	else
-    	{
-        	assetsTypeList.add(AssetsConst.ASSETS_FITER_ALL);
-        	deptList.add(AssetsConst.ASSETS_FITER_ALL);
-        	deptList.addAll(loadService.loadAllDeptInfo());
-        	manageList.add(AssetsConst.ASSETS_FITER_ALL);
-        	manageList.addAll(loadService.loadManageDeptList());
+    	List<String> manageList = loadService.loadManageDeptList(user.getUserID(),true);
 
-    	}        	
+      	
     	
     	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,deptList);//DeptList
     	request.setAttribute(RspBoNameConst.MANAGE_DEPT_LIST,manageList);//manage dept list

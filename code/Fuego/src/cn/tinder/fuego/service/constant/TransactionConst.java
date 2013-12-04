@@ -77,8 +77,8 @@ public class TransactionConst
 	
 	public static final String TRANS_RESULT_SUCCESS = "成功";
 	public static final String TRANS_RESULT_FAILED = "失败";
-	public static final String TRANS_RESULT_AGREE = "审批通过";
-	public static final String TRANS_RESULT_REFUSE = "审批不通过";
+	public static final String TRANS_RESULT_AGREE = "通过";
+	public static final String TRANS_RESULT_REFUSE = "不通过";
 	
 	public static final String TRANS_STATUS_READ = "已读";
 	public static final String TRANS_STATUS_NO_READ = "未读";

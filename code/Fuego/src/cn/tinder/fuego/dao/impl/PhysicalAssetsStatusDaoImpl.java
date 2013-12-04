@@ -282,7 +282,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			}
 			if(null != filter.getAssetsName())
 			{
-				c.add(Restrictions.like("assetsName", filter.getAssetsName()));
+				c.add(Restrictions.like("assetsName", "%"+filter.getAssetsName()+"%"));
 			}
 			if(null != filter.getAssetsType())
 			{
@@ -290,7 +290,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			}
 			if(null != filter.getLocation())
 			{
-				c.add(Restrictions.like("location", filter.getLocation()));
+				c.add(Restrictions.like("location", "%"+filter.getLocation()+"%"));
 			}
 			if(null != filter.getTechState())
 			{

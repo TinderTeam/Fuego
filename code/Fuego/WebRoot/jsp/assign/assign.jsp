@@ -65,7 +65,7 @@
 											<select name="inDept"  style="width:200px">
 												
 	
-													<c:forEach var="i" items= "${deptList}"> 																								  
+													<c:forEach var="i" items= "${inDeptList}"> 																								  
 														<option id="${i}"/>${i}																							
 													</c:forEach>
 											</select>												
