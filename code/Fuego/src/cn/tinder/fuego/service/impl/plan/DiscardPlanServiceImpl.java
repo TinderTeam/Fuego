@@ -168,7 +168,7 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 			type = physicalAssetsStatusDao.getByAssetsID(planList.get(0).getAssetsID()).getAssetsType();
 		}
 		
-		String handleUser;
+		String handleUser = transEvent.getHandleUser();
  
 		if(transEvent.getCurrentStep() == getMaxStep(transID))
 		{
@@ -177,12 +177,12 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
         switch(transEvent.getCurrentStep())
 		{
         case 5 :
-        	handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
-        	if(null == UserCache.getInstance().getUserByName(handleUser))
-        	{
-        		 log.warn("can not get the user by name." + handleUser);
-        		 throw new ServiceException(ExceptionMsg.ASSETS_TYPE_WRONG);
-        	}
+//        	handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
+//        	if(null == UserCache.getInstance().getUserByName(handleUser))
+//        	{
+//        		 log.warn("can not get the user by name." + handleUser);
+//        		 throw new ServiceException(ExceptionMsg.ASSETS_TYPE_WRONG);
+//        	}
         	if(UserNameConst.CWZCB.equals(handleUser))
         	{
         		super.forwardNext(transID,handleUser,transInfo);

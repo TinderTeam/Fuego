@@ -94,6 +94,8 @@ public class DiscardSureInitAction extends Action
 	    	planService.updatePlan(plan);
 
 		} 
+		
+		request.setAttribute(RspBoNameConst.DEPT_INFO_LIST, ServiceContext.getInstance().getLoadService().loadApprovalUser());
 		request.getSession().setAttribute(RspBoNameConst.DISCARD_PLAN_INFO, plan);
 
     	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);

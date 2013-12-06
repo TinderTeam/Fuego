@@ -52,7 +52,8 @@
 								<jsp:include page="/jsp/assign/assignList.jsp"/>
 								<div class="form-actions">
 	 
-									<c:if test="${'create' == pageDisCtr}"> 
+									<c:if test="${'create' == pageDisCtr}">
+										<jsp:include page="/jsp/cbb/transCreateInfo.jsp"/> 
 										<button class="btn btn-success"  name="submit" value="submit">提交</button>								
 										<button class="btn  btn-primary" name="submit" value="download">导出</button>	
 										<button class="btn  btn-inverse" name="submit" value="cancel">取消</button>

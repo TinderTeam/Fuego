@@ -19,6 +19,7 @@ public class ConvertTransactionModel
 		transactionBaseInfoBo.setCreateTime(transEvent.getCreateTime());
 		transactionBaseInfoBo.setCreateUser(transEvent.getCreateUser());
 		transactionBaseInfoBo.setEndTime(transEvent.getEndTime());
+		transactionBaseInfoBo.setExecuteName(transEvent.getExecuteName());
 		transactionBaseInfoBo.setHandleUser(transEvent.getHandleUser());
 		transactionBaseInfoBo.setExpendTime(DateService.countDayNum(DateService.getCurrentDate(), transEvent.getHandleTime()));
 		transactionBaseInfoBo.setState(transEvent.getStatus());

@@ -31,6 +31,7 @@ public class TransactionBaseInfoBo
 	private String state;
 	private int expendTime  = 0;
 	private String url;	   
+	private String executeName;
  
  
 	
@@ -116,6 +117,16 @@ public class TransactionBaseInfoBo
 	}
 
  
+
+	public String getExecuteName()
+	{
+		return executeName;
+	}
+
+	public void setExecuteName(String executeName)
+	{
+		this.executeName = executeName;
+	}
 
 	@Override
 	public String toString()

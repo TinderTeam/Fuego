@@ -19,6 +19,7 @@ import cn.tinder.fuego.domain.po.MenuTree;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.cache.AssetsTypeParaCache;
+import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
@@ -396,6 +397,28 @@ public class LoadServiceImpl implements LoadService
 		operateTypeList.add(AssetsConst.ASSETS_OPERATE_TYPE_RECOVER);
 		
 		return operateTypeList;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.LoadService#loadManageDept()
+	 */
+	@Override
+	public List<String> loadApprovalUser()
+	{
+		List<String> manageDeptList = new ArrayList<String>();
+		List<SystemUser> userList = CacheContext.getInstance().getUserCache().getAllUser();
+		for(SystemUser user : userList)
+		{
+			if(user.getRole().equals(UserRoleConst.DEPT))
+			{
+				manageDeptList.add(user.getUserName());
+			}
+			if(user.getRole().equals(UserRoleConst.SUPER_DEPT))
+			{
+				manageDeptList.add(user.getUserName());
+			}
+		}
+		return manageDeptList;
 	}
  
 }

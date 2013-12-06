@@ -79,6 +79,8 @@ public class DiscardSureAction extends Action
 		TransOperateInfoForm operateInfo = (TransOperateInfoForm)form;
 		if (ParameterConst.SUBMIT_PARA_NAME.equals(submitPara))
 		{
+			plan.getTransInfo().getTransInfo().setHandleUser(operateInfo.getHandleUser());
+			plan.getTransInfo().getTransInfo().setExecuteName(operateInfo.getExecuteName());
 			planService.updatePlan(plan);
 			if(user.getRole().equals(UserRoleConst.SUPER_DEPT))
 			{

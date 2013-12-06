@@ -27,9 +27,8 @@ public class AssetsFilterForm extends ActionForm
 	private String endPurchaseDate;    // End time of purchase date
 
 	private String endDueDate;         // End time of due date
+	
  
-
-
 	
 	private int pageNum = 1; //default page 
 	
@@ -205,7 +204,7 @@ public class AssetsFilterForm extends ActionForm
 	}
 
 
-
+ 
 	@Override
 	public String toString()
 	{

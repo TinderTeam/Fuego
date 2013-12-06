@@ -82,6 +82,9 @@ public class AssignSubmitAction extends Action
 		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
 		if(ParameterConst.SUBMIT_PARA_NAME.equals(submitPara))
 		{
+			plan.getTransInfo().getTransInfo().setHandleUser(operateInfo.getHandleUser());
+			plan.getTransInfo().getTransInfo().setExecuteName(operateInfo.getExecuteName());
+			
 			planService.updatePlan(plan);
 			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
 			request.getSession().setAttribute(RspBoNameConst.ASSIGN_PLAN_DATA, null);

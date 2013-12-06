@@ -43,6 +43,11 @@ public class UserCache
 		}
 		return instance;
 	}
+	public List<SystemUser> getAllUser()
+	{
+		return this.userList;
+		
+	}
 	public void load()
 	{
 		userList = DaoContext.getInstance().getSystemUserDao().getAllSystemUser();

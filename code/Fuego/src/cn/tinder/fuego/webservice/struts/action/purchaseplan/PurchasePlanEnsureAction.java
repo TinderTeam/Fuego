@@ -88,7 +88,9 @@ public class PurchasePlanEnsureAction extends Action
 		if (submitPara.equals(ParameterConst.SUBMIT_PARA_NAME))
 		{ // ="submit"
 
- 
+			plan.getPurchaseTransBo().getTransInfo().setHandleUser(operateInfo.getHandleUser());
+			plan.getPurchaseTransBo().getTransInfo().setExecuteName(operateInfo.getExecuteName());
+			
 			planService.updatePlan(plan);
 			if(user.getRole().equals(UserRoleConst.SUPER_DEPT))
 			{

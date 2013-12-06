@@ -27,6 +27,8 @@ public interface TransPlanService<E>
 {
 	public E createPlan(String user);
 	
+	//public E createPlan(String user,String handleUser);
+
 	public E createPlan(String user,List<String> childUserList);
 
 

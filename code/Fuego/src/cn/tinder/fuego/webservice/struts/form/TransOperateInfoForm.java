@@ -22,6 +22,8 @@ import org.apache.struts.action.ActionForm;
 public class TransOperateInfoForm extends ActionForm
 {
 	private String operateInfo;
+	private String handleUser;
+	private String executeName;
 
 	public String getOperateInfo()
 	{
@@ -31,6 +33,26 @@ public class TransOperateInfoForm extends ActionForm
 	public void setOperateInfo(String operateInfo)
 	{
 		this.operateInfo = operateInfo;
+	}
+
+	public String getHandleUser()
+	{
+		return handleUser;
+	}
+
+	public void setHandleUser(String handleUser)
+	{
+		this.handleUser = handleUser;
+	}
+
+	public String getExecuteName()
+	{
+		return executeName;
+	}
+
+	public void setExecuteName(String executeName)
+	{
+		this.executeName = executeName;
 	}
 	
 

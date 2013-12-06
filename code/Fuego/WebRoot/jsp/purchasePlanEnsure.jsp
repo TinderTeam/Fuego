@@ -93,6 +93,7 @@
 								<div class="widget-content">
 								
 								 <c:if test="${'create' == pageDisCtr}"> 
+									<jsp:include page="/jsp/cbb/transCreateInfo.jsp"/>								 
 									<button class="btn btn-success"  name="submit" value="submit">提交并送审</button>								
 									<button class="btn  btn-primary" name="submit" value="cancel">取消</button>	
 									<button class="btn  btn-inverse" name="submit" value="download">导出Excel审批会签表</button>
