@@ -8,12 +8,13 @@
      <label class="control-label">审批人</label >                                   
 			 <div class="controls">
             <select name="handleUser"  style="width:100px">
-		
+			<c:if test="${'systemUser.role' == GASSTATION}">
 				<c:forEach var="i" items= "${deptList}"> 																								  
  
 				       <option id="${i}"/>${i}		
 	 																				
 			    </c:forEach>
+			</c:if>
 		</select>	
              </div>                          
 </div>
