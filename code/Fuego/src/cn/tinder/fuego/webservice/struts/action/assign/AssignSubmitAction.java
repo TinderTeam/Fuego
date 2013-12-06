@@ -89,6 +89,7 @@ public class AssignSubmitAction extends Action
 			plan.getTransInfo().getTransInfo().setHandleUser(operateInfo.getHandleUser());
 			plan.getTransInfo().getTransInfo().setExecuteName(operateInfo.getExecuteName());
 			
+			planService.updatePlan(plan);
 			if(user.getRole().equals(UserRoleConst.SUPER_DEPT))
 			{
 				planService.forwardNextBySystem(plan.getTransInfo().getTransInfo().getTransID());
