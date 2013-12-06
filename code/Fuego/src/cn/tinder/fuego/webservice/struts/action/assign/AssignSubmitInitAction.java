@@ -93,13 +93,13 @@ public class AssignSubmitInitAction extends Action
     	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
 
     	   
-		nextPage = controlPageBtnDis(plan.getTransInfo().getTransInfo().canOperate(user),nextPage,request);
+		nextPage = controlPageBtnDis(plan.getTransInfo().getTransInfo().canOperate(user),plan.getTransInfo().getTransInfo().getTransID(),nextPage,request);
 
 
 		return nextPage;
 
 	}
-	private String controlPageBtnDis(boolean canOperate,String nextPage,HttpServletRequest request)
+	private String controlPageBtnDis(boolean canOperate,String transID,String nextPage,HttpServletRequest request)
 	{
 		//control page button display by the step
 		String pageCtr = RspBoNameConst.PAGE_CREATE;
@@ -114,7 +114,7 @@ public class AssignSubmitInitAction extends Action
 			{
 				pageCtr = RspBoNameConst.PAGE_CREATE;
 			}
-			else if(TransactionConst.ASSIGN_MAX_STEP.equals(step))
+			else if(Integer.valueOf(step)>= planService.getMaxStep(transID))
 			{
 				nextPage = PageNameConst.ASSIGN_CREATE_INIT_ACTION;
 			}

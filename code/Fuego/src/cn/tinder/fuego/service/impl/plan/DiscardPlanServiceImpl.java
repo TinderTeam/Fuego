@@ -574,7 +574,7 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 			}
 			else if(user.getRole().equals(UserRoleConst.DEPT))
 			{
-				return Integer.valueOf(TransactionConst.DISCARD_MAX_STEP);
+				return Integer.valueOf(TransactionConst.DISCARD_DETP_MAX_STEP);
 
 			}
 			else
