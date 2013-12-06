@@ -273,6 +273,16 @@ public class TransactionServiceImpl implements TransactionService
 		transOperRecordDao.create(transOperRecord);
 	}
 
+	 
+	public void updateTrans(String transID, String handleUser,String executeName)
+	{
+ 		TransEvent transEvent = new TransEvent();
+		transEvent = transEventDao.getByTransID(transID);
+		transEvent.setHandleUser(handleUser);
+		transEvent.setExecuteName(executeName);
+ 
+		transEventDao.saveOrUpdate(transEvent);
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -284,6 +294,7 @@ public class TransactionServiceImpl implements TransactionService
  		TransEvent transEvent = new TransEvent();
 		transEvent = transEventDao.getByTransID(transID);
 		transEvent.setHandleUser(handleUser);
+ 
  
 		transEventDao.saveOrUpdate(transEvent);
 	}

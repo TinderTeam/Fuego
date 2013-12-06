@@ -126,7 +126,7 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 		//step2: save basic transaction information
 		String transID = planInfo.getTransInfo().getTransInfo().getTransID();
 		String handleUser = planInfo.getTransInfo().getTransInfo().getHandleUser();
-		super.updateTrans(transID,handleUser);
+		super.updateTrans(transID,handleUser,planInfo.getTransInfo().getTransInfo().getExecuteName());
 
 		//step3: save assign plan list
 		discardPlanDao.deleteByTransID(transID);
