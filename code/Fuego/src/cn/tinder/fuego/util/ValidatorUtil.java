@@ -32,5 +32,16 @@ public class ValidatorUtil
 		}
 		return false;
 	}
-
+	public static boolean isEmpty(String str)
+	{
+		if(null == str)
+		{
+			return true;
+		}
+		if(str.trim().isEmpty())
+		{
+			return true;
+		}
+		return false;
+	}
 }

@@ -1,7 +1,7 @@
 USE `feugodb`;
 
  
-INSERT INTO `trans_event_type` VALUES ('A',5,0);
+INSERT INTO `trans_event_type` VALUES ('A',7,0);
 
 INSERT INTO `trans_event_type` VALUES ('D',5,0);
 

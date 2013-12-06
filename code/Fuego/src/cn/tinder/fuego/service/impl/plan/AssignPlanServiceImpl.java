@@ -23,6 +23,7 @@ import cn.tinder.fuego.dao.TransExtAttrDao;
 import cn.tinder.fuego.dao.impl.AssignPlanDaoImpl;
 import cn.tinder.fuego.dao.impl.PhysicalAssetsStatusDaoImpl;
 import cn.tinder.fuego.domain.po.AssignPlan;
+import cn.tinder.fuego.domain.po.DiscardPlan;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.RecapturePlan;
 import cn.tinder.fuego.domain.po.ReceivePlan;
@@ -31,6 +32,7 @@ import cn.tinder.fuego.domain.po.TransExtAttr;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.cache.AssetsTypeParaCache;
 import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.AssetsConst;
@@ -42,6 +44,7 @@ import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
+import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.util.engine.computer.ComputeService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
@@ -171,22 +174,40 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 			}
 		}
 		
-		String handleUser;
+		List<AssignPlan> planList = assignPlanDao.getByTransID(transID);
+		  
+		String type = "";
+		if(null != planList && !planList.isEmpty())
+		{	
+			type = physicalAssetsStatusDao.getByAssetsID(planList.get(0).getAssetsID()).getAssetsType();
+		}
+		String handleUser = transEvent.getHandleUser();
 		switch(transEvent.getCurrentStep())
 		{
+		case 7 :
+        	if(ValidatorUtil.isEmpty(handleUser))
+        	{
+            	handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
+            	if(null == UserCache.getInstance().getUserByName(handleUser))
+            	{
+            		 log.warn("can not get the user by name." + handleUser);
+            		 throw new ServiceException(ExceptionMsg.ASSETS_TYPE_WRONG);
+            	}
+        	}
+        	if(UserNameConst.CWZCB.equals(handleUser))
+        	{
+        		super.forwardNext(transID,handleUser,transInfo);
+            	transInfo = null;
+        	}
+		    break;
+		case 6 :
+    		handleUser = UserNameConst.CWZCB;
+
+			break;
 		case 5 :
 
-        	if(UserRoleConst.GASSTATION.equals(UserCache.getInstance().getUserByName(transEvent.getCreateUser()).getRole()))
-        	{
-        		handleUser = UserNameConst.CWZCB;
-        	}
-        	else
-        	{
-    			handleUser = super.getLeader(transEvent.getCreateUser());
-    			 
-            	transInfo = TransactionConst.TRANS_OPERATE_SUBMIT;
-        	}
-
+        	handleUser = super.getLeader(UserNameConst.CWZCB);
+  
 			break;
 		case 4 :
 			handleUser = super.getStaff(outDept);
@@ -431,7 +452,7 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	@Override
 	public boolean isApporalStep(int step)
 	{
-		if(4 == step || 3 == step || 2 == step)
+		if(6 == step || 5 == step || 3 == step)
 		{
 			return true;
 		}

@@ -33,6 +33,7 @@ import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
+import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
@@ -156,13 +157,15 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
  
         case 5 :
 
-//        	handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
-//
-//        	if(null == UserCache.getInstance().getUserByName(handleUser))
-//        	{
-//        		 log.warn("can not get the user by name." + handleUser);
-//        		 throw new ServiceException(ExceptionMsg.ASSETS_TYPE_WRONG);
-//        	}
+        	if(ValidatorUtil.isEmpty(handleUser))
+        	{
+            	handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
+            	if(null == UserCache.getInstance().getUserByName(handleUser))
+            	{
+            		 log.warn("can not get the user by name." + handleUser);
+            		 throw new ServiceException(ExceptionMsg.ASSETS_TYPE_WRONG);
+            	}
+        	}
         	if(UserNameConst.CWZCB.equals(handleUser))
         	{
         		super.forwardNext(transID,handleUser,transInfo);

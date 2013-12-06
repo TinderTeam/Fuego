@@ -25,6 +25,8 @@ import jxl.write.WriteException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.sun.xml.internal.ws.util.StreamUtils;
+
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.DiscardPlanDao;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
@@ -49,6 +51,7 @@ import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
 import cn.tinder.fuego.service.util.ExcelIOService;
+import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
@@ -177,12 +180,16 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
         switch(transEvent.getCurrentStep())
 		{
         case 5 :
-//        	handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
-//        	if(null == UserCache.getInstance().getUserByName(handleUser))
-//        	{
-//        		 log.warn("can not get the user by name." + handleUser);
-//        		 throw new ServiceException(ExceptionMsg.ASSETS_TYPE_WRONG);
-//        	}
+        	if(ValidatorUtil.isEmpty(handleUser))
+        	{
+            	handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
+            	if(null == UserCache.getInstance().getUserByName(handleUser))
+            	{
+            		 log.warn("can not get the user by name." + handleUser);
+            		 throw new ServiceException(ExceptionMsg.ASSETS_TYPE_WRONG);
+            	}
+        	}
+
         	if(UserNameConst.CWZCB.equals(handleUser))
         	{
         		super.forwardNext(transID,handleUser,transInfo);
