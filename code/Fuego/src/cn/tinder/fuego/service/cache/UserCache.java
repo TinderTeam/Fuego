@@ -8,6 +8,7 @@
 */ 
 package cn.tinder.fuego.service.cache;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -15,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.domain.po.SystemUser;
+import cn.tinder.fuego.service.constant.UserRoleConst;
 
 /** 
  * @ClassName: UserCache 
@@ -77,5 +79,19 @@ public class UserCache
 		}
 		
 		return null;
+	}
+	
+	public List<SystemUser> getUserListByRole(String role)
+	{
+		List<SystemUser> userList = new ArrayList<SystemUser>();
+		for(SystemUser user : userList)
+		{
+			if(user.getRole().equals(role))
+			{
+				userList.add(user);
+			}
+		}
+		
+		return userList;
 	}
 }

@@ -91,6 +91,7 @@ public class PurchasePlanEnsureInitAction extends Action
 				plan.setPurchaseTransBo(((PurchasePlanSessionBo)planService.createPlan(user.getUserID())).getPurchaseTransBo());
 			}
 		}
+		request.setAttribute(RspBoNameConst.DEPT_INFO_LIST, ServiceContext.getInstance().getLoadService().loadApprovalUser());
 
 		request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, plan);// "assetsList"
 		

@@ -15,6 +15,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.opensymphony.oscache.base.Cache;
+
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
@@ -29,6 +31,7 @@ import cn.tinder.fuego.domain.po.TransOperRecord;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.TransactionService;
+import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.UserRoleConst;
@@ -398,15 +401,28 @@ public class TransactionServiceImpl implements TransactionService
 	@Override
 	public List<TransactionBaseInfoBo> getDisTransByUser(String userID)
 	{
-		List<SystemUser> gasList = this.systemUserDao.getUserByManage(userID);
+		SystemUser nowUser = CacheContext.getInstance().getUserCache().getUserByName(userID);
+		
 		List<String> userList = new ArrayList<String>();  
-		for(SystemUser user : gasList)
+
+		if(nowUser.getRole().equals(UserRoleConst.SUPER_DEPT))
 		{
-			userList.add(user.getUserName());
+			for(SystemUser user : CacheContext.getInstance().getUserCache().getAllUser())
+			{
+				userList.add(user.getUserName());
+			}
 		}
+		else if (nowUser.getRole().equals(UserRoleConst.DEPT))
+		{
+			for(SystemUser user : CacheContext.getInstance().getUserCache().getUserListByRole(UserRoleConst.GASSTATION))
+			{
+				userList.add(user.getUserName());
+			}
+		}
+ 
 		userList.add(userID);
 		
-		List<TransEvent> eventList = this.transEventDao.getTransByUser(userList);
+		List<TransEvent> eventList = this.transEventDao.getTransByUser(userList,userID);
 
 		return ConvertTransactionModel.covertTransBaseList(eventList);
 	}

@@ -9,7 +9,7 @@
 			 <div class="controls">
             <select name="handleUser"  style="width:100px">
 		
-				<c:forEach var="i" items= "${approvalUserList}"> 																								  
+				<c:forEach var="i" items= "${deptList}"> 																								  
  
 				       <option id="${i}"/>${i}		
 	 																				

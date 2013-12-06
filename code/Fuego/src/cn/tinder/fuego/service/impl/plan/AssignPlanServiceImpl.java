@@ -31,6 +31,7 @@ import cn.tinder.fuego.domain.po.TransExtAttr;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
@@ -214,17 +215,22 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	private void updateAssetsDuty(String transID, String dutyDept)
 	{
 		List<AssignPlan> assignPlanList =  assignPlanDao.getByTransID(transID);
+		
 		List<String> assetsIDList = new ArrayList<String>();
+		
 		for(AssignPlan assignPlan : assignPlanList)
 		{
 			String assetsID = assignPlan.getAssetsID();
-		    assetsIDList.add(assetsID);
-		    
+		    assetsIDList.add(assetsID);		    
 		}
+ 
 		List<PhysicalAssetsStatus> physicalAssetsList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
 		for(PhysicalAssetsStatus assets : physicalAssetsList)
 		{
 			assets.setDuty(dutyDept);
+			assets.setLocation(dutyDept);
+			assets.setManageName(CacheContext.getInstance().getUserCache().getManageByUser(dutyDept));
+
 			physicalAssetsStatusDao.saveOrUpdate(assets);
 
 		}	
