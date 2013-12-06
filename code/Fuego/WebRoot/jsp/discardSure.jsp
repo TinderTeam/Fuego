@@ -45,14 +45,25 @@
 										<jsp:include page="/jsp/cbb/assetsList.jsp"/>
  
 									 <div class="form-actions">
-                                       
+									 
+									                 <div class="control-group">
+													    <label class="control-label">执行人</label >                                   
+															 <div class="controls">
+																   <c:choose>	
+																	 <c:when test="${'create' == pageDisCtr}">
+																	 	  <input type="text" name="executeName" value="discardPlanInfo.transInfo.transInfo.executeName"/>
+																	 	 											           
+																	  </c:when>
+																	  <c:otherwise>  
+																		  <input type="text" name="executeName" value="discardPlanInfo.transInfo.transInfo.executeName"/>
+															
+																
+																	  </c:otherwise>	
+													                 </c:choose>
+																  </div>                          
+														 </div>
 								 	 <c:if test="${'create' == pageDisCtr}"> 
-								 	    <div class="control-group">
-										     <label class="control-label">执行人</label >                                   
-													 <div class="controls">
-										                  <input type="text" name="executeName" />
-										             </div>                          
-										</div>
+
 									    <jsp:include page="/jsp/cbb/transCreateInfo.jsp"/>
 
 										<button class="btn btn-success"  name="submit" value="submit">提交</button>								

@@ -27,6 +27,7 @@ import cn.tinder.fuego.domain.po.DiscardPlan;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.RecapturePlan;
 import cn.tinder.fuego.domain.po.ReceivePlan;
+import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.domain.po.TransExtAttr;
 import cn.tinder.fuego.service.AssetsManageService;
@@ -442,8 +443,33 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	@Override
 	public int getMaxStep(String transID)
 	{
-		// TODO Auto-generated method stub
-		return Integer.valueOf(TransactionConst.ASSIGN_MAX_STEP);
+		TransactionBaseInfoBo baseTrans = super.getTransByID(transID);
+
+		SystemUser user = UserCache.getInstance().getUserByName(baseTrans.getCreateUser());
+		if(null == user)
+		{
+			log.error("can not find the user by user name " + baseTrans.getCreateUser());
+		}
+		else
+		{	
+			if(user.getRole().equals(UserRoleConst.GASSTATION))
+			{
+				return Integer.valueOf(TransactionConst.ASSIGN_GAS_MAX_STEP);
+			}
+			else if(user.getRole().equals(UserRoleConst.DEPT))
+			{
+				return Integer.valueOf(TransactionConst.ASSIGN_DEPT_MAX_STEP);
+
+			}
+			else
+			{
+				return Integer.valueOf(TransactionConst.ASSIGN_MAX_STEP);
+
+			}
+				
+			
+		}
+		return 0;
 	}
 
 	/* (non-Javadoc)

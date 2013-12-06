@@ -85,6 +85,9 @@ public class AssignSubmitInitAction extends Action
 			plan = (AssignPlanBo) request.getSession().getAttribute(RspBoNameConst.ASSIGN_PLAN_DATA);
 			log.info("can not get the plan by transaction id" + transID);
 		} 
+		
+		request.setAttribute(RspBoNameConst.DEPT_INFO_LIST, ServiceContext.getInstance().getLoadService().loadApprovalUser());
+
 		request.getSession().setAttribute(RspBoNameConst.ASSIGN_PLAN_DATA, plan);
 		
     	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);

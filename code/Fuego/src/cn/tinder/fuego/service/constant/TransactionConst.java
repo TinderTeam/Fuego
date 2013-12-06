@@ -24,7 +24,10 @@ public class TransactionConst
 	public static final String ASSIGN_PLAN_TYPE = "A"; // assign plan type
 	public static final String ASSIGN_PLAN_NAME = "实物资产调拨单"; // Transname
 	public static final String ASSIGN_PLAN_URL = "AssignSubmitInit.do"; // Transname
+	public static final String ASSIGN_GAS_MAX_STEP = "7";
+	public static final String ASSIGN_DEPT_MAX_STEP = "6";
 	public static final String ASSIGN_MAX_STEP = "5";
+
 	public static final String ASSIGN_APPROVAL_STEP = "4";
 	
 	public static final String DISCARD_PLAN_TYPE ="D"; // discard plan type

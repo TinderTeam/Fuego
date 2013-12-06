@@ -51,7 +51,22 @@
 								<h3>实物资产调拨单</h3>
 								<jsp:include page="/jsp/assign/assignList.jsp"/>
 								<div class="form-actions">
-	 
+	 			                           <div class="control-group">
+													    <label class="control-label">执行人</label >                                   
+															 <div class="controls">
+																   <c:choose>	
+																	 <c:when test="${'create' == pageDisCtr}">
+																	 	  <input type="text" name="executeName" value="assignPlan..transInfo.transInfo.executeName"/>
+																	 	 											           
+																	  </c:when>
+																	  <c:otherwise>  
+																		  <input type="text" name="executeName" value="assignPlan..transInfo.transInfo.executeName"/>
+															
+																
+																	  </c:otherwise>	
+													                 </c:choose>
+																  </div>                          
+														 </div>
 									<c:if test="${'create' == pageDisCtr}">
 									   <div class="control-group">
 										     <label class="control-label">执行人</label >                                   
