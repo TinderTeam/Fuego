@@ -235,7 +235,16 @@ public class TransactionServiceImpl implements TransactionService
 		TransOperRecord transOperRecord = new TransOperRecord();
 		transOperRecord.setTransID(transEvent.getTransID());
 		transOperRecord.setOperTime(DateService.getCurrentDateTimeStr());
-		transOperRecord.setUserName(transEvent.getHandleUser());
+		
+		if(ValidatorUtil.isEmpty(transEvent.getHandleUser()))
+		{
+			transOperRecord.setUserName(transEvent.getCreateUser());
+
+		}
+		else
+		{
+			transOperRecord.setUserName(transEvent.getHandleUser());
+		}
 		transOperRecord.setStep(transEvent.getCurrentStep());
 		transOperRecord.setTransInfo(transInfo);
 		
@@ -312,6 +321,7 @@ public class TransactionServiceImpl implements TransactionService
  		transEvent.setCreateUser(trans.getCreateUser());
  		//transEvent.setCurrentStep(tran);
  		transEvent.setEndTime(trans.getEndTime());
+ 		
  		transEvent.setHandleUser(trans.getHandleUser());
  		//transEvent.setParentTransID(trans);
  		transEvent.setStatus(trans.getState());
