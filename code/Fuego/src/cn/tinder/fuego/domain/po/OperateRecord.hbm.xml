@@ -7,12 +7,16 @@
 <hibernate-mapping
 	package="cn.tinder.fuego.domain.po">
 	<class name="OperateRecord" table="operate_record">
-	    <id name="assetsID" column="ASSETS_ID"  type="java.lang.String" >
-			<generator class="assigned"/>
-		</id>
-			<property name="userName" column="USER_NAME" not-null="false"></property>
-			<property name="time" column="TIME" not-null="false"></property>
-			<property name="operate" column="OPERATE" not-null="false"></property>
+		    <id name="id" >
+			  <generator class="uuid"/>
+		    </id>
+ 
+			<property name="userName" column="USER_NAME" not-null="true"></property>
+			<property name="time" column="TIME" not-null="true"></property>
+			<property name="operate" column="OPERATE" not-null="true"></property>
+			<property name="transID" column="TRASN_ID" not-null="false"></property>
+			
+			<component name="assets">
 			
 			<property name="assetsName" column="ASSETS_NAME" not-null="false"></property>
 			<property name="assetsSRC" column="ASSETS_SRC" not-null="false"></property>
@@ -29,7 +33,7 @@
 			<property name="assetsType" column="ASSETS_TYPE" not-null="false"></property>
 			<property name="location" column="LOCATION" not-null="false"></property>
 			<property name="techState" column="TECH_STATE" not-null="false"></property>
-			
+			</component>
 					
 	</class>
 </hibernate-mapping>

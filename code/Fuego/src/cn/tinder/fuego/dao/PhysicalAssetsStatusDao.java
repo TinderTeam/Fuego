@@ -22,7 +22,10 @@ public interface PhysicalAssetsStatusDao
 	public void saveOrUpdate(PhysicalAssetsStatus status);
 
 	public void delete(PhysicalAssetsStatus status);
+	
+	public void deleteAssetListsByAssetsIDList(List<String> assetsIDList);
 
+	
 	public PhysicalAssetsStatus getByAssetsID(String assetsid);
  
 	public List<PhysicalAssetsStatus> getAssetsByDept(String dept);
@@ -39,5 +42,4 @@ public interface PhysicalAssetsStatusDao
  	
  	public List<PhysicalAssetsStatus> getAssetsListByDateOrStatuListAndTypeList(Date dueDate,List<String> techStatusList,List<String> assetsTypeList,String duty,String manageName);
 
-	public void deleteAssetListsByAssetsIDList(List<String> assetsIDList);
 }

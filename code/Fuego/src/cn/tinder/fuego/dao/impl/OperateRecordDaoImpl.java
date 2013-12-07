@@ -8,6 +8,8 @@
  */
 package cn.tinder.fuego.dao.impl;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
@@ -18,6 +20,7 @@ import org.hibernate.criterion.Restrictions;
 import cn.tinder.fuego.dao.OperateRecordDao;
 import cn.tinder.fuego.dao.hibernate.util.HibernateUtil;
 import cn.tinder.fuego.domain.po.OperateRecord;
+import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 
 /**
  * @ClassName: OperateRecordDaoImpl
@@ -70,7 +73,7 @@ public class OperateRecordDaoImpl implements OperateRecordDao
 			session = HibernateUtil.getSession();
 			tx = (Transaction) session.beginTransaction();
 
-			Object classObj = session.load(OperateRecord.class, record.getAssetsID());
+			Object classObj = session.load(OperateRecord.class, record.getAssets().getAssetsID());
 
 			session.delete(classObj);
 
@@ -144,6 +147,39 @@ public class OperateRecordDaoImpl implements OperateRecordDao
 		{
 			HibernateUtil.closeSession();
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.dao.OperateRecordDao#create(java.util.List)
+	 */
+	@Override
+	public void create(List<OperateRecord> recordList)
+	{
+
+		Session session = null;
+		Transaction tx = null;
+		try
+		{
+			session = HibernateUtil.getSession();
+			tx = session.beginTransaction();
+			for(OperateRecord record : recordList)
+			{
+				session.save(record);
+			}
+ 			tx.commit();
+			
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			//  HibernateUtil.closeSession();
+			if (session != null)
+			{
+				session.close();
+			}
+		}
+		
 	}
 
 }

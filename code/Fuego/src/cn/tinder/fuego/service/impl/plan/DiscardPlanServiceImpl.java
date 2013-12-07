@@ -35,6 +35,7 @@ import cn.tinder.fuego.domain.po.DiscardPlan;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
+import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.cache.AssetsTypeParaCache;
 import cn.tinder.fuego.service.cache.UserCache;
@@ -45,6 +46,7 @@ import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
+import cn.tinder.fuego.service.model.OperateLogModel;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
 import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.util.ValidatorUtil;
@@ -203,7 +205,7 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 			break;
 		case 1 :
 			handleUser = transEvent.getCreateUser();
-			discardAssets(transID);
+			discardAssets(transEvent);
         	transInfo = TransactionConst.TRANS_OPERATE_FINISH;
 
 		    break;
@@ -215,9 +217,9 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 
 	}
 
-	private void discardAssets(String transID)
+	private void discardAssets(TransEvent transEvent)
 	{
-		List<DiscardPlan> discardPlanList =  discardPlanDao.getByTransID(transID);
+		List<DiscardPlan> discardPlanList =  discardPlanDao.getByTransID(transEvent.getTransID());
 		List<String> assetsIDList = new ArrayList<String>();
 		for(DiscardPlan assignPlan : discardPlanList)
 		{
@@ -225,7 +227,13 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 		    assetsIDList.add(assetsID);
 		    
 		}
+		
+		List<OperateLogModel<PhysicalAssetsStatus>> operInfoList = new ArrayList<OperateLogModel<PhysicalAssetsStatus>>();
+		//ServiceContext.getInstance().getOperateLogService().writeLog(operInfoList);
+		
 		physicalAssetsStatusDao.deleteAssetListsByAssetsIDList(assetsIDList);
+		
+		
 
 	}
 	/*

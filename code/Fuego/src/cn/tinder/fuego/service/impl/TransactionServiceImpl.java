@@ -35,6 +35,7 @@ import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.model.convert.ConvertTransactionModel;
+import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransOperInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
@@ -95,11 +96,17 @@ public class TransactionServiceImpl implements TransactionService
 
 		transEvent.setEndTime(null); // get EndTime and set to transEvent
 
-		transEvent.setHandleUser(handleUser); // get HandleUser and set to
+		if(ValidatorUtil.isEmpty(handleUser))
+		{
+			transEvent.setHandleUser(createUser); // get HandleUser and set to
+		}
+		else
+		{
+			transEvent.setHandleUser(handleUser); // get HandleUser and set to
+		}
 											// transEvent
-
-		currentStep = transEventType.getStep();
-		transEvent.setCurrentStep(currentStep); // get CurrentStep and set to
+ 
+		transEvent.setCurrentStep(transEventType.getStep()); // get CurrentStep and set to
 												// transEvent
 		transEvent.setStatus(TransactionConst.TRANS_STATUS_TODO);
 
