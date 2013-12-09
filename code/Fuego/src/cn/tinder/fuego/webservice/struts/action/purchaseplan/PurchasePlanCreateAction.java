@@ -120,6 +120,7 @@ public class PurchasePlanCreateAction extends Action {
 			 */
 			PurchasePlanBo newAssets=new PurchasePlanBo();
 			newAssets.getAssetsBo().setAssetsName(purchasePlanCreateForm.getNewAssetsName());
+			newAssets.getAssetsBo().setDuty(user.getDeptName());
 			newAssets.getAssetsBo().setQuantity(1);
 			newAssets.setPrice("0.00");
 			newAssets.setIndex(purchasePlanSessionBo.getPurchasePageBo().getAssetsList().size()+1);

@@ -72,6 +72,8 @@ public class PurchasePlanCreateInitAction extends Action
 			log.info(LogKeyConst.SESSION_BO+purchasePlanSessionBo.toString());
 		}
         	
+    	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,loadService.loadDeptInfoByUser(user.getUserID(),false));//DeptList
+
         request.setAttribute(RspBoNameConst.REF_LIST,purchasePlanSessionBo.getPurchasePageBo().getAssetsList());
         pageName = PageNameConst.PURCHASE_PLAN_CREATE_PAGE;
 

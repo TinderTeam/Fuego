@@ -66,6 +66,6 @@ public interface AssetsManageService
 
 	public List<PhysicalAssetsStatus> initAssetsID(List<PhysicalAssetsStatus> list);
 
-	public List<PurchasePlanBo> getRefPurchaseList(PurchasePlanForm purchasePlanForm);
+	public List<PurchasePlanBo> getRefPurchaseList(String userName,PurchasePlanForm purchasePlanForm);
 	
 }

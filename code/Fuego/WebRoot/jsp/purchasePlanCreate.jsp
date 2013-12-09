@@ -70,7 +70,21 @@
 												<td style="text-align:center">
 													<input style="width:100px" type="text" value="${i.assetsBo.spec}" name="assetsCreateBo[${i.index-1}].assetsBo.spec" />
 											    <td style="text-align:center">
-													<input style="width:100px" type="text" value="${i.assetsBo.duty}" name="assetsCreateBo[${i.index-1}].assetsBo.duty" />
+											        
+													 
+												<select name="assetsCreateBo[${i.index-1}].assetsBo.duty"  style="width:100px">
+												
+ 													<c:forEach var="dept" items= "${deptList}"> 
+ 													   	 <c:choose>																						  
+														  <c:when test="${i.assetsBo.duty == dept}">
+													           <option selected=""  >${i.assetsBo.duty}</option>	
+														  </c:when>
+														  <c:otherwise>  
+														       <option id="${dept}"/>${dept}		
+														  </c:otherwise>
+														 </c:choose>																						
+													</c:forEach>
+												</select>
 												</td>
 													
 												</td>

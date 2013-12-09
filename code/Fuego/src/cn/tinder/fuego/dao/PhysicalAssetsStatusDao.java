@@ -28,7 +28,7 @@ public interface PhysicalAssetsStatusDao
 	
 	public PhysicalAssetsStatus getByAssetsID(String assetsid);
  
-	public List<PhysicalAssetsStatus> getAssetsByDept(String dept);
+ 
 	
 	public List<PhysicalAssetsStatus> getAssetsByDuty(String dutyDept);
 	
@@ -38,8 +38,7 @@ public interface PhysicalAssetsStatusDao
  	
 	public List<PhysicalAssetsStatus> getAssetsListByAssetsIDList(List<String> assetsIDList);
 
- 	public List<PhysicalAssetsStatus> getAssetsListByFilter(Date dueDate, List<String> assetsTypeList,List<String> dutyList,List<String> statusList);
- 	
- 	public List<PhysicalAssetsStatus> getAssetsListByDateOrStatuListAndTypeList(Date dueDate,List<String> techStatusList,List<String> assetsTypeList,String duty,String manageName);
+  	
+ 	public List<PhysicalAssetsStatus> getAssetsListByDateOrStatuListAndTypeList(Date dueDate,List<String> techStatusList,List<String> assetsTypeList,String duty,String manageName,DomainFilterModel domainFilter);
 
 }

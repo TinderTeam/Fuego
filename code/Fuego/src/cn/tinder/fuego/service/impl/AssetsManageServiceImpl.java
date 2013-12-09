@@ -560,7 +560,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	/**
 	 * TASK #7 #80 资产采购增加配置数量描述信息
 	 */
-	public List<PurchasePlanBo> getRefPurchaseList(PurchasePlanForm form) {
+	public List<PurchasePlanBo> getRefPurchaseList(String userName,PurchasePlanForm form) {
 		
 		/*
 		 * 1.准备Form中的筛选条件
@@ -623,7 +623,8 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		List<PurchasePlanBo> purchasePlanList;	//需采购资产表
 
 		//总表获取
-		currentAssetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(DateService.stringToDate(AssetsConst.ASSETS_LARGE_DATE), null, assetsTypeList,duty,manageName);
+		DomainFilterModel domainFilter = getDomainFilterByUser(userName);
+		currentAssetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(DateService.stringToDate(AssetsConst.ASSETS_LARGE_DATE), null, assetsTypeList,duty,manageName,domainFilter);
 		assetsQuotaList = getQuotaListByDutyAndManageName(duty,manageName);
 		
 		/*

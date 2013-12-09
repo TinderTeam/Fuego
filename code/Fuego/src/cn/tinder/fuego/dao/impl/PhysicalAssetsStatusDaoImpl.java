@@ -152,34 +152,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		}
 	}
 
-	@Override
-	public List<PhysicalAssetsStatus> getAssetsByDept(String dept)
-	{
-		// TODO Auto-generated method stub
-
-		List<PhysicalAssetsStatus> status;
-		Session s = null;
-		try
-		{
-			s = HibernateUtil.getSession();
-
-			Criteria c = s.createCriteria(PhysicalAssetsStatus.class);
-			c.add(Restrictions.eq("dept", dept));
-			status = c.list();
-
-		} catch (RuntimeException re)
-		{
-			throw re;
-		} finally
-		{
-			if (s != null)
-			{
-				s.close();
-			}
-		}
-
-		return status;
-	}
+ 
 	@Override
 	public List<PhysicalAssetsStatus> getAssetsByDuty(String dutyDept)
 	{
@@ -330,6 +303,12 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			}
 		}
 		
+		addDomainFilter(domainFilter, c);
+		return c;
+	}
+
+	private void addDomainFilter(DomainFilterModel domainFilter, Criteria c)
+	{
 		if(null != domainFilter)
 		{
 			if(!ValidatorUtil.isEmpty(domainFilter.getAssetsTypeList()))
@@ -346,65 +325,11 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			}
 
 		}
-		return c;
 	}
  	
- 	/**
- 	 * get the assets list where less dueDate and in assetsType list and in duty list 
- 	 * @param dueDate
- 	 * @param assetsTypeList
- 	 * @param dutyList
- 	 * @return
- 	 */
- 	public List<PhysicalAssetsStatus> getAssetsListByFilter(Date dueDate, List<String> assetsTypeList,List<String> dutyList,List<String> statusList)
-	{
  
-		Session s = null;
-
-		List<PhysicalAssetsStatus> assetsList = null;
-		try
-		{
-			s = HibernateUtil.getSession();
-			Criteria c = s.createCriteria(PhysicalAssetsStatus.class);
-			 if(null != dueDate)
-			{
-				c.add(Restrictions.le("dueDate", dueDate));
-			}
-			if(null != assetsTypeList && !assetsTypeList.isEmpty())
-			{
-				c.add(Restrictions.in("assetsType", assetsTypeList));
-			}
-			if(null != dutyList && !dutyList.isEmpty())
-			{
-				c.add(Restrictions.in("duty", dutyList));
-			 
-			}
-			if(null != statusList && !statusList.isEmpty())
-			{
-				c.add(Restrictions.in("techState", statusList));
-			 
-			}
-  
-			assetsList = c.list();
-		} catch (RuntimeException re)
-		{
-			throw re;
-		} finally
-		{
-			// HibernateUtil.closeSession();
-			if (s != null)
-			{
-				s.close();
-			}
-		}
-		if (assetsList != null)
-		{
-			log.debug("[DAO] Success!  Get the PhysicalAssetsStatus:" + assetsList.toString());
-		}
-		return assetsList;
-	}
  	
- 	public List<PhysicalAssetsStatus> getAssetsListByDateOrStatuListAndTypeList(Date dueDate,List<String> techStatusList,List<String> assetsTypeList,String duty,String manageName)
+ 	public List<PhysicalAssetsStatus> getAssetsListByDateOrStatuListAndTypeList(Date dueDate,List<String> techStatusList,List<String> assetsTypeList,String duty,String manageName,DomainFilterModel domainFilter)
 	{
  
 		Session s = null;
@@ -442,7 +367,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			{
 				c.add(Restrictions.eq("manageName", manageName));
 			}
-		 
+			addDomainFilter(domainFilter, c);
 
  
 			assetsList = c.list();
