@@ -95,7 +95,9 @@
         <form-bean name="TransFilterForm"
                    type="cn.tinder.fuego.webservice.struts.form.TransFilterForm">
         </form-bean>      
-         
+         <form-bean name="OperateLogFilterForm"
+                   type="cn.tinder.fuego.webservice.struts.form.log.OperateLogFilterForm">
+        </form-bean>     
       
         
          
@@ -663,26 +665,7 @@
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>				
        	</action>
        	
-       	<!-- AssetsStatusDealHistorySearchResult -->
-       	<action path="/AssetsStatusDealHistorySearchResultInit"
-                type="cn.tinder.fuego.webservice.struts.action.search.AssetsStatusDealHistorySearchResultInitAction"              
-               >          
-  			<forward name="AssetsStatusDealHistorySearchResult" path="/jsp/assetsStatusDealHistorySearchResult.jsp"></forward>
-  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
-			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>				
-       	</action>
-       	
-       		<!-- AssetsStatusDealHistorySearchResult -->
-       	<action path="/AssetsStatusDealHistorySearchResult"
-                type="cn.tinder.fuego.webservice.struts.action.search.AssetsStatusDealHistorySearchResultAction"              
-               >          
-  			<forward name="IndexInit" path="/IndexInit.do"></forward>
-  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
-			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	
-  						
-       	</action>
+    
        	
        	 <!-- Discard -->
        	<action path="/DiscardSearchInit"
@@ -917,15 +900,14 @@
 	     </action>	  
  
        	<action path="/GatherTransInit"
-                type="cn.tinder.fuego.webservice.struts.action.trans.GatherTransInitAction"
-                     
+                type="cn.tinder.fuego.webservice.struts.action.trans.GatherTransInitAction"   
                >          
   			<forward name="GatherTransInit" path="/jsp/trans/gatherTransInit.jsp"></forward>
   			<forward name="Index" path="/jsp/index.jsp"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>					
-       	</action>   
+	    </action>   
        	<action path="/GatherTrans"
                 type="cn.tinder.fuego.webservice.struts.action.trans.GatherTransAction"
                 name="TransFilterForm"     
@@ -945,7 +927,18 @@
   			<forward name="QueryTransOperInfo" path="/jsp/trans/queryTransOperInfo.jsp"></forward>
   			<forward name="Index" path="/jsp/index.jsp"></forward>
   			<forward name="IndexInit" path="/IndexInit.do"></forward>
-  			
+  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>					
+       	</action>        
+       	
+       	<action path="/AssetsOperateLog"
+                type="cn.tinder.fuego.webservice.struts.action.log.QueryAssetsOperateLogAction"
+                name="OperateLogFilterForm"     
+               >          
+  			<forward name="AssetsOperateLog" path="/jsp/assetsStatusDealHistorySearchResult.jsp"></forward>
+  			<forward name="Index" path="/jsp/index.jsp"></forward>
+  			<forward name="IndexInit" path="/IndexInit.do"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>					
@@ -955,5 +948,4 @@
        </action-mappings>   	
       
 	 <message-resources parameter="MessageResources"></message-resources>
-	 
 </struts-config>

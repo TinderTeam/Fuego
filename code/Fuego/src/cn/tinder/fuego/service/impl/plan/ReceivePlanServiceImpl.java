@@ -35,6 +35,7 @@ import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.constant.OperateLogConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
@@ -145,6 +146,8 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 			Map<String,List<AssetsInfoBo>> deptMapAssestList = ConvertAssetsModel.convertAssestsListBoToDeptMap(receivePlan.getPlanInfo().getAssetsPage().getAssetsList());
 
 			assetsManageService.createAssetsList(receivePlan.getPlanInfo().getAssetsPage().getPage().getAllPageData());
+ 			List<PhysicalAssetsStatus> assetsList = ConvertAssetsModel.convertAssetsBoList(receivePlan.getPlanInfo().getAssetsPage().getPage().getAllPageData());
+			super.handleOperateLogRecord(receivePlan.getTransInfo().getTransInfo().getTransID(),OperateLogConst.ASSETS_ADD_OPERATE, assetsList);
 
 			
  			//get all the plan for every child transaction
@@ -202,6 +205,7 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		case 1 :
 		    handleUser = transEvent.getHandleUser();
 		    
+
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();
@@ -483,14 +487,22 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	
 	private List<PhysicalAssetsStatus> getAssestByTransIDList(List<String> transIDList)
 	{
-		List<ReceivePlan> planList = receivePlanDao.getByTransID(transIDList);
+
+		List<String> assetsIDList = getAssetsListByTransIDList(transIDList);
+		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
+		return assetsStatusList;
+	}
+
+	private List<String>  getAssetsListByTransIDList(List<String> transIDList)
+	{
 		List<String> assetsIDList = new ArrayList<String>();
+
+		List<ReceivePlan> planList = receivePlanDao.getByTransID(transIDList);
  		for(ReceivePlan plan : planList)
 		{
 			 assetsIDList.add(plan.getAssetsID());
 		}
-		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
-		return assetsStatusList;
+ 		return assetsIDList;
 	}
 
 	@Override

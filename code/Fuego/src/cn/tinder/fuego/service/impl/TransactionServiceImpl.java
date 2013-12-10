@@ -16,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import cn.tinder.fuego.dao.DaoContext;
+import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.TransEventTypeDao;
@@ -30,10 +31,12 @@ import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.TransactionService;
 import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.cache.UserCache;
+import cn.tinder.fuego.service.constant.OperateLogConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
+import cn.tinder.fuego.service.model.OperateLogModel;
 import cn.tinder.fuego.service.model.convert.ConvertTransactionModel;
 import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.util.date.DateService;
@@ -51,6 +54,8 @@ import cn.tinder.fuego.webservice.struts.form.TransFilterForm;
 
 public class TransactionServiceImpl implements TransactionService
 {
+	PhysicalAssetsStatusDao physicalAssetsStatusDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
+
 	private static final Log log = LogFactory.getLog(TransactionServiceImpl.class);
 
 	private TransEventDao transEventDao = DaoContext.getInstance().getTransEventDao();
@@ -630,6 +635,24 @@ public class TransactionServiceImpl implements TransactionService
 	    }
 		return transOperInfoList;
 	}
-
  
+	public  void handleOperateLogRecord(String transID,String operateName, List<PhysicalAssetsStatus> assestList)
+	{
+		TransEvent transEvent = this.transEventDao.getByTransID(transID);
+		
+		List<OperateLogModel> operInfoList = new ArrayList<OperateLogModel>();
+		for(PhysicalAssetsStatus assets :assestList)
+		{
+			OperateLogModel operateLog = new OperateLogModel();
+			operateLog.setUserName(transEvent.getCreateUser());
+			operateLog.setTransID(transEvent.getTransID());
+			operateLog.setOperTime(DateService.getCurrentDateTimeStr());
+			operateLog.setOperName(operateName);
+			operateLog.setOperObj(assets);
+			operInfoList.add(operateLog);
+		}
+		
+		ServiceContext.getInstance().getOperateLogService().writeLog(operInfoList);
+	}
+
 }

@@ -14,7 +14,7 @@ INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALU
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (16000,'assertsManage','加油站资产报备','','icon icon-calendar','GasAssetsApplyInit.do',10000);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (20000,'assertsManage','资产信息查询','submenu','icon icon-search',NULL,0);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (21000,'assertsManage','实物资产台账查询','','icon icon-file','AssetsStatusSearchInit.do?showModifyBtn=false',20000);
-INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (22000,'assertsManage','台账操作记录查询	','','icon icon-edit','AssetsStatusDealHistoryInit.do',20000);
+INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (22000,'assertsManage','台账操作记录查询	','','icon icon-edit','AssetsOperateLog.do',20000);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (30000,'assertsManage','盘点管理','submenu','icon icon-check',NULL,0);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (31000,'assertsManage','下发实物资产盘点','','icon icon-list-alt','GasStationCheckInit.do',30000);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (32000,'assertsManage','盘点情况统计','','icon icon-tasks','GasStationCheckStatusInit.do',30000);

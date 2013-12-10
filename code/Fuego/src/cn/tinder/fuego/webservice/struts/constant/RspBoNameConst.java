@@ -65,12 +65,15 @@ public class RspBoNameConst
 	//assets enum
 	public static final String MANAGE_DEPT_LIST = "manageDeptList";
 
+	public static final String OPERATE_NAME_LIST = "operateNameList";
+
 	public static final String DEPT_INFO_LIST = "deptList";
 	public static final String IN_DEPT_INFO_LIST = "inDeptList";
 	public static final String TYPE_LIST = "typeList";
 	public static final String TECH_LIST = "techList";
 	public static final String ASSETS_SRC_LIST = "assetsSrcList";
 	public static final String ASSETS_LIST = "assetsList";
+	public static final String ASSETS_OPERATE_LOG_LIST = "assetsOperateLogList";
 	public static final String ASSETS_STATUS_SEARCH_PAGE_BO = "assetsStatusSearchInitPageBo";
 
 	

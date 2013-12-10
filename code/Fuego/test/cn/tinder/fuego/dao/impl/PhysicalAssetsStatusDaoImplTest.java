@@ -84,7 +84,7 @@ public class PhysicalAssetsStatusDaoImplTest
 	@Test
 	public void testGetAssetsByDept()
 	{
-		System.out.println(pasdi.getAssetsByDept("tts"));
+		 
 
 	}
 

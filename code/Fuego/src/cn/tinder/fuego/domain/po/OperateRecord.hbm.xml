@@ -17,6 +17,7 @@
 			<property name="transID" column="TRASN_ID" not-null="false"></property>
 			
 			<component name="assets">
+			<property name="assetsID" column="ASSETS_ID" not-null="true"></property>
 			
 			<property name="assetsName" column="ASSETS_NAME" not-null="false"></property>
 			<property name="assetsSRC" column="ASSETS_SRC" not-null="false"></property>

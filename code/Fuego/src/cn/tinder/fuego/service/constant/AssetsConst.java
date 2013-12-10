@@ -58,4 +58,5 @@ public class AssetsConst
 
  
 	  public static String ASSETS_LARGE_DATE = "2099-12-31";
-}
+	  
+ }

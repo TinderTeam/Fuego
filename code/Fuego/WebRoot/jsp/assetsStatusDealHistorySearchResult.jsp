@@ -21,8 +21,90 @@
 			</div>
 			<div id="breadcrumb">
 				<a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>主页</a>
-				<a href="#" class="current">实物资产管理</a>
-				<a href="#" class="current">创建资产采购计划</a>
+				<a href="#" class="current">资产信息查询</a>
+				<a href="#" class="current">台账操作记录查询</a>
+			</div>
+			<div class="container-fluid">
+			<form id="searchForm" action="<%=request.getContextPath()%>/AssetsOperateLog.do"   method="post" >	
+				<div class="row-fluid">
+					<div class="span12">
+						 
+						
+						<div class="widget-box"  style="overflow-x:auto;">
+							<div class="widget-title">
+								<span class="icon">
+									<i class="icon-th"></i>
+								</span>
+								<h5>查询条件</h5>							
+							</div>
+							
+						
+							<div class="widget-content"  >
+								 
+								<table class="table table-bordered ">
+									<thead>
+										<tr>
+											<th>操作人</th>
+											<th>操作类型</th>
+							                <th>事务编号</th>
+							                <th>资产编号</th>
+											<th>资产名称</th>
+ 										
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+										
+											<td style="text-align:center"><input type="text" name="assetsID" value="${searchForm.assetsID}" /></td>
+											
+											<td style="text-align:center">	
+												<select name="operName" style="width: 200px"  >
+													<c:forEach var="i" items= "${operateNameList}"> 																								  
+												      <c:choose>
+														  <c:when test="${searchForm.operName == i}">
+													           <option selected=""  >${searchForm.operName}</option>	
+														  </c:when>
+														  <c:otherwise>  
+														       <option id="${i}"/>${i}		
+														  </c:otherwise>
+													  </c:choose>																		
+													</c:forEach>
+												</select>
+											</td>
+											<td style="text-align:center"><input type="text" name="transID" value="${searchForm.transID}" /></td>
+											<td style="text-align:center"><input type="text" name="assetsID" value="${searchForm.assetsID}" /></td>
+											<td style="text-align:center"><input type="text" name="assetsName" value="${searchForm.assetsName}" /></td>
+											
+										</tr>
+										
+							
+									
+									</tbody>
+								</table> 
+ 
+							
+							</div>
+						</div>	
+						</div>	
+							<div class="widget-content">
+								<div class="control-group">
+									
+									<button  type="submit" class="btn btn-success" name="submit" value = "submit">查询</button>
+ 									    第<select name="pageNum" style = "width:70px" onchange="return assetsPageChange('pageChange')" >
+											<option id="${assetsPage.page.currentPage}">${assetsPage.page.currentPage}</option>	
+											<c:forEach var="i" items= "${assetsPage.page.pages}"> 																								  
+												<option id="${i}"/>${i}																							
+											</c:forEach>
+								      </select>页，共${assetsPage.page.count}条记录
+								    <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>
+								     									
+								</div>
+						 
+							</div>						    
+					 
+						</div>
+			   
+			    </form>			
 			</div>
 			<div class="container-fluid">
 				<div class="row-fluid">
@@ -35,7 +117,7 @@
 								<h5>实物资产台账操作历史记录</h5>
 									
 							</div>
-						
+		 
 							<div class="widget-content nopadding"  style="overflow-x:auto;">
 								<table class="table table-bordered data-table">
 									<thead>
@@ -44,6 +126,8 @@
 										<th>操作人</th>
 										<th>操作时间</th>
 										<th>操作类型</th>
+						                <th>事务编号</th>
+										
 										<th>资产编号</th>
 										<th>资产名称</th>
 										<th>资产来源</th>
@@ -66,31 +150,36 @@
 										</tr>
 									</thead>
 									<tbody>
+									
+									<c:forEach var="i" items= "${assetsOperateLogList}">
 									<tr>
-									<c:forEach var="i" items= "${adHistoryResult}">
-											<td style="text-align:center"><label style="width:50px">${i.userName}</label></td>
-											<td style="text-align:center"><label style="width:150px">${i.operationDate}</td>
-											<td style="text-align:center"><label style="width:80px">${i.operationType}</td>
-											<td style="text-align:center"><label style="width:80px">${i.bo.assetsID}</td>
-											<td style="text-align:center"><label style="width:80px">${i.bo.assetsName}</td>
-											<td style="text-align:center"><label style="width:80px">${i.bo.assetsSRC}</td>
-											<td style="text-align:center"><label style="width:80px">${i.bo.manufacture}</td>
-											<td style="text-align:center"><label style="width:80px">${i.bo.spec}</td>
-											<td style="text-align:center"><label style="width:30px">${i.bo.unit}</td>
-											<td style="text-align:center"><label style="width:80px">${i.bo.quantity}</td>
-											<td style="text-align:center"><label style="width:100px">${i.bo.purchaseDate}</td>
-											<td style="text-align:center"><label style="width:80px">${i.bo.originalValue}</td>
-											<td style="text-align:center"><label style="width:80px">${i.bo.expectYear}</td>
-											<td style="text-align:center"><label style="width:130px">${i.bo.dueDate}</td>
-											<td style="text-align:center"><label style="width:100px">${i.bo.dept}</td>
-											<td style="text-align:center"><label style="width:80px">${i.bo.duty}</td>
-											<td style="text-align:center"><label style="width:80px">${i.bo.assetsType}</td>
-											<td style="text-align:center"><label style="width:120px">${i.bo.location}</td>
-											<td style="text-align:center"><label style="width:80px">${i.bo.techState}</td>
+											<td style="text-align:center"><label style="width:90px">${i.userName}</label></td>
+											<td style="text-align:center"><label style="width:150px">${i.operTime}</label></td>
+											<td style="text-align:center"><label style="width:80px">${i.operName}</label></td>
+											<td style="text-align:center"><label style="width:150px">${i.transID}</label></td>
 											
+											<td style="text-align:center"><label style="width:150px">${i.assets.assetsID}</label></td>
+											<td style="text-align:center"><label style="width:150px">${i.assets.assetsName}</label></td>
+											<td style="text-align:center"><label style="width:80px">${i.assets.assetsSRC}</label></td>
+											<td style="text-align:center"><label style="width:80px">${i.assets.manufacture}</label></td>
+											<td style="text-align:center"><label style="width:80px">${i.assets.spec}</label></td>
+											<td style="text-align:center"><label style="width:30px">${i.assets.unit}</label></td>
 											
+											<td style="text-align:center"><label style="width:80px">${i.assets.quantity}</label></td>
+											<td style="text-align:center"><label style="width:100px">${i.assets.purchaseDate}</label></td>
+											<td style="text-align:center"><label style="width:80px">${i.assets.originalValue}</label></td>
+											<td style="text-align:center"><label style="width:80px">${i.assets.expectYear}</label></td>
+											<td style="text-align:center"><label style="width:130px">${i.assets.dueDate}</label></td>
+											<td style="text-align:center"><label style="width:100px">${i.assets.dept}</label></td>
+											
+											<td style="text-align:center"><label style="width:80px">${i.assets.duty}</label></td>
+											<td style="text-align:center"><label style="width:80px">${i.assets.assetsType}</label></td>
+											<td style="text-align:center"><label style="width:120px">${i.assets.location}</label></td>
+											<td style="text-align:center"><label style="width:80px">${i.assets.techState}</label></td>
+											
+										</tr>	
 									</c:forEach>
-									</tr>
+									
 									
 									</tbody>
 								
@@ -104,19 +193,7 @@
 					</div>
 				</div>
 				
-				<div class="widget-box">
-								<div class="widget-title">
-									<h5>采购计划确认</h5>
-								</div>
-							
-								<div class="widget-content">
-								
-													
-									<button class="btn  btn-primary">返回</button>	
-									<button class="btn  btn-inverse">导出Excel</button>
-								
-								</div>
-				</div>	
+ 
 				
 				<div class="row-fluid">
 					<div id="footer" class="span12">
@@ -125,6 +202,6 @@
 				</div>
 			</div>
 		</div>
-
+       
 	</body>
 </html>

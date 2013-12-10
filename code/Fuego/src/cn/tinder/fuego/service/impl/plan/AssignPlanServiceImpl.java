@@ -34,6 +34,7 @@ import cn.tinder.fuego.service.cache.AssetsTypeParaCache;
 import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.AssetsConst;
+import cn.tinder.fuego.service.constant.OperateLogConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.TransactionExtAttrConst;
 import cn.tinder.fuego.service.constant.UserNameConst;
@@ -240,6 +241,7 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		    assetsIDList.add(assetsID);		    
 		}
  
+
 		List<PhysicalAssetsStatus> physicalAssetsList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
 		for(PhysicalAssetsStatus assets : physicalAssetsList)
 		{
@@ -251,6 +253,8 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 
 		}	
  
+		super.handleOperateLogRecord(transID,OperateLogConst.ASSETS_UPDATE_OPERATE, physicalAssetsList);
+
 	}
 
 	/*

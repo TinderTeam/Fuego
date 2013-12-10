@@ -39,6 +39,7 @@ import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.cache.AssetsTypeParaCache;
 import cn.tinder.fuego.service.cache.UserCache;
+import cn.tinder.fuego.service.constant.OperateLogConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.UserNameConst;
 import cn.tinder.fuego.service.constant.UserRoleConst;
@@ -228,14 +229,15 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 		    
 		}
 		
-		List<OperateLogModel<PhysicalAssetsStatus>> operInfoList = new ArrayList<OperateLogModel<PhysicalAssetsStatus>>();
-		//ServiceContext.getInstance().getOperateLogService().writeLog(operInfoList);
+		super.handleOperateLogRecord(transEvent.getTransID(),OperateLogConst.ASSETS_DELETE_OPERATE, physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList));
 		
 		physicalAssetsStatusDao.deleteAssetListsByAssetsIDList(assetsIDList);
 		
 		
 
 	}
+
+
 	/*
 	 * (non-Javadoc)
 	 * 
