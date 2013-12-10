@@ -73,7 +73,7 @@ public class RspBoNameConst
 	public static final String TECH_LIST = "techList";
 	public static final String ASSETS_SRC_LIST = "assetsSrcList";
 	public static final String ASSETS_LIST = "assetsList";
-	public static final String ASSETS_OPERATE_LOG_LIST = "assetsOperateLogList";
+	public static final String OPERATE_LOG_PAGE_DATA = "operatPageData";
 	public static final String ASSETS_STATUS_SEARCH_PAGE_BO = "assetsStatusSearchInitPageBo";
 
 	

@@ -12,6 +12,7 @@ import java.util.List;
 
 import cn.tinder.fuego.service.model.OperateLogModel;
 import cn.tinder.fuego.webservice.struts.bo.log.AssetsOperateLogBo;
+import cn.tinder.fuego.webservice.struts.bo.page.PageModelBo;
 import cn.tinder.fuego.webservice.struts.form.log.OperateLogFilterForm;
 
 /** 
@@ -27,7 +28,7 @@ public interface OperateLogService
 	public void writeLog(OperateLogModel operInfo);
 	public void writeLog(List<OperateLogModel> operInfoList);
 	
-	public List<AssetsOperateLogBo> getAssetsOperateLog(OperateLogFilterForm filter);
+	public PageModelBo<AssetsOperateLogBo> getAssetsOperateLog(OperateLogFilterForm filter);
 	
 	public List<String> getAllOperateName();
 

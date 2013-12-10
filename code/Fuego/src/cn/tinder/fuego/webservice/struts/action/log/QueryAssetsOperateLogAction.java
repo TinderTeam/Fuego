@@ -23,6 +23,7 @@ import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.util.engine.computer.ComputeService;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.bo.log.AssetsOperateLogBo;
+import cn.tinder.fuego.webservice.struts.bo.page.PageModelBo;
 import cn.tinder.fuego.webservice.struts.bo.search.AssetsStatusSearchInitPageBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
@@ -96,7 +97,7 @@ public class QueryAssetsOperateLogAction extends Action
      		filter = new OperateLogFilterForm();
      	}
 		 
-		List<AssetsOperateLogBo> operateLogList = logService.getAssetsOperateLog(filter);
+     	PageModelBo<AssetsOperateLogBo> operateLogPage = logService.getAssetsOperateLog(filter);
 	 
 		List<String> operateNameList = logService.getAllOperateName();
 		operateNameList.add(0, AssetsConst.ASSETS_FITER_ALL);
@@ -104,7 +105,7 @@ public class QueryAssetsOperateLogAction extends Action
 
 		request.setAttribute(RspBoNameConst.SEARCH_FORM,filter);//PageList
 		
-		request.setAttribute(RspBoNameConst.ASSETS_OPERATE_LOG_LIST, operateLogList);
+		request.setAttribute(RspBoNameConst.OPERATE_LOG_PAGE_DATA, operateLogPage);
 		
 		return PageName;
 	}

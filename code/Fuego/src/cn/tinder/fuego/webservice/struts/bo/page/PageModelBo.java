@@ -28,6 +28,8 @@ public class PageModelBo<E>
 	private int currentPage = 1;
 	private int count = 0;
 	
+	private List<E> dataList = new ArrayList<E>();
+	
 	
 	public List<E> getCurrentPageData()
 	{
@@ -109,6 +111,16 @@ public class PageModelBo<E>
 	public void setCount(int count)
 	{
 		this.count = count;
+	}
+
+	public List<E> getDataList()
+	{
+		return dataList;
+	}
+
+	public void setDataList(List<E> dataList)
+	{
+		this.dataList = dataList;
 	}
 	
 	

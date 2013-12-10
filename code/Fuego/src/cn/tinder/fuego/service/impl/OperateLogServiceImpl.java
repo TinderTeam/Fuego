@@ -19,6 +19,7 @@ import cn.tinder.fuego.service.OperateLogService;
 import cn.tinder.fuego.service.constant.OperateLogConst;
 import cn.tinder.fuego.service.model.OperateLogModel;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
+import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.webservice.struts.bo.log.AssetsOperateLogBo;
 import cn.tinder.fuego.webservice.struts.bo.page.PageModelBo;
 import cn.tinder.fuego.webservice.struts.form.log.OperateLogFilterForm;
@@ -78,7 +79,7 @@ public class OperateLogServiceImpl implements OperateLogService
 	 * @see cn.tinder.fuego.service.OperateLogService#getAssetsOperateLog(cn.tinder.fuego.webservice.struts.form.log.OperateLogFilterForm)
 	 */
 	@Override
-	public List<AssetsOperateLogBo> getAssetsOperateLog(OperateLogFilterForm filter)
+	public PageModelBo<AssetsOperateLogBo> getAssetsOperateLog(OperateLogFilterForm filter)
 	{
 		OperateRecord assetsFilter = new OperateRecord();
 		assetsFilter.setAssets(new PhysicalAssetsStatus());
@@ -99,10 +100,33 @@ public class OperateLogServiceImpl implements OperateLogService
 		}else{
 			assetsFilter.getAssets().setAssetsName(filter.getAssetsName());
 		}
+		
+		if(ValidatorUtil.isEmpty(filter.getOperName()))
+		{
+			assetsFilter.setOperate(null);
+		}
+		else
+		{
+			assetsFilter.setOperate(filter.getOperName());
+		}
+		if(ValidatorUtil.isEmpty(filter.getTransID()))
+		{
+			assetsFilter.setTransID(null);
+		}
+		else
+		{
+			assetsFilter.setTransID(filter.getTransID());
+		}
  
+		if(ValidatorUtil.isEmpty(filter.getUserName()))
+		{
+			assetsFilter.setUserName(null);
+		}
+		else
+		{
+			assetsFilter.setUserName(filter.getUserName());
+		}
  
- 
-	    List<AssetsOperateLogBo> operateLogList  = new ArrayList<AssetsOperateLogBo>();
 
 		int count = operateDao.getAssetsOperateLogByFilterCount(assetsFilter, assetsFilterDate);
 		PageModelBo<AssetsOperateLogBo> page = new PageModelBo<AssetsOperateLogBo>();
@@ -112,6 +136,8 @@ public class OperateLogServiceImpl implements OperateLogService
  
 		recordList = operateDao.getAssetsOperateLogByFilter(assetsFilter,assetsFilterDate,page.getStartNum(),page.getPageSize());				
 		 
+	    List<AssetsOperateLogBo> operateLogList  = new ArrayList<AssetsOperateLogBo>();
+
 		 for(OperateRecord record : recordList)
 		 {
 			 AssetsOperateLogBo operateLog = new AssetsOperateLogBo();
@@ -122,8 +148,9 @@ public class OperateLogServiceImpl implements OperateLogService
 			 operateLog.setAssets(ConvertAssetsModel.convertAssets(record.getAssets()));
 			 operateLogList.add(operateLog);
 		 }
+		 page.setDataList(operateLogList);
   
-		return operateLogList;
+		return page;
 		
 	}
 

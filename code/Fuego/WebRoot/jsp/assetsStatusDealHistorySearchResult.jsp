@@ -91,11 +91,11 @@
 									
 									<button  type="submit" class="btn btn-success" name="submit" value = "submit">查询</button>
  									    第<select name="pageNum" style = "width:70px" onchange="return assetsPageChange('pageChange')" >
-											<option id="${assetsPage.page.currentPage}">${assetsPage.page.currentPage}</option>	
-											<c:forEach var="i" items= "${assetsPage.page.pages}"> 																								  
+											<option id="${operatPageData.currentPage}">${operatPageData.currentPage}</option>	
+											<c:forEach var="i" items= "${operatPageData.pages}"> 																								  
 												<option id="${i}"/>${i}																							
 											</c:forEach>
-								      </select>页，共${assetsPage.page.count}条记录
+								      </select>页，共${operatPageData.count}条记录
 								    <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>
 								     									
 								</div>
@@ -151,7 +151,7 @@
 									</thead>
 									<tbody>
 									
-									<c:forEach var="i" items= "${assetsOperateLogList}">
+									<c:forEach var="i" items= "${operatPageData.dataList}">
 									<tr>
 											<td style="text-align:center"><label style="width:90px">${i.userName}</label></td>
 											<td style="text-align:center"><label style="width:150px">${i.operTime}</label></td>
