@@ -295,4 +295,67 @@ public class OperateRecordDaoImpl implements OperateRecordDao
 		
  		return c;
 	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.dao.OperateRecordDao#getByTransID(java.lang.String)
+	 */
+	@Override
+	public List<OperateRecord> getByTransID(String transID)
+	{
+		// TODO Auto-generated method stub
+		log.debug("[DAO] Get the OperateRecord by ID:" + transID);
+		Session s = null;
+
+		List<OperateRecord> recordList = null;
+		try
+		{
+			s = HibernateUtil.getSession();
+			Criteria c = s.createCriteria(OperateRecord.class);
+			c.add(Restrictions.eq("transID", transID));//
+			recordList =  c.list();
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			// HibernateUtil.closeSession();
+			if (s != null)
+			{
+				s.close();
+			}
+		}
+ 
+		return recordList;
+	}
+	
+	@Override
+	public List<OperateRecord> getByTransID(List<String> transIDList)
+	{
+		// TODO Auto-generated method stub
+		log.debug("[DAO] Get the OperateRecord by ID:" + transIDList);
+		Session s = null;
+
+		List<OperateRecord> recordList = null;
+		try
+		{
+			s = HibernateUtil.getSession();
+			Criteria c = s.createCriteria(OperateRecord.class);
+			c.add(Restrictions.in("transID", transIDList));//
+			recordList =  c.list();
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			// HibernateUtil.closeSession();
+			if (s != null)
+			{
+				s.close();
+			}
+		}
+ 
+		return recordList;
+	}
+
+	 
 }

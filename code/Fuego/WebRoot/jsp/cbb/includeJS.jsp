@@ -11,4 +11,5 @@
 <script src="js/unicorn.js"></script>
 <script src="js/unicorn.form_common.js"></script>
 <script src="jsp/cbb/js/pageControl.js"></script>
-
+<script src="jsp/cbb/js/validate.js"></script>
+ 

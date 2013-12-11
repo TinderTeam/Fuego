@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 	
 	 <div class="control-group">
-          <label class="control-label">审批意见</label >                                   
+          <label class="control-label">处理意见</label >                                   
 			 <div class="controls">
                   <input type="text" name="operateInfo" />
              </div>                          

@@ -56,11 +56,11 @@
 															 <div class="controls">
 																   <c:choose>	
 																	 <c:when test="${'create' == pageDisCtr}">
-																	 	  <input type="text" name="executeName" value="${assignPlan.transInfo.transInfo.executeName}"/>
+																	 	  <input id="executeName" type="text" name="executeName" value="${assignPlan.transInfo.transInfo.executeName}"/>
 																	 	 											           
 																	  </c:when>
 																	  <c:otherwise>  
-																		  <input type="text" name="executeName" value="${assignPlan.transInfo.transInfo.executeName}" disabled=true/>
+																		  <input id="executeName"  type="text" name="executeName" value="${assignPlan.transInfo.transInfo.executeName}" disabled=true/>
 															
 																
 																	  </c:otherwise>	
@@ -70,7 +70,7 @@
 									<c:if test="${'create' == pageDisCtr}">
 						
 										<jsp:include page="/jsp/cbb/transCreateInfo.jsp"/> 
-										<button class="btn btn-success"  name="submit" value="submit">提交</button>								
+										<button class="btn btn-success"  onclick="return validateEmpty('executeName','执行人不能为空');" name="submit" value="submit">提交</button>								
 										<button class="btn  btn-primary" name="submit" value="download">导出</button>	
 										<button class="btn  btn-inverse" name="submit" value="cancel">取消</button>
 									 </c:if>

@@ -20,6 +20,11 @@ public interface OperateRecordDao
 	// public OperateRecord find(String assetsid);
 	public OperateRecord getByAssetsID(String assetsid);
 	
+	public List<OperateRecord>  getByTransID(String transID);
+	public List<OperateRecord>  getByTransID(List<String> transIDList);
+
+
+	
 	public int getAssetsOperateLogByFilterCount(OperateRecord filter, OperateRecord filterDate);
 
  	public List<OperateRecord> getAssetsOperateLogByFilter(OperateRecord filter, OperateRecord filterDate,int startNum,int pageSize);
