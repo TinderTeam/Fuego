@@ -189,17 +189,17 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
             	}
         	}
 
-        	if(UserNameConst.CWZCB.equals(handleUser))
+        	if(UserNameConst.ZCGLZ.equals(handleUser))
         	{
         		super.forwardNext(transID,handleUser,transInfo);
             	transInfo = null;
         	}
         	break;
         case 4 :
-        	handleUser = UserNameConst.CWZCB;
+        	handleUser = UserNameConst.ZCGLZ;
         	break;
 		case 3 :
-			 handleUser = super.getLeader(UserNameConst.CWZCB);
+			 handleUser = super.getLeader(UserNameConst.ZCGLZ);
 			break;	
 		case 2 :
 			handleUser = transEvent.getCreateUser();

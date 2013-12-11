@@ -442,13 +442,15 @@ public class TransactionServiceImpl implements TransactionService
 				userList.add(user.getUserName());
 			}
 		}
-		else if (nowUser.getRole().equals(UserRoleConst.DEPT))
+		else if (nowUser.getRole().equals(UserRoleConst.DEPT) || nowUser.getRole().equals(UserRoleConst.MANAGE))
 		{
 			for(SystemUser user : CacheContext.getInstance().getUserCache().getUserListByRole(UserRoleConst.GASSTATION))
 			{
 				userList.add(user.getUserName());
 			}
 		}
+		
+		
  
 		userList.add(userID);
 		

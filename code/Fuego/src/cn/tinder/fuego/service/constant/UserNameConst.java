@@ -18,6 +18,6 @@ package cn.tinder.fuego.service.constant;
 
 public class UserNameConst
 {
-	public static final String CWZCB ="财务资产部";
+	public static final String ZCGLZ ="实物资产管理组";
 
 }

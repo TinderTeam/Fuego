@@ -190,20 +190,20 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
             		 throw new ServiceException(ExceptionMsg.ASSETS_TYPE_WRONG);
             	}
         	}
-        	if(UserNameConst.CWZCB.equals(handleUser))
+        	if(UserNameConst.ZCGLZ.equals(handleUser))
         	{
         		super.forwardNext(transID,handleUser,transInfo);
             	transInfo = null;
         	}
 		    break;
 		case 6 :
-    		handleUser = UserNameConst.CWZCB;
+    		handleUser = UserNameConst.ZCGLZ;
 
 			break;
 		case 5 :
 
-        	handleUser = super.getLeader(UserNameConst.CWZCB);
-  
+        	handleUser = super.getLeader(UserNameConst.ZCGLZ);
+      
 			break;
 		case 4 :
 			handleUser = super.getStaff(outDept);
@@ -476,7 +476,7 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	@Override
 	public boolean isApporalStep(int step)
 	{
-		if(6 == step || 5 == step || 3 == step)
+		if(6 == step || 5 == step || 4 == step || 3 == step || 2 == step)
 		{
 			return true;
 		}
