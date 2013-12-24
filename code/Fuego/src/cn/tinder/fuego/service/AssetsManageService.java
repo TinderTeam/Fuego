@@ -59,6 +59,16 @@ public interface AssetsManageService
 	
 	public List<String> getUserListByAssestList(List<AssetsInfoBo> assetsList);
 
-	
+	/*
+	 * TASK #16 Story93_1: 实现资产的批量增加与修改
+	 */
+	//追加资产
+	public void addBasicAssets(File uploadFile);
+	//删除资产
+	public void deleteBasicAssets(File uploadFile);
+	//更新资产
+	public void updateBasicAssets(File uploadFile);
+
+	public List<PhysicalAssetsStatus> initAssetsID(List<PhysicalAssetsStatus> list);
 	
 }

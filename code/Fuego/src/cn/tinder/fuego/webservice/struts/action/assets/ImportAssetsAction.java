@@ -17,6 +17,7 @@ import org.jgroups.util.Rsp;
 
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
+import cn.tinder.fuego.service.SystemMaintanceService;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
@@ -49,6 +50,7 @@ public class ImportAssetsAction extends Action
 {
     private static final Log log = LogFactory.getLog(ImportAssetsAction.class);
     private AssetsManageService  assetsManageService = ServiceContext.getInstance().getAssetsManageService();
+   
 	ExcelIOService excelIOService = new ExcelIOServiceImpl();
 	FileLoadService fileLoadService = ServiceContext.getInstance()
 			.getFileLoadService();
@@ -84,9 +86,15 @@ public class ImportAssetsAction extends Action
     }
 	private String handle(ActionForm form,HttpServletRequest request)
 	{
+		
 		String nextPage = PageNameConst.DOWNLOAD_ACTION;
 		ImportAssetsForm 	importAssetsForm = (ImportAssetsForm) form;
 		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
+		
+		log.info("SubmitPara is :" +submitPara);
+		
+		
+		
 		if(ParameterConst.UPLOAD_PARA_NAME.equals(submitPara))
 		{
 			// UpLoad the Excel File!
@@ -97,7 +105,7 @@ public class ImportAssetsAction extends Action
 			 */			
 			AssetsPageBo assetsPage = new AssetsPageBo();
 			
-			List<AssetsInfoBo> assetsList =ImportAssetsExcelFile.load(excelIOService.uploadFile(importAssetsForm.getAssetsFile()));
+			List<AssetsInfoBo> assetsList =ImportAssetsExcelFile.load(excelIOService.uploadFile(importAssetsForm.getInitAssetsFile()));
 			
 			assetsPage.getPage().setAllPageData(assetsList);
  
@@ -109,15 +117,39 @@ public class ImportAssetsAction extends Action
 		}
 		else if(ParameterConst.DB_UPLOAD_PARA_NAME.equals(submitPara))
 		{
-			assetsManageService.importBasicAssest(excelIOService.uploadFile(importAssetsForm.getAssetsFile()));
+			assetsManageService.importBasicAssest(excelIOService.uploadFile(importAssetsForm.getInitAssetsFile()));
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 		}
-		else			
+		
+		/*
+		 * TASK #16 Story93_1: 实现资产的批量增加与修改
+		 * 1.下载部分的捕获
+		 */
+		
+		else if(ParameterConst.INIT_DOWNLOAD_PARA_NAME.equals(submitPara)||ParameterConst.ADD_DOWNLOAD_PARA_NAME.equals(submitPara)||ParameterConst.UPDATE_DOWNLOAD_PARA_NAME.equals(submitPara))			
 		{
 			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, OutputFileConst.ASSETS_STATUES_FILE_MODEL_PATH);
+		}		
+		else if(ParameterConst.DELETE_DOWNLOAD_PARA_NAME.equals(submitPara))			
+		{
+			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, OutputFileConst.ASSETS_STATUES_DELETE_MODEL_PATH);
 		}
- 
-
+		
+		/*
+		 * TASK #16 Story93_1: 实现资产的批量增加与修改
+		 */
+		else if(ParameterConst.ADD_UPLOAD_PARA_NAME.equals(submitPara)){
+			assetsManageService.addBasicAssets(excelIOService.uploadFile(importAssetsForm.getInitAssetsFile()));
+			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
+		}
+		else if(ParameterConst.DELETE_UPLOAD_PARA_NAME.equals(submitPara)){
+			assetsManageService.deleteBasicAssets(excelIOService.uploadFile(importAssetsForm.getInitAssetsFile()));
+			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
+		}
+		else if(ParameterConst.UPDATE_UPLOAD_PARA_NAME.equals(submitPara)){
+			assetsManageService.updateBasicAssets(excelIOService.uploadFile(importAssetsForm.getInitAssetsFile()));
+			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
+		}
 		return nextPage;
 	}
 

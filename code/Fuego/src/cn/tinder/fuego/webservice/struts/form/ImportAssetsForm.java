@@ -14,18 +14,60 @@ import org.apache.struts.upload.FormFile;
  */
 public class ImportAssetsForm extends ActionForm
 {
-	private FormFile assetsFile;
-
-	public FormFile getAssetsFile()
-	{
-		return assetsFile;
+	
+	private FormFile initAssetsFile;
+	private FormFile addAssetsFile;
+	private FormFile deleteAssetsFile;
+	private FormFile updateAssetsFile;
+	
+	
+	/**
+	 * @return the initAssetsFile
+	 */
+	public FormFile getInitAssetsFile() {
+		return initAssetsFile;
 	}
-
-	public void setAssetsFile(FormFile assetsFile)
-	{
-		this.assetsFile = assetsFile;
+	/**
+	 * @param initAssetsFile the initAssetsFile to set
+	 */
+	public void setInitAssetsFile(FormFile initAssetsFile) {
+		this.initAssetsFile = initAssetsFile;
 	}
-
- 
+	/**
+	 * @return the addAssetsFile
+	 */
+	public FormFile getAddAssetsFile() {
+		return addAssetsFile;
+	}
+	/**
+	 * @param addAssetsFile the addAssetsFile to set
+	 */
+	public void setAddAssetsFile(FormFile addAssetsFile) {
+		this.addAssetsFile = addAssetsFile;
+	}
+	/**
+	 * @return the deleteAssetsFile
+	 */
+	public FormFile getDeleteAssetsFile() {
+		return deleteAssetsFile;
+	}
+	/**
+	 * @param deleteAssetsFile the deleteAssetsFile to set
+	 */
+	public void setDeleteAssetsFile(FormFile deleteAssetsFile) {
+		this.deleteAssetsFile = deleteAssetsFile;
+	}
+	/**
+	 * @return the updateAssetsFile
+	 */
+	public FormFile getUpdateAssetsFile() {
+		return updateAssetsFile;
+	}
+	/**
+	 * @param updateAssetsFile the updateAssetsFile to set
+	 */
+	public void setUpdateAssetsFile(FormFile updateAssetsFile) {
+		this.updateAssetsFile = updateAssetsFile;
+	}
 	
 }

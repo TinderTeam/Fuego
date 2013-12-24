@@ -10,7 +10,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
@@ -36,29 +35,11 @@ public class RefPlanAction extends Action
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
-        log.info(LogKeyConst.INPUT_ACTION);
-        
-    	String nextPage = null;
-    	try
-    	{
-    		nextPage = handle(form,request);
-		} 
-    	catch(ServiceException e)
-    	{
-    		log.warn("opration failed",e);
-			request.setAttribute(RspBoNameConst.OPERATE_EXCEPION, e.getMessage());
-			nextPage = PageNameConst.ERROR_PAGE; 
-    	}
-    	catch (Exception e)
-		{
-			log.error("system error",e);
-			nextPage = PageNameConst.SYSTEM_ERROR_PAGE; 
-		}
-     
- 
-        log.info(LogKeyConst.NEXT_PAGE+nextPage);
-        return mapping.findForward(nextPage);	
-
+		log.info(LogKeyConst.INPUT_ACTION + "PurchasePlanAction");
+		// Page
+		String pageName = handle(form, request);
+		log.info(LogKeyConst.NEXT_PAGE + pageName);
+		return mapping.findForward(pageName);
 
 	}
 
@@ -69,18 +50,56 @@ public class RefPlanAction extends Action
 
 		// Rquest in
 		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
- 
+
+		if (null == user)
+		{
+			// Empty test
+			log.error("the user is null");
+			pageName = PageNameConst.LOGIN_PAGE;
+			return pageName;
+		}
+
 		// SessionBo
 		PurchasePlanSessionBo purchasePlanSessionBo = (PurchasePlanSessionBo) request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
+		if (null == purchasePlanSessionBo)
+		{
+			log.error("cant find purchasePlanSessionBo!!");
+			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
+			return pageName;
+		} else
+		{
+			log.info(LogKeyConst.PAGE_FORM + purchasePlanSessionBo.toString());
+		}
 
 		// Form
 		RefPlanCreateForm refPlanCreateForm = (RefPlanCreateForm) form;
 
- 
+		// Form Empty test
+		if (refPlanCreateForm == null)
+		{
+			log.error("cant find form!!");
+			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
+			return pageName;
+		} else
+		{
+			log.info(LogKeyConst.PAGE_FORM + refPlanCreateForm.toString());
+		}
+
 		// Para
 		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
 		log.info(LogKeyConst.SUBMIT_VALUE + submitPara);
- 
+
+		if (null == submitPara || submitPara.isEmpty())
+		{
+			log.error("can't find submitPara!");
+			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
+			return pageName;
+		}
+
+		/*
+		 * Main Logic
+		 */
+
 		// Submit Value Select
 
 		if (submitPara.equals(ParameterConst.SUBMIT_PARA_NAME))
@@ -102,11 +121,9 @@ public class RefPlanAction extends Action
 			pageName = PageNameConst.PURCHASE_PLAN_PAGE_ACTION; // =
 																// "PurchasePlanInit"->>
 																// path="/PurchasePlanInit.do"
-		} else if (submitPara.equals(ParameterConst.PAGECHANGE_PARA_NAME))
+		} else
 		{
-			purchasePlanSessionBo.getPurchasePageBo().getPage().setCurrentPage(refPlanCreateForm.getPageNum());
-			purchasePlanSessionBo.getPurchasePageBo().setAssetsList(purchasePlanSessionBo.getPurchasePageBo().getPage().getCurrentPageData());
-			pageName = PageNameConst.PURCHASE_REF_PLAN_CREATE_ACTION;
+			log.error("can't match the submit Para!");
 		}
 
 		log.info(LogKeyConst.NEXT_PAGE + pageName);

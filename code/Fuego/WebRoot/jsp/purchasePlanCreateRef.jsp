@@ -41,7 +41,7 @@
 								</div>
 								<div class="widget-content">
 								<div class="control-group">
-										                第<select name="pageNum" style = "width:70px" onchange="return assetsPageChange('pageChange')"  >
+										                第<select name="pageNum" style = "width:70px" onchange="return pageChange('pageChange')" >
 												<option id="${purchasePlan.purchasePageBo.page.currentPage}">${purchasePlan.purchasePageBo.page.currentPage}</option>	
 												<c:forEach var="i" items= "${purchasePlan.purchasePageBo.page.pages}"> 																								  
 													<option id="${i}"/>${i}																							
@@ -96,7 +96,7 @@
 								</div>
 							
 							</div>
-	                        <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>
+							<button id ="pageChange"  type="submit" class="btn btn-success" style="display:none"  name="submit" value="pageChange">换页</button>
 							
 							<button type="submit" class="btn btn-success" name="submit" value="submit">选定资产</button>
 							<button type="submit" class="btn btn-primary" name="submit" value="back">返回</button>			

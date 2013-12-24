@@ -46,4 +46,11 @@ public class ParameterConst
 	public static final Object ADD_NEW_PARA_NAME = "addNew";
 	public static final String PAGE_PARA = "pageValue";
 	public static final String PRICE_UPLOAD_PARA_NAME = "price_upload";
+	public static final String ADD_UPLOAD_PARA_NAME = "add_upload";
+	public static final String INIT_DOWNLOAD_PARA_NAME = "initDownload";
+	public static final String ADD_DOWNLOAD_PARA_NAME = "addDownload";
+	public static final String DELETE_DOWNLOAD_PARA_NAME = "deleteDownload";
+	public static final String UPDATE_DOWNLOAD_PARA_NAME ="updateDownload";
+	public static final String DELETE_UPLOAD_PARA_NAME ="delete_upload";
+	public static final String UPDATE_UPLOAD_PARA_NAME = "update_upload";
 }

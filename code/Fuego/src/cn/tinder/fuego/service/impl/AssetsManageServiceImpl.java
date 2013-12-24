@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,11 +34,13 @@ import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.service.AssetsManageService;
+import cn.tinder.fuego.service.IDCreateService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
+import cn.tinder.fuego.service.impl.id.AssetsIDCreateServiceImpl;
 import cn.tinder.fuego.service.model.PurchaseSumModel;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
 import cn.tinder.fuego.util.date.DateService;
@@ -269,7 +272,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			PurchasePlanBo sumModel = new PurchasePlanBo();
 			sumModel.getAssetsBo().setAssetsName(physicalAssets.getAssetsName());
 			sumModel.getAssetsBo().setManufacture(physicalAssets.getManufacture());
-			//sumModel.getAssetsBo().setSpec(physicalAssets.getSpec());
+			sumModel.getAssetsBo().setSpec(physicalAssets.getSpec());
 			sumModel.getAssetsBo().setDuty(physicalAssets.getDept());
 			PurchasePlanBo purchasePlan = getPurchaseFromList(quotaPlanList,sumModel);
 			if(null != purchasePlan)
@@ -579,6 +582,10 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		
 		initManageName(assetsList);
 		
+		createAssetsByList(assetsList);
+	}
+
+	private void createAssetsByList(List<PhysicalAssetsStatus> assetsList) {
 		try
 		{
 			assetsDao.create(assetsList);
@@ -598,6 +605,8 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		}
 	}
 
+	
+	
 	private void initManageName(List<PhysicalAssetsStatus> assetsList) {
 		
 		for(PhysicalAssetsStatus ast:assetsList){
@@ -649,6 +658,103 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		   log.warn("the assets id is existed " + assetsID);
 		   throw new ServiceException(ExceptionMsg.ASSETS_ID_ISEXIST);
 	   }
+		
+	}
+
+	/*
+	 * TASK #16 Story93_1: 实现资产的批量增加与修改
+	 * @see cn.tinder.fuego.service.SystemMaintanceService#addBasicAssets(java.io.File)
+	 */
+	@Override
+	public void addBasicAssets(File uploadFile) {
+		List<PhysicalAssetsStatus> assetsList = ImportBasicDataExcelFile.load(uploadFile);		
+		initManageName(assetsList);
+		//处理导入资产的资产ID
+		List<PhysicalAssetsStatus> AssetsCreatedIDList = initAssetsID(assetsList); 
+		//将资产导入系统
+		createAssetsByList(AssetsCreatedIDList);
+	}
+/**
+ * 将列表内的资产按照新增的方式初始化资产ID，如果固定资产已经有ID则不用处理直接保存。
+ * @param assetsList
+ * @return
+ */
+	public  List<PhysicalAssetsStatus> initAssetsID(
+			List<PhysicalAssetsStatus> assetsList) {
+		// TODO Auto-generated method stub
+		//实例化编号服务
+		IDCreateService idCreateService = new AssetsIDCreateServiceImpl();
+		/*
+		 * 统计类别资产出现的数量
+		 */
+		Map<String,Integer> styleNumMap = new HashMap<String,Integer>();
+		
+		for(PhysicalAssetsStatus asset:assetsList){
+			if(
+					//通过逻辑计算得出，ID空||不是固定资产
+					(asset.getAssetsID()==null||asset.getAssetsID().isEmpty())
+					||
+					!asset.getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)	
+			){
+				//排出固定资产已有编号的情况
+				if(styleNumMap.containsKey(asset.getAssetsType())){
+					//已有类型
+					//数量加1
+					styleNumMap.put(asset.getAssetsType(), styleNumMap.get(asset.getAssetsType())+1);
+					
+				}else{
+					//未出现类型
+					styleNumMap.put(asset.getAssetsType(), 1);
+				}
+			}else{
+				;
+			}
+		}	
+		
+		//根据数量生成编号组
+		
+		Map<String,Iterator<String> > IDMap = new HashMap<String,Iterator<String>>();
+		Set set = styleNumMap.entrySet() ;
+		java.util.Iterator it = styleNumMap.entrySet().iterator();
+		while(it.hasNext()){
+			java.util.Map.Entry entry = (java.util.Map.Entry)it.next();
+			IDMap.put(
+					(String)entry.getKey(),
+					idCreateService.createIDList((String)entry.getKey(),(Integer)entry.getValue()).iterator());
+		} 
+		
+		
+		//遍历资产更改ID
+		Iterator assetIlerator=assetsList.iterator();
+		while(assetIlerator.hasNext()){
+			PhysicalAssetsStatus ast=(PhysicalAssetsStatus) assetIlerator.next();
+			if(
+				//通过逻辑计算得出，ID空||不是固定资产
+				(ast.getAssetsID()==null||ast.getAssetsID().isEmpty())
+				||
+				!ast.getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)	
+			){
+				//获得新ID
+				ast.setAssetsID( 
+						IDMap.get(ast.getAssetsType()).next()
+						);				
+			}
+		}
+			
+		return assetsList;
+	}
+	
+
+
+	@Override
+	public void deleteBasicAssets(File uploadFile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateBasicAssets(File uploadFile) {
+		// TODO Auto-generated method stub
 		
 	}
 

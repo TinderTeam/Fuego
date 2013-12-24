@@ -19,7 +19,6 @@ public class RefPlanCreateForm extends ActionForm
 {
 
 	private String[] boxes;
-	private int pageNum;
 
 	public String[] getBoxes()
 	{
@@ -29,17 +28,6 @@ public class RefPlanCreateForm extends ActionForm
 	public void setBoxes(String[] boxes)
 	{
 		this.boxes = boxes;
-	}
-
-	
-	public int getPageNum()
-	{
-		return pageNum;
-	}
-
-	public void setPageNum(int pageNum)
-	{
-		this.pageNum = pageNum;
 	}
 
 	@Override

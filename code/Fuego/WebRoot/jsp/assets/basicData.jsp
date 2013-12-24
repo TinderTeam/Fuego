@@ -9,23 +9,39 @@
 <html>
  	<jsp:include page="/jsp/cbb/includeCSS.jsp"/>
 	<script type="text/javascript">
-	function submitFuction()
+	function initSubmitFuction()
 	{
-		document.getElementById("subID").click();
+		document.getElementById("initSubID").click();
 	}	
+	
+	
+	function addSubmitFuction()
+	{
+		document.getElementById("addSubID").click();
+	}
+		function 	updateSubmitFuction()
+	{
+		document.getElementById("updateSubID").click();
+	}
+	function 	deleteSubmitFuction()
+	{
+		document.getElementById("deleteSubID").click();
+	}
+
 	</script>
 <body>
  
      	<jsp:include page="/jsp/cbb/header.jsp"/>
-    
+    <form action="<%=request.getContextPath()%>/ImportAssets.do" name="UpLoadForm" method="post" enctype="multipart/form-data"  >	
+	
 	<div id="content">
 			<div id="content-header">
-				<h1><font  face="微软雅黑">基础数据导入</font></h1>
+				<h1><font  face="微软雅黑">台账数据维护</font></h1>
 				
 			</div>
 			<div id="breadcrumb">
 				<a href="<%=request.getContextPath()%>/IndexInit.do" title="返回主页" class="tip-bottom"><i class="icon-home"></i>主页</a>
-				<a href="#" class="tip-bottom">基础数据导入</a>				
+				<a href="#" class="tip-bottom">台账数据维护</a>				
 			</div>
 			
 			<div class="container-fluid">
@@ -35,21 +51,21 @@
 						
 								<div class="widget-title">
 								
-									<h5>基础数据上载</h5>
+									<h5>初始化数据上载</h5>
 										
 								</div>
 							
 							<div class="widget-content">
-								<form action="<%=request.getContextPath()%>/ImportAssets.do" name="UpLoadForm" method="post" enctype="multipart/form-data"  >	
+								
 
 								<div class="form-actions">
-										<button type="submit" class="btn btn-primary" name ="submit" value="download">Excel数据模版</button>
-										<input type="file" name ="assetsFile"/>
-										<button id = "subID" type="submit" class="btn btn-inverse" name ="submit" value="basic_upload" style="display:none" >通过Excel表格导入</button>	
+										<button type="submit" class="btn btn-primary" name ="submit" value="initDownload">Excel数据模版</button>
+										<input type="file" name ="initAssetsFile"/>
+										<button id = "initSubID" type="submit" class="btn btn-inverse" name ="submit" value="basic_upload" style="display:none" >通过Excel表格导入</button>	
 										
 									
 										
-										<a href="#myAlert" data-toggle="modal" class="btn btn-success" style="width:150px" onclick="submitFuction()">通过Excel表格导入</a>		
+										<a href="#myAlert" data-toggle="modal" class="btn btn-success" style="width:150px" onclick="initSubmitFuction()">通过Excel表格导入</a>		
 											<div id="myAlert" class="modal hide">
 												<div class="modal-header">													
 													<h3>正在导入数据...</h3>
@@ -62,11 +78,110 @@
 											</div>
 
 								</div>	
-								</form>
+							
 						
 							</div>
 						</div>
-			        </div>
+					
+						<div class="widget-box">
+						
+								<div class="widget-title">
+								
+									<h5>资产台账追加</h5>
+										
+								</div>
+							
+							<div class="widget-content">
+							
+								<div class="form-actions">
+										<button type="submit" class="btn btn-primary" name ="submit" value="addDownload">Excel数据模版</button>
+										<input type="file" name ="addAssetsFile"/>
+										<button id = "addSubID" type="submit" class="btn btn-inverse" name ="submit" value="add_upload" style="display:none" >通过Excel表格导入</button>	
+										
+									
+										
+										<a href="#myAlert" data-toggle="modal" class="btn btn-success" style="width:150px" onclick="addSubmitFuction()">通过Excel表格导入</a>		
+											<div id="myAlert" class="modal hide">
+												<div class="modal-header">													
+													<h3>正在导入数据...</h3>
+												</div>
+												<div class="modal-body">
+													<div class="span12 center" style="text-align: center;">	
+														<img border="0" alt="请等待" src="<%=request.getContextPath()%>/img/loading.gif" style="center"/></a>	
+															</div>
+												</div>											
+											</div>
+
+								</div>	
+								
+							</div>
+						</div>
+						<div class="widget-box">
+						
+								<div class="widget-title">
+								
+									<h5>资产台账修改</h5>
+										
+								</div>
+							
+							<div class="widget-content">
+							
+								<div class="form-actions">
+										<button type="submit" class="btn btn-primary" name ="submit" value="upDateDownload">Excel数据模版</button>
+										<input type="file" name ="updateAssetsFile"/>
+										<button id = "updateSubID" type="submit" class="btn btn-inverse" name ="submit" value="update_upload" style="display:none" >通过Excel表格导入</button>	
+										
+									
+										
+										<a href="#myAlert" data-toggle="modal" class="btn btn-success" style="width:150px" onclick="updateSubmitFuction()">通过Excel表格导入</a>		
+											<div id="myAlert" class="modal hide">
+												<div class="modal-header">													
+													<h3>正在导入数据...</h3>
+												</div>
+												<div class="modal-body">
+													<div class="span12 center" style="text-align: center;">	
+														<img border="0" alt="请等待" src="<%=request.getContextPath()%>/img/loading.gif" style="center"/></a>	
+															</div>
+												</div>											
+											</div>
+
+								</div>	
+								
+							</div>
+						</div>
+						<div class="widget-box">
+						
+								<div class="widget-title">
+								
+									<h5>资产台账删除</h5>
+										
+								</div>
+							
+							<div class="widget-content">
+							
+								<div class="form-actions">
+										<button type="submit" class="btn btn-primary" name ="submit" value="deleteDownload">Excel数据模版</button>
+										<input type="file" name ="deleteAssetsFile"/>
+										<button id = "deleteSubID" type="submit" class="btn btn-inverse" name ="submit" value="delete_upload" style="display:none" >通过Excel表格导入</button>	
+										
+									
+										
+										<a href="#myAlert" data-toggle="modal" class="btn btn-success" style="width:150px" onclick="deleteSubmitFuction()">通过Excel表格导入</a>		
+											<div id="myAlert" class="modal hide">
+												<div class="modal-header">													
+													<h3>正在导入数据...</h3>
+												</div>
+												<div class="modal-body">
+													<div class="span12 center" style="text-align: center;">	
+														<img border="0" alt="请等待" src="<%=request.getContextPath()%>/img/loading.gif" style="center"/></a>	
+															</div>
+												</div>											
+											</div>
+
+								</div>	
+								
+							</div>
+						</div>
 			   </div>
 			   
 			   <div class="row-fluid">
@@ -78,7 +193,7 @@
 		</div>
 	 
 					
- 
+ 	</form>
      
 	</body>
 </html>
