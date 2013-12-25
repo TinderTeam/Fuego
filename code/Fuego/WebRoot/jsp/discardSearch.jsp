@@ -89,7 +89,7 @@
 																									
 												<select name="assetsType"  style="width:200px">
 												
-												    <option selected=""  >全部</option>	
+												     
 													<c:forEach var="i" items= "${discardSearchBo.assetsTypeList}"> 																								  
 														<option id="${i}"/>${i}																							
 													</c:forEach>

@@ -12,6 +12,7 @@ import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
@@ -34,7 +35,7 @@ public class PurchasePlanEnsureAction extends Action
 {
 	private static final Log log = LogFactory.getLog(PurchasePlanEnsureAction.class);
 	// Service
-	private TransPlanService purchasePlanService = ServiceContext.getInstance().getPurchasePlanService();
+	private TransPlanService planService = ServiceContext.getInstance().getPurchasePlanService();
 
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
@@ -80,45 +81,54 @@ public class PurchasePlanEnsureAction extends Action
 
  
 		
-		PurchasePlanSessionBo purchasePlan  = (PurchasePlanSessionBo) request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
+		PurchasePlanSessionBo plan  = (PurchasePlanSessionBo) request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
 
 		if (submitPara.equals(ParameterConst.SUBMIT_PARA_NAME))
 		{ // ="submit"
 
  
-			purchasePlanService.updatePlan(purchasePlan);
-			purchasePlanService.forwardNext(purchasePlan.getPurchaseTransBo().getTransInfo().getTransID());
+			planService.updatePlan(plan);
+			planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID());
+			if(user.getRole().equals(UserRoleConst.SUPER_DEPT))
+			{
+				planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID());
+				planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID());
+            }
+			else if(user.getRole().equals(UserRoleConst.DEPT))
+			{	
+				planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID());
 
+			}
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;// "PurchasePlanCreateInit"
 		}
 		else if (submitPara.equals(ParameterConst.CANCEL_PARA_NAME))
 		{ 
-			purchasePlanService.deletePlan(purchasePlan.getPurchaseTransBo().getTransInfo().getTransID());
+			planService.deletePlan(plan.getPurchaseTransBo().getTransInfo().getTransID());
 			nextPage = PageNameConst.INDEX_INIT_ACTION;
 		} 
 		else if(ParameterConst.DOWNLOAD_PARA_NAME.equals(submitPara))
 		{
 					
-			purchasePlan.getPurchaseTransBo().getTransInfo().setCreateUser(user.getUserID());
-			purchasePlan.getPurchaseTransBo().getTransInfo().setHandleUser(user.getDeptName());
-			PurchasePlanFile file = new PurchasePlanFile(purchasePlan);
+			plan.getPurchaseTransBo().getTransInfo().setCreateUser(user.getUserID());
+			plan.getPurchaseTransBo().getTransInfo().setHandleUser(user.getDeptName());
+			PurchasePlanFile file = new PurchasePlanFile(plan);
 			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, file.getFile().getAbsolutePath());
 			nextPage = PageNameConst.DOWNLOAD_ACTION;
 		}
 		else if(ParameterConst.AGREE_PARA_NAME.equals(submitPara))
 		{
-			purchasePlanService.forwardNext(purchasePlan.getPurchaseTransBo().getTransInfo().getTransID());
+			planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID());
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 
 		}
 		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
 		{
-			purchasePlanService.forwardNext(purchasePlan.getPurchaseTransBo().getTransInfo().getTransID());
+			planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID());
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 
 		}else if(ParameterConst.REFUSE_PARA_NAME.equals(submitPara))
 		{
-			purchasePlanService.backward(purchasePlan.getPurchaseTransBo().getTransInfo().getTransID());
+			planService.backward(plan.getPurchaseTransBo().getTransInfo().getTransID());
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 
 		}

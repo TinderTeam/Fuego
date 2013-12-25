@@ -3,7 +3,6 @@ package cn.tinder.fuego.webservice.struts.bo.excelimport;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import jxl.Cell;
@@ -104,12 +103,8 @@ public class ImportBasicDataExcelFile {
 			        	assets.setExpectYear(Integer.valueOf(cell.getContents()));
 			        	
 			        	//DueDate
-			        	/*
-			        	 * 
-			        	 */
-			        
-			        	
-			           	assets.setDueDate(new Date(assets.getPurchaseDate().getTime()+365*assets.getExpectYear()));
+			          
+			           	assets.setDueDate(JXLService.getData(sheet,12,i));
 			       
 			           	//TYPE	    
 			           	cell = sheet.getCell(13,i);

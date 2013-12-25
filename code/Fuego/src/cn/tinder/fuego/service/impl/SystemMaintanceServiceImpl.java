@@ -525,6 +525,4 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 			log.info("Result:"+assetsQuotaList);
 			return assetsQuotaList;
 	}
-
-	
 }

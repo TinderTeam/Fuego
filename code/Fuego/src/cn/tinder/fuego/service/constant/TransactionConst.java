@@ -30,7 +30,10 @@ public class TransactionConst
 	public static final String DISCARD_PLAN_TYPE ="D"; // discard plan type
 	public static final String DISCARD_PLAN_NAME = "实物资产处置单"; // Transname
 	public static final String DISCARD_PLAN_URL = "DiscardSureInit.do"; // Transname
+	public static final String DISCARD_GAS_MAX_STEP = "5";
+	public static final String DISCARD_DETP_MAX_STEP = "4";
 	public static final String DISCARD_MAX_STEP = "3";
+
 	public static final String DISCARD_APPROVAL_STEP = "2";
 	
 	public static final String RECAPTURE_PLAN_TYPE ="R"; // discard plan type
@@ -43,7 +46,12 @@ public class TransactionConst
 	public static final String PURCHASE_PLAN_NAME = "实物资产采购单"; //   plan type
 	public static final String PURCHASE_PLAN_URL = "PurchasePlanEnsureInit.do"; //   plan type
 	public static final String PURCHASE_APPROVAL_STEP = "2";
+ 
+	public static final String PURCHASE_GAS_MAX_STEP = "5";
+	public static final String PURCHASE_DEPT_STEP = "4";
 	public static final String PURCHASE_MAX_STEP = "3";
+
+	
 
 	public static final String CHECK_PLAN_TYPE = "C"; //   plan type
 	public static final String CHECK_PLAN_NAME = "实物资产盘点单"; //   plan name

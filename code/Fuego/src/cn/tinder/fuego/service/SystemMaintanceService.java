@@ -38,7 +38,5 @@ public interface SystemMaintanceService
 	public File getQuotaFile();
 
 	public void importQuotaAssest(File uploadFile);
-	
-	
-	
+
 }

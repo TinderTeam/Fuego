@@ -12,14 +12,21 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.PurchasePlanDao;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.domain.po.PurchasePlan;
+import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.TransactionConst;
+import cn.tinder.fuego.service.constant.UserNameConst;
+import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
@@ -42,6 +49,7 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 	private PurchasePlanDao purchasePlanDao = DaoContext.getInstance().getPurchasePlanDao();
  	private TransEventDao transEventDao = DaoContext.getInstance().getTransEventDao();
 	private SystemUserDao systemUserDao = DaoContext.getInstance().getSystemUserDao();
+	private static final Log log = LogFactory.getLog(CheckPlanServiceImpl.class);
 
   	
 	/* (non-Javadoc)
@@ -113,13 +121,27 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 	public void forwardNext(String transID)
 	{
 		TransEvent transEvent =transEventDao.getByTransID(transID);
+		
+		List<PurchasePlan> planList = purchasePlanDao.getByTransID(transID);
   
+		if(null != planList && !planList.isEmpty())
+		{	
+			//planList.get(0).get
+		}
 		String handleUser;
 		switch(transEvent.getCurrentStep())
 		{
  
+        case 5 :
+
+        	handleUser = UserNameConst.CWZCB;
+
+        	break;
+        case 4 :
+        	handleUser = UserNameConst.CWZCB;
+        	break;
 		case 3 :
-			handleUser = super.getLeader(transEvent.getCreateUser());
+			 handleUser = super.getLeader(UserNameConst.CWZCB);
 			break;	
 		case 2 :
 		    handleUser = transEvent.getCreateUser();
@@ -261,6 +283,41 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 		return null;
 		// TODO Auto-generated method stub
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#isMaxStep(int)
+	 */
+	@Override
+	public int getMaxStep(String transID)
+	{
+		TransactionBaseInfoBo baseTrans = super.getTransByID(transID);
+
+		SystemUser user = UserCache.getInstance().getUserByName(baseTrans.getCreateUser());
+		if(null == user)
+		{
+			log.error("can not find the user by user name " + baseTrans.getCreateUser());
+		}
+		else
+		{	
+			if(user.getRole().equals(UserRoleConst.GASSTATION))
+			{
+				return Integer.valueOf(TransactionConst.DISCARD_GAS_MAX_STEP);
+			}
+			else if(user.getRole().equals(UserRoleConst.DEPT))
+			{
+				return Integer.valueOf(TransactionConst.DISCARD_MAX_STEP);
+
+			}
+			else
+			{
+				return Integer.valueOf(TransactionConst.PURCHASE_MAX_STEP);
+
+			}
+				
+			
+		}
+		return 0;
 	}
 
 }

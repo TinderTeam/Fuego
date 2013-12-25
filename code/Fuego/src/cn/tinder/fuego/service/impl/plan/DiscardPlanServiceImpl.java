@@ -12,9 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import jxl.Cell;
 import jxl.Sheet;
@@ -36,10 +34,13 @@ import cn.tinder.fuego.dao.TransExtAttrDao;
 import cn.tinder.fuego.domain.po.DiscardPlan;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.PurchasePlan;
+import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.TransPlanService;
-import cn.tinder.fuego.service.constant.AssetsConst;
+import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.TransactionConst;
+import cn.tinder.fuego.service.constant.UserNameConst;
+import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
@@ -48,11 +49,9 @@ import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
 import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.discard.DiscardTransBo;
-import cn.tinder.fuego.webservice.struts.bo.recapture.RecapturePlanBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
 
@@ -147,13 +146,28 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 	public void forwardNext(String transID)
 	{
 		TransEvent transEvent =transEventDao.getByTransID(transID);
+		List<DiscardPlan> planList = discardPlanDao.getByTransID(transID);
+		  
+		String type = "";
+		if(null != planList && !planList.isEmpty())
+		{	
+			type = physicalAssetsStatusDao.getByAssetsID(planList.get(0).getAssetsID()).getAssetsType();
+		}
 		
 		String handleUser;
   
         switch(transEvent.getCurrentStep())
 		{
+        case 5 :
+
+        	handleUser = UserNameConst.CWZCB;
+
+        	break;
+        case 4 :
+        	handleUser = UserNameConst.CWZCB;
+        	break;
 		case 3 :
-			 handleUser = super.getLeader(transEvent.getCreateUser());
+			 handleUser = super.getLeader(UserNameConst.CWZCB);
 			break;	
 		case 2 :
 			handleUser = transEvent.getCreateUser();
@@ -502,6 +516,41 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 		
 			
 			
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#isMaxStep(int)
+	 */
+	@Override
+	public int getMaxStep(String transID)
+	{
+		TransactionBaseInfoBo baseTrans = super.getTransByID(transID);
+
+		SystemUser user = UserCache.getInstance().getUserByName(baseTrans.getCreateUser());
+		if(null == user)
+		{
+			log.error("can not find the user by user name " + baseTrans.getCreateUser());
+		}
+		else
+		{	
+			if(user.getRole().equals(UserRoleConst.GASSTATION))
+			{
+				return Integer.valueOf(TransactionConst.DISCARD_GAS_MAX_STEP);
+			}
+			else if(user.getRole().equals(UserRoleConst.DEPT))
+			{
+				return Integer.valueOf(TransactionConst.DISCARD_MAX_STEP);
+
+			}
+			else
+			{
+				return Integer.valueOf(TransactionConst.DISCARD_MAX_STEP);
+
+			}
+				
+			
+		}
+		return 0;
 	}
 
 }

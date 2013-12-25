@@ -99,12 +99,12 @@ public class DiscardSureInitAction extends Action
     	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
 
     	   
-		nextPage = controlPageBtnDis(plan.getTransInfo().getTransInfo().canOperate(user),nextPage,request);
+		nextPage = controlPageBtnDis(plan.getTransInfo().getTransInfo().canOperate(user),plan.getTransInfo().getTransInfo().getTransID(),nextPage,request);
 
 
 		return nextPage;
 	}
-	private String controlPageBtnDis(boolean canOperate,String nextPage,HttpServletRequest request)
+	private String controlPageBtnDis(boolean canOperate,String transID,String nextPage,HttpServletRequest request)
 	{
 		//control page button display by the step
 		String pageCtr = RspBoNameConst.PAGE_CREATE;
@@ -119,7 +119,7 @@ public class DiscardSureInitAction extends Action
 			{
 				pageCtr = RspBoNameConst.PAGE_CREATE;
 			}
-			else if(TransactionConst.DISCARD_MAX_STEP.equals(step))
+			else if(step.equals(discardService.getMaxStep(transID)))
 			{
 				nextPage = PageNameConst.DISCARD_SEARCH_INIT;
 			}
@@ -137,12 +137,13 @@ public class DiscardSureInitAction extends Action
 	 		}
 			else
 			{
-				pageCtr = RspBoNameConst.PAGE_CONFIRM;
+				pageCtr = RspBoNameConst.PAGE_APPROVAL;
 	 		}
 		}
 
 		request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, pageCtr);
 		return nextPage;
 	}
+
 
 }

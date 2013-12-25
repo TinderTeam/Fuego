@@ -35,6 +35,8 @@ public class RspBoNameConst
 	public static final String SYSTEM_USER = "systemUser";
 
 	public static final String TRANS_INFO = "transInfo";
+	public static final String TRANS_OPER_INFO_LIST = "transOperInfoList";
+
 	
 
 	public static final String LOGIN_EXCEPTION = "loginException";

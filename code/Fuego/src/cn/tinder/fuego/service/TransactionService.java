@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
+import cn.tinder.fuego.webservice.struts.bo.trans.TransOperInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 import cn.tinder.fuego.webservice.struts.form.TransFilterForm;
 
@@ -46,6 +47,9 @@ public interface TransactionService
 	public void deletePlanByTransID(String user,String transID);
 	
 	public  String getTransTypeByTransName(String name);
+	
+	public  List<TransOperInfoBo> getTransOperInfoByTransID(String transID);
+
 
 
 }
