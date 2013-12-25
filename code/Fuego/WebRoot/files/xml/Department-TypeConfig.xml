@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<catalog> 
+
+<?target instruction?>
+	 <journal title="XML Zone" publisher="IBM developerWorks"> 
+		
+		<inf type ="固定资产">财务资产部</inf>
+		<inf type ="低值易耗品">零售管理部</inf>
+		<inf type ="娱乐设施">零售管理部</inf>
+		<inf type ="消防器材">安全数质量部</inf>
+		<inf type ="房屋建筑">财务资产部</inf>
+		<inf type ="信息设备">信息中心</inf>
+		<inf type ="劳保用品">零售管理部</inf>
+		<inf type ="机器设备">零售管理部</inf>
+		<inf type ="临时资产">财务资产部</inf>
+		
+	</journal> 
+</catalog>

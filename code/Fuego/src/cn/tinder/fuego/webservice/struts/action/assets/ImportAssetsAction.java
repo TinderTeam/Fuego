@@ -139,15 +139,15 @@ public class ImportAssetsAction extends Action
 		 * TASK #16 Story93_1: 实现资产的批量增加与修改
 		 */
 		else if(ParameterConst.ADD_UPLOAD_PARA_NAME.equals(submitPara)){
-			assetsManageService.addBasicAssets(excelIOService.uploadFile(importAssetsForm.getInitAssetsFile()));
+			assetsManageService.addBasicAssets(excelIOService.uploadFile(importAssetsForm.getAddAssetsFile()));
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 		}
 		else if(ParameterConst.DELETE_UPLOAD_PARA_NAME.equals(submitPara)){
-			assetsManageService.deleteBasicAssets(excelIOService.uploadFile(importAssetsForm.getInitAssetsFile()));
+			assetsManageService.deleteBasicAssets(excelIOService.uploadFile(importAssetsForm.getDeleteAssetsFile()));
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 		}
 		else if(ParameterConst.UPDATE_UPLOAD_PARA_NAME.equals(submitPara)){
-			assetsManageService.updateBasicAssets(excelIOService.uploadFile(importAssetsForm.getInitAssetsFile()));
+			assetsManageService.updateBasicAssets(excelIOService.uploadFile(importAssetsForm.getUpdateAssetsFile()));
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 		}
 		return nextPage;

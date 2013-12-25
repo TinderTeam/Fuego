@@ -11,62 +11,35 @@ import cn.tinder.fuego.util.ConfigInformation;
 import cn.tinder.fuego.util.constant.ConfigItemNameConst;
 
 public class OutputFileConst {
-	public static final String ASSETS_STATUES_FILE_PATH =getResourcePath()+"AssetsStatues.xls";
-	public static final String ASSETS_STATUES_FILE_MODEL_PATH = getResourcePath()+"Model\\AssetsStatuesModel.xls";
-	public static final String PURCHASE_PLAN_MODE = getResourcePath()+"Model\\PurchasePlanModel.xls";
-	public static final String PURCHASE_PLAN_FILE_PATH = getResourcePath()+"PurchasePlanFile.xls";
-	public static final String PURCHASE_PLAN_FILE_MODEL_PATH = getResourcePath()+"Model\\PurchasePlanFileModel.xls";
-	public static final String UPLOAD_FILE_PATH =getResourcePath()+"upload\\";
-	public static final String ASSIGN_FILE_MODEL_PATH =getResourcePath()+"Model\\AssignFileModel.xls";
-	public static final String ASSIGN_FILE_PATH =getResourcePath()+"AssignFile.xls";
-	public static final String RECAPTUREPLAN_FILE_PATH = getResourcePath()+"RecapturePlanFile.xls";
-	public static final String RECAPTUREPLAN_FILE_MODEL_PATH = getResourcePath()+"Model\\RecapturePlanFileModel.xls";
-	public static final String DISCARD_PLAN_FILE_PATH = getResourcePath()+"DiscardPlanFile.xls";
-	public static final String DISCARD_PLAN_FILE_MODEL_PATH = getResourcePath()+"Model\\DiscardPlanFileModel.xls";
-	public static final String RECIEVE_FILE_PATH =  getResourcePath()+"RecieveFile.xls";
-	public static final String RECIEVE_FILE_MODEL_PATH =getResourcePath()+"Model\\AssetsReceivingModel.xls";
+	public static final String ASSETS_STATUES_FILE_PATH =ConfigInformation.getResourcePath()+"AssetsStatues.xls";
+	public static final String ASSETS_STATUES_FILE_MODEL_PATH = ConfigInformation.getResourcePath()+"Model\\AssetsStatuesModel.xls";
+	public static final String PURCHASE_PLAN_MODE = ConfigInformation.getResourcePath()+"Model\\PurchasePlanModel.xls";
+	public static final String PURCHASE_PLAN_FILE_PATH = ConfigInformation.getResourcePath()+"PurchasePlanFile.xls";
+	public static final String PURCHASE_PLAN_FILE_MODEL_PATH = ConfigInformation.getResourcePath()+"Model\\PurchasePlanFileModel.xls";
+	public static final String UPLOAD_FILE_PATH =ConfigInformation.getResourcePath()+"upload\\";
+	public static final String ASSIGN_FILE_MODEL_PATH =ConfigInformation.getResourcePath()+"Model\\AssignFileModel.xls";
+	public static final String ASSIGN_FILE_PATH =ConfigInformation.getResourcePath()+"AssignFile.xls";
+	public static final String RECAPTUREPLAN_FILE_PATH = ConfigInformation.getResourcePath()+"RecapturePlanFile.xls";
+	public static final String RECAPTUREPLAN_FILE_MODEL_PATH = ConfigInformation.getResourcePath()+"Model\\RecapturePlanFileModel.xls";
+	public static final String DISCARD_PLAN_FILE_PATH = ConfigInformation.getResourcePath()+"DiscardPlanFile.xls";
+	public static final String DISCARD_PLAN_FILE_MODEL_PATH = ConfigInformation.getResourcePath()+"Model\\DiscardPlanFileModel.xls";
+	public static final String RECIEVE_FILE_PATH =  ConfigInformation.getResourcePath()+"RecieveFile.xls";
+	public static final String RECIEVE_FILE_MODEL_PATH =ConfigInformation.getResourcePath()+"Model\\AssetsReceivingModel.xls";
 	
-	public static final String GOOGLE_BROWSE_PATH = getToolPath() + File.separator + ConfigInformation.getPropertyByName(ConfigItemNameConst.GOOGLE_BROWSE);
-	public static final String CHECK_FILE_PATH = getResourcePath()+"CheckFile.xls";
-	public static final String CHECK_FILE_MODEL_PATH = getResourcePath()+"Model\\GasStationCheckModel.xls";
-	public static final String PRICEFILE_MODEL =getResourcePath()+"Model\\PriceModel.xls";
-	public static final String PRICEFILE = getResourcePath()+"\\PriceFile.xls";
-	public static final String QUOTAFILE_MODEL = getResourcePath()+"Model\\QuotaModel.xls";
-	public static final String QUOTAFILE = getResourcePath()+"\\QuotaFile.xls";
-	public static final Object DISCARD_FILE_MODEL_PATH =getResourcePath()+"Model\\DiscardModel.xls";
-	public static final Object ASSETS_STATUES_DELETE_MODEL_PATH =getResourcePath()+"Model\\DeleteAssetsModel.xls";
+	public static final String GOOGLE_BROWSE_PATH = ConfigInformation.getToolPath() + File.separator + ConfigInformation.getPropertyByName(ConfigItemNameConst.GOOGLE_BROWSE);
+	public static final String CHECK_FILE_PATH = ConfigInformation.getResourcePath()+"CheckFile.xls";
+	public static final String CHECK_FILE_MODEL_PATH = ConfigInformation.getResourcePath()+"Model\\GasStationCheckModel.xls";
+	public static final String PRICEFILE_MODEL =ConfigInformation.getResourcePath()+"Model\\PriceModel.xls";
+	public static final String PRICEFILE = ConfigInformation.getResourcePath()+"\\PriceFile.xls";
+	public static final String QUOTAFILE_MODEL = ConfigInformation.getResourcePath()+"Model\\QuotaModel.xls";
+	public static final String QUOTAFILE = ConfigInformation.getResourcePath()+"\\QuotaFile.xls";
+	public static final Object DISCARD_FILE_MODEL_PATH =ConfigInformation.getResourcePath()+"Model\\DiscardModel.xls";
+	public static final Object ASSETS_STATUES_DELETE_MODEL_PATH =ConfigInformation.getResourcePath()+"Model\\DeleteAssetsModel.xls";
 
 
 
-	/**
-	 * 类路径获取
-	 * @author Winter Lau
-	 * @date 2009-12-4 下午03:29:43
-	 */
 	
-	private static String getResourcePath() 
-	{
-			String path = OutputFileConst.class.getClassLoader().getResource(File.separator).getPath();
-			path=path.substring(1);
-			path=URLDecoder.decode(path);
-			path=path.replace("/WEB-INF/classes/", "/files/");
-			return path;
-	}
 	
-	private static String getToolPath()
-	{
-		return getWebAppPath() + File.separator + "tools";
-	}
-	private static String getWebAppPath()
-	{
-		String path = OutputFileConst.class.getClassLoader().getResource(File.separator).getPath();
-		path=URLDecoder.decode(path);
-		path += ".."+File.separator + ".."; 
-		
-		
-		return path;
- 	}
-
 	
 		
 }
