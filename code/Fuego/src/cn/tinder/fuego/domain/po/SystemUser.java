@@ -33,6 +33,7 @@ public class SystemUser
 	private String departmentID;
 	private String manageName;
 	private String role;
+	private String nickName;
 
 	/**
 	 * @return the userName
@@ -132,9 +133,20 @@ public class SystemUser
 		this.role = role;
 	}
 	/**
-	 * @param manageName
-	 *            the manageName to set
+	 * @param nickName the nickName to set
 	 */
+	public void setNickName(String nickName)
+	{
+		this.nickName = nickName;
+	}
+
+	/**
+	 * @return the nickName
+	 */
+	public String getNickName()
+	{
+		return nickName;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -143,8 +155,12 @@ public class SystemUser
 	public String toString()
 	{
 		return "SystemUser [department=" + department + ", departmentID="
-				+ departmentID + ", manageName=" + manageName + ", password="
-				+ password + ", role=" + role + ", userName=" + userName + "]";
+				+ departmentID + ", manageName=" + manageName + ", nickName="
+				+ nickName + ", password=" + password + ", role=" + role
+				+ ", userName=" + userName + "]";
 	}
+
+
+
 
 }
