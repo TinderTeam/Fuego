@@ -221,6 +221,8 @@
                 name="RefPlanCreateForm"
                 >          		
             <forward name="PurchasePlanInit" path="/PurchasePlanInit.do"></forward>	
+            <forward name="RefPlanCreateInit" path="/RefPlanCreateInit.do"></forward>
+            
             <forward name="PurchasePlanCreateInit" path="/PurchasePlanCreateInit.do"></forward>
             <forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
@@ -907,7 +909,20 @@
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>					
        	</action>          	  	       	
+       	  <action path="/queryGatherOperInfo"
+                type="cn.tinder.fuego.webservice.struts.action.trans.QueryTransOperInfoAction"
+                name="TransFilterForm"     
+               >          
+  			<forward name="GueryGatherOperInfo" path="/jsp/trans/queryGatherOperInfo.jsp"></forward>
+  			<forward name="Index" path="/jsp/index.jsp"></forward>
+  			<forward name="IndexInit" path="/IndexInit.do"></forward>
+  			
+  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>					
+       	</action>          	  	       	
        	  	       	
+
        </action-mappings>   	
       
 	 <message-resources parameter="MessageResources"></message-resources>

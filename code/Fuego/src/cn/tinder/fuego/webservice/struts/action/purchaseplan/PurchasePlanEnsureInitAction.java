@@ -95,12 +95,12 @@ public class PurchasePlanEnsureInitAction extends Action
 		request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, plan);// "assetsList"
 		
  
-		nextPage = controlPageBtnDis(plan.getPurchaseTransBo().getTransInfo().canOperate(user),nextPage,request);
+		nextPage = controlPageBtnDis(plan.getPurchaseTransBo().getTransInfo().canOperate(user),plan.getPurchaseTransBo().getTransInfo().getTransID(),nextPage,request);
 
 		return nextPage;
 	}
 	
-	private String controlPageBtnDis(boolean canOperate,String nextPage,HttpServletRequest request)
+	private String controlPageBtnDis(boolean canOperate,String transID,String nextPage,HttpServletRequest request)
 	{
 		//control page button display by the step
 		String pageCtr = RspBoNameConst.PAGE_CREATE;
@@ -115,7 +115,7 @@ public class PurchasePlanEnsureInitAction extends Action
 			{
 				pageCtr = RspBoNameConst.PAGE_CREATE;
 			}
-			else if(TransactionConst.PURCHASE_MAX_STEP.equals(step))
+			else if(step.equals(planService.getMaxStep(transID)))
 			{
 				nextPage = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
 			}
@@ -133,7 +133,7 @@ public class PurchasePlanEnsureInitAction extends Action
 	 		}
 			else
 			{
-				pageCtr = RspBoNameConst.PAGE_CONFIRM;
+				pageCtr = RspBoNameConst.PAGE_APPROVAL;
 	 		}
 		}
 

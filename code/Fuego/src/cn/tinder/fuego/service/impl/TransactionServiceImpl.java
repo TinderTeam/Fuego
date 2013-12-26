@@ -32,6 +32,7 @@ import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.model.convert.ConvertTransactionModel;
 import cn.tinder.fuego.util.date.DateService;
+import cn.tinder.fuego.webservice.struts.bo.trans.TransOperInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 import cn.tinder.fuego.webservice.struts.form.TransFilterForm;
 
@@ -499,4 +500,15 @@ public class TransactionServiceImpl implements TransactionService
 		return sumValue;
 	}
 
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransactionService#getTransOperInfoByTransID(java.lang.String)
+	 */
+	@Override
+	public List<TransOperInfoBo> getTransOperInfoByTransID(String transID)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+ 
 }

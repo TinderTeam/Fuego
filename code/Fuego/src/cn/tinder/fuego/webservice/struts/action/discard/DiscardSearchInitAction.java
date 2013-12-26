@@ -22,6 +22,8 @@ import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.constant.AssetsConst;
+import cn.tinder.fuego.service.constant.UserRoleConst;
+import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
@@ -56,8 +58,32 @@ public class DiscardSearchInitAction extends Action
             HttpServletRequest request, HttpServletResponse response)
             throws Exception
     {
-    	log.info(LogKeyConst.INPUT_ACTION+"DiscardInitAction");
-    
+        log.info(LogKeyConst.INPUT_ACTION);
+        
+    	String nextPage = null;
+    	try
+    	{
+    		nextPage = handle(form,request);
+		} 
+    	catch(ServiceException e)
+    	{
+    		log.warn("opration failed",e);
+			request.setAttribute(RspBoNameConst.OPERATE_EXCEPION, e.getMessage());
+			nextPage = PageNameConst.ERROR_PAGE; 
+    	}
+    	catch (Exception e)
+		{
+			log.error("system error",e);
+			nextPage = PageNameConst.SYSTEM_ERROR_PAGE; 
+		}
+     
+ 
+        log.info(LogKeyConst.NEXT_PAGE+nextPage);
+        return mapping.findForward(nextPage);	
+
+    }
+	private String handle(ActionForm form,HttpServletRequest request)
+	{
 		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
 		log.info(user);
     	String nextPage = PageNameConst.DISCARD_SEARCH;
@@ -70,18 +96,31 @@ public class DiscardSearchInitAction extends Action
     	discardSearchBo.setAssetsTypeList(assetsTypeList);
     	discardSearchBo.setTechStatusList(assetsStatusList);
     	request.setAttribute(RspBoNameConst.DISCARD_SEARCH_BO,discardSearchBo);
- 
-    	AssetsFilterForm filterForm = (AssetsFilterForm) request.getAttribute(RspBoNameConst.DISCARD_SEARCH_FORM);
+    	
     	
     	List<String> deptList = new ArrayList<String>();
-    	deptList.add(AssetsConst.ASSETS_FITER_ALL);
-    	deptList.addAll(loadService.loadAllDeptInfo());
-    	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,deptList);//DeptList
     	List<String> manageList = new ArrayList<String>();
-    	manageList.add(AssetsConst.ASSETS_FITER_ALL);
-    	manageList.addAll(loadService.loadManageDeptList());
-    	request.setAttribute(RspBoNameConst.MANAGE_DEPT_LIST,manageList);//DeptList
 
+    	if(user.getRole().equals(UserRoleConst.GASSTATION))
+    	{
+    		deptList.add(user.getDeptName());
+    		manageList.add(user.getManageName());
+    	}
+    	else
+    	{
+        	assetsTypeList.add(AssetsConst.ASSETS_FITER_ALL);
+        	deptList.add(AssetsConst.ASSETS_FITER_ALL);
+        	deptList.addAll(loadService.loadAllDeptInfo());
+        	manageList.add(AssetsConst.ASSETS_FITER_ALL);
+        	manageList.addAll(loadService.loadManageDeptList());
+
+    	}        	
+    	
+    	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,deptList);//DeptList
+    	request.setAttribute(RspBoNameConst.MANAGE_DEPT_LIST,manageList);//manage dept list
+
+    	AssetsFilterForm filterForm = (AssetsFilterForm) request.getAttribute(RspBoNameConst.DISCARD_SEARCH_FORM);
+    	
     	request.setAttribute(RspBoNameConst.SEARCH_FORM, filterForm);    	
 
 		AssetsPageBo selectAssetsPage = new AssetsPageBo();
@@ -97,10 +136,8 @@ public class DiscardSearchInitAction extends Action
 
 		request.setAttribute(RspBoNameConst.ASSETS_PAGE_DATA,selectAssetsPage);
         
-    	log.info(LogKeyConst.NEXT_PAGE+nextPage);
-        return mapping.findForward(nextPage);	
+		return nextPage;
+	}
 
-    }
- 
 
 }

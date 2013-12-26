@@ -491,4 +491,14 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		// TODO Auto-generated method stub
 		
 	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#isMaxStep(int)
+	 */
+	@Override
+	public int getMaxStep(String transID)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

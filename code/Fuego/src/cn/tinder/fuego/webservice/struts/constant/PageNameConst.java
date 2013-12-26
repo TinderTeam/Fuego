@@ -65,6 +65,9 @@ public class PageNameConst
 	
 	public static final String GATHER_TRANS_INIT_PAGE = "GatherTransInit";
 	public static final String GATHER_TRANS_PAGE = "GatherTrans";
+	public static final String Query_TRANS_OPER_INFO_PAGE = "GueryGatherOperInfo";
+
+	
 
  	// for System password reset
 

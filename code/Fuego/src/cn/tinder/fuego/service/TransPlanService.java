@@ -31,6 +31,8 @@ public interface TransPlanService<E>
 	public E createPlan(String user,List<String> childUserList);
 
 
+	public int getMaxStep(String transID);
+  
 	public void deletePlan(String transID);
 
 	public void updatePlan(E plan);

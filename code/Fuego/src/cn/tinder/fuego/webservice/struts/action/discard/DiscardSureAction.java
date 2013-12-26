@@ -14,8 +14,10 @@ import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
@@ -71,11 +73,22 @@ public class DiscardSureAction extends Action
 		String nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
 		DiscardPlanBo plan = (DiscardPlanBo) request.getSession().getAttribute(RspBoNameConst.DISCARD_PLAN_INFO);
+		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
 
 		if (ParameterConst.SUBMIT_PARA_NAME.equals(submitPara))
 		{
 			planService.updatePlan(plan);
 			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+			if(user.getRole().equals(UserRoleConst.SUPER_DEPT))
+			{
+				planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+				planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+			}
+			else if(user.getRole().equals(UserRoleConst.DEPT))
+			{	
+				planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+
+			}
 			
  			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 		}
