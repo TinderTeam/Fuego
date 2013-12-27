@@ -15,7 +15,6 @@ import org.apache.commons.logging.LogFactory;
 
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.domain.po.SystemUser;
-import cn.tinder.fuego.service.impl.AssetsManageServiceImpl;
 
 /** 
  * @ClassName: UserCache 
@@ -62,5 +61,16 @@ public class UserCache
 		
 		return "";
 	}
-
+	public SystemUser getUserByName(String userName)
+	{
+		for(SystemUser user : userList)
+		{
+			if(user.getUserName().equals(userName))
+			{
+				return user;
+			}
+		}
+		
+		return null;
+	}
 }

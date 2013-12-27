@@ -124,14 +124,18 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		}
 
 	}
-
+	@Override
+	public void forwardNext(String transID)
+	{
+		forwardNext(transID,null);
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#forwardNext(java.lang.String)
 	 */
 	@Override
-	public void forwardNext(String transID)
+	public void forwardNext(String transID,String transInfo)
 	{
 		TransEvent transEvent =transEventDao.getByTransID(transID);
 
@@ -173,7 +177,7 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 			handleUser = transEvent.getCreateUser();
 		}
 
-		super.forwardNext(transID,handleUser);
+		super.forwardNext(transID,handleUser,transInfo);
 
 	}
 

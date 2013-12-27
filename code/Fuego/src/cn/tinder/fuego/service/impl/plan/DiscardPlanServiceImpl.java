@@ -37,6 +37,7 @@ import cn.tinder.fuego.domain.po.PurchasePlan;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.cache.HandelDepartmentAssetsStyleCache;
 import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.UserNameConst;
@@ -136,14 +137,18 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 		}
 
 	}
-
+	@Override
+	public void forwardNext(String transID)
+	{
+		forwardNext(transID,null);
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#forwardNext(java.lang.String)
 	 */
 	@Override
-	public void forwardNext(String transID)
+	public void forwardNext(String transID,String transInfo)
 	{
 		TransEvent transEvent =transEventDao.getByTransID(transID);
 		List<DiscardPlan> planList = discardPlanDao.getByTransID(transID);
@@ -159,9 +164,11 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
         switch(transEvent.getCurrentStep())
 		{
         case 5 :
-
-        	handleUser = UserNameConst.CWZCB;
-
+        	handleUser = HandelDepartmentAssetsStyleCache.getInstance().getDeptByType(type);
+        	if(null == UserCache.getInstance().getUserByName(handleUser))
+        	{
+        		 forwardNext(transID,transInfo);
+        	}
         	break;
         case 4 :
         	handleUser = UserNameConst.CWZCB;
@@ -180,7 +187,7 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 			handleUser = transEvent.getCreateUser();
 		}
         
-		super.forwardNext(transID,handleUser);
+		super.forwardNext(transID,handleUser,transInfo);
 
 	}
 

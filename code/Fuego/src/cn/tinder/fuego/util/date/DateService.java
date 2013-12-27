@@ -106,5 +106,11 @@ public class DateService {
         return DateToString(date);
 	}
 	
+	public static Date getCurrentDate()
+	{
+		 
+        return new Date(System.currentTimeMillis());
+	}
+	
 	
 }

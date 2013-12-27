@@ -19,13 +19,17 @@ import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.TransEventTypeDao;
+import cn.tinder.fuego.dao.TransOperRecordDao;
+import cn.tinder.fuego.dao.impl.TransOperRecordDaoImpl;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.domain.po.TransEventType;
+import cn.tinder.fuego.domain.po.TransOperRecord;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.TransactionService;
+import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
@@ -49,6 +53,8 @@ public class TransactionServiceImpl implements TransactionService
 	private static final Log log = LogFactory.getLog(TransactionServiceImpl.class);
 
 	private TransEventDao transEventDao = DaoContext.getInstance().getTransEventDao();
+	private TransOperRecordDao transOperRecordDao = DaoContext.getInstance().getTransOperRecordDao();
+
 	private TransEventTypeDao transEventTypeDao = DaoContext.getInstance().getTransEventTypeDao();
 	private SystemUserDao systemUserDao = DaoContext.getInstance().getSystemUserDao();
 	/*
@@ -172,7 +178,7 @@ public class TransactionServiceImpl implements TransactionService
 	 * @see cn.tinder.fuego.service.TransactionService#forwardNext(java.lang.String)
 	 */
 	@Override
-	public void forwardNext(String transID, String handleUser)
+	public void forwardNext(String transID, String handleUser,String transInfo)
 	{
 
 		TransEvent transEvent =transEventDao.getByTransID(transID);
@@ -190,11 +196,11 @@ public class TransactionServiceImpl implements TransactionService
 			curStep--;
 			
 		}
-		
+		addTransOperInfo(transEvent,transInfo);
 		//get the status by current step 
 		if(TransactionConst.END_STEP_FLAG == curStep)
 		{
-			transEvent.setEndTime(new Date(System.currentTimeMillis()));
+			transEvent.setEndTime(DateService.getCurrentDate());
 			transEvent.setStatus(TransactionConst.TRANS_STATUS_DONE);
 
 			log.info("the transaction is finished." + transEvent.toString());
@@ -207,9 +213,21 @@ public class TransactionServiceImpl implements TransactionService
 		
 		transEvent.setCurrentStep(curStep);
 		transEvent.setHandleUser(handleUser);
-		updateTrans(transID,handleUser);
 		transEventDao.saveOrUpdate(transEvent);
 		
+
+		
+	}
+
+	private void addTransOperInfo(TransEvent transEvent,String transInfo)
+	{
+		TransOperRecord transOperRecord = new TransOperRecord();
+		transOperRecord.setTransID(transEvent.getTransID());
+		transOperRecord.setOperTime(DateService.getCurrentDate());
+		transOperRecord.setUserName(transEvent.getHandleUser());
+		transOperRecord.setStep(transEvent.getCurrentStep());
+		transOperRecord.setTransInfo(transInfo);
+		transOperRecordDao.create(transOperRecord);
 	}
 
 	/*
@@ -506,8 +524,26 @@ public class TransactionServiceImpl implements TransactionService
 	@Override
 	public List<TransOperInfoBo> getTransOperInfoByTransID(String transID)
 	{
-		// TODO Auto-generated method stub
-		return null;
+	    List<TransOperRecord> recordList = this.transOperRecordDao.getByTransID(transID);
+	    TransEvent transEvent = this.transEventDao.getByTransID(transID);
+
+	    List<TransOperInfoBo> transOperInfoList = new ArrayList<TransOperInfoBo>();
+	    for(TransOperRecord record : recordList)
+	    {
+	    	TransOperInfoBo transOperInfo = new TransOperInfoBo();
+	    	transOperInfo.setTransID(record.getTransID());
+	    	transOperInfo.setTransName(transEvent.getTransName());
+	    	transOperInfo.setUserName(record.getUserName());
+	    	transOperInfo.setOperTime(record.getOperTime());
+	    	transOperInfo.setNickName(UserCache.getInstance().getUserByName(record.getUserName()).getNickName());
+	    	transOperInfo.setStep(record.getStep());
+	    	transOperInfo.setStepName(record.getStepName());
+	    	transOperInfo.setResult(record.getResult());
+	    	transOperInfo.setTransInfo(record.getTransInfo());
+	    	transOperInfoList.add(transOperInfo);
+
+	    }
+		return transOperInfoList;
 	}
 
  

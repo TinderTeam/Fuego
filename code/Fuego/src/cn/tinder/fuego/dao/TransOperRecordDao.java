@@ -8,6 +8,8 @@
 */ 
 package cn.tinder.fuego.dao;
 
+import java.util.List;
+
 import cn.tinder.fuego.domain.po.TransOperRecord;
 
 /** 
@@ -26,6 +28,6 @@ public interface TransOperRecordDao
 	public void delete(TransOperRecord record);
 
 	// public OperateRecord find(String assetsid);
-	public TransOperRecord getByTransID(String transid);
+	public List<TransOperRecord> getByTransID(String transID);
 
 }

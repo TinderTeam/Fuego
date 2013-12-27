@@ -20,28 +20,14 @@
 		
 		<div id="content">
 			<div id="content-header">
-				<h1><font  face="微软雅黑">待办事项</font></h1>
+				<h1><font  face="微软雅黑">事务操作信息</font></h1>
 			</div>
 			<div id="breadcrumb">
 				<a title="返回主页" class="tip-bottom"><i class="icon-home"></i>主页</a>
 				<a class="current">公告栏</a>
 			</div>
 			<div class="container-fluid">
-				<div class="row-fluid">
-					<div class="span12">
-						<div class="widget-box">
-							<div class="widget-title">
-								<span class="icon">
-									<i class="icon-th-list"></i>
-								</span>
-								<h5>重要通知</h5>
-							</div>
-							<div class="widget-content">
-								${basicNotice}
-							</div>
-						</div>
-					</div>
-				</div>
+		 
 				<div class="row-fluid">
 					<div class="span12">
 						<div class="widget-box">
@@ -49,7 +35,7 @@
 								<span class="icon">
 									<i class="icon-th"></i>
 								</span>
-								<h5>待办事项及通知</h5>
+								<h5>事务操作信息</h5>
 								
 							</div>
 							
@@ -60,7 +46,9 @@
 											<tr>
 									
 												<th>事务号</th>
+												<th>事务名称</th>
 												<th>操作人</th>
+												<th>签名</th>
 												<th>操作时间</th>
 												<th>操作步骤</th>
 												<th>操作结果</th>
@@ -69,18 +57,17 @@
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach var="i" items= "${transInfoList}">    
+											<c:forEach var="i" items= "${transOperInfoList}">    
 												  <tr>
 													<td>${i.transID}</td>												
-													<td><a href="${i.url}">${i.transName}</a></td>
-													<td>${i.createTime}</td>
-													<td>${i.createUser}</td>
-													<td>${i.handleUser}</td>
-													<td>${i.state}</td>	
-													<td><a href="<%=request.getContextPath()%>/Index.do?transID=${i.transID}">信息</a></td>
-													
-													<td><a href="<%=request.getContextPath()%>/Index.do?transID=${i.transID}">删除</a></td>
-												  </tr>
+													<td>${i.transName}</td>
+													<td>${i.userName}</td>
+													<td>${i.nickName}</td>
+													<td>${i.operTime}</td>
+													<td>${i.stepName}</td>
+													<td>${i.result}</td>
+													<td>${i.transInfo}</td>	
+ 												  </tr>
 											</c:forEach>
 											
 											

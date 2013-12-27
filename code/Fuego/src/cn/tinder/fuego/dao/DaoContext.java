@@ -17,6 +17,7 @@ import cn.tinder.fuego.dao.impl.SystemUserDaoImpl;
 import cn.tinder.fuego.dao.impl.TransEventDaoImpl;
 import cn.tinder.fuego.dao.impl.TransEventTypeDaoImpl;
 import cn.tinder.fuego.dao.impl.TransExtAttrDaoImpl;
+import cn.tinder.fuego.dao.impl.TransOperRecordDaoImpl;
 
 public class DaoContext
 {
@@ -40,6 +41,8 @@ public class DaoContext
 	private TransExtAttrDao transExtAttrDao;
     //zhuliucao 20131021 add
 	private ReceivePlanDao receivePlanDao;
+	
+	private TransOperRecordDao transOperRecordDao;
 	private DaoContext()
 	{
 
@@ -206,6 +209,15 @@ public class DaoContext
 			receivePlanDao = new ReceivePlanDaoImpl();
 		}
 		return receivePlanDao;
+	}
+	
+	public synchronized TransOperRecordDao getTransOperRecordDao()
+	{
+		if (null == transOperRecordDao)
+		{
+			transOperRecordDao = new TransOperRecordDaoImpl();
+		}
+		return transOperRecordDao;
 	}
 
 }

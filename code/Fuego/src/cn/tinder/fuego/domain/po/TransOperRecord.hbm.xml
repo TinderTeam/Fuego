@@ -9,11 +9,13 @@
 	<class name="TransOperRecord" table="trans_oper_record">
 		<composite-id>
 	       <key-property name="transID" column="TRANS_ID" ></key-property>
-           <key-property name="userName" column="USER_NAME" ></key-property>
+	       <key-property name="operTime" column="OPER_TIME" type="java.sql.Date"></key-property>
+	       	<key-property name="step" column="STEP" ></key-property>
+	       
 	    </composite-id>
+    
+    <property name="userName" column="USER_NAME" ></property>
 
-	<property name="time" column="TIME" not-null="false"></property>
-	<property name="step" column="STEP" not-null="false"></property>
 	<property name="stepName" column="STEP_NAME" not-null="false"></property>
 	<property name="result" column="RESULT" not-null="false"></property>
 	<property name="transInfo" column="TRANS_INFO" not-null="false"></property>

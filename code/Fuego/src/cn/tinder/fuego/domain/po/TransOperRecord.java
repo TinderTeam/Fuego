@@ -8,6 +8,7 @@
 */ 
 package cn.tinder.fuego.domain.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /** 
@@ -17,11 +18,11 @@ import java.util.Date;
  * @date 2013-12-26 上午12:30:37 
  *  
  */
-public class TransOperRecord
+public class TransOperRecord implements Serializable
 {
 	private String transID;
 	private String userName;
-	private Date time;
+	private Date operTime;
 	private int step;
 	private String stepName;
 	private String result;
@@ -57,16 +58,16 @@ public class TransOperRecord
 	/**
 	 * @return the time
 	 */
-	public Date getTime()
+	public Date getOperTime()
 	{
-		return time;
+		return operTime;
 	}
 	/**
 	 * @param time the time to set
 	 */
-	public void setTime(Date time)
+	public void setOperTime(Date time)
 	{
-		this.time = time;
+		this.operTime = time;
 	}
 	/**
 	 * @return the step
@@ -131,7 +132,7 @@ public class TransOperRecord
 	public String toString()
 	{
 		return "TransOperRecord [result=" + result + ", step=" + step
-				+ ", stepName=" + stepName + ", time=" + time + ", transID="
+				+ ", stepName=" + stepName + ", time=" + operTime + ", transID="
 				+ transID + ", transInfo=" + transInfo + ", userName="
 				+ userName + "]";
 	}

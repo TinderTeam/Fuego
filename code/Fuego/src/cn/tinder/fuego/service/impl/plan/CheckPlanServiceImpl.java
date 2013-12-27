@@ -193,12 +193,16 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		checkPlanDao.create(planList);
 		
 	}
-
+	@Override
+	public void forwardNext(String transID)
+	{
+		forwardNext(transID,null);
+	}
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.TransPlanService#forwardNext(java.lang.String)
 	 */
 	@Override
-	public void forwardNext(String transID)
+	public void forwardNext(String transID,String transInfo)
 	{
 		
 		TransEvent transEvent =transEventDao.getByTransID(transID);
@@ -219,7 +223,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 			log.warn("the step i unexpected. step is" + transEvent.getCurrentStep());
 			
 		}
-		super.forwardNext(transID, handleUser);
+		super.forwardNext(transID,handleUser,transInfo);
 		
 		if(!super.hasChildTrans(transID))
 		{

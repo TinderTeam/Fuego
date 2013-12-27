@@ -35,7 +35,7 @@ public interface TransactionService
 
 	public void updateTrans(String transID, String handleUser);
 
-	public void forwardNext(String transID, String userID);
+	public void forwardNext(String transID, String userID,String transInfo);
 	
 	public void backward(String transID);
 	

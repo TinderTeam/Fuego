@@ -40,6 +40,7 @@
 	<mapping resource="cn/tinder/fuego/domain/po/OperateRecord.hbm.xml" />
 	<mapping resource="cn/tinder/fuego/domain/po/RecapturePlan.hbm.xml" />
 	<mapping resource="cn/tinder/fuego/domain/po/ReceivePlan.hbm.xml" />
+	<mapping resource="cn/tinder/fuego/domain/po/TransOperRecord.hbm.xml" />
 
 
 

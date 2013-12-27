@@ -79,7 +79,7 @@
 													<td>${i.createUser}</td>
 													<td>${i.handleUser}</td>
 													<td>${i.state}</td>	
-													<td><a href="<%=request.getContextPath()%>/Index.do?transID=${i.transID}">信息</a></td>
+													<td><a href="<%=request.getContextPath()%>/QueryTransOperInfo.do?transID=${i.transID}">信息</a></td>
 													
 													<td><a href="<%=request.getContextPath()%>/Index.do?transID=${i.transID}">删除</a></td>
 												  </tr>

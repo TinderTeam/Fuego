@@ -120,14 +120,18 @@ public class RecapturePlanServiceImpl <E> extends TransactionServiceImpl impleme
 		}
 
 	}
-
+	@Override
+	public void forwardNext(String transID)
+	{
+		forwardNext(transID,null);
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#forwardNext(java.lang.String)
 	 */
 	@Override
-	public void forwardNext(String transID)
+	public void forwardNext(String transID,String transInfo)
 	{
 		TransEvent transEvent =transEventDao.getByTransID(transID);
 		
@@ -150,7 +154,7 @@ public class RecapturePlanServiceImpl <E> extends TransactionServiceImpl impleme
 			handleUser = transEvent.getCreateUser();
 		}
         
-		super.forwardNext(transID,handleUser);
+		super.forwardNext(transID,handleUser,transInfo);
 
 	}
 
