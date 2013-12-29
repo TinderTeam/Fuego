@@ -23,7 +23,8 @@ import cn.tinder.fuego.domain.po.PurchasePlan;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.TransPlanService;
-import cn.tinder.fuego.service.cache.HandelDepartmentAssetsStyleCache;
+
+import cn.tinder.fuego.service.cache.AssetsTypeParaCache;
 import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.UserNameConst;
@@ -141,7 +142,7 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
  
         case 5 :
 
-        	handleUser = HandelDepartmentAssetsStyleCache.getInstance().getDeptByType(type);
+        	handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
         	if(null == UserCache.getInstance().getUserByName(handleUser))
         	{
         		 forwardNext(transID,transInfo);

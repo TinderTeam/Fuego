@@ -127,7 +127,7 @@
 							<div class="widget-content">
 							
 								<div class="form-actions">
-										<button type="submit" class="btn btn-primary" name ="submit" value="upDateDownload">Excel数据模版</button>
+										<button type="submit" class="btn btn-primary" name ="submit" value="updateDownload">Excel数据模版</button>
 										<input type="file" name ="updateAssetsFile"/>
 										<button id = "updateSubID" type="submit" class="btn btn-inverse" name ="submit" value="update_upload" style="display:none" >通过Excel表格导入</button>	
 										

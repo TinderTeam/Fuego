@@ -31,8 +31,8 @@ public class CacheContext
 		return QuotaCache.getInstance();
 	}
 
-	public HandelDepartmentAssetsStyleCache getHandelDepartmentAssetsStyleCache()
+	public AssetsTypeParaCache getAssetTypeParaCache()
 	{
-		return HandelDepartmentAssetsStyleCache.getInstance();
+		return AssetsTypeParaCache.getInstance();
 	}
 }
