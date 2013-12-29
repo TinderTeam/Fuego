@@ -216,6 +216,7 @@ public class TransactionServiceImpl implements TransactionService
 		
 		transEvent.setCurrentStep(curStep);
 		transEvent.setHandleUser(handleUser);
+		transEvent.setHandleTime(DateService.getCurrentDate());
 		transEventDao.saveOrUpdate(transEvent);
 		
 
@@ -387,6 +388,7 @@ public class TransactionServiceImpl implements TransactionService
 		TransEventType type = transEventTypeDao.getByType(transEvent.getType());
 		transEvent.setCurrentStep(type.getStep());
 		transEvent.setHandleUser(transEvent.getCreateUser());
+		transEvent.setHandleTime(DateService.getCurrentDate());
 		transEvent.setStatus(TransactionConst.TRRANS_STATUS_REFUSE);
 		transEventDao.saveOrUpdate(transEvent);
 	}

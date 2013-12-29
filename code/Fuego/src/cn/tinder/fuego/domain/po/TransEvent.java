@@ -13,6 +13,7 @@ public class TransEvent
 	private Date endTime;
 	private String handleUser;
 	private int currentStep;
+	private Date handleTime;
 	private String status;
 	private String type;
 	private String parentTransID;
@@ -184,11 +185,23 @@ public class TransEvent
 		this.status = status;
 	}
 
+	public Date getHandleTime()
+	{
+		return handleTime;
+	}
+
+	public void setHandleTime(Date handleTime)
+	{
+		this.handleTime = handleTime;
+	}
+
 	@Override
 	public String toString()
 	{
 		return "TransEvent [transID=" + transID + ", transName=" + transName + ", createTime=" + createTime + ", createUser=" + createUser + ", endTime=" + endTime + ", handleUser=" + handleUser
-				+ ", currentStep=" + currentStep + ", type=" + type + ", parentTransID=" + parentTransID + "]";
+				+ ", currentStep=" + currentStep + ", handleTime=" + handleTime + ", status=" + status + ", type=" + type + ", parentTransID=" + parentTransID + "]";
 	}
+
+ 
 
 }

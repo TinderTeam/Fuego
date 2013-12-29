@@ -112,5 +112,17 @@ public class DateService {
         return new Date(System.currentTimeMillis());
 	}
 	
+	public static int countDayNum(Date startDate,Date endDate)
+	{
+		if(null == startDate || null == endDate  )
+		{
+			return 0;
+		}
+		long milSec = startDate.getTime()-endDate.getTime();
+		int dayNum = (int) (milSec/1000/3600/24);
+		return dayNum;
+       
+	}
+	
 	
 }

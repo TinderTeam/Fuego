@@ -15,6 +15,8 @@
 			<property name="createUser" column="CREATE_USER" not-null="false"></property>
 			<property name="endTime" column="END_TIME" type="java.sql.Date" not-null="false"></property>
 			<property name="handleUser" column="HANDLE_USER" not-null="false"></property>
+			<property name="handleTime" column="HANDLE_TIME" type="java.sql.Date" not-null="false"></property>
+			
 			<property name="currentStep" column="CURRENT_STEP" not-null="false"></property>
 			<property name="status" column="STATUS" not-null="false"></property>
 

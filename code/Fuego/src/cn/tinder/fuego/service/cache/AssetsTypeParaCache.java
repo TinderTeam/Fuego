@@ -18,14 +18,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.junit.Test;
 
-import cn.tinder.fuego.dao.DaoContext;
-
-import cn.tinder.fuego.domain.po.AssetsQuota;
 import cn.tinder.fuego.util.engine.dom4j.Dom4jConstant;
 
 /**

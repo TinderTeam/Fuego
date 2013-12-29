@@ -64,6 +64,7 @@
 												<th>发起时间</th>
 												<th>发起人</th>
 												<th>当前处理人</th>
+												<th>停留天数</th>
 												<th>当前状态</th>
 												<th>操作信息</th>
 												<th>删除</th>
@@ -73,11 +74,18 @@
 										<tbody>
 											<c:forEach var="i" items= "${transInfoList}">    
 												  <tr>
-													<td>${i.transID}</td>												
+													
+													<c:if test="${i.expendTime >10}">
+													   <td bgColor="#ff0000">${i.transID}</td>	
+													</c:if>			
+													<c:if test="${i.expendTime <=10}">
+													    <td>${i.transID}</td>	
+													</c:if>									
 													<td><a href="${i.url}">${i.transName}</a></td>
 													<td>${i.createTime}</td>
 													<td>${i.createUser}</td>
 													<td>${i.handleUser}</td>
+													<td>${i.expendTime}</td>
 													<td>${i.state}</td>	
 													<td><a href="<%=request.getContextPath()%>/QueryTransOperInfo.do?transID=${i.transID}">操作信息</a></td>
 													
