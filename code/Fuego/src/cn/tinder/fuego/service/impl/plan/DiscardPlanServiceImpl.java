@@ -168,8 +168,10 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
         	handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
         	if(null == UserCache.getInstance().getUserByName(handleUser))
         	{
+        		 log.warn("can not get the user by name." + handleUser);
         		 forwardNext(transID,transInfo);
         	}
+        	transInfo = TransactionConst.TRANS_OPERATE_SUBMIT;
         	break;
         case 4 :
         	handleUser = UserNameConst.CWZCB;
@@ -183,6 +185,8 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 		case 1 :
 			handleUser = transEvent.getCreateUser();
 			discardAssets(transID);
+        	transInfo = TransactionConst.TRANS_OPERATE_FINISH;
+
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();
@@ -278,9 +282,9 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 	 * @see cn.tinder.fuego.service.TransPlanService#backward(java.lang.String)
 	 */
 	@Override
-	public void backward(String transID)
+	public void backward(String transID,String transInfo)
 	{
-		super.backward(transID);
+		super.backward(transID,transInfo);
 		
 	}
 	private File getdownloadFile(DiscardPlanBo planInfo){
@@ -559,6 +563,19 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 			
 		}
 		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getAprovalStep(java.lang.String)
+	 */
+	@Override
+	public boolean isApporalStep(int step)
+	{
+		if(4 == step || 3 == step || 2 == step)
+		{
+			return true;
+		}
+		return false;
 	}
 
 }

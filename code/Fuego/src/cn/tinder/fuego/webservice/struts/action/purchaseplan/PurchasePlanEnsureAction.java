@@ -22,6 +22,7 @@ import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
+import cn.tinder.fuego.webservice.struts.form.TransOperateInfoForm;
 
 /**
  * 
@@ -82,6 +83,7 @@ public class PurchasePlanEnsureAction extends Action
  
 		
 		PurchasePlanSessionBo plan  = (PurchasePlanSessionBo) request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
+		TransOperateInfoForm operateInfo = (TransOperateInfoForm)form;
 
 		if (submitPara.equals(ParameterConst.SUBMIT_PARA_NAME))
 		{ // ="submit"
@@ -117,7 +119,7 @@ public class PurchasePlanEnsureAction extends Action
 		}
 		else if(ParameterConst.AGREE_PARA_NAME.equals(submitPara))
 		{
-			planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID());
+			planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID(),operateInfo.getOperateInfo());
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 
 		}
@@ -128,7 +130,7 @@ public class PurchasePlanEnsureAction extends Action
 
 		}else if(ParameterConst.REFUSE_PARA_NAME.equals(submitPara))
 		{
-			planService.backward(plan.getPurchaseTransBo().getTransInfo().getTransID());
+			planService.backward(plan.getPurchaseTransBo().getTransInfo().getTransID(),operateInfo.getOperateInfo());
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 
 		}

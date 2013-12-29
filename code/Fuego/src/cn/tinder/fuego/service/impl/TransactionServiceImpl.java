@@ -196,7 +196,10 @@ public class TransactionServiceImpl implements TransactionService
 			curStep--;
 			
 		}
-		addTransOperInfo(transEvent,transInfo);
+		if(null !=  transInfo)
+		{
+			addTransOperInfo(transEvent,transInfo);
+		}
 		//get the status by current step 
 		if(TransactionConst.END_STEP_FLAG == curStep)
 		{
@@ -375,9 +378,12 @@ public class TransactionServiceImpl implements TransactionService
 	 * @see cn.tinder.fuego.service.TransactionService#backward(java.lang.String)
 	 */
 	@Override
-	public void backward(String transID)
+	public void backward(String transID,String transInfo)
 	{
 		TransEvent transEvent =transEventDao.getByTransID(transID);
+		
+		this.addTransOperInfo(transEvent, transInfo);
+
 		TransEventType type = transEventTypeDao.getByType(transEvent.getType());
 		transEvent.setCurrentStep(type.getStep());
 		transEvent.setHandleUser(transEvent.getCreateUser());

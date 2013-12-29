@@ -199,9 +199,11 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		    break;
 		case 1 :
 		    handleUser = transEvent.getHandleUser();
+		    
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();
+			
 			log.warn("the step i unexpected. step is" + transEvent.getCurrentStep());
 			
 		}
@@ -322,9 +324,9 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	 * @see cn.tinder.fuego.service.TransPlanService#backward(java.lang.String)
 	 */
 	@Override
-	public void backward(String transID)
+	public void backward(String transID,String transInfo)
 	{
-		// TODO Auto-generated method stub
+		super.backward(transID,transInfo);
 		
 	}
 
@@ -504,5 +506,11 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	{
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	@Override
+	public boolean isApporalStep(int step)
+	{
+ 
+		return false;
 	}
 }

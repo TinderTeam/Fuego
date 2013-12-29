@@ -116,6 +116,10 @@
     				type="cn.tinder.fuego.webservice.struts.form.UpLoadForm" >
     	
 		</form-bean>  
+		
+		<form-bean name="TransOperateInfoForm"
+		           type="cn.tinder.fuego.webservice.struts.form.TransOperateInfoForm">
+		</form-bean>
 
          
          
@@ -231,7 +235,7 @@
 	<!-- PurchasePlanEnsure -->
 	  <action path="/PurchasePlanEnsureInit"
                 type="cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchasePlanEnsureInitAction"              
-                >          
+               name="TransOperateInfoForm"> 
   			<forward name="PurchasePlanEnsure" path="/jsp/purchasePlanEnsure.jsp"></forward>
   		  	<forward name="PurchasePlanCreateInit" path="/PurchasePlanCreateInit.do"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
@@ -349,7 +353,7 @@
        	
        	<action path="/AssignSubmit"
                 type="cn.tinder.fuego.webservice.struts.action.assign.AssignSubmitAction"              
-                input="">          
+               name="TransOperateInfoForm"> 
   			<forward name="IndexInit" path="/IndexInit.do"></forward>
   			<forward name="DownloadAction" path="/FileDownload.do"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
@@ -523,7 +527,7 @@
 		
 		<action path="/AssetsRecaptureEnsure"
                 type="cn.tinder.fuego.webservice.struts.action.recapture.AssetsRecaptureEnsureAction"              
-               >          
+               name="TransOperateInfoForm"> 
 			<forward name="AssetsRecaptureCreateInit" path="/AssetsRecaptureCreateInit.do"></forward>
 			<forward name="DownloadAction" path="/FileDownload.do"></forward>
 			
@@ -703,7 +707,7 @@
 	
 		<action path="/DiscardSure"
                 type="cn.tinder.fuego.webservice.struts.action.discard.DiscardSureAction"              
-               > 
+               name="TransOperateInfoForm"> 
 			<forward name="DiscardSearchInit" path="/DiscardSearchInit.do"></forward>
 		    <forward name="IndexInit" path="/IndexInit.do"></forward>
 			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>

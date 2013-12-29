@@ -65,7 +65,7 @@
 												<th>发起人</th>
 												<th>当前处理人</th>
 												<th>当前状态</th>
-												<th>处理信息</th>
+												<th>操作信息</th>
 												<th>删除</th>
 											
 											</tr>
@@ -79,7 +79,7 @@
 													<td>${i.createUser}</td>
 													<td>${i.handleUser}</td>
 													<td>${i.state}</td>	
-													<td><a href="<%=request.getContextPath()%>/QueryTransOperInfo.do?transID=${i.transID}">信息</a></td>
+													<td><a href="<%=request.getContextPath()%>/QueryTransOperInfo.do?transID=${i.transID}">操作信息</a></td>
 													
 													<td><a href="<%=request.getContextPath()%>/Index.do?transID=${i.transID}">删除</a></td>
 												  </tr>

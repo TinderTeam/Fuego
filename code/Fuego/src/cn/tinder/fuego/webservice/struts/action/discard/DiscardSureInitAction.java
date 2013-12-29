@@ -50,7 +50,7 @@ public class DiscardSureInitAction extends Action
     private static final Log log = LogFactory.getLog(DiscardSureInitAction.class);
     private AssetsManageService assetsService = ServiceContext.getInstance().getAssetsManageService();
 	
-    private TransPlanService  discardService = ServiceContext.getInstance().getDiscardPlanService();
+    private TransPlanService  planService = ServiceContext.getInstance().getDiscardPlanService();
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form,
@@ -85,13 +85,13 @@ public class DiscardSureInitAction extends Action
 	{
 		String nextPage = PageNameConst.DISCARD_SURE;
 		String transID = request.getParameter(ParameterConst.PLAN_TRANS_ID);
-		DiscardPlanBo plan = (DiscardPlanBo) discardService.getPlanByTransID(transID);
+		DiscardPlanBo plan = (DiscardPlanBo) planService.getPlanByTransID(transID);
 		if (null == plan)
 		{
 			log.info("can not get the plan by transaction id" + transID);
 
 			plan = (DiscardPlanBo) request.getSession().getAttribute(RspBoNameConst.DISCARD_PLAN_INFO);
-	    	discardService.updatePlan(plan);
+	    	planService.updatePlan(plan);
 
 		} 
 		request.getSession().setAttribute(RspBoNameConst.DISCARD_PLAN_INFO, plan);
@@ -119,11 +119,11 @@ public class DiscardSureInitAction extends Action
 			{
 				pageCtr = RspBoNameConst.PAGE_CREATE;
 			}
-			else if(step.equals(discardService.getMaxStep(transID)))
+			else if(step.equals(planService.getMaxStep(transID)))
 			{
 				nextPage = PageNameConst.DISCARD_SEARCH_INIT;
 			}
-			else if(TransactionConst.DISCARD_APPROVAL_STEP.equals(step))
+			else if(planService.isApporalStep(Integer.valueOf(step)))
 			{
 				pageCtr = RspBoNameConst.PAGE_APPROVAL;
 			}

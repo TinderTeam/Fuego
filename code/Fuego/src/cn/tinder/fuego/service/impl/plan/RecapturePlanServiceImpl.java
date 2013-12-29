@@ -142,12 +142,16 @@ public class RecapturePlanServiceImpl <E> extends TransactionServiceImpl impleme
 		{
 		case 3 :
 			 handleUser = super.getLeader(transEvent.getCreateUser());
+	         transInfo = TransactionConst.TRANS_OPERATE_SUBMIT;
+
 			break;	
 		case 2 :
 			handleUser = transEvent.getCreateUser();
 			break;
 		case 1 :
 			handleUser = transEvent.getCreateUser();
+        	transInfo = TransactionConst.TRANS_OPERATE_FINISH;
+
 			recaptureAssets(transID);
 		    break;
 		default :
@@ -259,13 +263,13 @@ s	 *
 	 * @see cn.tinder.fuego.service.TransPlanService#backward(java.lang.String)
 	 */
 	@Override
-	public void backward(String transID)
+	public void backward(String transID,String transInfo)
 	{
 		/**
 		 * Issue #36
 		 * need backward
 		 */
-		super.backward(transID);
+		super.backward(transID,transInfo);
 	}
 	
 	
@@ -457,14 +461,23 @@ s	 *
 		
 	}
 
+	@Override
+	public boolean isApporalStep(int step)
+	{
+		if(2 == step )
+		{
+			return true;
+		}
+		return false;
+	}
+
 	/* (non-Javadoc)
-	 * @see cn.tinder.fuego.service.TransPlanService#isMaxStep(int)
+	 * @see cn.tinder.fuego.service.TransPlanService#getMaxStep(java.lang.String)
 	 */
 	@Override
 	public int getMaxStep(String transID)
 	{
 		// TODO Auto-generated method stub
-		return 0;
+		return Integer.valueOf(TransactionConst.RECAPTURE_APPROVAL_STEP);
 	}
-
 }

@@ -119,7 +119,7 @@ public class PurchasePlanEnsureInitAction extends Action
 			{
 				nextPage = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
 			}
-			else if(TransactionConst.PURCHASE_APPROVAL_STEP.equals(step))
+			else if(planService.isApporalStep(Integer.valueOf(step)))
 			{
 				pageCtr = RspBoNameConst.PAGE_APPROVAL;
 			}

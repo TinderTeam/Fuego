@@ -127,7 +127,7 @@ public class AssetsRecaptureEnsureInitAction extends Action
 			{
 				nextPage = PageNameConst.ASSETS_RECAPTURE_CREATE_INIT_PAGE;
 			}
-			else if(TransactionConst.RECAPTURE_APPROVAL_STEP.equals(step))
+			else if(planService.isApporalStep(Integer.valueOf(step)))
 			{
 				pageCtr = RspBoNameConst.PAGE_APPROVAL;
 			}

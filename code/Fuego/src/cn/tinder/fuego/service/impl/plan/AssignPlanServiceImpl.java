@@ -160,6 +160,8 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		{
 		case 5 :
 			handleUser = super.getLeader(transEvent.getCreateUser());
+        	transInfo = TransactionConst.TRANS_OPERATE_SUBMIT;
+
 			break;
 		case 4 :
 			handleUser = super.getStaff(outDept);
@@ -171,7 +173,10 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		    handleUser = transEvent.getCreateUser();
 		case 1 :
 		    handleUser = transEvent.getCreateUser();
+        	transInfo = TransactionConst.TRANS_OPERATE_FINISH;
+
 		    updateAssetsDuty(transID, inDept);
+		    
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();
@@ -306,9 +311,9 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	 * @see cn.tinder.fuego.service.TransPlanService#backward(java.lang.String)
 	 */
 	@Override
-	public void backward(String transID)
+	public void backward(String transID,String transInfo)
 	{
-		super.backward(transID);
+		super.backward(transID,transInfo);
 		
 	}
 
@@ -387,5 +392,18 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	{
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getAprovalStep(java.lang.String)
+	 */
+	@Override
+	public boolean isApporalStep(int step)
+	{
+		if(4 == step || 3 == step || 2 == step)
+		{
+			return true;
+		}
+		return false;
 	}
 }

@@ -501,9 +501,9 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	 * @see cn.tinder.fuego.service.TransPlanService#backward(java.lang.String)
 	 */
 	@Override
-	public void backward(String transID)
+	public void backward(String transID,String transInfo)
 	{
-		super.backward(transID);
+		super.backward(transID,transInfo);
 		
 	}
 
@@ -562,6 +562,15 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	{
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getAprovalStep(java.lang.String)
+	 */
+	@Override
+	public boolean isApporalStep(int step)
+	{
+		 
+		return false;
 	}
 
 }

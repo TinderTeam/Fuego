@@ -79,6 +79,9 @@ public class TransactionConst
 	public static final String TRRANS_STATUS_READ = "已读";
 	public static final String TRRANS_STATUS_NO_READ = "未读";
 	
+	public static final String TRANS_OPERATE_SUBMIT = "提交";
+	public static final String TRANS_OPERATE_FINISH = "完成";
+	
  
 
 }

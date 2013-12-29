@@ -22,6 +22,7 @@ import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
+import cn.tinder.fuego.webservice.struts.form.TransOperateInfoForm;
 
 
 
@@ -75,10 +76,11 @@ public class DiscardSureAction extends Action
 		DiscardPlanBo plan = (DiscardPlanBo) request.getSession().getAttribute(RspBoNameConst.DISCARD_PLAN_INFO);
 		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
 
+		TransOperateInfoForm operateInfo = (TransOperateInfoForm)form;
 		if (ParameterConst.SUBMIT_PARA_NAME.equals(submitPara))
 		{
 			planService.updatePlan(plan);
-			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID(),"");
 			if(user.getRole().equals(UserRoleConst.SUPER_DEPT))
 			{
 				planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
@@ -94,7 +96,7 @@ public class DiscardSureAction extends Action
 		}
 		else if (ParameterConst.AGREE_PARA_NAME.equals(submitPara))
 		{
-			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID(),operateInfo.getOperateInfo());
 
 		}
 		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
@@ -129,7 +131,7 @@ public class DiscardSureAction extends Action
 		}
 		else if(ParameterConst.REFUSE_PARA_NAME.equals(submitPara))
 		{
-			planService.backward(plan.getTransInfo().getTransInfo().getTransID());
+			planService.backward(plan.getTransInfo().getTransInfo().getTransID(),operateInfo.getOperateInfo());
 		}
  
 		return nextPage;

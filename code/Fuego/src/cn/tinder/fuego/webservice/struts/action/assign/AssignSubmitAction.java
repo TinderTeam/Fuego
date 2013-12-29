@@ -29,6 +29,7 @@ import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
+import cn.tinder.fuego.webservice.struts.form.TransOperateInfoForm;
 
 /**
  * @ClassName: AllocationAssertAction
@@ -76,6 +77,7 @@ public class AssignSubmitAction extends Action
 		String nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 		AssignPlanBo plan = null;
 		plan = (AssignPlanBo) request.getSession().getAttribute(RspBoNameConst.ASSIGN_PLAN_DATA);
+		TransOperateInfoForm operateInfo = (TransOperateInfoForm)form;
 
 		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
 		if(ParameterConst.SUBMIT_PARA_NAME.equals(submitPara))
@@ -86,7 +88,7 @@ public class AssignSubmitAction extends Action
 		}
 		else if(ParameterConst.AGREE_PARA_NAME.equals(submitPara))
 		{
-			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID(),operateInfo.getOperateInfo());
 		}
 		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
 		{
@@ -115,7 +117,7 @@ public class AssignSubmitAction extends Action
 		}
 		else if(ParameterConst.REFUSE_PARA_NAME.equals(submitPara))
 		{
-			planService.backward(plan.getTransInfo().getTransInfo().getTransID());
+			planService.backward(plan.getTransInfo().getTransInfo().getTransID(),operateInfo.getOperateInfo());
 		}
  
 		return nextPage;

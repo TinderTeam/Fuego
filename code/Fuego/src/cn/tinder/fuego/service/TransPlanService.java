@@ -33,7 +33,9 @@ public interface TransPlanService<E>
 
 
 	public int getMaxStep(String transID);
-  
+	
+	public boolean isApporalStep(int step);
+   
 	public void deletePlan(String transID);
 
 	public void updatePlan(E plan);
@@ -43,7 +45,8 @@ public interface TransPlanService<E>
 	public void forwardNext(String transID,String transInfo);
 
 	
-	public void backward(String transID);
+	public void backward(String transID,String transInfo);
+ 
 
 	public E getPlanByTransID(String transID);
 	

@@ -147,6 +147,7 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
         	{
         		 forwardNext(transID,transInfo);
         	}
+        	transInfo = TransactionConst.TRANS_OPERATE_SUBMIT;
 
         	break;
         case 4 :
@@ -160,6 +161,8 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
  		    break;
 		case 1 :
 		    handleUser = transEvent.getCreateUser();
+        	transInfo = TransactionConst.TRANS_OPERATE_FINISH;
+
  		    break;    
 		default :
 			handleUser = transEvent.getCreateUser();
@@ -225,9 +228,9 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 	 * @see cn.tinder.fuego.service.TransPlanService#backward(java.lang.String)
 	 */
 	@Override
-	public void backward(String transID)
+	public void backward(String transID,String transInfo)
 	{
-		super.backward(transID);
+		super.backward(transID,transInfo);
 		
 	}
 
@@ -332,4 +335,16 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getAprovalStep(java.lang.String)
+	 */
+	@Override
+	public boolean isApporalStep(int step)
+	{
+		if(4 == step || 3 == step || 2 == step)
+		{
+			return true;
+		}
+		return false;
+	}
 }

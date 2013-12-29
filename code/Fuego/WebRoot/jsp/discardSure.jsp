@@ -41,11 +41,11 @@
 								</div>
 							
 									
-											<c:set var="assetsPage" value="${discardPlanInfo.assetsPage}" scope="request"/>
-											<jsp:include page="/jsp/cbb/assetsList.jsp"/>
-											 
-										<div class="form-actions">
-
+										<c:set var="assetsPage" value="${discardPlanInfo.assetsPage}" scope="request"/>
+										<jsp:include page="/jsp/cbb/assetsList.jsp"/>
+ 
+									 <div class="form-actions">
+                                       
 								 	 <c:if test="${'create' == pageDisCtr}"> 
 										<button class="btn btn-success"  name="submit" value="submit">提交</button>								
 										<button class="btn  btn-primary" name="submit" value="download">导出</button>
@@ -53,6 +53,7 @@
 										<button class="btn  btn-inverse" name="submit" value="cancel">取消</button>
 									 </c:if>
 									 <c:if test="${'approval' == pageDisCtr}"> 
+									    <jsp:include page="/jsp/cbb/transOperateInfo.jsp"/>
 										<button class="btn btn-success"  name="submit" value="agree">同意</button>								
 										<button class="btn  btn-primary" name="submit" value="refuse">拒绝</button>	
 	 								 </c:if>

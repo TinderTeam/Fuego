@@ -115,7 +115,7 @@ public class AssignSubmitInitAction extends Action
 			{
 				nextPage = PageNameConst.ASSIGN_CREATE_INIT_ACTION;
 			}
-			else if(TransactionConst.ASSIGN_APPROVAL_STEP.equals(step))
+			else if(planService.isApporalStep(Integer.valueOf(step)))
 			{
 				pageCtr = RspBoNameConst.PAGE_APPROVAL;
 			}

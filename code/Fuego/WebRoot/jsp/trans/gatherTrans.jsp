@@ -46,6 +46,7 @@
 												<th>事务名</th>
 												<th>创建时间</th>
 												<th>创建人</th>
+												<th>操作信息</th>
 								 
  
 											</tr>
@@ -57,6 +58,7 @@
 													<td><a href="${i.url}">${i.transName}</a></td>
 													<td>${i.createTime}</td>
 													<td>${i.createUser}</td>
+  													<td><a href="<%=request.getContextPath()%>/QueryTransOperInfo.do?transID=${i.transID}">操作信息</a></td>
   
  												  </tr>
 											</c:forEach>
