@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.omg.IOP.ServiceContext;
 
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.PurchasePlanDao;
@@ -110,6 +111,7 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 			purchasePlan.setQuantity(assets.getAssetsBo().getQuantity());
 			purchasePlan.setPrice(Float.valueOf(assets.getPrice()));
 			purchasePlan.setNote(assets.getAssetsBo().getNote());
+			purchasePlan.setAssetsType(assets.getAssetsBo().getAssetsType());
 			purchasePlan.setUnit(assets.getAssetsBo().getUnit());
 			purchasePlan.setSum(Float.valueOf(assets.getMoney()));
 			purchasePlanDao.saveOrUpdate(purchasePlan);
@@ -145,7 +147,7 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
         	handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
         	if(null == UserCache.getInstance().getUserByName(handleUser))
         	{
-        		 forwardNext(transID,transInfo);
+        		 throw new ServiceException(ExceptionMsg.ASSETS_TYPE_WRONG);
         	}
         	transInfo = TransactionConst.TRANS_OPERATE_SUBMIT;
 

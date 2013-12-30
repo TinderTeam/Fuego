@@ -41,6 +41,8 @@ public class ExceptionMsg
 	public static final String IDISNULL = "自动分配资产ID错误";
 	public static final String ERR_ROW = "错误行号为：";
 	
+	public static final String ASSETS_TYPE_WRONG = "不能找到资产类型对应的管理用户";
+	
 	
 	public static final String TRANS_IS_EMPTY = "没有相应的事务";
 	
