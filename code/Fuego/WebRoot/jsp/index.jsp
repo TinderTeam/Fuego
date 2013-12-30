@@ -76,7 +76,9 @@
 												  <tr>
 													
 													<c:if test="${i.expendTime >10}">
-													   <td bgColor="#ff0000">${i.transID}</td>	
+													   <td>${i.transID}<span class="label label-important">超时</span>
+															
+														</td>	
 													</c:if>			
 													<c:if test="${i.expendTime <=10}">
 													    <td>${i.transID}</td>	
