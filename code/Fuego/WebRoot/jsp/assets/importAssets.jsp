@@ -41,27 +41,25 @@
 							
 							<div class="widget-content">
 								<form action="<%=request.getContextPath()%>/ImportAssets.do" name="UpLoadForm" method="post" enctype="multipart/form-data"  >	
-
-								<div class="form-actions">
-										<button type="submit" class="btn btn-primary" name ="submit" value="download">Excel数据模版</button>
-										<input type="file" name ="assetsFile"/>										
-										<button id = "subID" type="submit" class="btn btn-inverse" name ="submit" value="upload" style="display:none" >通过Excel表格导入</button>	
+									<div class="form-actions">
+											<button type="submit" class="btn btn-primary" name ="submit" value="assignDownload">Excel数据模版</button>
+											<input type="file" name ="assignAssetsFile"/>										
+											<button id = "subID" type="submit" class="btn btn-inverse" name ="submit" value="assign_upload" style="display:none" >通过Excel表格导入</button>	
+											
 										
-									
-										
-										<a href="#myAlert" data-toggle="modal" class="btn btn-success" style="width:150px" onclick="submitFuction()">通过Excel表格导入</a>		
-											<div id="myAlert" class="modal hide">
-												<div class="modal-header">													
-													<h3>正在导入数据...</h3>
-												</div>
-												<div class="modal-body">
-													<div class="span12 center" style="text-align: center;">	
-														<img border="0" alt="请等待" src="<%=request.getContextPath()%>/img/loading.gif" style="center"/></a>	
-															</div>
-												</div>											
-											</div>
- 
-								</div>	
+											
+											<a href="#myAlert" data-toggle="modal" class="btn btn-success" style="width:150px" onclick="submitFuction()">通过Excel表格导入</a>		
+												<div id="myAlert" class="modal hide">
+													<div class="modal-header">													
+														<h3>正在导入数据...</h3>
+													</div>
+													<div class="modal-body">
+														<div class="span12 center" style="text-align: center;">	
+															<img border="0" alt="请等待" src="<%=request.getContextPath()%>/img/loading.gif" style="center"/></a>	
+														</div>
+													</div>											
+												</div>	
+									</div>	
 								</form>
 						
 							</div>

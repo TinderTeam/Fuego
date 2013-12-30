@@ -19,6 +19,7 @@ public class ImportAssetsForm extends ActionForm
 	private FormFile addAssetsFile;
 	private FormFile deleteAssetsFile;
 	private FormFile updateAssetsFile;
+	private FormFile assignAssetsFile;
 	
 	
 	/**
@@ -68,6 +69,12 @@ public class ImportAssetsForm extends ActionForm
 	 */
 	public void setUpdateAssetsFile(FormFile updateAssetsFile) {
 		this.updateAssetsFile = updateAssetsFile;
+	}
+	public void setAssignAssetsFile(FormFile assignAssetsFile) {
+		this.assignAssetsFile = assignAssetsFile;
+	}
+	public FormFile getAssignAssetsFile() {
+		return assignAssetsFile;
 	}
 	
 }
