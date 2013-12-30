@@ -74,16 +74,18 @@ public class ImportPruchaseExcelFile {
 			        	cell = sheet.getCell(2,i);
 			        	assBo.setAssetsName(cell.getContents());
 			        	cell = sheet.getCell(3,i);
-			        	assBo.setManufacture(cell.getContents());
+			        	assBo.setAssetsType(cell.getContents());
 			        	cell = sheet.getCell(4,i);
-			        	assBo.setSpec(cell.getContents());
+			        	assBo.setManufacture(cell.getContents());
 			        	cell = sheet.getCell(5,i);
-			        	assBo.setUnit(cell.getContents());
+			        	assBo.setSpec(cell.getContents());
 			        	cell = sheet.getCell(6,i);
+			        	assBo.setUnit(cell.getContents());
+			        	cell = sheet.getCell(7,i);			  
 			        	assBo.setQuantity(Integer.valueOf(cell.getContents()));
-			        	cell = sheet.getCell(7,i);
-			        	planBo.setPrice(cell.getContents());
 			        	cell = sheet.getCell(8,i);
+			        	planBo.setPrice(cell.getContents());
+			        	cell = sheet.getCell(9,i);
 			        	assBo.setNote(cell.getContents());
 			        	
 			        	
@@ -91,7 +93,7 @@ public class ImportPruchaseExcelFile {
 			        	 * Edit By Bowen
 			        	 * Added set dept
 			        	*/
-			        	cell = sheet.getCell(9,i);
+			        	cell = sheet.getCell(10,i);
 			        	assBo.setDuty(cell.getContents());
 			        	
 			        	assBo.setManageName(CacheContext.getInstance().getUserCache().getManageByUser(assBo.getDuty()));
