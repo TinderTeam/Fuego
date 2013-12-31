@@ -29,7 +29,10 @@
        
 	    <form-bean name="PasswordResetupForm"
                    type="cn.tinder.fuego.webservice.struts.form.PasswordResetupForm">
-        </form-bean>         
+        </form-bean>   
+        <form-bean name="NickNameSetupForm"
+                   type="cn.tinder.fuego.webservice.struts.form.NickNameSetupForm">
+        </form-bean>        
         	    <form-bean name="SystemParaSetupForm"
                    type="cn.tinder.fuego.webservice.struts.form.SystemParaSetupForm">
         </form-bean>    
@@ -419,8 +422,28 @@
             <forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Login" path="/jsp/login.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	       	</action>       	
-
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	       
+		</action>       	
+       	 <!-- NickNameSetup -->       
+       	<action path="/NickNameSetupInit"
+                type="cn.tinder.fuego.webservice.struts.action.nicknamesetup.NickNameSetupInitAction"              
+                >          
+  			<forward name="NickNameSetup" path="/jsp/nickNameSetup.jsp"></forward>
+  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>		
+       	</action>
+       	
+       	<action path="/NickNameSetup"
+                type="cn.tinder.fuego.webservice.struts.action.nicknamesetup.NickNameSetupAction"              
+                name = "NickNameSetupForm"> 
+            <forward name="NickNameSetupInit" path="/NickNameSetupInit.do"></forward>
+            <forward name="NickNameSetupAction" path="/NickNameSetup.do"></forward>            
+            <forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Login" path="/jsp/login.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	       
+		</action>       
 
        	<action path="/AssetsStatusSearchInit"
                 type="cn.tinder.fuego.webservice.struts.action.search.AssetsStatusSearchInitAction"              
