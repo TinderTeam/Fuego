@@ -27,3 +27,4 @@ INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALU
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (50000,'assertsManage','用户账户管理','submenu','icon icon-cog',NULL,0);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (51000,'assertsManage','修改用户密码','','icon icon-repeat','UserPasswordSetupInit.do',50000);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (52000,'assertsManage','密码重置','','icon icon-home','PasswordResetupInit.do',50000);
+INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (53000,'assertsManage','电子签名管理','','icon icon-home','NickNameSetupInit.do',50000);
