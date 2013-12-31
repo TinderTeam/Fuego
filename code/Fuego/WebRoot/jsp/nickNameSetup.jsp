@@ -34,7 +34,7 @@
 								<h5>电子签名管理</h5>
 							</div>
 							<div class="widget-content nopadding">
-								<form action="<%=request.getContextPath()%>/PasswordResetup.do" method="post" class="form-horizontal" />
+								<form action="<%=request.getContextPath()%>/NickNameSetup.do" method="post" class="form-horizontal" />
 									<div class="control-group">
 										<div class="alert alert-info">
 											<button class="close" data-dismiss="alert">×</button>
@@ -48,6 +48,7 @@
 										<label class="control-label">选择用户账户</label>
 										<div class="controls">
 											<select name="userName" style="width:200px">									
+													<option selected="" value="${nickNameBo.userName}"/>${nickNameBo.userName}
 													<c:forEach var="i" items= "${userList}"> 																								  
 														<option id="${i}" value = "${i}"/>${i}																							
 													</c:forEach>
@@ -56,12 +57,12 @@
 										
 										</div>
 										
-									</div>
+								</div>
 								<div class="control-group">
 										<label class="control-label">电子签名</label>
 										<div class="controls">
                                         
-                                               <input type="text" name="nickName" />
+                                               <input type="text" value="${nickNameBo.nickName} " name="nickName" style="width:200px"/>
                                    
 										    <button type="submit" class="btn btn-success" name="submit" value="submit4">保存</button>
 											 <button type="submit" class="btn btn-inverse" name="submit" value="submit3">删除</button>											

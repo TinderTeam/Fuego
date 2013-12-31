@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -61,11 +62,20 @@ public class TransOperRecordDaoImpl implements TransOperRecordDao
 		log.debug("[DAO] Delete the TransOperRecord:" + record.toString());
 		Session session = null;
 		Transaction tx = null;
+		String hql = null;
 		try
 		{
 			session = HibernateUtil.getSession();
 			tx = (Transaction) session.beginTransaction();
+			hql = "delete from TransOperRecord where trans_id=? and step=? and operTime=?";
+			Query query = session.createQuery(hql);
+			query.setString(0, record.getTransID());
+			query.setInteger(1, record.getStep());
+			query.setDate(2, record.getOperTime());
+			
+			
 
+			query.executeUpdate();
 			Object classObj = session.load(TransOperRecord.class, record.getTransID());
 
 			session.delete(classObj);

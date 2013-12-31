@@ -16,7 +16,7 @@
 			<property name="departmentID" column="DEPT_ID" not-null="true"></property>
 			<property name="manageName" column="MANAGE_NAME" not-null="false"></property>
 			<property name="role" column="ROLE" not-null="true"></property>
-                        <property name="nickName" column="NICK_NAME" not-null="false"></property>
+            <property name="nickName" column="NICK_NAME" not-null="false"></property>
 
 	</class>
 </hibernate-mapping>

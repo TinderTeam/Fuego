@@ -101,7 +101,34 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.SystemMaintanceService#modifyUserInfo(java.lang.String, java.lang.String)
 	 */
-	@Override
+	//nickname service
+	public String searchUserNickName(String userName)
+	{
+		String nickname=null;
+		nickname=systemUserDao.find(userName).getNickName();
+		SystemUser user = systemUserDao.find(userName);
+		log.info(user);
+		return nickname;
+	}
+    public SystemUser deleteUserNickName(String userName)
+    {
+    	SystemUser user=new SystemUser();
+    	user=systemUserDao.find(userName);
+    	user.setNickName(null);
+    	
+    	systemUserDao.saveOrUpdate(user);
+    	    	
+    	return user;
+    	
+    }	
+    public SystemUser  saveUserNickName(String userName,String nickName)
+    {
+    	SystemUser user=new SystemUser();
+    	user=systemUserDao.find(userName);
+    	user.setNickName(nickName);
+    	systemUserDao.saveOrUpdate(user);
+    	return user;
+    }
 	public  String searchUserInfo(String userName)
 	{  
 		String managename=null;
@@ -525,4 +552,5 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 			log.info("Result:"+assetsQuotaList);
 			return assetsQuotaList;
 	}
+
 }
