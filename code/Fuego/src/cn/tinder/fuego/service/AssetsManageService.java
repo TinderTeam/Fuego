@@ -48,7 +48,7 @@ public interface AssetsManageService
 	public List<AssetsInfoBo> getAssetsByAssetsIDList(String[] assestsList);
 	
 	public List<PurchasePlanBo> getPurchaseSumAssetsList(PurchaseAssetsSelectForm filter);
-	public List<PurchasePlanBo> getPurchaseSumAssetsList(PurchasePlanForm form);
+
 	public List<CheckPlanInfoBo> getCheckSumAssetsList(String dept);
 	
   	public void updateAssets (AssetsInfoBo assetsInfo);
@@ -71,7 +71,6 @@ public interface AssetsManageService
 
 	public List<PhysicalAssetsStatus> initAssetsID(List<PhysicalAssetsStatus> list);
 
-	public List<PurchasePlanBo> getRefPurchaseList(
-			PurchasePlanForm purchasePlanForm);
+	public List<PurchasePlanBo> getRefPurchaseList(PurchasePlanForm purchasePlanForm);
 	
 }

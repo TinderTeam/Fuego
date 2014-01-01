@@ -4,32 +4,24 @@ import org.apache.struts.action.ActionForm;
 
 import cn.tinder.fuego.service.model.PurchaseSumModel;
 
-public class PurchasePlanBo extends ActionForm
-{
+public class PurchasePlanBo extends ActionForm {
 	private int index;
-	AssetsBo assetsBo =new AssetsBo();
-	
+	AssetsBo assetsBo = new AssetsBo();
+
 	private String money;
 	private String price;
-	private String badCnt;
-	private String discardCnt;
-	private String dueCnt;
 	private String depreciation;
 	private String value;
-	private int quotaNum;
-	private int currentNum; 
-	
-	
+
 	/**
-	 * TASK #7 #80 ×Ê²ú²É¹ºÔö¼ÓÅäÖÃÊıÁ¿ÃèÊöĞÅÏ¢
-	 * 2014-1-1 ÖØ¹¹ By Bowen Nan
+	 * TASK #7 #80 èµ„äº§é‡‡è´­å¢åŠ é…ç½®æ•°é‡æè¿°ä¿¡æ¯ 2014-1-1 é‡æ„ By Bowen Nan
 	 * 
 	 */
-	
-	private int currentQuantity=0;	//ÏÖÓĞÊıÁ¿(º¬²»¿ÉÓÃ×´Ì¬)
-	private int disableQuantity=0; 	//²»¿ÉÓÃÊıÁ¿(´ı±¨·Ï¡¢Ëğ»µ)
-	private int quotaQuantity=0;		//ÅäÖÃÊıÁ¿
-	private int purchaseQuantity=0; 	//Ğè²É¹ºÊıÁ¿
+
+	private int currentQuantity = 0; // ç°æœ‰æ•°é‡(å«ä¸å¯ç”¨çŠ¶æ€)
+	private int disableQuantity = 0; // ä¸å¯ç”¨æ•°é‡(å¾…æŠ¥åºŸã€æŸå)
+	private int quotaQuantity = 0; // é…ç½®æ•°é‡
+	private int purchaseQuantity = 0; // éœ€é‡‡è´­æ•°é‡
 
 	/**
 	 * @return the currentQuantity
@@ -38,27 +30,13 @@ public class PurchasePlanBo extends ActionForm
 		return currentQuantity;
 	}
 
-
 	/**
-	 * @param currentQuantity the currentQuantity to set
+	 * @param currentQuantity
+	 *            the currentQuantity to set
 	 */
 	public void setCurrentQuantity(int currentQuantity) {
 		this.currentQuantity = currentQuantity;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	/**
 	 * @return the disableQuantity
@@ -67,40 +45,13 @@ public class PurchasePlanBo extends ActionForm
 		return disableQuantity;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
-	 * @param disableQuantity the disableQuantity to set
+	 * @param disableQuantity
+	 *            the disableQuantity to set
 	 */
 	public void setDisableQuantity(int disableQuantity) {
 		this.disableQuantity = disableQuantity;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	/**
 	 * @return the quotaQuantity
@@ -109,40 +60,13 @@ public class PurchasePlanBo extends ActionForm
 		return quotaQuantity;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
-	 * @param quotaQuantity the quotaQuantity to set
+	 * @param quotaQuantity
+	 *            the quotaQuantity to set
 	 */
 	public void setQuotaQuantity(int quotaQuantity) {
 		this.quotaQuantity = quotaQuantity;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	/**
 	 * @return the purchaseQuantity
@@ -151,63 +75,24 @@ public class PurchasePlanBo extends ActionForm
 		return purchaseQuantity;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
-	 * @param purchaseQuantity the purchaseQuantity to set
+	 * @param purchaseQuantity
+	 *            the purchaseQuantity to set
 	 */
 	public void setPurchaseQuantity(int purchaseQuantity) {
 		this.purchaseQuantity = purchaseQuantity;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public void countMoney() {
 
-			this.money = String.valueOf((float)this.assetsBo.getQuantity()*Float.valueOf(price));
-		
-	
- 	}
-	
-	
-	
-	
+		this.money = String.valueOf((float) this.assetsBo.getQuantity()
+				* Float.valueOf(price));
 
+	}
 
-
-
-
- 
-
-
-
-
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -219,21 +104,9 @@ public class PurchasePlanBo extends ActionForm
 		return result;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -253,56 +126,6 @@ public class PurchasePlanBo extends ActionForm
 		return true;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public String getBadCnt()
-	{
-		return badCnt;
-	}
-
-
-	public void setBadCnt(String badCnt)
-	{
-		this.badCnt = badCnt;
-	}
-
-
-	public String getDiscardCnt()
-	{
-		return discardCnt;
-	}
-
-
-	public void setDiscardCnt(String discardCnt)
-	{
-		this.discardCnt = discardCnt;
-	}
-
-
-	public String getDueCnt()
-	{
-		return dueCnt;
-	}
-
-
-	public void setDueCnt(String dueCnt)
-	{
-		this.dueCnt = dueCnt;
-	}
-
-
 	public AssetsBo getAssetsBo() {
 		return assetsBo;
 	}
@@ -316,10 +139,9 @@ public class PurchasePlanBo extends ActionForm
 	}
 
 	public void setMoney(String money) {
-		
+
 		this.money = money;
 	}
-
 
 	public void setPrice(String price) {
 		this.price = price;
@@ -358,87 +180,14 @@ public class PurchasePlanBo extends ActionForm
 	public String getValue() {
 		return value;
 	}
-	
-	public PurchaseSumModel getPurchaseSumModel()
-	{
+
+	public PurchaseSumModel getPurchaseSumModel() {
 		PurchaseSumModel sumModel = new PurchaseSumModel();
 		sumModel.setAssetsName(this.getAssetsBo().getAssetsID());
 		sumModel.setManufacture(this.getAssetsBo().getManufacture());
 		sumModel.setSpec(this.getAssetsBo().getSpec());
 		sumModel.setGasName(this.getAssetsBo().getDuty());
 		return sumModel;
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public void setQuotaNum(int quotaNum) {
-		this.quotaNum = quotaNum;
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public int getQuotaNum() {
-		return quotaNum;
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public void setCurrentNum(int currentNum) {
-		this.currentNum = currentNum;
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public int getCurrentNum() {
-		return currentNum;
 	}
 
 }
