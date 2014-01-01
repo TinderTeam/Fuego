@@ -16,6 +16,175 @@ public class PurchasePlanBo extends ActionForm
 	private String dueCnt;
 	private String depreciation;
 	private String value;
+	private int quotaNum;
+	private int currentNum; 
+	
+	
+	/**
+	 * TASK #7 #80 资产采购增加配置数量描述信息
+	 * 2014-1-1 重构 By Bowen Nan
+	 * 
+	 */
+	
+	private int currentQuantity=0;	//现有数量(含不可用状态)
+	private int disableQuantity=0; 	//不可用数量(待报废、损坏)
+	private int quotaQuantity=0;		//配置数量
+	private int purchaseQuantity=0; 	//需采购数量
+
+	/**
+	 * @return the currentQuantity
+	 */
+	public int getCurrentQuantity() {
+		return currentQuantity;
+	}
+
+
+	/**
+	 * @param currentQuantity the currentQuantity to set
+	 */
+	public void setCurrentQuantity(int currentQuantity) {
+		this.currentQuantity = currentQuantity;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * @return the disableQuantity
+	 */
+	public int getDisableQuantity() {
+		return disableQuantity;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * @param disableQuantity the disableQuantity to set
+	 */
+	public void setDisableQuantity(int disableQuantity) {
+		this.disableQuantity = disableQuantity;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * @return the quotaQuantity
+	 */
+	public int getQuotaQuantity() {
+		return quotaQuantity;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * @param quotaQuantity the quotaQuantity to set
+	 */
+	public void setQuotaQuantity(int quotaQuantity) {
+		this.quotaQuantity = quotaQuantity;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * @return the purchaseQuantity
+	 */
+	public int getPurchaseQuantity() {
+		return purchaseQuantity;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * @param purchaseQuantity the purchaseQuantity to set
+	 */
+	public void setPurchaseQuantity(int purchaseQuantity) {
+		this.purchaseQuantity = purchaseQuantity;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public void countMoney() {
 
@@ -198,6 +367,78 @@ public class PurchasePlanBo extends ActionForm
 		sumModel.setSpec(this.getAssetsBo().getSpec());
 		sumModel.setGasName(this.getAssetsBo().getDuty());
 		return sumModel;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public void setQuotaNum(int quotaNum) {
+		this.quotaNum = quotaNum;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public int getQuotaNum() {
+		return quotaNum;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public void setCurrentNum(int currentNum) {
+		this.currentNum = currentNum;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public int getCurrentNum() {
+		return currentNum;
 	}
 
 }

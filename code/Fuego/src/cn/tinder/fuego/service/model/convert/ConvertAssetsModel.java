@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.tinder.fuego.domain.po.AssetsQuota;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
@@ -132,6 +133,16 @@ public class ConvertAssetsModel
 			}
 		}
 		return deptMapAssest;
+	}
+
+	public static AssetsBo convertAssets(AssetsQuota quota) {
+		AssetsBo assetsBo = new AssetsBo();
+		assetsBo.setAssetsName(quota.getAssetsName());
+		assetsBo.setDuty(quota.getDuty());		
+		assetsBo.setManufacture(quota.getManufacture());
+		assetsBo.setQuantity(quota.getQuantity());
+		assetsBo.setSpec(quota.getSpec());
+		return assetsBo;
 	}
 	
 

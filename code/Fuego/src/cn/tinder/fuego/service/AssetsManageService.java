@@ -70,5 +70,8 @@ public interface AssetsManageService
 	public void updateBasicAssets(File uploadFile);
 
 	public List<PhysicalAssetsStatus> initAssetsID(List<PhysicalAssetsStatus> list);
+
+	public List<PurchasePlanBo> getRefPurchaseList(
+			PurchasePlanForm purchasePlanForm);
 	
 }

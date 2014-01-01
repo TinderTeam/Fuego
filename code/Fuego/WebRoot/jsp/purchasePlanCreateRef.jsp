@@ -60,9 +60,13 @@
 											<th>规格/参数</th>
 											<th>部门</th>
 											<th>购置数量</th>
-											<th>单位</th>
+											<th>单位</th>											
+											<th>已有数量</th>
+											<th>不可用数量</th>
+											<th>标准配置数量</th>
 											<th>预算单价</th>
 											<th>金额</th>
+								
 											<th>说明</th>
 											</tr>
 										</thead>
@@ -81,7 +85,9 @@
 													<td style="text-align:center">${item.assetsBo.quantity}</td>
 													
 													<td style="text-align:center" >${item.assetsBo.unit}</td>
-													
+													<td style="text-align:center">${item.currentQuantity}</td>
+													<td style="text-align:center">${item.disableQuantity}</td>
+													<td style="text-align:center" >${item.quotaQuantity}</td>
 													<td style="text-align:center">${item.price}</td>
 													
 													<td style="text-align:center" >${item.money}</td>

@@ -42,6 +42,7 @@ import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.id.AssetsIDCreateServiceImpl;
 import cn.tinder.fuego.service.model.PurchaseSumModel;
+
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
@@ -295,11 +296,18 @@ public class AssetsManageServiceImpl implements AssetsManageService
 				if(null == purchasePlan)
 				{
 					planList.add(plan);
+					
 				}
 				else
 				{
-					purchasePlan.getAssetsBo().setQuantity(purchasePlan.getAssetsBo().getQuantity()+plan.getAssetsBo().getQuantity());
+					/**
+					 * 1-1日修改逻辑
+					 */
+					//purchasePlan.getAssetsBo().setQuantity(purchasePlan.getAssetsBo().getQuantity()+plan.getAssetsBo().getQuantity());
+					purchasePlan.getAssetsBo().setQuantity(Math.max(purchasePlan.getAssetsBo().getQuantity(),plan.getAssetsBo().getQuantity()));
+					purchasePlan.setQuotaNum(plan.getQuotaNum());
 				}
+				
 			}
  
 		}
@@ -756,6 +764,337 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	public void updateBasicAssets(File uploadFile) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	/**
+	 * TASK #7 #80 资产采购增加配置数量描述信息
+	 */
+	public List<PurchasePlanBo> getRefPurchaseList(PurchasePlanForm form) {
+		
+		/*
+		 * 1.准备Form中的筛选条件
+		 */
+
+		Date 			dueDate;			//截止日期
+		List<String> 	assetsTypeList;		//资产类型列表
+		List<String>	techList;			//资产状态筛选列表 
+		String 			duty;				//责任部门条件
+		String 			manageName;			//经管部条件
+		
+		 
+		dueDate = DateService.stringToDate(form.getDate());
+
+		if(null == form.getTypeList() || form.getTypeList().length == 0)
+		{
+			log.warn("the type list is empty");
+			assetsTypeList = null;
+		}
+		else
+		{
+			assetsTypeList = Arrays.asList(form.getTypeList());
+		}
+		if(assetsTypeList.contains(AssetsConst.ASSETS_FITER_ALL))
+		{
+			assetsTypeList = null;
+		}
+		
+		techList = new ArrayList<String>();
+		techList.add(AssetsConst.ASSETS_STATUS_BAD);
+		techList.add(AssetsConst.ASSETS_STATUS_DISCARD);
+		
+	
+		if(form.getDuty().equals(AssetsConst.ASSETS_FITER_ALL))
+		{
+			duty = null;
+		}
+		else
+		{
+			duty = form.getDuty();
+		}
+		if(form.getManageName().equals(AssetsConst.ASSETS_FITER_ALL))
+		{
+			manageName = null;
+		}
+		else
+		{
+			manageName = form.getManageName();
+		}
+		
+		
+		/*
+		 * 获取部门、经管部、资产类型筛选范围内的所有资产
+		 * 相关表申明	
+		 */
+		
+		List<PhysicalAssetsStatus> currentAssetsList; //现有资产总列表（注意：此处不包含对超期日期、资产状态的筛选）
+		List<AssetsQuota> assetsQuotaList;		//现有资产总配置表（注意：此处不包含对超期日期、资产状态的筛选）
+		
+		List<PurchasePlanBo> purchasePlanList;	//需采购资产表
+		List<PurchasePlanBo> quotaPlanList  ;	//需采购资产配置表
+
+		
+		
+		//总表获取
+		currentAssetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(DateService.stringToDate(AssetsConst.ASSETS_LARGE_DATE), null, assetsTypeList,duty,manageName);
+		assetsQuotaList = getQuotaListByDutyAndManageName(duty,manageName);
+		
+		/*
+		 * 2.通过现有资产匹配出需采购的资产名称的PlanBo。其中包含生成 CQ 、 DQ 的数量
+		 */
+		purchasePlanList=getCurrentList(currentAssetsList,dueDate,assetsTypeList,techList);//获取统计范围内所有资产的数量信息
+		
+		/*
+		 * 3.根据配置表生成采购清单
+		 */
+		purchasePlanList = getPurchasePlanListByCurrentAndQuota(assetsQuotaList,purchasePlanList);
+
+		
+  		return purchasePlanList;
+		
+	}
+	
+	/**
+	 * 匹配建立采购表
+	 * @param assetsQuotaList
+	 * @param purchasePlanList
+	 * @return
+	 */
+	private List<PurchasePlanBo> getPurchasePlanListByCurrentAndQuota(
+			List<AssetsQuota> assetsQuotaList,
+			List<PurchasePlanBo> currentPlanList) {
+		// TODO Auto-generated method stub
+		
+		List<PurchasePlanBo> purchasePlanBoList = new ArrayList<PurchasePlanBo>();
+		
+		//生成采购匹配图
+		Map<PurchaseSumModel,PurchasePlanBo> purchasePlanMap = new HashMap<PurchaseSumModel,PurchasePlanBo>();
+		
+	
+		
+		/*
+		 * 将待匹配数据装入Map
+		 */
+		for(PurchasePlanBo crtPlanBo : currentPlanList){		
+			PurchaseSumModel purchaseSumModel = new PurchaseSumModel();
+			purchaseSumModel.setAssetsName(crtPlanBo.getAssetsBo().getAssetsName());
+			purchaseSumModel.setManufacture(crtPlanBo.getAssetsBo().getManufacture());
+			purchaseSumModel.setSpec(crtPlanBo.getAssetsBo().getSpec());
+			purchaseSumModel.setGasName(crtPlanBo.getAssetsBo().getDuty());
+			purchasePlanMap.put(purchaseSumModel, crtPlanBo);
+		}
+		
+		
+		/*
+		 * 遍历配置表进行匹配
+		 */
+		
+		
+		for(AssetsQuota quota:assetsQuotaList){
+			
+			//准备匹配模式
+			PurchaseSumModel quotaModel = new PurchaseSumModel();
+			quotaModel.setAssetsName(quota.getAssetsName());
+			quotaModel.setManufacture(quota.getManufacture());
+			quotaModel.setSpec(quota.getSpec());
+			quotaModel.setGasName(quota.getDuty());
+			
+			PurchasePlanBo planBo=purchasePlanMap.get(quotaModel);//进行匹配
+			
+			if(null==planBo){
+				//采购表中无配置表内容（此项配置无实物，需采购）
+				planBo = new PurchasePlanBo();	//新建一个PlanBo
+				planBo.setAssetsBo(ConvertAssetsModel.convertAssets(quota));	//将这个Asset 转换为 Bo	
+				
+				assetsPriceInit(quota,  planBo);	//获取价格（价格表/原价格）
+				/*
+				 * 配置统计计数信息
+				 */
+				computeAssetsQuantityInfo(quota, planBo);	
+				planBo.setQuotaQuantity(quota.getQuantity());
+				planBo.getAssetsBo().setQuantity(
+						//利用 QQ-(CQ-DQ)计算需采购的数量
+						planBo.getQuotaQuantity()-(planBo.getCurrentQuantity()-planBo.getDisableQuantity())
+				);
+				planBo.countMoney();//计算总金额
+				purchasePlanMap.put(quotaModel, planBo);
+				
+			}else{
+				planBo.setQuotaQuantity(quota.getQuantity());
+				planBo.getAssetsBo().setQuantity(
+						//利用 QQ-(CQ-DQ)计算需采购的数量
+						planBo.getQuotaQuantity()-(planBo.getCurrentQuantity()-planBo.getDisableQuantity())
+				);
+				planBo.countMoney();//计算总金额
+			}
+		}
+		
+		purchasePlanBoList = new ArrayList<PurchasePlanBo>(purchasePlanMap.values());	//将Map结果转入List
+
+		return purchasePlanBoList;
+		
+		
+	}
+
+	
+
+
+
+	private void computeAssetsQuantityInfo(AssetsQuota quota,
+			PurchasePlanBo planBo) {
+		planBo.setQuotaQuantity(quota.getQuantity());
+		planBo.setCurrentQuantity(0);
+		planBo.setDisableQuantity(0);
+	}
+
+	private void assetsPriceInit(AssetsQuota quota, PurchasePlanBo planBo) {
+		AssetsPrice assetPriceModel = setAssetPriceModel(quota.getAssetsName(),quota.getManufacture(),quota.getSpec());    //创建一个价格查询匹配模版			
+		AssetsPrice assetPrice = assetsPriceDao.getByAssetsPrice(assetPriceModel); //通过匹配模版查询资产价格
+		
+		if(null == assetPrice){		//资产无价格的情况用原值进行计算
+			log.warn("the price is null for the stuff" + quota.getAssetsName()+"-"+quota.getManufacture()+"-"+quota.getSpec());
+			planBo.setPrice("0.0");
+			//purchasePlan.countMoney(); 价格需要在汇总了配置表的情况下计算
+		}
+		else{	//有价格则取价格计算
+			planBo.setPrice(String.valueOf(assetPrice.getPrice()));
+			//purchasePlan.countMoney();  
+		}
+	}
+
+	private List<AssetsQuota> getQuotaListByDutyAndManageName(String duty,
+			String manageName) {
+		
+		//TODO 增加对经管部的处理
+		
+		List<AssetsQuota> quotaList=null;
+		if(null == duty)	//根据责任部门获取配置表
+		{	
+			quotaList = CacheContext.getInstance().getQuotaCache().getAllQuota();			
+		}
+		else
+		{
+			quotaList = CacheContext.getInstance().getQuotaCache().getQuataByDept(duty);			
+		}
+		
+		return quotaList;
+	}
+
+
+
+	/**
+	 * 汇总并获取需采购列表的中间态(未和配置表做比较)
+	 * @param currentAssetsList
+	 * @param dueDate
+	 * @param assetsTypeList
+	 * @param techList
+	 * @return
+	 */
+	private List<PurchasePlanBo> getCurrentList(List<PhysicalAssetsStatus> currentAssetsList,
+			Date dueDate, List<String> assetsTypeList, List<String> techList) {
+		
+		List<PurchasePlanBo> purchasePlanBoList = new ArrayList<PurchasePlanBo>();
+		
+		//匹配模式图
+		Map<PurchaseSumModel,PurchasePlanBo> purchasePlanMap = new HashMap<PurchaseSumModel,PurchasePlanBo>();
+		
+		
+		/*
+		 * 遍历现有表
+		 */
+		for(PhysicalAssetsStatus asset : currentAssetsList){
+			
+		
+			//对符合汇总条件的进行
+			
+			PurchaseSumModel purchaseSumModel = new PurchaseSumModel();
+			purchaseSumModel.setAssetsName(asset.getAssetsName());
+			purchaseSumModel.setManufacture(asset.getManufacture());
+			purchaseSumModel.setSpec(asset.getSpec());
+			purchaseSumModel.setGasName(asset.getDuty());
+			PurchasePlanBo purchasePlan;
+			
+			if(null != purchasePlanMap.get(purchaseSumModel))//汇总表中已有
+			{
+			    purchasePlan = purchasePlanMap.get(purchaseSumModel);
+				/*
+				 * 配置统计计数信息
+				 */
+			    computeAssetsQuantityInfo(asset, purchasePlan);		
+			    purchasePlan.getAssetsBo().setQuantity(purchasePlan.getDisableQuantity());
+			    purchasePlan.countMoney();
+		
+			}else{	//汇总表中未出现
+				
+				purchasePlan = new PurchasePlanBo();	//新建一个PlanBo
+				purchasePlan.setAssetsBo(ConvertAssetsModel.convertAssets(asset));	//将这个Asset 转换为 Bo	
+				
+				assetsPriceInit(asset,  purchasePlan);	//获取价格（价格表/原价格）
+				/*
+				 * 配置统计计数信息
+				 */
+				computeAssetsQuantityInfo(asset, purchasePlan);	
+				purchasePlan.getAssetsBo().setQuantity(purchasePlan.getDisableQuantity());
+				purchasePlan.countMoney();
+				purchasePlanMap.put(purchaseSumModel, purchasePlan);
+			}
+		}
+		
+		purchasePlanBoList = new ArrayList<PurchasePlanBo>(purchasePlanMap.values());	//将Map结果转入List
+		
+		
+		
+		return purchasePlanBoList;
+		
+	}
+
+	private void computeAssetsQuantityInfo(PhysicalAssetsStatus asset,
+			PurchasePlanBo purchasePlan) {
+		//已有数量增加
+		purchasePlan.setCurrentQuantity(purchasePlan.getCurrentQuantity()+asset.getQuantity());
+		//检查资产是否可以正常使用
+		if(!checkFilter(asset)){
+			//不可正常使用 计入损坏/待报废/超期资产
+			purchasePlan.setDisableQuantity(purchasePlan.getDisableQuantity()+asset.getQuantity());
+		}
+	}
+
+	private void assetsPriceInit(PhysicalAssetsStatus asset,
+			 PurchasePlanBo purchasePlan) {
+		AssetsPrice assetPriceModel = setAssetPriceModel(asset.getAssetsName(),asset.getManufacture(),asset.getSpec());    //创建一个价格查询匹配模版			
+		AssetsPrice assetPrice = assetsPriceDao.getByAssetsPrice(assetPriceModel); //通过匹配模版查询资产价格
+		
+		if(null == assetPrice){		//资产无价格的情况用原值进行计算
+			log.warn("the price is null for the stuff" + asset.getAssetsName()+"-"+asset.getManufacture()+"-"+asset.getSpec());
+			purchasePlan.setPrice(String.valueOf(asset.getOriginalValue()));
+			//purchasePlan.countMoney(); 价格需要在汇总了配置表的情况下计算
+		}
+		else{	//有价格则取价格计算
+			purchasePlan.setPrice(String.valueOf(assetPrice.getPrice()));
+			//purchasePlan.countMoney();  
+		}
+	}
+	/**
+	 * 通过价格查询模版查询到资产价格
+	 * TODO： 可拓展性，可以通过配置文件获取调节到匹配程度（名称、厂家、型号）
+	 * @param asset
+	 * @return
+	 */
+	private AssetsPrice setAssetPriceModel(String name,String manufacture,String spec) {
+		
+		AssetsPrice assetsPrice= new AssetsPrice();
+		assetsPrice.setAssetsName(name);
+		assetsPrice.setManufacture(manufacture);
+		assetsPrice.setSpec(spec);
+		
+		return assetsPrice;
+	}
+
+	private boolean checkFilter(PhysicalAssetsStatus asset) {
+		if(AssetsConst.ASSETS_STATUS_BAD.equals(asset.getTechState())||AssetsConst.ASSETS_STATUS_DISCARD.equals(asset.getTechState())){
+			return false;
+		}
+		return true;
 	}
 
 
