@@ -136,7 +136,8 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 		String type="";
 		if(null != planList && !planList.isEmpty())
 		{	
-			//planList.get(0).get
+
+			type=planList.get(0).getAssetsType();
 		}
 		String handleUser;
 		switch(transEvent.getCurrentStep())
@@ -145,6 +146,7 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
         case 5 :
 
         	handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
+
         	if(null == UserCache.getInstance().getUserByName(handleUser))
         	{
         		 log.warn("can not get the user by name." + handleUser);
@@ -212,6 +214,7 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 			planInfoBo.setMoney(String.valueOf(purchasePlan.getSum()));
 			planInfoBo.setPrice(String.valueOf(purchasePlan.getPrice()));
 			planInfoBo.getAssetsBo().setUnit(purchasePlan.getUnit());
+			planInfoBo.getAssetsBo().setAssetsType(purchasePlan.getAssetsType());
 			planBoList.add(planInfoBo);
 		}
 		plan.getPurchasePageBo().setAssetsList(planBoList);

@@ -107,9 +107,8 @@ public class ImportBasicDataExcelFile {
 			        	/*
 			        	 * 
 			        	 */
-			        
-			        	
-			           	assets.setDueDate(new Date(assets.getPurchaseDate().getTime()+365*assets.getExpectYear()));
+
+			           	assets.setDueDate(DateService.addYear(assets.getPurchaseDate(),assets.getExpectYear()));
 			       
 			           	//TYPE	    
 			           	cell = sheet.getCell(13,i);

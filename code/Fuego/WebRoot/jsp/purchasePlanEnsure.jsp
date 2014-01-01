@@ -42,6 +42,7 @@
 									<thead>
 										<tr>
 										<th>资产名称</th>
+										<th>资产类型</th>
 										<th>品牌</th>
 										<th>资产型号</th>
 										<th>归属部门</th>
@@ -57,12 +58,14 @@
  
 											  <tr>
 												<td style="text-align:center" >${i.assetsBo.assetsName}</td>
-											
+												<td style="text-align:center" >${i.assetsBo.assetsType}</td>
 												<td style="text-align:center">${i.assetsBo.manufacture}</td>
+												
 												<td style="text-align:center">${i.assetsBo.spec}</td>
 												<td style="text-align:center">${i.assetsBo.duty}</td>		
 												<td style="text-align:center">${i.assetsBo.quantity}</td>
 												<td style="text-align:center">${i.assetsBo.unit}</td>
+												
 												<td style="text-align:center">￥ ${i.price}</td>
 												<td style="text-align:center">￥ ${i.money}</td>									
 												<td style="text-align:center">${i.assetsBo.note}</td>																																

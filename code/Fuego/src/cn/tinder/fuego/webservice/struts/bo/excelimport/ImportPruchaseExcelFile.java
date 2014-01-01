@@ -72,6 +72,9 @@ public class ImportPruchaseExcelFile {
 			        	AssetsBo assBo=new AssetsBo();
 			        	assBo.setAssetsID(cell.getContents());
 			        	cell = sheet.getCell(2,i);
+			        	if(cell.getContents().isEmpty()){
+			        		continue;
+			        	}
 			        	assBo.setAssetsName(cell.getContents());
 			        	cell = sheet.getCell(3,i);
 			        	assBo.setAssetsType(cell.getContents());

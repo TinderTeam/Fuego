@@ -119,7 +119,15 @@ public class PurchasePlanEnsureAction extends Action
 		}
 		else if(ParameterConst.AGREE_PARA_NAME.equals(submitPara))
 		{
-			planService.forwardNext(plan.getPurchaseTransBo().getTransInfo().getTransID(),operateInfo.getOperateInfo());
+			String transID=plan.getPurchaseTransBo().getTransInfo().getTransID();
+			String operateInfoStr;
+			if(null!=operateInfo){
+				operateInfoStr=operateInfo.getOperateInfo();
+			}else{
+				operateInfoStr=null;
+			}
+			
+			planService.forwardNext(transID,operateInfoStr);
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 
 		}

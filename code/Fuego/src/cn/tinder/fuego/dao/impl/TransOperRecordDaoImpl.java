@@ -21,6 +21,7 @@ import org.hibernate.criterion.Restrictions;
 import cn.tinder.fuego.dao.TransOperRecordDao;
 import cn.tinder.fuego.dao.hibernate.util.HibernateUtil;
 import cn.tinder.fuego.domain.po.TransOperRecord;
+import cn.tinder.fuego.util.date.DateService;
 
 /** 
  * @ClassName: TransOperRecordImpl 
@@ -71,7 +72,7 @@ public class TransOperRecordDaoImpl implements TransOperRecordDao
 			Query query = session.createQuery(hql);
 			query.setString(0, record.getTransID());
 			query.setInteger(1, record.getStep());
-			query.setDate(2, record.getOperTime());
+			query.setDate(2, DateService.stringToDate( record.getOperTime()));
 			
 			
 
