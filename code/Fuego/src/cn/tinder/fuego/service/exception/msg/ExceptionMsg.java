@@ -45,6 +45,7 @@ public class ExceptionMsg
 	
 	
 	public static final String TRANS_IS_EMPTY = "没有相应的事务";
+	public static final String EXCELSHEET_ISNULL = "EXCEL表格中没有SHEET";
 	
 	
 
