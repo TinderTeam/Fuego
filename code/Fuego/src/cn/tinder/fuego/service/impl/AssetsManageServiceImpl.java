@@ -868,7 +868,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 				/*
 				 * 配置统计计数信息
 				 */
-			    computeAssetsQuantityInfo(asset, purchasePlan);		
+			    computeAssetsQuantityInfo(asset, purchasePlan,dueDate);		
 			    purchasePlan.getAssetsBo().setQuantity(purchasePlan.getDisableQuantity());
 			    purchasePlan.countMoney();
 		
@@ -881,7 +881,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 				/*
 				 * 配置统计计数信息
 				 */
-				computeAssetsQuantityInfo(asset, purchasePlan);	
+				computeAssetsQuantityInfo(asset, purchasePlan,dueDate);	
 				purchasePlan.getAssetsBo().setQuantity(purchasePlan.getDisableQuantity());
 				purchasePlan.countMoney();
 				purchasePlanMap.put(purchaseSumModel, purchasePlan);
@@ -897,11 +897,11 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	}
 
 	private void computeAssetsQuantityInfo(PhysicalAssetsStatus asset,
-			PurchasePlanBo purchasePlan) {
+			PurchasePlanBo purchasePlan,Date dueDate) {
 		//已有数量增加
 		purchasePlan.setCurrentQuantity(purchasePlan.getCurrentQuantity()+asset.getQuantity());
 		//检查资产是否可以正常使用
-		if(!checkFilter(asset)){
+		if(!checkFilter(asset,dueDate)){
 			//不可正常使用 计入损坏/待报废/超期资产
 			purchasePlan.setDisableQuantity(purchasePlan.getDisableQuantity()+asset.getQuantity());
 		}
@@ -938,8 +938,10 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		return assetsPrice;
 	}
 
-	private boolean checkFilter(PhysicalAssetsStatus asset) {
+	private boolean checkFilter(PhysicalAssetsStatus asset,Date dueDate) {
 		if(AssetsConst.ASSETS_STATUS_BAD.equals(asset.getTechState())||AssetsConst.ASSETS_STATUS_DISCARD.equals(asset.getTechState())){
+			return false;
+		}else if(dueDate.after(asset.getDueDate())){
 			return false;
 		}
 		return true;
