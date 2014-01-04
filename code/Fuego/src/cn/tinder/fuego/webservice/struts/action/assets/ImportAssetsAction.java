@@ -122,7 +122,9 @@ public class ImportAssetsAction extends Action
 		}
 		else if(ParameterConst.ASSIGN_UPLOAD_PARA_NAME.equals(submitPara))
 		{
-			assetsManageService.importBasicAssest(excelIOService.uploadFile(importAssetsForm.getAssignAssetsFile()));
+		
+			
+			assetsManageService.addBasicAssets(excelIOService.uploadFile(importAssetsForm.getAssignAssetsFile()));
 			nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 		}
 		/*
