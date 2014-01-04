@@ -428,12 +428,12 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	private void createAssetsByList(List<PhysicalAssetsStatus> assetsList) {
 		try
 		{
+			
 			assetsDao.create(assetsList);
 		}
 		catch(Exception e)
 		{
 			log.error("import assets failed.",e);
-			log.error(assetsList);
 			String errMsg =e.getCause().getMessage();
 			String arrStr[] =errMsg.split("'");
 			String errID=null;
@@ -512,6 +512,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		//处理导入资产的资产ID
 		List<PhysicalAssetsStatus> AssetsCreatedIDList = initAssetsID(assetsList); 
 		//将资产导入系统
+		
 		createAssetsByList(AssetsCreatedIDList);
 	}
 /**
