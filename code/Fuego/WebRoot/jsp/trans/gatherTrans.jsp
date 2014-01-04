@@ -35,7 +35,7 @@
 								
 							</div>
 									<div class="control-group">
-								事务：${transSumInfo.transNum}，资产：${transSumInfo.assetsNum}，金额：${transSumInfo.assetsValue}
+								${transSumInfo}
 								</div>
 								<div class="widget-content nopadding">
 									<table class="table table-bordered data-table">

@@ -20,6 +20,8 @@ import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.TransExtAttrDao;
+import cn.tinder.fuego.dao.impl.AssignPlanDaoImpl;
+import cn.tinder.fuego.dao.impl.PhysicalAssetsStatusDaoImpl;
 import cn.tinder.fuego.domain.po.AssignPlan;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.RecapturePlan;
@@ -30,6 +32,7 @@ import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.cache.UserCache;
+import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.TransactionExtAttrConst;
 import cn.tinder.fuego.service.constant.UserNameConst;
@@ -38,6 +41,8 @@ import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
+import cn.tinder.fuego.util.date.DateService;
+import cn.tinder.fuego.util.engine.computer.ComputeService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
@@ -425,5 +430,51 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public String getSumInfo(List<String> transIDList) {
+	
+		int assetsNum=0;	//涉及资产数量
+		float originalValue = 0 ; //涉及资产原值
+		float tValue = 0 ; //设计资产净值
+		int GDZCNum=0;
+		int DZYHPNum=0;
+		
+		
+		/**
+		 * 调拨统计实现
+	
+		PhysicalAssetsStatusDao  assetsDao = new PhysicalAssetsStatusDaoImpl(); */
+		AssignPlanDao assignPlanDao = new AssignPlanDaoImpl();
+		PhysicalAssetsStatusDao assetsDao = new PhysicalAssetsStatusDaoImpl();
+		
+		
+
+		List<AssignPlan> planBoList = assignPlanDao.getByTransID(transIDList);
+		
+		for(AssignPlan plan:planBoList){
+			assetsNum++;
+			PhysicalAssetsStatus assets = assetsDao.getByAssetsID(plan.getAssetsID());
+			originalValue =originalValue+ assets.getOriginalValue();
+			if(ComputeService.cptValue(assets.getPurchaseDate(),  assets.getExpectYear(), assets.getOriginalValue())>0){
+				tValue=tValue+ComputeService.cptValue(assets.getPurchaseDate(),  assets.getExpectYear(), assets.getOriginalValue());
+			}
+			if(assets.getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)){
+				GDZCNum=GDZCNum+1;
+			}
+			if(assets.getAssetsType().equals(AssetsConst.ASSETS_DZYH_TYPE)){
+				DZYHPNum=DZYHPNum+1;
+			}
+		}
+		
+		
+		String str = 
+			"统计期间"+
+			"调拨业务发生"+transIDList.size()+"笔,涉及资产数量"+assetsNum+"个；涉及资产原值"+originalValue+"元，净值"+tValue+"元；其中固定资产"+GDZCNum+",个；低值易耗品"+DZYHPNum+"个";
+	
+			
+		return str;
+	 	
 	}
 }

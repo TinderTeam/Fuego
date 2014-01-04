@@ -58,5 +58,6 @@ public interface TransPlanService<E>
 	
 	public int getPlanCount(List<String> transIDList);
 	public float getPlanAssetsSumValue(List<String> transIDList);
+	public String getSumInfo(List<String> transIDList);
 
 }

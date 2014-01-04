@@ -594,4 +594,9 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 		return false;
 	}
 
+	@Override
+	public String getSumInfo(List<String> transIDList) {
+		return "事务数量："+transIDList.size()+";涉及资产："+getPlanCount(transIDList)+";涉及金额："+getPlanAssetsSumValue(transIDList);
+	}
+
 }

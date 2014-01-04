@@ -487,4 +487,9 @@ s	 *
 		// TODO Auto-generated method stub
 		return Integer.valueOf(TransactionConst.RECAPTURE_APPROVAL_STEP);
 	}
+
+	@Override
+	public String getSumInfo(List<String> transIDList) {
+		return "事务数量："+transIDList.size()+";涉及资产："+getPlanCount(transIDList)+";涉及金额："+getPlanAssetsSumValue(transIDList);
+	}
 }

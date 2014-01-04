@@ -21,6 +21,7 @@ public class TransSumInfoBo
 	private int transNum;
 	private int assetsNum;
 	private float assetsValue;
+	private String sumInfo;
 	public int getTransNum()
 	{
 		return transNum;
@@ -44,6 +45,12 @@ public class TransSumInfoBo
 	public void setAssetsValue(float assetsValue)
 	{
 		this.assetsValue = assetsValue;
+	}
+	public void setSumInfo(String sumInfo) {
+		this.sumInfo = sumInfo;
+	}
+	public String getSumInfo() {
+		return sumInfo;
 	}
 	
 	
