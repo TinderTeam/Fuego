@@ -33,7 +33,7 @@ public class ImportBasicDataExcelFile {
 		
 	    
 	    
-	     if (uploadFile.getName().indexOf(".xls") <= 0){
+	     if (!uploadFile.getName().endsWith(".xls")){
 	            throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG);
 	     }
 	        // 2.判断文件是否存在
@@ -160,7 +160,7 @@ public class ImportBasicDataExcelFile {
 		
 	    
 	    
-	     if (uploadFile.getName().indexOf(".xls") <= 0){
+	     if (!uploadFile.getName().endsWith(".xls")){
 	            throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG);
 	     }
 	        // 2.判断文件是否存在

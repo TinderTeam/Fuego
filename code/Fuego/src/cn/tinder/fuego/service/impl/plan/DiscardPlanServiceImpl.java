@@ -493,7 +493,7 @@ public class DiscardPlanServiceImpl<E>extends TransactionServiceImpl implements 
 		log.info(uploadFile.getAbsolutePath());
 		
  		List<String> assetsIDList = new ArrayList<String>();	
-	    if (uploadFile.getName().indexOf(".xls") <= 0){
+	    if (!uploadFile.getName().endsWith(".xls")){
 	    	throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG+uploadFile.getName());
 	    }
 	     

@@ -184,7 +184,7 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 		
  		List<AssetsPrice> priceAssest = new ArrayList<AssetsPrice>();
 	
-	     if (uploadFile.getName().indexOf(".xls") <= 0){
+	     if (!uploadFile.getName().endsWith(".xls")){
 	            throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG+uploadFile.getName());
 	     }
 	     
@@ -481,7 +481,7 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 		
 		List<AssetsQuota> assetsQuotaList = new ArrayList<AssetsQuota>();
 	
-	     if (uploadFile.getName().indexOf(".xls") <= 0){
+	     if (!uploadFile.getName().endsWith(".xls")){
 	            throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG+uploadFile.getName());
 	     }
 	     

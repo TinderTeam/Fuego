@@ -32,7 +32,7 @@ public class ImportPruchaseExcelFile {
 		
 	    
 	    
-	     if (uploadFile.getName().indexOf(".xls") <= 0){
+	     if (!uploadFile.getName().endsWith(".xls")){
 	            throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG+uploadFile.getName());
 	     }
 	        // 2.判断文件是否存在

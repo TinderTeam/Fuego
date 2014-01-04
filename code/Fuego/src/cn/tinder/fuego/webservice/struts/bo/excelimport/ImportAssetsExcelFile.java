@@ -57,7 +57,7 @@ public class ImportAssetsExcelFile {
 		assetsTypeMap.put(AssetsConst.ASSETS_YLSS_TYPE, 0);
 	
 		
-	     if (uploadFile.getName().indexOf(".xls") <= 0){
+	     if (!uploadFile.getName().endsWith(".xls")){
 	            throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG+uploadFile.getName());
 	     }
 	     
