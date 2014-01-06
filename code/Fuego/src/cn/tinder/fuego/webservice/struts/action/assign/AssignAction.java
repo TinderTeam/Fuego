@@ -95,6 +95,7 @@ public class AssignAction extends Action
 				assignPlan.getTransInfo().setInDept(model.getAssetsInGas());
 				assignPlan.getTransInfo().setOutDept(model.getAssetsOutGas());
 				assignPlan.getAssetsPage().setAssetsList(map.get(model));	
+				assignPlan.getTransInfo().getTransInfo().setExecuteName(model.getNote());
 				assignPlan.getTransInfo().getTransInfo().setHandleUser(model.getDept());
 				planService.updatePlan(assignPlan);
 				planService.forwardNext(assignPlan.getTransInfo().getTransInfo().getTransID());
