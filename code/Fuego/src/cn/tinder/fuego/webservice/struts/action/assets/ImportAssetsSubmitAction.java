@@ -25,6 +25,7 @@ import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
+import cn.tinder.fuego.webservice.struts.bo.download.AssetsStatuesFile;
 import cn.tinder.fuego.webservice.struts.bo.receive.ReceivePlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
@@ -85,7 +86,7 @@ public class ImportAssetsSubmitAction extends Action
 		AssetsFilterForm assetsForm = (AssetsFilterForm)form;	
 
     	String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
-    	
+    	log.info("Submit Para is: " +submitPara);
     	AssetsPageBo assetsPage = (AssetsPageBo) request.getSession().getAttribute(RspBoNameConst.ASSETS_PAGE_DATA);
 
 		if(ParameterConst.SUBMIT_PARA_NAME.equals(submitPara))
@@ -142,6 +143,21 @@ public class ImportAssetsSubmitAction extends Action
     		assetsPage.getPage().setCurrentPage(assetsForm.getPageNum());
     		assetsPage.setAssetsList(assetsPage.getPage().getCurrentPageData());
     		nextPage = PageNameConst.IMPORT_ASSETS_SUBMIT_INIT_ACTION;
+    	}else if(submitPara.equals(ParameterConst.DOWNLOAD_PARA_NAME)){
+				/*
+				 * download	
+				 */
+				log.info("Para is " + submitPara);
+				
+			
+	
+				
+				
+				AssetsStatuesFile downfile= new AssetsStatuesFile(assetsPage);
+				
+				request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE,downfile.getFile().getAbsolutePath()); 
+				
+				nextPage = PageNameConst.DOWNLOAD_ACTION;
     	}
         return nextPage;
  
