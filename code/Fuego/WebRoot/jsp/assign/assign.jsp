@@ -43,7 +43,7 @@
 								</div>			
 							</div>
 							<div class="widget-content nopadding">
-								<form action="<%=request.getContextPath()%>/Assign.do" method="post" class="form-horizontal" >
+								<form action="<%=request.getContextPath()%>/Assign.do" method="post"  enctype="multipart/form-data" class="form-horizontal" >
 									                                        
                                     <div class="control-group">
 										<label class="control-label">调出部门</label>
@@ -74,10 +74,20 @@
 
 
 									<div class="form-actions">
-										<button type="submit" class="btn btn-primary">确认</button>
+										<button type="submit" class="btn btn-primary" name = "submit" value = "submit">确认</button>
 									</div>
+								<div class="control-group">
+									<div class="form-actions">
+											<button type="submit" class="btn btn-primary" name ="submit" value="download">Excel数据模版</button>
+											<input type="file" name ="uploadFile"/>										
+											<button type="submit" class="btn btn-inverse" name ="submit" value="upload" >批量调拨导入</button>										
+									</div>	
 								</form>
 							</div>
+							
+						
+									
+						
 						</div>
 					</div>
 				</div>

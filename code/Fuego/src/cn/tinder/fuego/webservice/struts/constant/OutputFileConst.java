@@ -35,6 +35,7 @@ public class OutputFileConst {
 	public static final String QUOTAFILE = ConfigInformation.getResourcePath()+"\\QuotaFile.xls";
 	public static final Object DISCARD_FILE_MODEL_PATH =ConfigInformation.getResourcePath()+"Model\\DiscardModel.xls";
 	public static final Object ASSETS_STATUES_DELETE_MODEL_PATH =ConfigInformation.getResourcePath()+"Model\\DeleteAssetsModel.xls";
+	public static final Object ASSIGN_MODEL_PATH = ConfigInformation.getResourcePath()+"Model\\AssignModel.xls";
 
 
 

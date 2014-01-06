@@ -36,7 +36,7 @@ public class ExcelReader {
 		return list;
 	}
 	
-	ExcelReader(File file){
+	public ExcelReader(File file){
 		//利用文件加载
 		readFile = file;
 		try{
@@ -46,7 +46,7 @@ public class ExcelReader {
 		}
 	}
 	
-	ExcelReader(File file , int titleRow){
+	public ExcelReader(File file , int titleRow){
 		//利用文件加载		
 		titleRowNumber= titleRow;		
 		readFile = file;
@@ -101,6 +101,7 @@ public class ExcelReader {
 			excelLines = sheet.getColumns();
 			excelRows  = sheet.getRows();
 			
+			
 			//加载标题(填入有效列数)
 			titleMap=loadTitleRow(titleRowNumber,sheet);
 			log.info("标题行内容为:"+titleMap);
@@ -144,6 +145,7 @@ private List<List<String>> loadData(Map<String, Integer> titleMap,
 			strList.add(str);		
 		}
 		if(empt==0){
+			rows=j;
 			dataList.add(strList);
 		}else{
 			rows=j;
@@ -315,6 +317,17 @@ public void setArrayData(List<List<String>> arrayData) {
  */
 public static Log getLog() {
 	return log;
+}
+
+/* (non-Javadoc)
+ * @see java.lang.Object#toString()
+ */
+@Override
+public String toString() {
+	return "ExcelReader [readFile=" + readFile + ", excelRows=" + excelRows
+			+ ", rows=" + rows + ", excelLines=" + excelLines + ", lines="
+			+ lines + ", titleRowNumber=" + titleRowNumber + ", titleMap="
+			+ titleMap + ", arrayData=" + arrayData + "]";
 }
 	
 	
