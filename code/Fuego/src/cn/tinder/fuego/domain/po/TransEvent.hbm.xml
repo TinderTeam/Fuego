@@ -21,7 +21,8 @@
 			<property name="status" column="STATUS" not-null="false"></property>
 
 			<property name="type" column="TYPE" not-null="false"></property>
-			<property name="parentTransID" column="PARENT_TRANS_ID" not-null="false"></property>	
+			<property name="parentTransID" column="PARENT_TRANS_ID" not-null="false"></property>
+			<property name="executeName" column="EXECUTE_NAME" not-null="false"></property>	
 	</class>
 </hibernate-mapping>
  

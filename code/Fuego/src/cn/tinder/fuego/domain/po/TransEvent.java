@@ -17,7 +17,7 @@ public class TransEvent
 	private String status;
 	private String type;
 	private String parentTransID;
-
+    private String executeName;
 	/**
 	 * @return the transID
 	 */
@@ -195,11 +195,31 @@ public class TransEvent
 		this.handleTime = handleTime;
 	}
 
+	/**
+	 * @return the executeName
+	 */
+	public String getExecuteName() {
+		return executeName;
+	}
+
+	/**
+	 * @param executeName the executeName to set
+	 */
+	public void setExecuteName(String executeName) {
+		this.executeName = executeName;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
-	public String toString()
-	{
-		return "TransEvent [transID=" + transID + ", transName=" + transName + ", createTime=" + createTime + ", createUser=" + createUser + ", endTime=" + endTime + ", handleUser=" + handleUser
-				+ ", currentStep=" + currentStep + ", handleTime=" + handleTime + ", status=" + status + ", type=" + type + ", parentTransID=" + parentTransID + "]";
+	public String toString() {
+		return "TransEvent [transID=" + transID + ", transName=" + transName
+				+ ", createTime=" + createTime + ", createUser=" + createUser
+				+ ", endTime=" + endTime + ", handleUser=" + handleUser
+				+ ", currentStep=" + currentStep + ", handleTime=" + handleTime
+				+ ", status=" + status + ", type=" + type + ", parentTransID="
+				+ parentTransID + ", executeName=" + executeName + "]";
 	}
 
  
