@@ -51,11 +51,11 @@
 															 <div class="controls">
 																   <c:choose>	
 																	 <c:when test="${'create' == pageDisCtr}">
-																	 	  <input type="text" name="executeName" value="discardPlanInfo.transInfo.transInfo.executeName"/>
+																	 	  <input type="text" name="executeName" value="${discardPlanInfo.transInfo.transInfo.executeName}"/>
 																	 	 											           
 																	  </c:when>
 																	  <c:otherwise>  
-																		  <input type="text" name="executeName" value="discardPlanInfo.transInfo.transInfo.executeName"/>
+																		  <input type="text" name="executeName" value="${discardPlanInfo.transInfo.transInfo.executeName}" disabled = true/>
 															
 																
 																	  </c:otherwise>	
