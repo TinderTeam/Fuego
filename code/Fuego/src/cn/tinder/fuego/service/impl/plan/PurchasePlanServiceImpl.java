@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.omg.IOP.ServiceContext;
 
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.PurchasePlanDao;
@@ -24,7 +23,6 @@ import cn.tinder.fuego.domain.po.PurchasePlan;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.TransPlanService;
-
 import cn.tinder.fuego.service.cache.AssetsTypeParaCache;
 import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.TransactionConst;
@@ -35,7 +33,6 @@ import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;

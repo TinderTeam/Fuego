@@ -22,7 +22,6 @@ import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
-import cn.tinder.fuego.webservice.struts.form.AssetsModifyForm;
 
 
 

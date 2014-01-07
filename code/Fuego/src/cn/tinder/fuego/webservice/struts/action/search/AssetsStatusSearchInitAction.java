@@ -2,7 +2,6 @@ package cn.tinder.fuego.webservice.struts.action.search;
 
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +16,6 @@ import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
-import cn.tinder.fuego.service.constant.AssetsConst;
-import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.util.engine.computer.ComputeService;

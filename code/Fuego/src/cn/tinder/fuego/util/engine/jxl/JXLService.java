@@ -1,16 +1,14 @@
 package cn.tinder.fuego.util.engine.jxl;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import cn.tinder.fuego.service.exception.ServiceException;
-import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 
 import jxl.Cell;
 import jxl.CellType;
 import jxl.DateCell;
 import jxl.NumberCell;
 import jxl.Sheet;
+import cn.tinder.fuego.service.exception.ServiceException;
+import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 
 public class JXLService {
 

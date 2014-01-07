@@ -16,7 +16,6 @@ import org.apache.commons.logging.LogFactory;
 
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.domain.po.SystemUser;
-import cn.tinder.fuego.service.constant.UserRoleConst;
 
 /** 
  * @ClassName: UserCache 

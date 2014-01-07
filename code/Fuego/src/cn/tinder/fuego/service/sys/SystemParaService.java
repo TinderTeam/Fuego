@@ -1,6 +1,7 @@
 package cn.tinder.fuego.service.sys;
 
 
+import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.form.PasswordResetupForm;
 import cn.tinder.fuego.webservice.struts.form.UserPasswordSetupForm;

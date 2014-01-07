@@ -11,8 +11,6 @@ package cn.tinder.fuego.webservice.struts.bo.page;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-
 /** 
  * @ClassName: PageModel 
  * @Description: TODO

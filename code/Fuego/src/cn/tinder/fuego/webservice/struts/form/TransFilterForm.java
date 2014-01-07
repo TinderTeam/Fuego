@@ -1,8 +1,5 @@
 package cn.tinder.fuego.webservice.struts.form;
 
-import java.util.Arrays;
-import java.util.Date;
-
 import org.apache.struts.action.ActionForm;
 
 import cn.tinder.fuego.util.date.DateService;

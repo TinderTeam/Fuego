@@ -4,9 +4,6 @@ import java.util.Arrays;
 
 import org.apache.struts.action.ActionForm;
 
-import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
-import cn.tinder.fuego.webservice.util.MyArrayList;
-
 /**
  * 
  * @ClassName: RefPlanCreateForm

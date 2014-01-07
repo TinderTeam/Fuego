@@ -3,12 +3,9 @@ package cn.tinder.fuego.util.engine.computer;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Test;
-
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 
 public class ComputeService {
 	static public float cptValue(Date startDate,int limit,float value){

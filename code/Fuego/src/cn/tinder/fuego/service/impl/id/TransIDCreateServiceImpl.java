@@ -10,9 +10,6 @@ package cn.tinder.fuego.service.impl.id;
 
 import java.util.List;
 
-import cn.tinder.fuego.dao.AssetsTypeDao;
-import cn.tinder.fuego.dao.DaoContext;
-import cn.tinder.fuego.domain.po.AssetsType;
 import cn.tinder.fuego.service.IDCreateService;
 
 /** 

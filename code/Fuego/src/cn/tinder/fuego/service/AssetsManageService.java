@@ -15,9 +15,7 @@ import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
-import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanInfoBo;
 import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
-import cn.tinder.fuego.webservice.struts.form.GasAssetsApplyForm;
 import cn.tinder.fuego.webservice.struts.form.purchase.PurchaseAssetsSelectForm;
 import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm;
 
