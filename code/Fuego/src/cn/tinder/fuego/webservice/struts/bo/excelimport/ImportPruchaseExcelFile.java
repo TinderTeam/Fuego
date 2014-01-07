@@ -18,6 +18,7 @@ import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
+import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
 
 public class ImportPruchaseExcelFile {
 	 private static final Log log = LogFactory.getLog(ImportPruchaseExcelFile.class);

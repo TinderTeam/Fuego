@@ -3,6 +3,7 @@ package cn.tinder.fuego.webservice.struts.bo.purchaseplan;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchaseAssetsSelectAction;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 
 /**

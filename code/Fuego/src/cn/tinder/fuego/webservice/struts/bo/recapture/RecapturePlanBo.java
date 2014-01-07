@@ -1,6 +1,7 @@
 package cn.tinder.fuego.webservice.struts.bo.recapture;
 
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
+import cn.tinder.fuego.webservice.struts.bo.discard.DiscardTransBo;
 
 /**
  * 

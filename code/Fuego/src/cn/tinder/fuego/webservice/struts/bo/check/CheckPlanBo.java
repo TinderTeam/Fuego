@@ -8,6 +8,8 @@
 */ 
 package cn.tinder.fuego.webservice.struts.bo.check;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 /** 

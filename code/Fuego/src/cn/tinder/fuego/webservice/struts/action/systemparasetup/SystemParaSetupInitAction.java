@@ -8,6 +8,10 @@
 */ 
 package cn.tinder.fuego.webservice.struts.action.systemparasetup;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,6 +42,8 @@ public class SystemParaSetupInitAction extends Action
 	private static final Log log = LogFactory.getLog(SystemParaSetupInitAction.class);
 	private LoadService loadService = ServiceContext.getInstance().getLoadService();
 
+	//private GasStationCheckService gasStationCheckStatusService = ServiceContext.getInstance().getGasStationCheckService();
+    //service需要重新设置！！！
 	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)	throws Exception
@@ -58,7 +64,30 @@ public class SystemParaSetupInitAction extends Action
         setupBo.setDeptList2(loadService.loadManageDeptList(user.getUserID(),false));
         setupBo.setGasList(loadService.loadGasNameList());
         
+    	/*
+		 * Edit By Bowen Nan
+		 * Issue #50
+		 * 16:17 2013/11/23
+		 * Edit From
+		 * 
+		List<String> l1=new ArrayList<String>();
+		List<String> l2=new ArrayList<String>();
+		List<String> l3=new ArrayList<String>();
+		//l1.add("A");
+		//l1.add("B");
+		//l2.add("C");
+		//l2.add("D");
+//		l3.add("E");
+//		l3.add("F");
+		l1=loadService.loadManageDeptList();
+		l2=loadService.loadManageDeptList();
+		l3=loadService.loadGasNameList();
 
+		setupBo.setDeptList1(l1);
+        setupBo.setDeptList2(l2);
+        setupBo.setGasList(l3);
+        */
+		
         
 		SystemParaSetupBo modifyBo= (SystemParaSetupBo) request.getAttribute("modifyBo");
 

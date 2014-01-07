@@ -10,6 +10,7 @@ package cn.tinder.fuego.webservice.struts.bo.assign;
 
 import java.util.List;
 
+import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.DeptInfoBo;
 
 /**

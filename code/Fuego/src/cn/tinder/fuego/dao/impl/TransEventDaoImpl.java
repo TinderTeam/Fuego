@@ -19,6 +19,11 @@ import org.hibernate.criterion.Restrictions;
 
 import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.hibernate.util.HibernateUtil;
+import cn.tinder.fuego.domain.po.CheckPlan;
+import cn.tinder.fuego.domain.po.DiscardPlan;
+import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
+import cn.tinder.fuego.domain.po.ReceivePlan;
+import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.constant.TransactionConst;
 

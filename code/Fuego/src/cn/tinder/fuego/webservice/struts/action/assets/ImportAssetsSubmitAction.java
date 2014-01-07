@@ -2,6 +2,7 @@ package cn.tinder.fuego.webservice.struts.action.assets;
 
 
 
+import java.io.File;
 import java.sql.BatchUpdateException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.util.constant.LogKeyConst;

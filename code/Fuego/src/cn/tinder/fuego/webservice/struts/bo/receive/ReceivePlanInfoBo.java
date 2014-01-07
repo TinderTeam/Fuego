@@ -9,6 +9,7 @@
 package cn.tinder.fuego.webservice.struts.bo.receive;
 
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
+import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 
 /** 
  * @ClassName: ReceivePlanInfoBo 

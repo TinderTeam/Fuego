@@ -8,6 +8,8 @@
  */
 package cn.tinder.fuego.webservice.struts.action.assets;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,8 +23,10 @@ import org.apache.struts.action.ActionMapping;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
+import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 
 /**
  * @ClassName: AllocationInitAction

@@ -8,6 +8,7 @@
  */
 package cn.tinder.fuego.webservice.struts.action.assign;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;

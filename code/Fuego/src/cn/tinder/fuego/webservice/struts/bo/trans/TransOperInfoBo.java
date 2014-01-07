@@ -8,6 +8,7 @@
 */ 
 package cn.tinder.fuego.webservice.struts.bo.trans;
 
+import java.util.Date;
 
 /** 
  * @ClassName: TransOperInfoBo 

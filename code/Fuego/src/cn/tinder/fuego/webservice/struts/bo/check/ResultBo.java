@@ -1,5 +1,6 @@
 package cn.tinder.fuego.webservice.struts.bo.check;
 
+import java.util.List;
 
 public class ResultBo {
 

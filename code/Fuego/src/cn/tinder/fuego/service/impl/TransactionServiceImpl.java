@@ -15,11 +15,14 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.opensymphony.oscache.base.Cache;
+
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.TransEventTypeDao;
 import cn.tinder.fuego.dao.TransOperRecordDao;
+import cn.tinder.fuego.dao.impl.TransOperRecordDaoImpl;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;

@@ -1,5 +1,8 @@
 package cn.tinder.fuego.webservice.struts.form.purchase;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
 

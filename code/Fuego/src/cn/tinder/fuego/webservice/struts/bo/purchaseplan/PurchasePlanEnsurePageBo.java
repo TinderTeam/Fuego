@@ -2,6 +2,7 @@ package cn.tinder.fuego.webservice.struts.bo.purchaseplan;
 
 import java.util.List;
 
+import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanEnsureBo;
 
 /**

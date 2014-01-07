@@ -21,6 +21,8 @@ import org.hibernate.criterion.Restrictions;
 import cn.tinder.fuego.dao.CheckPlanDao;
 import cn.tinder.fuego.dao.hibernate.util.HibernateUtil;
 import cn.tinder.fuego.domain.po.CheckPlan;
+import cn.tinder.fuego.domain.po.ReceivePlan;
+import cn.tinder.fuego.domain.po.TransEvent;
 
 /**
  * @ClassName: CheckPlanDao

@@ -10,6 +10,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.impl.SystemMaintanceServiceImpl;
 import cn.tinder.fuego.util.constant.LogKeyConst;

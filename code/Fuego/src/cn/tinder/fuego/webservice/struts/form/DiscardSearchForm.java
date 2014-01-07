@@ -1,5 +1,7 @@
 package cn.tinder.fuego.webservice.struts.form;
 
+import java.util.List;
+
 import org.apache.struts.action.ActionForm;
 
 public class DiscardSearchForm extends ActionForm{

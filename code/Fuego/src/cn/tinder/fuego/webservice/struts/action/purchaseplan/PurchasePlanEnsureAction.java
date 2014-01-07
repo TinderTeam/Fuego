@@ -16,6 +16,7 @@ import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
+import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.download.PurchasePlanFile;
 import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;

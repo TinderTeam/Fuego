@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import org.apache.struts.action.ActionForm;
 
+import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
+
 /**
  * 
  * @ClassName: PurchasePlanForm

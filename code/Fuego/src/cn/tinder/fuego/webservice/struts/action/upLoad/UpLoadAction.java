@@ -24,7 +24,9 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
+import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 import cn.tinder.fuego.webservice.struts.form.UpLoadForm;
 
 /**

@@ -22,7 +22,11 @@ import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
+import cn.tinder.fuego.service.constant.UserRoleConst;
+import cn.tinder.fuego.stub.strust.bo.assign.AssignBoStub;
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.webservice.struts.bo.assign.AssignPageBo;
+import cn.tinder.fuego.webservice.struts.bo.base.DeptInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
