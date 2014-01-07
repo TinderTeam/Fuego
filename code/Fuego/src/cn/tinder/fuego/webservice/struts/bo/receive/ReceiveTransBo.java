@@ -10,7 +10,6 @@ package cn.tinder.fuego.webservice.struts.bo.receive;
 
 import java.util.List;
 
-import cn.tinder.fuego.webservice.struts.bo.check.CheckTransBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 
 /** 

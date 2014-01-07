@@ -5,7 +5,6 @@ import java.util.List;
 
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 
 public class AssetsStatusSearchInitPageBo {
 	

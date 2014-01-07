@@ -1,11 +1,6 @@
 package cn.tinder.fuego.webservice.struts.constant;
 
 import java.io.File;
-import java.net.URL;
-import java.net.URLDecoder;
-
-import org.apache.tools.ant.util.StringUtils;
-import org.junit.Test;
 
 import cn.tinder.fuego.util.ConfigInformation;
 import cn.tinder.fuego.util.constant.ConfigItemNameConst;

@@ -3,7 +3,6 @@ package cn.tinder.fuego.webservice.struts.bo.excelimport;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import jxl.Cell;
@@ -14,7 +13,6 @@ import jxl.read.biff.BiffException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Test;
 
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.service.exception.ServiceException;

@@ -9,7 +9,6 @@
 package cn.tinder.fuego.domain.po;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /** 
  * @ClassName: TransOperRecord 

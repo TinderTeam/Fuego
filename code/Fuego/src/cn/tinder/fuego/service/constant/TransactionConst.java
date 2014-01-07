@@ -8,7 +8,6 @@
  */
 package cn.tinder.fuego.service.constant;
 
-import java.io.File;
 
 
 /**

@@ -8,11 +8,6 @@
 */ 
 package cn.tinder.fuego.webservice.struts.bo.receive;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 
 /** 
  * @ClassName: ReceivePlanBo 

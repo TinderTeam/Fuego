@@ -8,7 +8,6 @@
 */ 
 package cn.tinder.fuego.service.impl.id;
 
-import cn.tinder.fuego.service.constant.TransactionConst;
 
 /** 
  * @ClassName: BasicIDCreator 

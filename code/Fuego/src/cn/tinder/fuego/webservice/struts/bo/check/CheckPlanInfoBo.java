@@ -9,7 +9,6 @@
 package cn.tinder.fuego.webservice.struts.bo.check;
 
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 
 /** 
  * @ClassName: CheckPlanInfoBo 

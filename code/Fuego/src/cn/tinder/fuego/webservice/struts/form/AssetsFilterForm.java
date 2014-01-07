@@ -1,12 +1,9 @@
 package cn.tinder.fuego.webservice.struts.form;
 
 import java.util.Arrays;
-import java.util.Date;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
-
-import cn.tinder.fuego.util.date.DateService;
 
 public class AssetsFilterForm extends ActionForm
 {
