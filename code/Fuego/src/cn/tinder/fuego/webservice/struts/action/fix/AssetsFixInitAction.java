@@ -8,6 +8,8 @@
 */ 
 package cn.tinder.fuego.webservice.struts.action.fix;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,9 +19,16 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import cn.tinder.fuego.dao.AssetsFixDao;
+import cn.tinder.fuego.dao.impl.AssetsFixDaoImpl;
+import cn.tinder.fuego.domain.po.AssetsFix;
+import cn.tinder.fuego.util.ConfigInformation;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
+import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 
 /**
  * 
@@ -38,12 +47,19 @@ public ActionForward execute(ActionMapping mapping, ActionForm form,
         throws Exception
 {
 	log.info(LogKeyConst.INPUT_ACTION+"BasicDataInitAction");
-    
-	String nextPage = PageNameConst.BASIC_DATA_PAGE;
+	ApplicationContext ctx = new FileSystemXmlApplicationContext( ConfigInformation.getResourcePath()+"/resource/assetsFixBean.xml");
+	String nextPage = PageNameConst.ASSETS_FIX;
+	
 	
 	/**
 	 * 从数据库读取所有Fix记录
 	 */
+	AssetsFixDao dao =  (AssetsFixDao) ctx.getBean("assetsFixDao");
+
+	List<AssetsFix> list = dao.getAllAssetsFix();
+	log.info(list);
+	request.setAttribute(RspBoNameConst.ASSETS_FIX_LIST,list);
+
     log.info(LogKeyConst.NEXT_PAGE+nextPage);
     return mapping.findForward(nextPage);	
 

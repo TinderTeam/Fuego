@@ -89,7 +89,7 @@ public class ConfigInformation
 		return getWebAppPath() + File.separator + "tools";
 	}
 	
-	private static String getWebAppPath()
+	public static String getWebAppPath()
 	{
 		String path = OutputFileConst.class.getClassLoader().getResource(File.separator).getPath();
 		path=URLDecoder.decode(path);

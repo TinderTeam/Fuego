@@ -160,6 +160,8 @@ public class RspBoNameConst
 	public static final String SEARCH_FORM = "searchForm";
 
 	public static final String CHECK_TRANS_ID = "checkTransID";
+
+	public static final String ASSETS_FIX_LIST = "fixList";
 	
 
 }

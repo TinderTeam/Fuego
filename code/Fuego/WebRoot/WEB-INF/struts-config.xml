@@ -131,8 +131,17 @@
 
     </form-beans>
     <action-mappings>   
-        
-        
+            
+         <action path="/AssetsFix"
+                type="cn.tinder.fuego.webservice.struts.action.fix.AssetsFixAction"               
+                input=""> 
+                <forward name="DownloadAction" path="/FileDownload.do"></forward>   
+       	</action>
+        <action path="/AssetsFixInit"
+                type="cn.tinder.fuego.webservice.struts.action.fix.AssetsFixInitAction"               
+                input="">  
+                <forward name="AssetsFix" path="/jsp/assetsFix.jsp"></forward>                         
+       	</action>
         
          <action path="/FileDownload"
                 type="cn.tinder.fuego.webservice.struts.action.download.FileDownLoadAction"               

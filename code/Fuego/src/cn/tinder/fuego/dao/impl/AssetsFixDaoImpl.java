@@ -93,8 +93,7 @@ public class AssetsFixDaoImpl implements AssetsFixDao {
 	public List<AssetsFix> getAllAssetsFix() {
 
 		Session s = null;
-		// Transaction tx = null;
-		// String hql = null;
+		
 		List<AssetsFix> fixList = null;
 		try
 		{

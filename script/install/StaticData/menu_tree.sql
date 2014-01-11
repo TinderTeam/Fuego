@@ -20,6 +20,8 @@ INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALU
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (32000,'assertsManage','盘点情况统计','','icon icon-tasks','GasStationCheckStatusInit.do',30000);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (40000,'assertsManage','基础数据维护','submenu','icon icon-wrench',NULL,0);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (41000,'assertsManage','基础数据导入','','icon icon-download-alt','BasicDataInit.do',40000);
+INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (46000,'assertsManage','维修台账','','icon icon-download-alt','AssetsFixInit.do',40000);
+
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (45000,'assertsManage','加油站配置表','','icon icon-download-alt','QuotaDataInit.do',40000);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (44000,'assertsManage','价格参考表维护','','icon icon-download-alt','PriceDataInit.do',40000);
 INSERT INTO `menu_tree`(MENU_ID,NAME,VALUE,MENU_CSS,ICON_CSS,URL,PARENT_ID) VALUES (42000,'assertsManage','台账信息修改','','icon icon-info-sign','AssetsStatusSearchInit.do?showModifyBtn=true',40000);

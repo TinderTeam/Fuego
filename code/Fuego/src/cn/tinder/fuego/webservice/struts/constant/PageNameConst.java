@@ -133,6 +133,7 @@ public class PageNameConst
 	
 	public static final String NICKNAME_SETUP_PAGE = "NickNameSetup";
 	public static final String NICKNAME_SETUP_INIT_PAGE = "NickNameSetupInit";
+	public static final String ASSETS_FIX = "AssetsFix";
 	
 	
 }

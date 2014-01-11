@@ -19,7 +19,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
+import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 
 /** 
  * 
@@ -43,7 +45,8 @@ public ActionForward execute(ActionMapping mapping, ActionForm form,
 
 	
 	
-	
+	request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, OutputFileConst.DISCARD_FILE_MODEL_PATH);
+	nextPage = PageNameConst.DOWNLOAD_ACTION;
 	
 	
 	

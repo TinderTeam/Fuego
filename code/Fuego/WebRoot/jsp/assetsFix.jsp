@@ -29,59 +29,57 @@
 				<div class="row-fluid">
 					<div class="span12">
 				
-						<div class="widget-box">
+						<div class="widget-box" style="overflow-x:auto;">
 						
-							<div class="widget-title">
-							
-								<h5>维修台账</h5>
-									
-							</div>
 						
-							<div class="widget-content nopadding">
-								<table class="table table-bordered data-table">
+							<div class="widget-content nopadding" >
+								<table class="table table-bordered data-table" >
 									<thead>
 										<tr>
 										<th>序号</th>
 										<th>维修内容</th>
 										<th>维修油站名称</th>
 										<th>主办部门</th>
+										
 										<th>经办人</th>
 										<th>预算金额</th>
 										<th>送审时间</th>
 										<th>开工时间</th>
-										<th>竣工时间</th>										
+										
+										<th>竣工时间</th>
 										<th>结算金额</th>
 										<th>结算时间</th>
 										<th>审结金额差</th>
-										<th>已付工程款</th>
+										
+										<th>已付工程款</th>										
 										<th>未付工程款</th>
 										<th>备注</th>
 										
 										</tr>
 									</thead>
 									<tbody>
-									<c:forEach var="i" items="${purchasePlan.purchasePageBo.assetsList}"> 
+									<c:forEach var="i" items="${fixList}"> 
  
 											  <tr>
-												<td style="text-align:center" >${i.assetsBo.assetsName}</td>
-												<td style="text-align:center" >${i.assetsBo.assetsType}</td>
-												<td style="text-align:center">${i.assetsBo.manufacture}</td>
+												<td style="text-align:center" >${i.indexNumber}</td>
+												<td style="text-align:center" >${i.context}</td>
+												<td style="text-align:center">${i.gasStation}</td>												
+												<td style="text-align:center">${i.dept}</td>
 												
-												<td style="text-align:center">${i.assetsBo.spec}</td>
-												<td style="text-align:center">${i.assetsBo.duty}</td>		
-												<td style="text-align:center">${i.assetsBo.quantity}</td>
-												<td style="text-align:center">${i.assetsBo.unit}</td>
+												<td style="text-align:center">${i.handleUser}</td>		
+												<td style="text-align:center">${i.budget}</td>
+												<td style="text-align:center">${i.sendTime}</td>						
+												<td style="text-align:center">${i.startTime}</td>
 												
-												<td style="text-align:center">￥ ${i.price}</td>
-												<td style="text-align:center">￥ ${i.money}</td>									
-												<td style="text-align:center">${i.assetsBo.note}</td>
-												<td style="text-align:center">${i.assetsBo.duty}</td>		
-												<td style="text-align:center">${i.assetsBo.quantity}</td>
-												<td style="text-align:center">${i.assetsBo.unit}</td>
+												<td style="text-align:center">${i.finishTime}</td>									
+												<td style="text-align:center">${i.payMoney}</td>
+												<td style="text-align:center">${i.payTime}</td>		
+												<td style="text-align:center">${i.diff}</td>
 												
-												<td style="text-align:center">￥ ${i.price}</td>
-												<td style="text-align:center">￥ ${i.money}</td>									
-												<td style="text-align:center">${i.assetsBo.note}</td>												
+												<td style="text-align:center">${i.alreadyPay}</td>										
+												<td style="text-align:center">${i.unPay}</td>
+												<td style="text-align:center">${i.note}</td>									
+																
 											 </tr>
 								 
 									</c:forEach>	
