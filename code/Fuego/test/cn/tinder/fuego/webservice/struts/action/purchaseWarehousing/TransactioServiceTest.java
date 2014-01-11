@@ -1,7 +1,6 @@
 package cn.tinder.fuego.webservice.struts.action.purchaseWarehousing;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsPuchaseDeployBo;

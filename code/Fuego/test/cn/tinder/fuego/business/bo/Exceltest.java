@@ -4,8 +4,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
-import cn.tinder.fuego.service.impl.TransactionServiceImpl;
-
 public class Exceltest {
 	
 	String a="a";

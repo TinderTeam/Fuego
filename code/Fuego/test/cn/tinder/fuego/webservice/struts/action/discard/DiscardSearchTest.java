@@ -1,6 +1,5 @@
 package cn.tinder.fuego.webservice.struts.action.discard;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.tinder.fuego.service.ConstServiceTest;

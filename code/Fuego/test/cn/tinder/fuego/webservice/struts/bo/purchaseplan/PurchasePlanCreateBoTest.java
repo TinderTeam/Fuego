@@ -1,10 +1,9 @@
 package cn.tinder.fuego.webservice.struts.bo.purchaseplan;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsCreateBoTest;
+import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 import cn.tinder.fuego.webservice.util.MyArrayList;
 
 public class PurchasePlanCreateBoTest

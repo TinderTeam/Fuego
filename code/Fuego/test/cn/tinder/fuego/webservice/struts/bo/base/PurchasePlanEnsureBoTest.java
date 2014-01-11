@@ -1,9 +1,5 @@
 package cn.tinder.fuego.webservice.struts.bo.base;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanEnsurePageBo;
 
 public class PurchasePlanEnsureBoTest
 {

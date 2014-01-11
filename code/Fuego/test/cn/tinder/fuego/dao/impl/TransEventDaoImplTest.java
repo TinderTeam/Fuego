@@ -8,7 +8,7 @@
  */
 package cn.tinder.fuego.dao.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 

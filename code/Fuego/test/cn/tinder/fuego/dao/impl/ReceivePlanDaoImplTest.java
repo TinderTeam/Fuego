@@ -8,16 +8,12 @@
 */ 
 package cn.tinder.fuego.dao.impl;
 
-import static org.junit.Assert.*;
-
 import java.util.List;
 
 import org.junit.Test;
 
 import cn.tinder.fuego.dao.DaoContext;
-import cn.tinder.fuego.dao.DiscardPlanDao;
 import cn.tinder.fuego.dao.ReceivePlanDao;
-import cn.tinder.fuego.domain.po.DiscardPlan;
 import cn.tinder.fuego.domain.po.ReceivePlan;
 
 /** 

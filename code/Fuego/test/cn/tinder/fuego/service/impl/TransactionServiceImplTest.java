@@ -5,7 +5,6 @@ import org.junit.Test;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransactionService;
 import cn.tinder.fuego.service.constant.TransactionConst;
-import cn.tinder.fuego.service.model.convert.ConvertTransactionModel;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 
 public class TransactionServiceImplTest

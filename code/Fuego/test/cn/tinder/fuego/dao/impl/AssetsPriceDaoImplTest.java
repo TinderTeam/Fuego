@@ -11,7 +11,6 @@ package cn.tinder.fuego.dao.impl;
 import org.junit.Test;
 
 import cn.tinder.fuego.domain.po.AssetsPrice;
-import cn.tinder.fuego.dao.impl.AssetsPriceDaoImpl;
 
 /**
  * @ClassName: AssetsPriceDaoImplTest

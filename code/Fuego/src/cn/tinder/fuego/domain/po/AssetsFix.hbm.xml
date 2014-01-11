@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+	
+<hibernate-mapping
+	package="cn.tinder.fuego.domain.po">
+	<class name="AssetsFix" table="assets_fix">
+	
+		  <composite-id>
+
+
+  
+           <key-property name="context" column="CONTEXT"  type="java.lang.String"></key-property>
+           <key-property name="gasStation" column="GAS_STATION"  type="java.lang.String" ></key-property>
+           
+           <key-property name="dept" column="DEPT" type="java.lang.String"></key-property>
+           <key-property name="handleUser" column="HANDEL_USER"  type="java.lang.String"></key-property>
+           <key-property name="budget" column="BUDGET"  type="java.lang.String" ></key-property>
+           
+           <key-property name="sendTime" column="SEN_TIME" type="java.lang.String"></key-property>
+           <key-property name="startTime" column="START_TIME"  type="java.lang.String"></key-property>
+           <key-property name="finishTime" column="FINISH_TIME"  type="java.lang.String" ></key-property>
+
+
+           <key-property name="payMoney" column="PAY_MONEY" type="java.lang.String"></key-property>
+           <key-property name="payTime" column="PAY_TIME"  type="java.lang.String"></key-property>
+           <key-property name="diff" column="DIFF"  type="java.lang.String" ></key-property>
+           
+            <key-property name="alreadyPay" column="ALREADY_PAY" type="java.lang.String"></key-property>
+           <key-property name="unPay" column="UNPAY"  type="java.lang.String"></key-property>
+           <key-property name="note" column="NOTE"  type="java.lang.String" ></key-property>
+	    </composite-id>
+	    
+			<property name="indexNumber" column="INDEX_NUMBER" not-null="true"></property>
+					
+	</class>
+</hibernate-mapping>
+ 
