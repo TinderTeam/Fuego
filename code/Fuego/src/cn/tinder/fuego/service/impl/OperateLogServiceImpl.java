@@ -16,6 +16,7 @@ import cn.tinder.fuego.dao.OperateRecordDao;
 import cn.tinder.fuego.domain.po.OperateRecord;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.service.OperateLogService;
+import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.constant.OperateLogConst;
 import cn.tinder.fuego.service.model.OperateLogModel;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
@@ -101,7 +102,7 @@ public class OperateLogServiceImpl implements OperateLogService
 			assetsFilter.getAssets().setAssetsName(filter.getAssetsName());
 		}
 		
-		if(ValidatorUtil.isEmpty(filter.getOperName()))
+		if(ValidatorUtil.isEmpty(filter.getOperName())||filter.getOperName().equals(AssetsConst.ASSETS_FITER_ALL))
 		{
 			assetsFilter.setOperate(null);
 		}
