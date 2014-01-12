@@ -26,6 +26,9 @@
                    type="cn.tinder.fuego.webservice.struts.form.UserPasswordSetupForm">
         </form-bean> 
         
+           <form-bean name="AssetsFixForm"
+                   type="cn.tinder.fuego.webservice.struts.form.AssetsFixForm">
+        </form-bean> 
        
 	    <form-bean name="PasswordResetupForm"
                    type="cn.tinder.fuego.webservice.struts.form.PasswordResetupForm">
@@ -134,13 +137,15 @@
             
          <action path="/AssetsFix"
                 type="cn.tinder.fuego.webservice.struts.action.fix.AssetsFixAction"               
-                input=""> 
+                name="AssetsFixForm" > 
                 <forward name="DownloadAction" path="/FileDownload.do"></forward>   
+                <forward name="Success" path="/jsp/cbb/success.jsp"></forward>
        	</action>
         <action path="/AssetsFixInit"
                 type="cn.tinder.fuego.webservice.struts.action.fix.AssetsFixInitAction"               
                 input="">  
-                <forward name="AssetsFix" path="/jsp/assetsFix.jsp"></forward>                         
+                <forward name="AssetsFix" path="/jsp/assetsFix.jsp"></forward>   
+                <forward name="Success" path="/jsp/cbb/success.jsp"></forward>                      
        	</action>
         
          <action path="/FileDownload"
@@ -154,7 +159,7 @@
                 input="">
             <forward name="Login" path="/jsp/login.jsp"></forward>
   			<forward name="IndexInit" path="/IndexInit.do"></forward>	
-  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+  			<forward name="Success" path="/jdsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	
        	</action>

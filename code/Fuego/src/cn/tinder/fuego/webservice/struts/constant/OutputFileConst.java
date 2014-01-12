@@ -28,9 +28,12 @@ public class OutputFileConst {
 	public static final String PRICEFILE = ConfigInformation.getResourcePath()+"\\PriceFile.xls";
 	public static final String QUOTAFILE_MODEL = ConfigInformation.getResourcePath()+"Model\\QuotaModel.xls";
 	public static final String QUOTAFILE = ConfigInformation.getResourcePath()+"\\QuotaFile.xls";
-	public static final Object DISCARD_FILE_MODEL_PATH =ConfigInformation.getResourcePath()+"Model\\DiscardModel.xls";
-	public static final Object ASSETS_STATUES_DELETE_MODEL_PATH =ConfigInformation.getResourcePath()+"Model\\DeleteAssetsModel.xls";
-	public static final Object ASSIGN_MODEL_PATH = ConfigInformation.getResourcePath()+"Model\\AssignModel.xls";
+	public static final String DISCARD_FILE_MODEL_PATH =ConfigInformation.getResourcePath()+"Model\\DiscardModel.xls";
+	public static final String ASSETS_STATUES_DELETE_MODEL_PATH =ConfigInformation.getResourcePath()+"Model\\DeleteAssetsModel.xls";
+	public static final String ASSIGN_MODEL_PATH = ConfigInformation.getResourcePath()+"Model\\AssignModel.xls";
+	public static final String ASSETS_FIX_FILE = ConfigInformation.getResourcePath()+"AssetsFixFile.xls";
+	public static final String ASSETS_FIX_FILE_DELETE_MODEL = ConfigInformation.getResourcePath()+ "Model\\AssetsFixDeleteFile.xls";
+	public static final String ASSETS_FIX_FILE_MODEL = ConfigInformation.getResourcePath()+ "Model\\AssetsFixModeFile.xls";
 
 
 

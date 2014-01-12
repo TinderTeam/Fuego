@@ -13,7 +13,7 @@
  
      	<jsp:include page="/jsp/cbb/header.jsp"/>
 
-		<form action="<%=request.getContextPath()%>/assetsFix.do"  name="assetsFixForm" method="post" >	
+		<form action="<%=request.getContextPath()%>/AssetsFix.do"  name="assetsFixForm" method="post"  enctype="multipart/form-data">	
 	
 		<div id="content">
 			<div id="content-header"> 
@@ -104,6 +104,49 @@
 									<button class="btn btn-success"  name="submit" value="view">确定</button>								
 								</div>
 				</div>	
+				<div class="widget-box">
+						
+								<div class="widget-title">
+								
+									<h5>维修台账追加</h5>
+										
+								</div>
+							
+							<div class="widget-content">						
+								<div class="form-actions">
+										<button type="submit" class="btn btn-primary" name ="submit" value="addDownload">Excel数据模版</button>
+										<input type="file" name ="addAssetsFixFile"/>
+										<button  type="submit" class="btn btn-inverse" name ="submit" value="add_upload"  >通过Excel表格导入</button>	
+								</div>									
+							</div>
+				</div>
+				
+				<div class="widget-box">						
+								<div class="widget-title">								
+									<h5>维修台账修改</h5>										
+								</div>							
+							<div class="widget-content">						
+								<div class="form-actions">
+										<button type="submit" class="btn btn-primary" name ="submit" value="updateDownload">Excel数据模版</button>
+										<input type="file" name ="updateAssetsFixFile"/>
+										<button  type="submit" class="btn btn-inverse" name ="submit" value="update_upload"  >通过Excel表格导入</button>	
+								</div>									
+							</div>
+				</div>
+				
+				<div class="widget-box">						
+								<div class="widget-title">								
+									<h5>维修台账删除</h5>										
+								</div>							
+							<div class="widget-content">						
+								<div class="form-actions">
+										<button type="submit" class="btn btn-primary" name ="submit" value="deleteDownload">Excel数据模版</button>
+										<input type="file" name ="deleteAssetsFixFile"/>
+										<button  type="submit" class="btn btn-inverse" name ="submit" value="delete_upload"  >通过Excel表格导入</button>	
+								</div>									
+							</div>
+				</div>
+				
 				
 				<div class="row-fluid">
 					<div id="footer" class="span12">
