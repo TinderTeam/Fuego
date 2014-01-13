@@ -140,9 +140,9 @@
 										<th width="80px">原值</th>
 										<th>使用年限</th>
 										<th>到期日</th>
-										<th>责任部门</th>
+										<th>责任人</th>
 										
-										<th width="100px">责任人</th>
+										<th width="100px">责任部门</th>
 										<th width="80px">资产分类</th>
 										<th width="100px">存放地点</th>
 										<th width="80px">技术状态</th>

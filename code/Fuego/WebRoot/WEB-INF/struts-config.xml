@@ -159,7 +159,7 @@
                 input="">
             <forward name="Login" path="/jsp/login.jsp"></forward>
   			<forward name="IndexInit" path="/IndexInit.do"></forward>	
-  			<forward name="Success" path="/jdsp/cbb/success.jsp"></forward>
+  			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	
        	</action>
