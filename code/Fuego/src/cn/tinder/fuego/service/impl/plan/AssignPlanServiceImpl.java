@@ -247,6 +247,7 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		{
 			assets.setDuty(dutyDept);
 			assets.setLocation(dutyDept);
+			assets.setDept(dutyDept);
 			assets.setManageName(CacheContext.getInstance().getUserCache().getManageByUser(dutyDept));
 
 			physicalAssetsStatusDao.saveOrUpdate(assets);
