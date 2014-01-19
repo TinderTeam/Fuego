@@ -134,8 +134,21 @@
 												<div class="controls">
 													<input type="text" name="newAssetsName"/>
 												</div>
+												<label class="control-label">实物资产类型</label>
+												<div class="controls">
+																									
+													<td style="text-align:center">	
+														<select name="typeList"  style="width:200px">
+														
+															<option selected=""  >全部</option>	
+															<c:forEach var="i" items= "${typeList}"> 																								  
+																<option id="${i}"/>${i}																							
+															</c:forEach>
+														</select>
+													</td>
+												</div>
 											</div>
-				
+
 										</div>
 										<div class="modal-footer">
 												
