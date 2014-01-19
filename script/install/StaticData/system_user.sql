@@ -207,6 +207,13 @@ INSERT INTO `system_user` (`USER_NAME`,`PASSWORD`,`DEPT_NAME`,`DEPT_ID`,`MANAGE_
 INSERT INTO `system_user` (`USER_NAME`,`PASSWORD`,`DEPT_NAME`,`DEPT_ID`,`MANAGE_NAME`,`ROLE`) VALUES ('霞涌高速服务区','1234','霞涌高速服务区','无编码','惠阳经营管理部','GASSTATION');
 INSERT INTO `system_user` (`USER_NAME`,`PASSWORD`,`DEPT_NAME`,`DEPT_ID`,`MANAGE_NAME`,`ROLE`) VALUES ('杨村高速服务区','1234','杨村高速服务区','无编码','龙门经营管理部','GASSTATION');
 INSERT INTO `system_user` (`USER_NAME`,`PASSWORD`,`DEPT_NAME`,`DEPT_ID`,`MANAGE_NAME`,`ROLE`) VALUES ('沙迳高速服务区','1234','沙迳高速服务区','无编码','龙门经营管理部','GASSTATION');
+
+INSERT INTO `system_user` (`USER_NAME`,`PASSWORD`,`DEPT_NAME`,`DEPT_ID`,`MANAGE_NAME`,`ROLE`) VALUES ('惠城经管部','1234','惠城经营管理部','无编码','惠城经营管理部','GASSTATION');
+INSERT INTO `system_user` (`USER_NAME`,`PASSWORD`,`DEPT_NAME`,`DEPT_ID`,`MANAGE_NAME`,`ROLE`) VALUES ('惠阳经管部','1234','惠阳经营管理部','无编码','惠阳经营管理部','GASSTATION');
+INSERT INTO `system_user` (`USER_NAME`,`PASSWORD`,`DEPT_NAME`,`DEPT_ID`,`MANAGE_NAME`,`ROLE`) VALUES ('博罗经管部','1234','博罗经营管理部','无编码','博罗经营管理部','GASSTATION');
+INSERT INTO `system_user` (`USER_NAME`,`PASSWORD`,`DEPT_NAME`,`DEPT_ID`,`MANAGE_NAME`,`ROLE`) VALUES ('龙门经管部','1234','龙门经营管理部','无编码','龙门经营管理部','GASSTATION');
+INSERT INTO `system_user` (`USER_NAME`,`PASSWORD`,`DEPT_NAME`,`DEPT_ID`,`MANAGE_NAME`,`ROLE`) VALUES ('惠东经管部','1234','惠东经营管理部','无编码','惠东经营管理部','GASSTATION');
+
 INSERT INTO `system_user` (`USER_NAME`,`PASSWORD`,`DEPT_NAME`,`DEPT_ID`,`MANAGE_NAME`,`ROLE`) VALUES ('惠城经营管理部','1234','惠城经营管理部','无编码','惠城经营管理部','MANAGE');
 INSERT INTO `system_user` (`USER_NAME`,`PASSWORD`,`DEPT_NAME`,`DEPT_ID`,`MANAGE_NAME`,`ROLE`) VALUES ('惠阳经营管理部','1234','惠阳经营管理部','无编码','惠阳经营管理部','MANAGE');
 INSERT INTO `system_user` (`USER_NAME`,`PASSWORD`,`DEPT_NAME`,`DEPT_ID`,`MANAGE_NAME`,`ROLE`) VALUES ('博罗经营管理部','1234','博罗经营管理部','无编码','博罗经营管理部','MANAGE');
