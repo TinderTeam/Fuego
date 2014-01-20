@@ -78,7 +78,7 @@ public class AssetsQuotaDaoImpl implements AssetsQuotaDao
 
 			tx = session.beginTransaction();
 
-			hql = "delete from DiscardPlan where assets_name =? and  duty = ?";
+			hql = "delete from AssetsQuota where ASSETS_NAME =? and  DUTY = ?";
 			Query query = session.createQuery(hql);
 			query.setString(0, quota.getAssetsName());
 			query.setString(1, quota.getDuty());

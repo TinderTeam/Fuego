@@ -457,7 +457,17 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 		AssetsQuotaDao assetsQuotaDao = new AssetsQuotaDaoImpl();
 		List<AssetsQuota> lsit=readToQuotaList(uploadFile);
 		for(AssetsQuota a:lsit){
-			assetsQuotaDao.create(a);
+
+			if((assetsQuotaDao.getByAssetsName(a.getAssetsName())).equals(a))
+			{
+				assetsQuotaDao.saveOrUpdate(a);	
+				
+			}
+			else
+			{
+				assetsQuotaDao.create(a);	
+			}
+				
 		}
 		return ;
 	}
