@@ -41,6 +41,7 @@ import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
 import cn.tinder.fuego.service.util.ExcelIOService;
+import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
 
 /** 
@@ -67,7 +68,8 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 			throw new ServiceException(ExceptionMsg.USER_ALREADY_EXISTED);
 		}
 		
-		if(null == userName || userName.trim().isEmpty()||null==userID||userID.trim().isEmpty()||null == manageName||manageName.trim().isEmpty())
+//		if(null == userName || userName.trim().isEmpty()||null==userID||userID.trim().isEmpty()||null == manageName||manageName.trim().isEmpty())
+		if(ValidatorUtil.isEmpty(userName)||ValidatorUtil.isEmpty(userID)||ValidatorUtil.isEmpty(manageName))
 		{
 			throw new ServiceException(ExceptionMsg.INPUT_EMPUTY);
 
@@ -117,10 +119,16 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
     }
 	public  String searchUserInfo(String userName)
 	{  
-		String managename=null;
 		
-		managename=systemUserDao.find(userName).getManageName();
-		 
+		
+		String managename=null;
+		if(ValidatorUtil.isEmpty(userName))
+		{
+			throw new ServiceException(ExceptionMsg.INPUT_EMPUTY);
+
+		}
+			managename=systemUserDao.find(userName).getManageName();
+
           return managename;
 	}
     public SystemUser deleteUserInfo(String userName)

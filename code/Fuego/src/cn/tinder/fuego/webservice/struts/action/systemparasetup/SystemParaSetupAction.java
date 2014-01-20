@@ -100,12 +100,20 @@ public class SystemParaSetupAction extends Action
 
         if(submitPara.equals(ParameterConst.SUBMIT_2))
         {
-        	
+        	try{
         	String searchDept = serviceImpl.searchUserInfo(setForm.getGasaccount());
         	modifyBo.setOrignDept(searchDept);
         	modifyBo.setCurrentGas(setForm.getGasaccount());
         	
         	nextPage=PageNameConst.SYSTEM_PARA_SETUP_INIT_PAGE ;
+        	}catch(ServiceException e){
+ 			    log.warn("systemParaSearch failed.",e);        
+	 
+				request.setAttribute(RspBoNameConst.OPERATE_EXCEPION, e.getMessage());
+			
+				nextPage=PageNameConst.ERROR_PAGE;
+ 			return mapping.findForward(nextPage);
+ 		}
     		log.info("[Input]:buttn:查询");
         }
         if(submitPara.equals(ParameterConst.SUBMIT_3))
