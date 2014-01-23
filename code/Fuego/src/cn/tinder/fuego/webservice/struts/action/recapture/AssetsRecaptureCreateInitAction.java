@@ -94,7 +94,7 @@ public class AssetsRecaptureCreateInitAction extends Action
         	filterForm.setAssetsType(reForm.getAssetsType());
     		assetsPage = assetsService.getAssetsByFilter(user.getUserID(),filterForm,false); 
     	}
-  
+        assetsPage.setShowCheckBox(true);
 		request.setAttribute(RspBoNameConst.ASSETS_PAGE_DATA, assetsPage);
 		return nextPage;
 	}
