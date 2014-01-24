@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+	xmlns:p="http://www.springframework.org/schema/p"  
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+	  
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+		<bean id ="EMPTY_USER" class ="cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo"></bean>
+		
+		<!-- 加油站测试用户 -->
+		<bean id ="GAS_USER" class ="cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo">
+			<property name="userID" value ="三家村加油站"/>
+			<property name="password" value ="1234"/>
+			<property name="deptID" value ="33251014"/>
+			<property name="deptName" value ="惠阳经营管理部"/>
+			<property name="role" value ="GASSTATION"/>
+			<property name="manageName" value ="惠阳经营管理部"/>			
+		</bean>
+		
+		<!-- admin 测试用户 -->
+		<bean id ="ADMIN_USER" class ="cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo">
+			<property name="userID" value ="admin"/>
+			<property name="password" value ="1234"/>
+			<property name="role" value ="ADMIN"/>
+		</bean>
+		
+		<!-- 超级部门 测试用户 -->
+		<bean id ="SUPER_DEPT_USER" class ="cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo">
+			<property name="userID" value ="实物资产管理组"/>
+			<property name="password" value ="1234"/>
+			<property name="deptID" value ="无编码"/>
+			<property name="role" value ="SUPER_DEPT"/>
+		</bean>
+</beans>  

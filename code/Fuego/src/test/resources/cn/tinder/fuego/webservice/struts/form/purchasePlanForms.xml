@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+	xmlns:p="http://www.springframework.org/schema/p"  
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+	  
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		<!-- 空Form -->
+		<bean id ="EMPTY_FORM" class ="cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm"></bean>
+		
+		<!-- 基本测试用Form
+			此处选择使用查询三家村加油站 所有资产为例
+		 -->
+		<bean id ="BASIC_FORM" class ="cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm">
+			<property name="date" value ="2013-01-01"/>
+			<property name="duty" value ="三家村加油站"/>
+			<property name="manageName" value ="全部"/>		
+		</bean>
+		
+	
+</beans>  

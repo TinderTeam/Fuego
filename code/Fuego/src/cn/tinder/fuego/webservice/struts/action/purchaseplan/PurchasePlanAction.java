@@ -44,6 +44,7 @@ public class PurchasePlanAction extends Action {
 		log.info(LogKeyConst.INPUT_ACTION + "PurchasePlanAction");
 		// Page
 		String pageName = handle(form, request);
+		
 		log.info(LogKeyConst.NEXT_PAGE + pageName);
 		return mapping.findForward(pageName);
 
@@ -52,18 +53,24 @@ public class PurchasePlanAction extends Action {
 	private String handle(ActionForm form, HttpServletRequest request) {
 
 		String pageName = null;
+		
 		// RequestIn
 		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(
 				RspBoNameConst.SYSTEM_USER);
+
+		// Form
+		PurchasePlanForm purchasePlanForm = (PurchasePlanForm) form;
+		
+		
 		if (null == user) {
 			log.error("the user is null");
 			pageName = PageNameConst.LOGIN_PAGE;
 			return pageName;
 		}
-		// Form
-		PurchasePlanForm purchasePlanForm = (PurchasePlanForm) form;
+		
 		// Form Empty test
 		if (purchasePlanForm == null) {
+
 			log.error("cant find form!!");
 			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
 			return pageName;
