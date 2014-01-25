@@ -5,17 +5,18 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import test.util.ActionTest;
+import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm;
 
-public class PurchasePlanActionBasicTest extends ActionTest{
+public class PurchasePlanActionTest extends ActionTest{
 	
 	ApplicationContext testctx = new ClassPathXmlApplicationContext(
 			"/test/resources/cn/tinder/fuego/webservice/struts/action/purchaseTestBeans.xml");
 	
-	public PurchasePlanActionBasicTest(String testName) {
+	public PurchasePlanActionTest(String testName) {
 		super(testName, "/PurchasePlan.do");		
 	}
 
@@ -84,6 +85,55 @@ public class PurchasePlanActionBasicTest extends ActionTest{
         verifyForward(PageNameConst.SYSTEM_ERROR_PAGE);
     }
 	
+	/**
+	 * @author Nan Bowen
+	 * 测试参数Submit1
+	 * 
+	 */
+	@Test
+    public void testParaSubmit1(){
+       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER, testctx.getBean("GAS_USER"));   
+       	addRequestParameter(ParameterConst.SUBMIT_PARA_NAME,ParameterConst.SUBMIT_1);
+    	setActionForm((PurchasePlanForm)testctx.getBean("BASIC_FORM"));
+       	actionPerform();        
+        verifyForward(PageNameConst.PURCHASE_REF_PLAN_CREATE_ACTION);
+        /**
+       	 * request 交互内容断言
+       	 */
+        assertNotNull( request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA)); 
+        assertEquals(
+        		PurchasePlanSessionBo.class,
+        		request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA).getClass()
+        		);
+	
+	}
+	
+	/**
+	 * @author Nan Bowen
+	 * 测试参数Submit1
+	 * 
+	 */
+	@Test
+    public void testParaSubmit2(){
+       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER, testctx.getBean("GAS_USER"));   
+       	addRequestParameter(ParameterConst.SUBMIT_PARA_NAME,ParameterConst.SUBMIT_2);
+    	setActionForm((PurchasePlanForm)testctx.getBean("BASIC_FORM"));
+       	actionPerform();        
+       	/**
+       	 * 跳转目标断言
+       	 */
+        verifyForward(PageNameConst.PURCHASE_PLAN_CREATE_ACTION);
+       	/**
+       	 * request 交互内容断言
+       	 */
+        //非空
+        assertNotNull( request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA)); 
+        //类型正确
+        assertEquals(
+        		PurchasePlanSessionBo.class,
+        		request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA).getClass()
+        		);
+	}
 
 }
 

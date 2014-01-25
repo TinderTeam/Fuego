@@ -4,10 +4,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import test.cn.tinder.fuego.webservice.struts.action.purchaseplan.purchaseplanaction.PurchasePlanActionBasicTest;
+import test.cn.tinder.fuego.webservice.struts.action.purchaseplan.purchaseplanaction.PurchasePlanActionTest;
 
 @RunWith(Suite.class)  
-@SuiteClasses({PurchasePlanActionBasicTest.class}) 
+@SuiteClasses({PurchasePlanActionTest.class}) 
 public class AllActionTest {
 
 }

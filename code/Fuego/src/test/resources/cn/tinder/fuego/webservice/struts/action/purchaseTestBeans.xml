@@ -5,6 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans  
 	  
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<import resource="../bo/base/users.xml"/>
-	<import resource="../form/purchasePlanForms.xml"/>
+	<import resource="classpath:test/resources/cn/tinder/fuego/webservice/struts/bo/base/users.xml"/>	
+	<import resource="classpath:test/resources/cn/tinder/fuego/webservice/struts/form/purchasePlanForms.xml"/>
 </beans>  
