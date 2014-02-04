@@ -1,8 +1,8 @@
-package test.cn.tinder.fuego.webservice.struts.action.purchaseplan.purchaseplanaction;
+package cn.tinder.fuego.webservice.struts.action.purchase;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import test.util.ActionTest;
 import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
@@ -13,8 +13,8 @@ import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm;
 
 public class PurchasePlanActionTest extends ActionTest{
 	
-	ApplicationContext testctx = new ClassPathXmlApplicationContext(
-			"/test/resources/cn/tinder/fuego/webservice/struts/action/purchaseTestBeans.xml");
+	ApplicationContext testctx = new FileSystemXmlApplicationContext(
+			"test/resources/cn/tinder/fuego/webservice/struts/action/purchaseTestBeans.xml");
 	
 	public PurchasePlanActionTest(String testName) {
 		super(testName, "/PurchasePlan.do");		

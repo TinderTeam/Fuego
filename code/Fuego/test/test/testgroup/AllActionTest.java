@@ -4,7 +4,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import test.cn.tinder.fuego.webservice.struts.action.purchaseplan.purchaseplanaction.PurchasePlanActionTest;
+import cn.tinder.fuego.webservice.struts.action.purchase.PurchasePlanActionTest;
+
 
 @RunWith(Suite.class)  
 @SuiteClasses({PurchasePlanActionTest.class}) 

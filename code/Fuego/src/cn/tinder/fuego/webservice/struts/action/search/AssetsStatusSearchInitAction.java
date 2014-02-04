@@ -100,7 +100,7 @@ public class AssetsStatusSearchInitAction extends Action
             	pageBo.getPageBo().setShowModifyBtn(true);
     		}
     		
-    		pageBo.setPageBo(ComputeService.cptValueAsList(pageBo.getPageBo()));
+    		pageBo.setPageBo(ComputeService.cptShowValueAsList(pageBo.getPageBo()));
     		pageBo.getPageBo().setShowCurrentValue(true);
     		/*
     			 * Edit By Bowen Nan

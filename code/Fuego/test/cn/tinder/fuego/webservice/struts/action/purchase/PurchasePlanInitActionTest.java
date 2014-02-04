@@ -1,10 +1,12 @@
-package test.cn.tinder.fuego.webservice.struts.action.purchaseplan.purchaseplanaction;
+package cn.tinder.fuego.webservice.struts.action.purchase;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import test.util.ActionTest;
+import cn.tinder.fuego.stub.strust.bo.base.SystemUserBoStub;
+import cn.tinder.fuego.stub.strust.form.PurchasePlanFormStub;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
@@ -12,8 +14,6 @@ import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm;
 
 public class PurchasePlanInitActionTest extends ActionTest{
 	
-	ApplicationContext testctx = new ClassPathXmlApplicationContext(
-			"/test/resources/cn/tinder/fuego/webservice/struts/action/purchaseTestBeans.xml");
 	
 	public PurchasePlanInitActionTest(String testName) {
 		super(testName, "/PurchasePlan.do");		
@@ -40,7 +40,7 @@ public class PurchasePlanInitActionTest extends ActionTest{
 	@Test
     public void testFormIsNull(){
 		
-       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER,testctx.getBean("EMPTY_USER"));
+       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER,SystemUserBoStub.getSuperDeptSystemUser());
        	PurchasePlanForm form=null;       	
        	setActionForm(form);
        	actionPerform();      
@@ -53,8 +53,8 @@ public class PurchasePlanInitActionTest extends ActionTest{
 	 */
 	@Test
     public void testParaIsNull(){
-       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER,testctx.getBean("GAS_USER"));
-       	setActionForm((PurchasePlanForm)testctx.getBean("EMPTY_FORM"));
+       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER,SystemUserBoStub.getSuperDeptSystemUser());
+       	setActionForm(PurchasePlanFormStub.getFullFrom());
        	actionPerform();        
         verifyForward(PageNameConst.SYSTEM_ERROR_PAGE);
     }
@@ -65,9 +65,9 @@ public class PurchasePlanInitActionTest extends ActionTest{
 	 */
 	@Test
     public void testParaIsEmpty(){
-       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER,testctx.getBean("GAS_USER"));       	
+       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER,SystemUserBoStub.getSuperDeptSystemUser());       	
        	addRequestParameter(ParameterConst.SUBMIT_PARA_NAME,"");
-    	setActionForm((PurchasePlanForm)testctx.getBean("EMPTY_FORM"));
+    	setActionForm(PurchasePlanFormStub.getFullFrom());
        	actionPerform();        
         verifyForward(PageNameConst.SYSTEM_ERROR_PAGE);
     }
@@ -77,9 +77,9 @@ public class PurchasePlanInitActionTest extends ActionTest{
 	 */
 	@Test
     public void testParaIsUnDefine(){
-       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER, testctx.getBean("GAS_USER"));   
+       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER, SystemUserBoStub.getSuperDeptSystemUser());   
        	addRequestParameter(ParameterConst.SUBMIT_PARA_NAME,"UnDefine");
-    	setActionForm((PurchasePlanForm)testctx.getBean("EMPTY_FORM"));
+    	setActionForm(PurchasePlanFormStub.getFullFrom());
        	actionPerform();        
         verifyForward(PageNameConst.SYSTEM_ERROR_PAGE);
     }
@@ -91,9 +91,9 @@ public class PurchasePlanInitActionTest extends ActionTest{
 	 */
 	@Test
     public void testParaSubmit1(){
-       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER, testctx.getBean("GAS_USER"));   
+       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER, SystemUserBoStub.getSuperDeptSystemUser());   
        	addRequestParameter(ParameterConst.SUBMIT_PARA_NAME,ParameterConst.SUBMIT_1);
-    	setActionForm((PurchasePlanForm)testctx.getBean("BASIC_FORM"));
+    	setActionForm(PurchasePlanFormStub.getFullFrom());
        	actionPerform();        
         verifyForward(PageNameConst.PURCHASE_REF_PLAN_CREATE_ACTION);
     }
@@ -105,9 +105,9 @@ public class PurchasePlanInitActionTest extends ActionTest{
 	 */
 	@Test
     public void testParaSubmit2(){
-       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER, testctx.getBean("GAS_USER"));   
+       	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER,SystemUserBoStub.getSuperDeptSystemUser());   
        	addRequestParameter(ParameterConst.SUBMIT_PARA_NAME,ParameterConst.SUBMIT_2);
-    	setActionForm((PurchasePlanForm)testctx.getBean("BASIC_FORM"));
+    	setActionForm(PurchasePlanFormStub.getFullFrom());
        	actionPerform();        
         verifyForward(PageNameConst.PURCHASE_PLAN_CREATE_ACTION);
     }
