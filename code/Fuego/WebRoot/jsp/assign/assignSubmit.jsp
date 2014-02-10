@@ -81,6 +81,13 @@
 										<button class="btn  btn-primary" name="submit" value="refuse">拒绝</button>	
 										<button class="btn  btn-primary" name="submit" value="download">导出</button>	
 	 								 </c:if>
+	 								 <c:if test="${'next' == pageDisCtr}">
+									    <jsp:include page="/jsp/cbb/transOperateInfo.jsp"/>
+									  
+										<button class="btn btn-success"  name="submit" value="agree">确认</button>								
+										<button class="btn  btn-primary" name="submit" value="refuse">拒绝</button>	
+										<button class="btn  btn-primary" name="submit" value="download">导出</button>	
+	 								 </c:if>
 	 								  <c:if test="${'confirm' == pageDisCtr}"> 
 										<button class="btn btn-success"  name="submit" value="confirm">确定</button>		
 										<button class="btn  btn-primary" name="submit" value="download">导出</button>							

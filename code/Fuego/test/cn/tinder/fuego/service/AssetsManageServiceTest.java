@@ -25,9 +25,8 @@ public class AssetsManageServiceTest {
 		a3.setAssetsType("消防器材");
 		
 		PhysicalAssetsStatus a4= new PhysicalAssetsStatus();
-		a4.setAssetsType("消防器材")
+		a4.setAssetsType("消防器材");
 		
-		;
 		List<PhysicalAssetsStatus> list = new ArrayList<PhysicalAssetsStatus>();
 		list.add(a1);
 		list.add(a2);

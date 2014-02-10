@@ -118,7 +118,14 @@ public class AssignSubmitInitAction extends Action
 			}
 			else if(planService.isApporalStep(Integer.valueOf(step)))
 			{
-				pageCtr = RspBoNameConst.PAGE_APPROVAL;
+				if("3".equals(step) || "4".equals(step))
+				{
+					pageCtr = RspBoNameConst.PAGE_NEXT;
+				}
+				else
+				{
+					pageCtr = RspBoNameConst.PAGE_APPROVAL;
+				}
 			}
 			else if(TransactionConst.TRANS_LAST_STEP.equals(step))
 			{
