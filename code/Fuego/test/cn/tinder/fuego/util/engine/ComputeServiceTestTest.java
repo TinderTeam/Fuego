@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import cn.tinder.fuego.util.ConfigInformation;
@@ -43,12 +44,11 @@ public class ComputeServiceTestTest {
 		assertEquals(500,v);
 	}
 
-	@Test
+	@Ignore
 	public void testTestCptValueAsList() {
 		fail("Not yet implemented");
 	}
-
-	@Test
+	@Ignore
 	public void testTestCptShowValueAsList() {
 		fail("Not yet implemented");
 	}

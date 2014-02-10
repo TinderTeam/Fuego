@@ -8,6 +8,20 @@ import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 
 public class ComputeService {
+	
+	static public float cptUsedYears(String string){
+		
+		float v;
+		Date today= new Date();
+		long l=DateService.stringToDate(string).getTime()-today.getTime();
+		l=l/1000;
+		l=l/3600;
+		l=l/24;
+		v=l/30;
+		v=v/12;
+		return v;
+	}
+	
 	static public float cptValue(Date startDate,int limit,float value){
 		float v;
 		Date today= new Date();
@@ -83,10 +97,30 @@ public class ComputeService {
 		}			
 		return pageBo;
 	}	
-	/*
-	 * Edit By Bowen Nan
-	 * Issue #42
-	 * 17:02 2013/11/23
-	 * */
+	
+	/**
+	 * 计算效益金额
+	 */
+	public static float cptValueMoney(float orangeValue, float usedYears,int limitYears){
+		
+		float value;
+		
+		/*
+		 *	先判断资产属于超期资产或未超期资产 
+		 */
+		
+		if(usedYears>limitYears){
+			/*
+			 * 属于超期资产
+			 */
+			value=-ComputeConstent.OUT_VALUE_RATE*(orangeValue/(limitYears*12))*((limitYears-usedYears)*12);
+		}else{
+			/*
+			 * 属于未超期资产
+			 */
+			value=ComputeConstent.VALUE_RATE*(orangeValue/(limitYears*12))*((usedYears-limitYears)*12);
+		}
+		return value;		
+	}
 
 }

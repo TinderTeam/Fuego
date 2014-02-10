@@ -42,6 +42,7 @@ import cn.tinder.fuego.service.model.DomainFilterModel;
 import cn.tinder.fuego.service.model.PurchaseSumModel;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
 import cn.tinder.fuego.util.date.DateService;
+import cn.tinder.fuego.util.engine.computer.ComputeService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
@@ -637,11 +638,27 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		 */
 		purchasePlanList = getPurchasePlanListByCurrentAndQuota(assetsQuotaList,purchasePlanList);
 
+		/*
+		 * 根据采购清单 计算采购效益金额
+		 */
+		
+		countValueMoney(purchasePlanList);
 		
   		return purchasePlanList;
 		
 	}
 	
+	/**
+	 * 计算效益金额
+	 * @param purchasePlanList
+	 */
+	private void countValueMoney(List<PurchasePlanBo> purchasePlanList) {
+		for(PurchasePlanBo bo:purchasePlanList){
+			bo.setValueMoney(ComputeService.cptValueMoney(bo.getAssetsBo().getOriginalValue(), ComputeService.cptUsedYears(bo.getAssetsBo().getPurchaseDate()), bo.getAssetsBo().getExpectYear()));
+		}
+		
+	}
+
 	/**
 	 * 匹配建立采购表
 	 * @param assetsQuotaList

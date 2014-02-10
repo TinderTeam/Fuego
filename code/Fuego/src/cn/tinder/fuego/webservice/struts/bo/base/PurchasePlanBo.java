@@ -23,6 +23,7 @@ public class PurchasePlanBo extends ActionForm {
 	private int quotaQuantity = 0; // 配置数量
 	private int purchaseQuantity = 0; // 需采购数量
 
+	private float valueMoney = 0;
 	/**
 	 * @return the currentQuantity
 	 */
@@ -188,6 +189,14 @@ public class PurchasePlanBo extends ActionForm {
 		sumModel.setSpec(this.getAssetsBo().getSpec());
 		sumModel.setGasName(this.getAssetsBo().getDuty());
 		return sumModel;
+	}
+
+	public void setValueMoney(float valueMoney) {
+		this.valueMoney = valueMoney;
+	}
+
+	public float getValueMoney() {
+		return valueMoney;
 	}
 
 }
