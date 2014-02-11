@@ -19,6 +19,7 @@ public class PurchasePlanSessionBo
 	private static final Log log = LogFactory.getLog(PurchasePlanSessionBo.class);
 
 	private PurchasePageBo purchasePageBo = new PurchasePageBo();
+	private PurchasePageBo selectPageBo = new PurchasePageBo();
 	private PurchasePageBo purchaseAddPageBo = new PurchasePageBo();
 	private PurchaseTransBo purchaseTransBo = new PurchaseTransBo();
 
@@ -52,6 +53,16 @@ public class PurchasePlanSessionBo
 	/*
 	 * 自动生成方法
 	 */
+
+	public PurchasePageBo getSelectPageBo()
+	{
+		return selectPageBo;
+	}
+
+	public void setSelectPageBo(PurchasePageBo selectPageBo)
+	{
+		this.selectPageBo = selectPageBo;
+	}
 
 	@Override
 	public String toString()

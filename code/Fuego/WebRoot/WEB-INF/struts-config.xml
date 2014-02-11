@@ -242,6 +242,19 @@
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>		
        	</action>
        	
+       	 <action path="/PurchaseSelect"
+                type="cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchaseSelectAction"              
+                name="RefPlanCreateForm"
+                >          		
+            <forward name="PurchasePlanInit" path="/PurchasePlanInit.do"></forward>	
+            <forward name="RefPlanCreateInit" path="/RefPlanCreateInit.do"></forward>
+            
+            <forward name="PurchasePlanCreateInit" path="/PurchasePlanCreateInit.do"></forward>
+            <forward name="Success" path="/jsp/cbb/success.jsp"></forward>
+			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
+			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	          		
+       	</action>
+       	
        	<action path="/RefPlanCreate"
                 type="cn.tinder.fuego.webservice.struts.action.purchaseplan.RefPlanAction"              
                 name="RefPlanCreateForm"
@@ -280,27 +293,7 @@
 			<forward name="PurchasePlanCreateInit" path="/PurchasePlanCreateInit.do"></forward>	   	     
        	</action>
        	
-       	<action path="/PurchaseAssetsSelectInit"
-                type="cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchaseAssetsSelectInitAction"              
-         
-                >
-            <forward name="PurchaseAssetsSelect" path="/jsp/purchaseSelectAssets.jsp"></forward>
-            <forward name="Success" path="/jsp/cbb/success.jsp"></forward>
-			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	          		
-       	</action>
-       	
-       	  	<action path="/PurchaseAssetsSelect"
-                type="cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchaseAssetsSelectAction"              
-         		 name="PurchaseAssetsSelectForm"
-                >
-            <forward name="PurchasePlanCreateInit" path="/PurchasePlanCreateInit.do"></forward>
-            <forward name="PurchaseAssetsSelectInit" path="/PurchaseAssetsSelectInit.do"></forward>
-            <forward name="Success" path="/jsp/cbb/success.jsp"></forward>
-			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
-			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	              
-       	</action>
-       	
+      
        	
        	
        	
