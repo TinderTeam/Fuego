@@ -22,6 +22,8 @@ import java.util.List;
 public class PageModelBo<E>
 {
 	private List<E> allPageData = new  ArrayList<E>();
+	
+	private List<E> currentPageData;
 
 	private List<Integer> pages =new ArrayList<Integer>();
 	private int pageSize =100;  //defualt page size
@@ -30,11 +32,10 @@ public class PageModelBo<E>
 	
 	private List<E> dataList = new ArrayList<E>();
 	
-	
+ 
 	public List<E> getCurrentPageData()
 	{
-		List<E> currentPageData;
-		if(getEndNum()> allPageData.size())
+ 		if(getEndNum()> allPageData.size())
 		{
 			currentPageData = allPageData.subList(getStartNum(), allPageData.size());
 		}
@@ -46,6 +47,11 @@ public class PageModelBo<E>
 		return currentPageData;
 	}
 	
+	public void setCurrentPageData(List<E> currentPageData)
+	{
+		this.currentPageData = currentPageData;
+	}
+
 	public List<E> getAllPageData()
 	{
 		return allPageData;

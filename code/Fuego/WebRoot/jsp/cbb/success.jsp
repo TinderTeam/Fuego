@@ -26,6 +26,8 @@
 						
 					</div>	
 				</div>
+			
+			&nbsp; &nbsp;&nbsp;<a class="btn btn-success" style="text-align:center;" href="<%=request.getContextPath()%>/IndexInit.do">确认</a>
 				
 			<div class="row-fluid">
 					<div id="footer" class="span12">

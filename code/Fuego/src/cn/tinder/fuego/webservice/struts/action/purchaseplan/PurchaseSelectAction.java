@@ -27,9 +27,9 @@ import cn.tinder.fuego.webservice.struts.form.purchase.RefPlanCreateForm;
  * @date 2013-9-28 上午12:26:28
  * 
  */
-public class RefPlanAction extends Action
+public class PurchaseSelectAction extends Action
 {
-	private static final Log log = LogFactory.getLog(RefPlanAction.class);
+	private static final Log log = LogFactory.getLog(PurchaseSelectAction.class);
 
 	// Service
 
@@ -65,12 +65,9 @@ public class RefPlanAction extends Action
 	private String handle(ActionForm form, HttpServletRequest request)
 	{
 
-		String pageName = null;
+		String pageName = PageNameConst.PURCHASE_REF_PLAN_CREATE_ACTION;;
 
-		// Rquest in
-		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
  
-		// SessionBo
 		PurchasePlanSessionBo purchasePlanSessionBo = (PurchasePlanSessionBo) request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
 
 		// Form
@@ -81,41 +78,23 @@ public class RefPlanAction extends Action
 		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
 		log.info(LogKeyConst.SUBMIT_VALUE + submitPara);
  
-		// Submit Value Select
-
-		if (submitPara.equals(ParameterConst.SUBMIT_PARA_NAME))
-		{ // ="submit"
-
-			/*
-			 * Handel the List by the selected boxes
-			 */
-			purchasePlanSessionBo.getPurchasePageBo().selectItemsByStringArray(refPlanCreateForm.getBoxes());
-			log.info("purchasePlanSessionBo is：" + purchasePlanSessionBo.toString());
-
-			pageName = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;// "PurchasePlanCreateInit"
-				
-		}
-		else if(ParameterConst.SELECT_MARK.equals(submitPara))
+		if(ParameterConst.SELECT_MARK.equals(submitPara))
 		{
 			purchasePlanSessionBo.getPurchasePageBo().selectItemsByStringArray(refPlanCreateForm.getBoxes());
 
 		}
- 
-		else if (submitPara.equals(ParameterConst.BACK_PARA_NAME))
-		{ // ="back"
-			/*
-			 * return nothing to page : P.P.Init; and clean the session
-			 */
-			request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, null);
-			pageName = PageNameConst.PURCHASE_PLAN_PAGE_ACTION; // =
-																// "PurchasePlanInit"->>
-																// path="/PurchasePlanInit.do"
-		} else if (submitPara.equals(ParameterConst.PAGECHANGE_PARA_NAME))
+		else if(ParameterConst.SELECT_PAGE.equals(submitPara))
 		{
-			purchasePlanSessionBo.getPurchasePageBo().getPage().setCurrentPage(refPlanCreateForm.getPageNum());
-			 purchasePlanSessionBo.getPurchasePageBo().setAssetsList(purchasePlanSessionBo.getPurchasePageBo().getPage().getCurrentPageData());
-			pageName = PageNameConst.PURCHASE_REF_PLAN_CREATE_ACTION;
+			purchasePlanSessionBo.getPurchasePageBo().addData(purchasePlanSessionBo.getSelectPageBo().getPage().getCurrentPageData());
+ 		}		
+		else if(ParameterConst.SELECT_ALL.equals(submitPara))
+		{
+			purchasePlanSessionBo.getPurchasePageBo().addData(purchasePlanSessionBo.getSelectPageBo().getPage().getAllPageData());;
 		}
+        else if (submitPara.equals(ParameterConst.PAGECHANGE_PARA_NAME))
+		{
+			purchasePlanSessionBo.getSelectPageBo().getPage().setCurrentPage(refPlanCreateForm.getPageNum());
+ 		}
 
 		log.info(LogKeyConst.NEXT_PAGE + pageName);
 

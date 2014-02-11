@@ -133,7 +133,7 @@ public class AssetsRecaptureEnsureInitAction extends Action
 	 		}
 			else
 			{
-				pageCtr = RspBoNameConst.PAGE_CONFIRM;
+				pageCtr = RspBoNameConst.PAGE_VIEW;
 	 		}
 		}
 		request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, pageCtr);
