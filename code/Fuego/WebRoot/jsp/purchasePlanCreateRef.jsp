@@ -29,9 +29,12 @@
 			
 			
 			<div class="container-fluid">
+				
+				<div class="row-fluid">
+					<jsp:include page="/jsp/purchase/purchaseRefData.jsp"/>
 				<div class="row-fluid">
 				
-				    <jsp:include page="/jsp/purchase/purchaseRefData.jsp"/>
+				<div class="row-fluid">			    
 					<div class="span12">
 						<form action="<%=request.getContextPath()%>/RefPlanCreate.do"  name="RefPlanActionForm" method="get" >
 							<div class="widget-box">
