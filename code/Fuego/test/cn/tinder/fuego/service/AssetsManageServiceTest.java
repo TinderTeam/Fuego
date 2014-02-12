@@ -12,8 +12,10 @@ import org.junit.Test;
 import cn.tinder.fuego.business.bo.Exceltest;
 import cn.tinder.fuego.dao.AssetsQuotaDao;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
+import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.impl.AssetsQuotaDaoImpl;
 import cn.tinder.fuego.dao.impl.PhysicalAssetsStatusDaoImpl;
+import cn.tinder.fuego.dao.impl.SystemUserDaoImpl;
 import cn.tinder.fuego.domain.po.AssetsQuota;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.service.impl.AssetsManageServiceImpl;
@@ -35,8 +37,10 @@ import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm;
  */
 public class AssetsManageServiceTest {
 	private static final Log log = LogFactory.getLog(AssetsManageServiceTest.class);
+	
 	static PhysicalAssetsStatusDao assetsDao = new PhysicalAssetsStatusDaoImpl();
 	static AssetsQuotaDao assetsQuotaDao = new AssetsQuotaDaoImpl();
+	static SystemUserDao systemUserDao = new SystemUserDaoImpl();
 	
 	AssetsManageService s = new AssetsManageServiceImpl();
 	static List<AssetsQuota> quotaList = new ArrayList<AssetsQuota>();
@@ -73,7 +77,7 @@ public class AssetsManageServiceTest {
 		
 		assetsList.add(PhysicalAssetsStatusStub.getBasicAssetWithNameAndStatu("test1", "损坏的资产","损坏"));
 		quotaList.add(AssetsQuotaStub.getAssetsQuota("损坏的资产", "", "", 3, "测试加油站"));	
-		
+		//systemUserDao.create(SystemUserBoStub)
 		/*
 		 *写入数据库 
 		 */

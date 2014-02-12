@@ -230,7 +230,8 @@ public class PurchasePlanServiceImpl<E> extends TransactionServiceImpl implement
 			planBoList.add(planInfoBo);
 		}
 		plan.getPurchasePageBo().setAssetsList(planBoList);
- 
+		plan.getPurchasePageBo().setDataSource(planBoList);
+
 		 //init the all page data
  
 		return (E) plan;

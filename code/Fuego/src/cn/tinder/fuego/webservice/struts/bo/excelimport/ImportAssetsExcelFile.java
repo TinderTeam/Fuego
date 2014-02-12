@@ -115,7 +115,8 @@ public class ImportAssetsExcelFile {
 					    		    */ 
 					    		 
 					    		   AssetsInfoBo ibo = splitInfoBo(infoBo,assetsTypeMap);
-					    		 
+					    		   /*拆分单价*/
+					    		   ibo.getAssets().setOriginalValue( ibo.getAssets().getOriginalValue()/q);					    		   
 					    		   assetsList.add(ibo);		
 					    		    
 						        
