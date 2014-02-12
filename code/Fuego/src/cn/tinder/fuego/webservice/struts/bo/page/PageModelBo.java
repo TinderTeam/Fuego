@@ -11,6 +11,8 @@ package cn.tinder.fuego.webservice.struts.bo.page;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
+
 /** 
  * @ClassName: PageModel 
  * @Description: TODO
@@ -46,7 +48,22 @@ public class PageModelBo<E>
 		}
 		return currentPageData;
 	}
-	
+	public E getFromAllData(E bo)
+	{
+
+		for (E b : allPageData)
+		{
+			if (b.equals(bo))
+			{
+				return b;
+			} else
+			{
+			}
+		}
+		return null;
+
+	}
+
 	public void setCurrentPageData(List<E> currentPageData)
 	{
 		this.currentPageData = currentPageData;

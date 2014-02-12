@@ -36,50 +36,12 @@
 								<h5>采购计划</h5>
 									
 							</div>
-						
-							<div class="widget-content nopadding">
-								<table class="table table-bordered data-table">
-									<thead>
-										<tr>
-										<th>资产名称</th>
-										<th>资产类型</th>
-										<th>品牌</th>
-										<th>资产型号</th>
-										<th>归属部门</th>
-										<th>购置数量</th>
-										<th>单位</th>
-										<th>预算单价</th>
-										<th>金额</th>										
-										<th>说明</th>
-										</tr>
-									</thead>
-									<tbody>
-									<c:forEach var="i" items="${purchasePlan.purchasePageBo.assetsList}"> 
- 
-											  <tr>
-												<td style="text-align:center" >${i.assetsBo.assetsName}</td>
-												<td style="text-align:center" >${i.assetsBo.assetsType}</td>
-												<td style="text-align:center">${i.assetsBo.manufacture}</td>
-												
-												<td style="text-align:center">${i.assetsBo.spec}</td>
-												<td style="text-align:center">${i.assetsBo.duty}</td>		
-												<td style="text-align:center">${i.assetsBo.quantity}</td>
-												<td style="text-align:center">${i.assetsBo.unit}</td>
-												
-												<td style="text-align:center">￥ ${i.price}</td>
-												<td style="text-align:center">￥ ${i.money}</td>									
-												<td style="text-align:center">${i.assetsBo.note}</td>																																
-											 </tr>
-								 
-									</c:forEach>	
-									
-									</tbody>
-								
-								</table> 
-								
-							</div>
-						
-						</div>
+							<c:set var="page" value="${purchasePlan.purchasePageBo.page}" scope="request"/>
+						 
+					        <jsp:include page="/jsp/purchase/purchasePlanData.jsp"/>
+						    <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>
+							
+						</div> 
 						
 						
 					</div>

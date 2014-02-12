@@ -66,6 +66,15 @@ public interface AssetsManageService
 
 	public List<PhysicalAssetsStatus> initAssetsID(List<PhysicalAssetsStatus> list);
 
+	/**
+	 * 
+	 * @param userName
+	 * 
+	 * @param purchasePlanForm
+	 * @描述  传入登陆用户用户名作为分权分域参数
+	 * 传入Form作为筛选条件直接生产采购参考表
+	 * @return 参考计划的采购Bo列表
+	 */
 	public List<PurchasePlanBo> getRefPurchaseList(String userName,PurchasePlanForm purchasePlanForm);
 	
 }

@@ -24,4 +24,20 @@ public class SystemUserBoStub {
 		user.setUserID("三家村加油站");
 		return user;	
 	}
+	
+	public static String getAdminUserName(){
+		return "ADMIN";
+	}
+	
+	public static String getGasstationUserName(){
+		return "三家村加油站";
+	}
+	
+	public static String getSuperDeptUserName(){
+		return "实物资产管理组";
+	}
+	
+	public static String getDeptUserName(){
+		return "财务资产部";
+	}
 }

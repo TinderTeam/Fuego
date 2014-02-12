@@ -31,13 +31,14 @@ public class PurchasePlanSessionBo
 
 		for (PurchasePlanBo add : purchaseAddPageBo.getAssetsList())
 		{
+			PurchasePlanBo nowData = purchasePageBo.getPage().getFromAllData(add);
 
-			if (purchasePageBo.getAssetsList().contains(add))
+			if (null != nowData)
 			{
-				purchasePageBo.find(add).getAssetsBo().setQuantity(purchasePageBo.find(add).getAssetsBo().getQuantity() + 1);
+				nowData.getAssetsBo().setQuantity(nowData.getAssetsBo().getQuantity() + 1);
 			} else
 			{
-				add.setIndex(purchasePageBo.getAssetsList().size() + 1);
+				add.setIndex(purchasePageBo.getPage().getAllPageData().size() + 1);
 				purchasePageBo.getAssetsList().add(add);
 
 			}

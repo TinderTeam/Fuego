@@ -21,6 +21,7 @@ public class PurchasePageBo
 	 * 
 	 * 通过选择的序号筛选采购表条目
 	 */
+ 
 	public void addData(List<PurchasePlanBo> planList)
 	{
 		List<PurchasePlanBo> dataList = page.getAllPageData();
@@ -41,33 +42,32 @@ public class PurchasePageBo
 		sort(planList);
 		page.setAllPageData(planList);
 	}
-	public void selectItemsByStringArray(String[] indexAry)
+	public List<PurchasePlanBo> getPlanListByIndex(String[] indexAry)
 	{
 
 		List<PurchasePlanBo> newList = new ArrayList<PurchasePlanBo>();
 
 		if (null == indexAry)
 		{
-			return;
+			return null;
 		}
-		int i = 1;
+ 
 		for (String index : indexAry)
 		{
 			int num = Integer.valueOf(index);
-			for (PurchasePlanBo ob : page.getCurrentPageData())
+			for (PurchasePlanBo ob : page.getAllPageData())
 			{
 				if (ob.getIndex() == num)
 				{
-					ob.setIndex(i);
 					newList.add(ob);
-					i++;
+					break;
 				}
 			}
 		}
-		assetsList.addAll(newList);
+		return newList;
 	}
 
-	public PurchasePlanBo getByIndexFromData(List<PurchasePlanBo> planList,int index)
+	private PurchasePlanBo getByIndexFromData(List<PurchasePlanBo> planList,int index)
 	{
 		for (PurchasePlanBo b : planList)
 		{
@@ -78,30 +78,8 @@ public class PurchasePageBo
 		}
 		return null;
 	}
-	public PurchasePlanBo find(PurchasePlanBo bo)
-	{
 
-		for (PurchasePlanBo b : assetsList)
-		{
-			if (b.equals(bo))
-			{
-				return b;
-			} else
-			{
-			}
-		}
-		return null;
-
-	}
-
-	/*
-	 * 重构list 的index 序号
-	 */
-	private void sort()
-	{
-		sort(assetsList);
  
-	}
 	private void sort(List<PurchasePlanBo> planList)
 	{
 		if (planList != null)
@@ -114,7 +92,7 @@ public class PurchasePageBo
 	}
 	public List<PurchasePlanBo> getAssetsList()
 	{
-		sort();
+	 
 		return assetsList;
 	}
 

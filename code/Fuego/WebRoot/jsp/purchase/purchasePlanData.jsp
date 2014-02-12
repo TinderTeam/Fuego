@@ -10,20 +10,17 @@
  
 		 
 			
-
-					<div class="span12">
-						<form action="<%=request.getContextPath()%>/PurchaseSelect.do"  name="RefPlanActionForm" method="post" >
-							<div class="widget-box">
+ 
 							
 								 
 								<div class="widget-content">
 								<div class="control-group">
 										                第<select name="pageNum" style = "width:70px" onchange="return assetsPageChange('pageChange')"  >
-												<option id="${purchasePlan.selectPageBo.page.currentPage}">${purchasePlan.selectPageBo.page.currentPage}</option>	
-												<c:forEach var="i" items= "${purchasePlan.selectPageBo.page.pages}"> 																								  
+												<option id="${page.currentPage}">${page.currentPage}</option>	
+												<c:forEach var="i" items= "${page.pages}"> 																								  
 													<option id="${i}"/>${i}																							
 												</c:forEach>
-									 </select>页，共${purchasePlan.selectPageBo.page.count}条记录							 
+									 </select>页，共${page.count}条记录							 
 									</div>
 							
 							    </div>	
@@ -32,6 +29,7 @@
 										<thead>
 											<tr>
 											<th><input type="checkbox"/>选入</th>
+											<th>序号</th>
 											<th>资产名称</th>
 											<th>品牌</th>
 											<th>规格/参数</th>
@@ -41,6 +39,7 @@
 											<th>已有数量</th>
 											<th>不可用数量</th>
 											<th>标准配置数量</th>
+											<th>效益金额</th>
 											<th>预算单价</th>
 											<th>金额</th>
 								
@@ -49,12 +48,14 @@
 										</thead>
 										<tbody>
 										
-											<c:forEach var="item" items= "${purchasePlan.selectPageBo.page.currentPageData}">  
+											<c:forEach var="item" items= "${page.currentPageData}">  
 											<tr>
 							
 												<td style="text-align:center">
 													<input type="checkbox" name="boxes"  value="${item.index}"/>
 												</td>
+													<td style="text-align:center" >${item.index}</td>												
+												
 													<td style="text-align:center" >${item.assetsBo.assetsName}</td>												
 													<td style="text-align:center">${item.assetsBo.manufacture}</td>
 													<td style="text-align:center">${item.assetsBo.spec}</td>
@@ -65,6 +66,7 @@
 													<td style="text-align:center">${item.currentQuantity}</td>
 													<td style="text-align:center">${item.disableQuantity}</td>
 													<td style="text-align:center" >${item.quotaQuantity}</td>
+													<td style="text-align:center">${item.price}</td>	
 													<td style="text-align:center">${item.price}</td>
 													
 													<td style="text-align:center" >${item.money}</td>
@@ -78,14 +80,7 @@
 									
 								</div>
 							
-							</div>
-	                        <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>
-							
-							<button type="submit" class="btn btn-primary" name="submit" value="select_mark">所选项</button>				
-							<button type="submit" class="btn btn-success" name="submit" value="select_page">当前页</button>
-							<button type="submit" class="btn btn-success" name="submit" value="select_all">所有项</button>
-						</form>
-					</div>
+				 
  				
 				
  

@@ -3,10 +3,13 @@ package cn.tinder.fuego.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import cn.tinder.fuego.business.bo.Exceltest;
 import cn.tinder.fuego.dao.AssetsQuotaDao;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.impl.AssetsQuotaDaoImpl;
@@ -16,6 +19,8 @@ import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.service.impl.AssetsManageServiceImpl;
 import cn.tinder.fuego.stub.domain.po.AssetsQuotaStub;
 import cn.tinder.fuego.stub.domain.po.PhysicalAssetsStatusStub;
+import cn.tinder.fuego.stub.strust.bo.base.SystemUserBoStub;
+import cn.tinder.fuego.stub.strust.form.PurchasePlanFormStub;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm;
 
@@ -29,7 +34,7 @@ import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm;
 *
  */
 public class AssetsManageServiceTest {
-	
+	private static final Log log = LogFactory.getLog(AssetsManageServiceTest.class);
 	static PhysicalAssetsStatusDao assetsDao = new PhysicalAssetsStatusDaoImpl();
 	static AssetsQuotaDao assetsQuotaDao = new AssetsQuotaDaoImpl();
 	
@@ -47,13 +52,10 @@ public class AssetsManageServiceTest {
 
 	
 	@Test 
-	public void testGetRefPurchaseList(){
-		//Before 建立测试数据库环境
-		beforeTestGetRefPurchaseList();
+	public void testGetRefPurchaseList(){		
 		
-		
-		//After 销毁测试数据库环境
-		afterTestGetRefPurchaseList();
+		List<PurchasePlanBo> resultList = s.getRefPurchaseList(SystemUserBoStub.getAdminUserName(), PurchasePlanFormStub.getRefCreateFrom());
+		log.info(resultList);
 	}
 
 	
@@ -70,8 +72,7 @@ public class AssetsManageServiceTest {
 		quotaList.add(AssetsQuotaStub.getAssetsQuota("配置表存在资产", "", "", 3, "测试加油站"));
 		
 		assetsList.add(PhysicalAssetsStatusStub.getBasicAssetWithNameAndStatu("test1", "损坏的资产","损坏"));
-		
-		
+		quotaList.add(AssetsQuotaStub.getAssetsQuota("损坏的资产", "", "", 3, "测试加油站"));	
 		
 		/*
 		 *写入数据库 
@@ -81,6 +82,8 @@ public class AssetsManageServiceTest {
 		assetsQuotaDao.create(quotaList);
 		
 	}
+	
+	
 	@AfterClass
 	public static void afterTestGetRefPurchaseList() {
 		for(PhysicalAssetsStatus asset:assetsList){
