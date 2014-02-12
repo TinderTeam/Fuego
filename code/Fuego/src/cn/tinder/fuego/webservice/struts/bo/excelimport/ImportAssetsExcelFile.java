@@ -163,11 +163,17 @@ public class ImportAssetsExcelFile {
 		for(AssetsInfoBo infoBo:assetsList){
 			if(
 					//非已有ID
-					infoBo.getAssets().getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)
-					&&
-					(null==infoBo.getAssets().getAssetsID()||infoBo.getAssets().getAssetsID().isEmpty())
+					(
+							//固定资产无ID
+						(infoBo.getAssets().getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)
+								&&
+						(null==infoBo.getAssets().getAssetsID())||(infoBo.getAssets().getAssetsID().isEmpty()))
+					)||(
+							//非固定资产
+							!infoBo.getAssets().getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE	)
 					)
-			{
+					
+			){
 				 
 				if(iDMap.get(infoBo.getAssets().getAssetsType()).size()<1){
 					throw new ServiceException(ExceptionMsg.IDISNULL);

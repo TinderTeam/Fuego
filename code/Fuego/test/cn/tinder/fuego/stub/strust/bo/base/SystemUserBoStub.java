@@ -11,7 +11,17 @@ public class SystemUserBoStub {
 		user.setPassword("1234");
 		user.setRole("SUPER_DEPT");
 		user.setUserID("实物资产管理组");
-		return user;
-		
+		return user;	
+	}
+ 
+	public static SystemUserBo getGasstationSystemUser(){
+		SystemUserBo user = new SystemUserBo();
+		user.setDeptID("33251087");
+		user.setDeptName("惠城经管部");
+		user.setManageName("惠城经管部");
+		user.setPassword("1234");
+		user.setRole("GASSTATION");
+		user.setUserID("三家村加油站");
+		return user;	
 	}
 }

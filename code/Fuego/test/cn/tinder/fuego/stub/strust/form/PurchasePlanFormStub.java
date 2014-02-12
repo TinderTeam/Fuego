@@ -9,10 +9,17 @@ public class PurchasePlanFormStub {
 		form.setDuty("三家村加油站");
 		form.setManageName("惠阳经营管理部");
 		String[] type = {"全部"};		
-		form.setTypeList(type);
-		
-		return form;
-		
+		form.setTypeList(type);		
+		return form;		
 	}
 	
+	public static PurchasePlanForm getRefCreateFrom(){
+		PurchasePlanForm form= new PurchasePlanForm();
+		form.setDate("2010-01-01");
+		form.setDuty("测试用加油站");
+		form.setManageName("测试用经管部");
+		String[] type = {"全部"};		
+		form.setTypeList(type);		
+		return form;		
+	}
 }

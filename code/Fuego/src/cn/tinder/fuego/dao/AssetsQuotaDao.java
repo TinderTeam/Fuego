@@ -7,7 +7,9 @@ import cn.tinder.fuego.domain.po.AssetsQuota;
 public interface AssetsQuotaDao
 {
 
-	public void create(AssetsQuota quota);
+	public void create(List<AssetsQuota> quotaList);
+	
+	public void create(AssetsQuota quotaList);
 
 	public void saveOrUpdate(AssetsQuota quota);
 

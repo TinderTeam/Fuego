@@ -98,22 +98,8 @@ public class PurchasePlanCreateAction extends Action {
 		PurchasePlanSessionBo purchasePlanSessionBo = (PurchasePlanSessionBo) request
 				.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
   
-		if (submitPara.equals(ParameterConst.ADD_PARA_NAME)) {
-			// add the Item
-			/*
-			 * submit the plan to Assets ADD Page. select the
-			 */
-						
-			purchasePlanSessionBo.getPurchaseAddPageBo().setAssetsList(new ArrayList<PurchasePlanBo>());
-			log.info("更新Form内容："+purchasePlanCreateForm);			
-			purchasePlanSessionBo.getPurchasePageBo().updateByForm(purchasePlanCreateForm);
-			log.info("写入Bo："+purchasePlanSessionBo);		
-			request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA,purchasePlanSessionBo);
-			pageName = PageNameConst.PURCHASE_PLAN_ASSETS_SELECT_ACTION; // PurchaseAssetsSelectInit->
-			
-			
-			
-		} else if (submitPara.equals(ParameterConst.ADD_NEW_PARA_NAME)) {
+
+		if (submitPara.equals(ParameterConst.ADD_NEW_PARA_NAME)) {
 			// submit the plan
 			/*
 			 * submit the plan for ensure!

@@ -3,40 +3,92 @@ package cn.tinder.fuego.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import cn.tinder.fuego.dao.AssetsQuotaDao;
+import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
+import cn.tinder.fuego.dao.impl.AssetsQuotaDaoImpl;
+import cn.tinder.fuego.dao.impl.PhysicalAssetsStatusDaoImpl;
+import cn.tinder.fuego.domain.po.AssetsQuota;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.service.impl.AssetsManageServiceImpl;
+import cn.tinder.fuego.stub.domain.po.AssetsQuotaStub;
+import cn.tinder.fuego.stub.domain.po.PhysicalAssetsStatusStub;
+import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
+import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm;
 
-
+/**
+ * 
+* @ClassName: AssetsManageServiceTest 
+* @Description:
+* 1.生成采购计划测试
+* @author Nan Bowen
+* @date 2014-2-12 上午12:53:12 
+*
+ */
 public class AssetsManageServiceTest {
+	
+	static PhysicalAssetsStatusDao assetsDao = new PhysicalAssetsStatusDaoImpl();
+	static AssetsQuotaDao assetsQuotaDao = new AssetsQuotaDaoImpl();
+	
 	AssetsManageService s = new AssetsManageServiceImpl();
+	static List<AssetsQuota> quotaList = new ArrayList<AssetsQuota>();
+	static List<PhysicalAssetsStatus> assetsList = new ArrayList<PhysicalAssetsStatus>();
 	
-	@Test
-	public void initAssetsIDTest(){
-		PhysicalAssetsStatus a1 = new PhysicalAssetsStatus();
-		a1.setAssetsType("固定资产");
-		a1.setAssetsID("testID");
-		
-		PhysicalAssetsStatus a2 = new PhysicalAssetsStatus();
-		a2.setAssetsType("固定资产");
 	
-		PhysicalAssetsStatus a3= new PhysicalAssetsStatus();
-		a3.setAssetsType("消防器材");
+	/* 
+	 * 测试对象 
+	 * public List<PurchasePlanBo> getRefPurchaseList(String userName,PurchasePlanForm purchasePlanForm);
+	 * 根据测试Form里的条件生成采购计划
+	 */
+
+
+	
+	@Test 
+	public void testGetRefPurchaseList(){
+		//Before 建立测试数据库环境
+		beforeTestGetRefPurchaseList();
 		
-		PhysicalAssetsStatus a4= new PhysicalAssetsStatus();
-		a4.setAssetsType("消防器材");
 		
-		List<PhysicalAssetsStatus> list = new ArrayList<PhysicalAssetsStatus>();
-		list.add(a1);
-		list.add(a2);
-		list.add(a3);
-		list.add(a4);
+		//After 销毁测试数据库环境
+		afterTestGetRefPurchaseList();
+	}
+
+	
+	@BeforeClass
+	public static void beforeTestGetRefPurchaseList() {
+		/*
+		 * 在数据库、配置表中增加测试用资产
+		 * 测试覆盖：
+		 * 1.资产列表的缺资产，配置表存在
+		 * 2.资产列表损坏的资产，配置表存在
+		 * 
+		 */
 		
-		System.out.println(list);
-		List<PhysicalAssetsStatus> list2=s.initAssetsID(list);
+		quotaList.add(AssetsQuotaStub.getAssetsQuota("配置表存在资产", "", "", 3, "测试加油站"));
 		
-		System.out.println(list2);
+		assetsList.add(PhysicalAssetsStatusStub.getBasicAssetWithNameAndStatu("test1", "损坏的资产","损坏"));
+		
+		
+		
+		/*
+		 *写入数据库 
+		 */
+		
+		assetsDao.create(assetsList);
+		assetsQuotaDao.create(quotaList);
 		
 	}
+	@AfterClass
+	public static void afterTestGetRefPurchaseList() {
+		for(PhysicalAssetsStatus asset:assetsList){
+			assetsDao.delete(asset);
+		}
+		for(AssetsQuota quota:quotaList){
+			assetsQuotaDao.delete(quota);
+		}
+	}
+	
 }

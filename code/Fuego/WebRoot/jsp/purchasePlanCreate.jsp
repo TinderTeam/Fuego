@@ -139,8 +139,8 @@
 																									
 													<td style="text-align:center">	
 														<select name="typeList"  style="width:200px">
-														
-															<option selected=""  >全部</option>	
+
+																											
 															<c:forEach var="i" items= "${typeList}"> 																								  
 																<option id="${i}"/>${i}																							
 															</c:forEach>

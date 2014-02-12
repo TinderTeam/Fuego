@@ -21,6 +21,7 @@ import org.hibernate.criterion.Restrictions;
 import cn.tinder.fuego.dao.AssetsQuotaDao;
 import cn.tinder.fuego.dao.hibernate.util.HibernateUtil;
 import cn.tinder.fuego.domain.po.AssetsQuota;
+import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 
 /**
  * @ClassName: AssetsQuotaDaoImpl
@@ -228,6 +229,33 @@ public class AssetsQuotaDaoImpl implements AssetsQuotaDao
 			log.debug("[DAO] Success!  get the AssetsName by Name:" + quotaList.toString());
 		}
 		return quotaList;
+	}
+
+	@Override
+	public void create(List<AssetsQuota> quotaList) {
+		Session session = null;
+		Transaction tx = null;
+		try
+		{
+			session = HibernateUtil.getSession();
+			tx = session.beginTransaction();
+			for(AssetsQuota quota : quotaList)
+			{
+				session.save(quota);
+			}
+ 			tx.commit();
+			
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			//  HibernateUtil.closeSession();
+			if (session != null)
+			{
+				session.close();
+			}
+		}
 	}
 
 }
