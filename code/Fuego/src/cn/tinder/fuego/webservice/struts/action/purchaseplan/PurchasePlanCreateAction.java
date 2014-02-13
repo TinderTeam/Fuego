@@ -83,16 +83,46 @@ public class PurchasePlanCreateAction extends Action {
 		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(
 				RspBoNameConst.SYSTEM_USER);
  
+		if (null == user)
+		{
+			log.error("the user is null");
+			pageName = PageNameConst.LOGIN_PAGE;
+			return pageName;
+		}
+		
+		
+		
 		// Form
 		PurchasePlanCreateForm purchasePlanCreateForm = (PurchasePlanCreateForm) form;
 		// Form Empty test
- 
+		if (purchasePlanCreateForm == null)
+		{
+
+			log.error("cant find form!!");
+			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
+			return pageName;
+		} else
+		{
+			log.info(LogKeyConst.PAGE_FORM + purchasePlanCreateForm.toString());
+		}
+		
 
 		// Para
 		String submitPara = request
 				.getParameter(ParameterConst.SUBMIT_PARA_NAME);
- 
+		if (null == submitPara || submitPara.isEmpty())
+		{
+			log.error("submit is null!!");
+			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
+			return pageName;
+		} else
+		{
+			log.info(LogKeyConst.SUBMIT_VALUE + submitPara);
+		}
 	
+		
+		
+		
 		// RequestIn Session
 		// SessionBo
 		PurchasePlanSessionBo purchasePlanSessionBo = (PurchasePlanSessionBo) request
@@ -174,6 +204,8 @@ public class PurchasePlanCreateAction extends Action {
 			pageName = PageNameConst.PURCHASE_PLAN_ENSURE_ACTION;
 		} else if (submitPara.equals(ParameterConst.BACK_PARA_NAME)) {
 			pageName = PageNameConst.PURCHASE_PLAN_PAGE_ACTION;
+		}else{
+			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
 		}
 
 		log.info(LogKeyConst.NEXT_PAGE + pageName);

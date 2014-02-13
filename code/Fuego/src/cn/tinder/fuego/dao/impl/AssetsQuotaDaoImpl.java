@@ -1,7 +1,7 @@
 /**   
  * @Title: AssetsQuotaDaoImpl.java 
  * @Package cn.tinder.fuego.dao.impl 
- * @Description: TODO
+ * @Description: 加油站标准配置DAO接口
  * @author Zhu Liucao   
  * @date 2013-9-26 上午01:14:56 
  * @version V1.0   
@@ -23,13 +23,7 @@ import cn.tinder.fuego.dao.hibernate.util.HibernateUtil;
 import cn.tinder.fuego.domain.po.AssetsQuota;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 
-/**
- * @ClassName: AssetsQuotaDaoImpl
- * @Description: TODO
- * @author Zhu Liucao
- * @date 2013-9-26 上午01:14:56
- * 
- */
+
 public class AssetsQuotaDaoImpl implements AssetsQuotaDao
 {
 	Log log = LogFactory.getLog(AssetsQuotaDaoImpl.class);

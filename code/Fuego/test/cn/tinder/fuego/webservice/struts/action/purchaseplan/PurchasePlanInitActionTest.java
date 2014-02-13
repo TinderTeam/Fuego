@@ -1,4 +1,4 @@
-package cn.tinder.fuego.webservice.struts.action.purchase;
+package cn.tinder.fuego.webservice.struts.action.purchaseplan;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;

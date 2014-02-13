@@ -1,7 +1,7 @@
 /**   
  * @Title: TransExtAttrDao.java 
  * @Package cn.tinder.fuego.dao 
- * @Description: TODO
+ * @Description: 事务附加属性Dao接口（transID,attrName,attrValue）
  * @author Zhu Liucao   
  * @date 2013-10-2 上午02:01:53 
  * @version V1.0   
@@ -12,13 +12,6 @@ import java.util.List;
 
 import cn.tinder.fuego.domain.po.TransExtAttr;
 
-/**
- * @ClassName: TransExtAttrDao
- * @Description: TODO
- * @author Zhu Liucao
- * @date 2013-10-2 上午02:01:53
- * 
- */
 public interface TransExtAttrDao
 {
 	public void create(TransExtAttr transattr);

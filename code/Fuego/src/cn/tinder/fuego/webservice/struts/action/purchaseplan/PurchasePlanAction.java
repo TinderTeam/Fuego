@@ -99,6 +99,7 @@ public class PurchasePlanAction extends Action
 			/*
 			 * 1.Create Refferance
 			 */
+			
 			purchasePlanSessionBo.getSelectPageBo().setDataSource(assetsManageService.getRefPurchaseList(user.getUserID(), purchasePlanForm));
 			// purchasePlanSessionBo.getPurchasePageBo().setAssetsList(purchasePlanSessionBo.getPurchasePageBo().getPage().getCurrentPageData());
 

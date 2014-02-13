@@ -1,7 +1,7 @@
 /**   
  * @Title: AssetsTypeDaoImpl.java 
  * @Package cn.tinder.fuego.dao.impl 
- * @Description: TODO
+ * @Description: 资产类型Dao实现
  * @author Zhu Liucao   
  * @date 2013-9-26 上午01:42:29 
  * @version V1.0   
@@ -19,13 +19,6 @@ import cn.tinder.fuego.dao.AssetsTypeDao;
 import cn.tinder.fuego.dao.hibernate.util.HibernateUtil;
 import cn.tinder.fuego.domain.po.AssetsType;
 
-/**
- * @ClassName: AssetsTypeDaoImpl
- * @Description: TODO
- * @author Zhu Liucao
- * @date 2013-9-26 上午01:42:29
- * 
- */
 public class AssetsTypeDaoImpl implements AssetsTypeDao
 {
 	Log log = LogFactory.getLog(AssetsTypeDaoImpl.class);

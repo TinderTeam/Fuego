@@ -229,7 +229,8 @@
             <forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>	       		
-			<forward name="PurchasePlanInit" path="/PurchasePlanInit.do"></forward>       		
+			<forward name="PurchasePlanInit" path="/PurchasePlanInit.do"></forward> 
+			<forward name="Login" path="/jsp/login.jsp"></forward>	      		
        	</action>
        	
     <!-- PurchaseRef -->   	

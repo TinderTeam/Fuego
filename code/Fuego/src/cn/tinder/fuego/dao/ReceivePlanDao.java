@@ -1,7 +1,7 @@
 /**   
 * @Title: ReceivePlanDao.java 
 * @Package cn.tinder.fuego.dao 
-* @Description: TODO
+* @Description: 回收事务Dao接口
 * @author Zhu Liucao   
 * @date 2013-10-22 上午12:42:30 
 * @version V1.0   
@@ -12,13 +12,6 @@ import java.util.List;
 
 import cn.tinder.fuego.domain.po.ReceivePlan;
 
-/** 
- * @ClassName: ReceivePlanDao 
- * @Description: TODO
- * @author Zhu Liucao
- * @date 2013-10-22 上午12:42:30 
- *  
- */
 public interface ReceivePlanDao
 {
 	public void create(ReceivePlan plan);

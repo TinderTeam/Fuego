@@ -20,8 +20,4 @@ public class ActionTest  extends MockStrutsTestCase{
 	      super(testName);
 	      requestPathInfo=requestPath;
 	  }
-	  
-	  
-	  
-	
 }
