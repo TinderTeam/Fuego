@@ -13,7 +13,7 @@
  
 							
 								 
-								<div class="widget-content">
+							<div class="widget-content">
 								<div class="control-group">
 										                第<select name="pageNum" style = "width:70px" onchange="return assetsPageChange('pageChange')"  >
 												<option id="${page.currentPage}">${page.currentPage}</option>	

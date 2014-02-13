@@ -168,7 +168,7 @@
 								<div class="widget-content">
 								
 									<button   type="submit"  class="btn btn-success"   name ="submit" value="submit">提交</button>								
-									<button  type="submit" class="btn  btn-primary" name ="submit" value="back">返回</button>	
+									<a class="btn btn-primary"   href="javascript:history.go(-1);">返回</a>	
 								</div>
 	
 				</div>	

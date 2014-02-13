@@ -32,50 +32,54 @@
 				
 				<div class="row-fluid">
 					<div class="span12">
-					<div class="widget-box">
-						
-							<div class="widget-title">
-							
-								<h5>参考计划</h5>
-									
+						<form action="<%=request.getContextPath()%>/PurchaseSelect.do"  name="RefPlanActionForm" method="post" >	
+						<div class="widget-box">
+							<div class="widget-title">	
+								<span class="icon">
+									<i class="icon-th"></i>
+								</span>						
 							</div>
-						<form action="<%=request.getContextPath()%>/PurchaseSelect.do"  name="RefPlanActionForm" method="post" >
+							<div class="widget-content">
+																						
+									<c:set var="page" value="${purchasePlan.selectPageBo.page}" scope="request"/>							 
+									<jsp:include page="/jsp/purchase/purchasePlanData.jsp"/>
+									<button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>												
+								
+							</div>	
+						</div>
+						
+						<button type="submit" class="btn btn-primary" name="submit" value="select_mark">所选项</button>				
+						<button type="submit" class="btn btn-success" name="submit" value="select_page">当前页</button>
+						<button type="submit" class="btn btn-success" name="submit" value="select_all">所有项</button>
+					</form>
+					<form action="<%=request.getContextPath()%>/RefPlanCreate.do"  name="RefPlanActionForm" method="get" >
+						<div class="widget-box">
+							<div class="widget-title">	
+								<h5>选入列表</h5>				
+							</div>
+							<div class="widget-content">
+										
+											<c:set var="page" value="${purchasePlan.purchasePageBo.page}" scope="request"/>
+										 
+											<jsp:include page="/jsp/purchase/purchasePlanData.jsp"/>										
+										
+										<button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>									
+										<button type="submit" class="btn btn-success" name="submit" value="submit">选定资产</button>
+										<a class="btn btn-primary"   href="javascript:history.go(-1);">返回</a>	
+										
+							</div>		
 							
-							
-							<c:set var="page" value="${purchasePlan.selectPageBo.page}" scope="request"/>
-						 
-					        <jsp:include page="/jsp/purchase/purchasePlanData.jsp"/>
-						    <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>
-							
-							<button type="submit" class="btn btn-primary" name="submit" value="select_mark">所选项</button>				
-							<button type="submit" class="btn btn-success" name="submit" value="select_page">当前页</button>
-							<button type="submit" class="btn btn-success" name="submit" value="select_all">所有项</button>
-						</form>
+						</div>	
+					</form>
 					</div>
 				</div>
-				
-				<div class="row-fluid">			    
-					<div class="span12">
-						<form action="<%=request.getContextPath()%>/RefPlanCreate.do"  name="RefPlanActionForm" method="get" >
-							<c:set var="page" value="${purchasePlan.purchasePageBo.page}" scope="request"/>
-						 
-					        <jsp:include page="/jsp/purchase/purchasePlanData.jsp"/>
-						    
-	                        <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>
-							
-							<button type="submit" class="btn btn-success" name="submit" value="submit">选定资产</button>
-							<button type="submit" class="btn btn-primary" name="submit" value="back">返回</button>			
-						</form>
-					</div>
-				</div>
-				
-				
+	
 				<div class="row-fluid">
 					<div id="footer" class="span12">
 						2013  Copyright Reserved by Tinder
 					</div>
 				</div>
-			</div>
+			</div>	
 		</div>
  
 
