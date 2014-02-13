@@ -25,20 +25,17 @@ import jxl.write.WriteException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import cn.tinder.fuego.dao.CheckPlanDao;
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.ReceivePlanDao;
-import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
-import cn.tinder.fuego.domain.po.AssignPlan;
-import cn.tinder.fuego.domain.po.DiscardPlan;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.constant.OperateLogConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
@@ -48,9 +45,7 @@ import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
 import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.receive.ReceivePlanBo;
-import cn.tinder.fuego.webservice.struts.bo.receive.ReceivePlanInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.receive.ReceiveTransBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
@@ -151,6 +146,8 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 			Map<String,List<AssetsInfoBo>> deptMapAssestList = ConvertAssetsModel.convertAssestsListBoToDeptMap(receivePlan.getPlanInfo().getAssetsPage().getAssetsList());
 
 			assetsManageService.createAssetsList(receivePlan.getPlanInfo().getAssetsPage().getPage().getAllPageData());
+ 			List<PhysicalAssetsStatus> assetsList = ConvertAssetsModel.convertAssetsBoList(receivePlan.getPlanInfo().getAssetsPage().getPage().getAllPageData());
+			super.handleOperateLogRecord(receivePlan.getTransInfo().getTransInfo().getTransID(),OperateLogConst.ASSETS_ADD_OPERATE, assetsList);
 
 			
  			//get all the plan for every child transaction
@@ -178,12 +175,24 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		}
 		return planList;
 	}
+	@Override
+	public void forwardNext(String transID)
+	{
+		forwardNext(transID,"");
+	}
+	
+	public void forwardNextBySystem(String transID)
+	{
+		TransEvent transEvent =transEventDao.getByTransID(transID);
 
+		super.forwardNext(transID,transEvent.getHandleUser(),null);
+
+	}
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.TransPlanService#forwardNext(java.lang.String)
 	 */
 	@Override
-	public void forwardNext(String transID)
+	public void forwardNext(String transID,String transInfo)
 	{
 		TransEvent transEvent =transEventDao.getByTransID(transID);
 
@@ -195,13 +204,16 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		    break;
 		case 1 :
 		    handleUser = transEvent.getHandleUser();
+		    
+
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();
+			
 			log.warn("the step i unexpected. step is" + transEvent.getCurrentStep());
 			
 		}
-		super.forwardNext(transID, handleUser);
+		super.forwardNext(transID,handleUser,transInfo);
 		
 		//update  parent transaction status.
 		if(!super.hasChildTrans(transID))
@@ -318,9 +330,9 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	 * @see cn.tinder.fuego.service.TransPlanService#backward(java.lang.String)
 	 */
 	@Override
-	public void backward(String transID)
+	public void backward(String transID,String transInfo)
 	{
-		// TODO Auto-generated method stub
+		super.backward(transID,transInfo);
 		
 	}
 
@@ -475,14 +487,22 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	
 	private List<PhysicalAssetsStatus> getAssestByTransIDList(List<String> transIDList)
 	{
-		List<ReceivePlan> planList = receivePlanDao.getByTransID(transIDList);
+
+		List<String> assetsIDList = getAssetsListByTransIDList(transIDList);
+		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
+		return assetsStatusList;
+	}
+
+	private List<String>  getAssetsListByTransIDList(List<String> transIDList)
+	{
 		List<String> assetsIDList = new ArrayList<String>();
+
+		List<ReceivePlan> planList = receivePlanDao.getByTransID(transIDList);
  		for(ReceivePlan plan : planList)
 		{
 			 assetsIDList.add(plan.getAssetsID());
 		}
-		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
-		return assetsStatusList;
+ 		return assetsIDList;
 	}
 
 	@Override
@@ -490,5 +510,29 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		return null;
 		// TODO Auto-generated method stub
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#isMaxStep(int)
+	 */
+	@Override
+	public int getMaxStep(String transID)
+	{
+		// TODO Auto-generated method stub
+		return Integer.valueOf(TransactionConst.RECEIVE_MAX_STEP);
+	}
+	@Override
+	public boolean isApporalStep(int step)
+	{
+		if(2 == step )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public String getSumInfo(List<String> transIDList) {
+		return "事务数量："+transIDList.size()+";涉及资产："+getPlanCount(transIDList)+";涉及金额："+getPlanAssetsSumValue(transIDList);
 	}
 }

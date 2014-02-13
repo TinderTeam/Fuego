@@ -2,7 +2,6 @@ package cn.tinder.fuego.webservice.struts.action.assets;
 
 
 
-import java.io.File;
 import java.sql.BatchUpdateException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,16 +18,17 @@ import org.hibernate.exception.ConstraintViolationException;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
-import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
+import cn.tinder.fuego.webservice.struts.bo.download.AssetsStatuesFile;
 import cn.tinder.fuego.webservice.struts.bo.receive.ReceivePlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
+import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
 
 
 
@@ -81,11 +81,14 @@ public class ImportAssetsSubmitAction extends Action
 		ReceivePlanBo plan = null ; 
     	String nextPage = PageNameConst.SYSTEM_SUCCESS_PAGE;
 		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+		AssetsFilterForm assetsForm = (AssetsFilterForm)form;	
 
     	String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
+    	log.info("Submit Para is: " +submitPara);
+    	AssetsPageBo assetsPage = (AssetsPageBo) request.getSession().getAttribute(RspBoNameConst.ASSETS_PAGE_DATA);
+
 		if(ParameterConst.SUBMIT_PARA_NAME.equals(submitPara))
 		{
-	    	AssetsPageBo assetsPage = (AssetsPageBo) request.getSession().getAttribute(RspBoNameConst.ASSETS_PAGE_DATA);
 
 			plan = (ReceivePlanBo) planService.createPlan(user.getUserID(),assetsManageService.getUserListByAssestList(assetsPage.getAssetsList()));
 			plan.getPlanInfo().setAssetsPage(assetsPage);
@@ -130,7 +133,30 @@ public class ImportAssetsSubmitAction extends Action
 		{
 			nextPage = PageNameConst.INDEX_INIT_ACTION;
 		}
- 
+    	else if(submitPara.equals(ParameterConst.PAGECHANGE_PARA_NAME))
+    	{
+    		//request.setAttribute(RspBoNameConst.DISCARD_SEARCH_FORM, assetsForm);
+
+    		nextPage = PageNameConst.DISCARD_SEARCH_INIT;
+    		assetsPage.getPage().setCurrentPage(assetsForm.getPageNum());
+    		assetsPage.setAssetsList(assetsPage.getPage().getCurrentPageData());
+    		nextPage = PageNameConst.IMPORT_ASSETS_SUBMIT_INIT_ACTION;
+    	}else if(submitPara.equals(ParameterConst.DOWNLOAD_PARA_NAME)){
+				/*
+				 * download	
+				 */
+				log.info("Para is " + submitPara);
+				
+			
+	
+				
+				
+				AssetsStatuesFile downfile= new AssetsStatuesFile(assetsPage);
+				
+				request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE,downfile.getFile().getAbsolutePath()); 
+				
+				nextPage = PageNameConst.DOWNLOAD_ACTION;
+    	}
         return nextPage;
  
 

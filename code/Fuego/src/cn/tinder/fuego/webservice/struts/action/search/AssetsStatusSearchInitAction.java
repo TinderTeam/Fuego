@@ -2,7 +2,6 @@ package cn.tinder.fuego.webservice.struts.action.search;
 
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +16,6 @@ import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
-import cn.tinder.fuego.service.constant.AssetsConst;
-import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.util.engine.computer.ComputeService;
@@ -103,7 +100,7 @@ public class AssetsStatusSearchInitAction extends Action
             	pageBo.getPageBo().setShowModifyBtn(true);
     		}
     		
-    		pageBo.setPageBo(ComputeService.cptValueAsList(pageBo.getPageBo()));
+    		pageBo.setPageBo(ComputeService.cptShowValueAsList(pageBo.getPageBo()));
     		pageBo.getPageBo().setShowCurrentValue(true);
     		/*
     			 * Edit By Bowen Nan
@@ -118,23 +115,14 @@ public class AssetsStatusSearchInitAction extends Action
 
     	//if the user is gas station,he can just get his own assets (Edit By Bowen 	17:02 2013/11/23)
 		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);   	
-		List<String> deptList = new ArrayList<String>();
-    	if(UserRoleConst.GASSTATION.equals(user.getRole()))
-    	{
-    		deptList.add(user.getDeptName());
-    	}
-    	else
-    	{
-    		deptList.add(AssetsConst.ASSETS_FITER_ALL);
-    		deptList.addAll(loadService.loadAllDeptInfo());
-    	}
+		List<String> deptList = loadService.loadDeptInfoByUser(user.getUserID(),true);
+ 
     	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,deptList);//DeptList
-    	request.setAttribute(RspBoNameConst.TYPE_LIST,loadService.loadAssetsTypeList());//TypeList
+    	request.setAttribute(RspBoNameConst.TYPE_LIST,loadService.loadAssetsTypeList(user.getUserID()));//TypeList
     	request.setAttribute(RspBoNameConst.TECH_LIST,loadService.loadAssetsTechList());//TechList
-    	List<String> manageList = new ArrayList<String>();
-    	manageList.add(AssetsConst.ASSETS_FITER_ALL);
-    	manageList.addAll(loadService.loadManageDeptList());
-    	request.setAttribute(RspBoNameConst.MANAGE_DEPT_LIST,manageList);//DeptList
+    	List<String> manageList = loadService.loadManageDeptList(user.getUserID(),true);
+ 
+     	request.setAttribute(RspBoNameConst.MANAGE_DEPT_LIST,manageList);//DeptList
 
 		request.setAttribute(ParameterConst.SHOW_MODIFY_BTN,modify);
      	

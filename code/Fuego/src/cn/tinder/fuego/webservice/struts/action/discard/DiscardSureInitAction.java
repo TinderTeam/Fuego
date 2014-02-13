@@ -2,10 +2,6 @@ package cn.tinder.fuego.webservice.struts.action.discard;
 
 
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,23 +13,16 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.AssetsManageService;
-import cn.tinder.fuego.service.ConstServiceTest;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
-import cn.tinder.fuego.webservice.struts.bo.discard.AssetsDiscardInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
-import cn.tinder.fuego.webservice.struts.bo.discard.DiscardSearchBo;
-import cn.tinder.fuego.webservice.struts.bo.discard.DiscardSessionBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
-import cn.tinder.fuego.webservice.struts.form.DiscardSearchSelectForm;
 
 
 
@@ -50,7 +39,7 @@ public class DiscardSureInitAction extends Action
     private static final Log log = LogFactory.getLog(DiscardSureInitAction.class);
     private AssetsManageService assetsService = ServiceContext.getInstance().getAssetsManageService();
 	
-    private TransPlanService  discardService = ServiceContext.getInstance().getDiscardPlanService();
+    private TransPlanService  planService = ServiceContext.getInstance().getDiscardPlanService();
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form,
@@ -85,26 +74,28 @@ public class DiscardSureInitAction extends Action
 	{
 		String nextPage = PageNameConst.DISCARD_SURE;
 		String transID = request.getParameter(ParameterConst.PLAN_TRANS_ID);
-		DiscardPlanBo plan = (DiscardPlanBo) discardService.getPlanByTransID(transID);
+		DiscardPlanBo plan = (DiscardPlanBo) planService.getPlanByTransID(transID);
 		if (null == plan)
 		{
 			log.info("can not get the plan by transaction id" + transID);
 
 			plan = (DiscardPlanBo) request.getSession().getAttribute(RspBoNameConst.DISCARD_PLAN_INFO);
-	    	discardService.updatePlan(plan);
+	    	planService.updatePlan(plan);
 
 		} 
+		
+		request.setAttribute(RspBoNameConst.DEPT_INFO_LIST, ServiceContext.getInstance().getLoadService().loadApprovalUser());
 		request.getSession().setAttribute(RspBoNameConst.DISCARD_PLAN_INFO, plan);
 
     	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
 
     	   
-		nextPage = controlPageBtnDis(plan.getTransInfo().getTransInfo().canOperate(user),nextPage,request);
+		nextPage = controlPageBtnDis(plan.getTransInfo().getTransInfo().canOperate(user),plan.getTransInfo().getTransInfo().getTransID(),nextPage,request);
 
 
 		return nextPage;
 	}
-	private String controlPageBtnDis(boolean canOperate,String nextPage,HttpServletRequest request)
+	private String controlPageBtnDis(boolean canOperate,String transID,String nextPage,HttpServletRequest request)
 	{
 		//control page button display by the step
 		String pageCtr = RspBoNameConst.PAGE_CREATE;
@@ -119,11 +110,11 @@ public class DiscardSureInitAction extends Action
 			{
 				pageCtr = RspBoNameConst.PAGE_CREATE;
 			}
-			else if(TransactionConst.DISCARD_MAX_STEP.equals(step))
+			else if(Integer.valueOf(step)>= planService.getMaxStep(transID))
 			{
 				nextPage = PageNameConst.DISCARD_SEARCH_INIT;
 			}
-			else if(TransactionConst.DISCARD_APPROVAL_STEP.equals(step))
+			else if(planService.isApporalStep(Integer.valueOf(step)))
 			{
 				pageCtr = RspBoNameConst.PAGE_APPROVAL;
 			}
@@ -137,12 +128,13 @@ public class DiscardSureInitAction extends Action
 	 		}
 			else
 			{
-				pageCtr = RspBoNameConst.PAGE_CONFIRM;
+				pageCtr = RspBoNameConst.PAGE_APPROVAL;
 	 		}
 		}
 
 		request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, pageCtr);
 		return nextPage;
 	}
+
 
 }

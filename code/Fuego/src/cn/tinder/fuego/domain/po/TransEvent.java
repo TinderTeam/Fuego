@@ -13,10 +13,11 @@ public class TransEvent
 	private Date endTime;
 	private String handleUser;
 	private int currentStep;
+	private Date handleTime;
 	private String status;
 	private String type;
 	private String parentTransID;
-
+    private String executeName;
 	/**
 	 * @return the transID
 	 */
@@ -184,11 +185,43 @@ public class TransEvent
 		this.status = status;
 	}
 
-	@Override
-	public String toString()
+	public Date getHandleTime()
 	{
-		return "TransEvent [transID=" + transID + ", transName=" + transName + ", createTime=" + createTime + ", createUser=" + createUser + ", endTime=" + endTime + ", handleUser=" + handleUser
-				+ ", currentStep=" + currentStep + ", type=" + type + ", parentTransID=" + parentTransID + "]";
+		return handleTime;
 	}
+
+	public void setHandleTime(Date handleTime)
+	{
+		this.handleTime = handleTime;
+	}
+
+	/**
+	 * @return the executeName
+	 */
+	public String getExecuteName() {
+		return executeName;
+	}
+
+	/**
+	 * @param executeName the executeName to set
+	 */
+	public void setExecuteName(String executeName) {
+		this.executeName = executeName;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "TransEvent [transID=" + transID + ", transName=" + transName
+				+ ", createTime=" + createTime + ", createUser=" + createUser
+				+ ", endTime=" + endTime + ", handleUser=" + handleUser
+				+ ", currentStep=" + currentStep + ", handleTime=" + handleTime
+				+ ", status=" + status + ", type=" + type + ", parentTransID="
+				+ parentTransID + ", executeName=" + executeName + "]";
+	}
+
+ 
 
 }

@@ -70,7 +70,21 @@
 												<td style="text-align:center">
 													<input style="width:100px" type="text" value="${i.assetsBo.spec}" name="assetsCreateBo[${i.index-1}].assetsBo.spec" />
 											    <td style="text-align:center">
-													<input style="width:100px" type="text" value="${i.assetsBo.duty}" name="assetsCreateBo[${i.index-1}].assetsBo.duty" />
+											        
+													 
+												<select name="assetsCreateBo[${i.index-1}].assetsBo.duty"  style="width:100px">
+												
+ 													<c:forEach var="dept" items= "${deptList}"> 
+ 													   	 <c:choose>																						  
+														  <c:when test="${i.assetsBo.duty == dept}">
+													           <option selected=""  >${i.assetsBo.duty}</option>	
+														  </c:when>
+														  <c:otherwise>  
+														       <option id="${dept}"/>${dept}		
+														  </c:otherwise>
+														 </c:choose>																						
+													</c:forEach>
+												</select>
 												</td>
 													
 												</td>
@@ -120,8 +134,21 @@
 												<div class="controls">
 													<input type="text" name="newAssetsName"/>
 												</div>
+												<label class="control-label">实物资产类型</label>
+												<div class="controls">
+																									
+													<td style="text-align:center">	
+														<select name="typeList"  style="width:200px">
+
+																											
+															<c:forEach var="i" items= "${typeList}"> 																								  
+																<option id="${i}"/>${i}																							
+															</c:forEach>
+														</select>
+													</td>
+												</div>
 											</div>
-				
+
 										</div>
 										<div class="modal-footer">
 												
@@ -141,7 +168,7 @@
 								<div class="widget-content">
 								
 									<button   type="submit"  class="btn btn-success"   name ="submit" value="submit">提交</button>								
-									<button  type="submit" class="btn  btn-primary" name ="submit" value="back">返回</button>	
+									<a class="btn btn-primary"   href="javascript:history.go(-1);">返回</a>	
 								</div>
 	
 				</div>	

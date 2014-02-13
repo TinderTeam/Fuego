@@ -6,18 +6,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.Test;
-
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import cn.tinder.fuego.dao.DaoContext;
-import cn.tinder.fuego.dao.DiscardPlanDao;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.RecapturePlanDao;
 import cn.tinder.fuego.dao.SystemUserDao;
@@ -25,7 +23,6 @@ import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.TransExtAttrDao;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.RecapturePlan;
-import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.domain.po.TransExtAttr;
@@ -40,12 +37,6 @@ import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
 import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
-import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
-import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
-import cn.tinder.fuego.webservice.struts.bo.download.AssetsStatuesFile;
-import cn.tinder.fuego.webservice.struts.bo.download.AssignFile;
 import cn.tinder.fuego.webservice.struts.bo.recapture.RecapturePlanBo;
 import cn.tinder.fuego.webservice.struts.bo.recapture.RecaptureTransBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
@@ -120,14 +111,25 @@ public class RecapturePlanServiceImpl <E> extends TransactionServiceImpl impleme
 		}
 
 	}
+	@Override
+	public void forwardNext(String transID)
+	{
+		forwardNext(transID,"");
+	}
+	public void forwardNextBySystem(String transID)
+	{
+		TransEvent transEvent =transEventDao.getByTransID(transID);
 
+		super.forwardNext(transID,transEvent.getHandleUser(),null);
+
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#forwardNext(java.lang.String)
 	 */
 	@Override
-	public void forwardNext(String transID)
+	public void forwardNext(String transID,String transInfo)
 	{
 		TransEvent transEvent =transEventDao.getByTransID(transID);
 		
@@ -138,19 +140,23 @@ public class RecapturePlanServiceImpl <E> extends TransactionServiceImpl impleme
 		{
 		case 3 :
 			 handleUser = super.getLeader(transEvent.getCreateUser());
+	         transInfo = TransactionConst.TRANS_OPERATE_SUBMIT;
+
 			break;	
 		case 2 :
 			handleUser = transEvent.getCreateUser();
 			break;
 		case 1 :
 			handleUser = transEvent.getCreateUser();
+        	transInfo = TransactionConst.TRANS_OPERATE_FINISH;
+
 			recaptureAssets(transID);
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();
 		}
         
-		super.forwardNext(transID,handleUser);
+		super.forwardNext(transID,handleUser,transInfo);
 
 	}
 
@@ -255,13 +261,13 @@ s	 *
 	 * @see cn.tinder.fuego.service.TransPlanService#backward(java.lang.String)
 	 */
 	@Override
-	public void backward(String transID)
+	public void backward(String transID,String transInfo)
 	{
 		/**
 		 * Issue #36
 		 * need backward
 		 */
-		super.backward(transID);
+		super.backward(transID,transInfo);
 	}
 	
 	
@@ -453,4 +459,28 @@ s	 *
 		
 	}
 
+	@Override
+	public boolean isApporalStep(int step)
+	{
+		if(2 == step )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getMaxStep(java.lang.String)
+	 */
+	@Override
+	public int getMaxStep(String transID)
+	{
+		// TODO Auto-generated method stub
+		return Integer.valueOf(TransactionConst.RECAPTURE_APPROVAL_STEP);
+	}
+
+	@Override
+	public String getSumInfo(List<String> transIDList) {
+		return "事务数量："+transIDList.size()+";涉及资产："+getPlanCount(transIDList)+";涉及金额："+getPlanAssetsSumValue(transIDList);
+	}
 }

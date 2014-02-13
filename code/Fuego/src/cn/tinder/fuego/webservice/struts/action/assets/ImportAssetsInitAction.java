@@ -15,8 +15,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.action.purchaseWarehousing.TransactioServiceTest;
-import cn.tinder.fuego.webservice.struts.bo.PurchaseWarehousingPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsPuchaseDeployBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
@@ -43,18 +41,8 @@ public class ImportAssetsInitAction extends Action
     {
     	log.info(LogKeyConst.INPUT_ACTION+"PurchaseWarehousingInitAction");
         
-    	String nextPage = PageNameConst.IMPORT_ASSETS_PAGE;// "PurchaseWarehousing"->"/jsp/purchaseWarehousing.jsp"
+    	String nextPage = PageNameConst.IMPORT_ASSETS_PAGE;
   
-    	//SessionBo
-    	PurchaseWarehousingPageBo purchaseWarehousingPage = null;
-    	//DisplayBo
-    	List<AssetsPuchaseDeployBo> assetsPuchaseDeployBo = null;
-    	/*
-    	 * Search and show exist purchasePlan. 
-    	 */
-    	assetsPuchaseDeployBo = TransactioServiceTest.getAssetsPDBo();
-    	
-    	request.setAttribute(RspBoNameConst.DEPLOY_LIST, assetsPuchaseDeployBo);
 
         log.info(LogKeyConst.NEXT_PAGE+nextPage);
         return mapping.findForward(nextPage);	

@@ -18,7 +18,6 @@ import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
-import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
 
 public class ImportPruchaseExcelFile {
 	 private static final Log log = LogFactory.getLog(ImportPruchaseExcelFile.class);
@@ -32,7 +31,7 @@ public class ImportPruchaseExcelFile {
 		
 	    
 	    
-	     if (uploadFile.getName().indexOf(".xls") <= 0){
+	     if (!uploadFile.getName().endsWith(".xls")){
 	            throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG+uploadFile.getName());
 	     }
 	        // 2.判断文件是否存在
@@ -72,18 +71,23 @@ public class ImportPruchaseExcelFile {
 			        	AssetsBo assBo=new AssetsBo();
 			        	assBo.setAssetsID(cell.getContents());
 			        	cell = sheet.getCell(2,i);
+			        	if(cell.getContents().isEmpty()){
+			        		continue;
+			        	}
 			        	assBo.setAssetsName(cell.getContents());
 			        	cell = sheet.getCell(3,i);
-			        	assBo.setManufacture(cell.getContents());
+			        	assBo.setAssetsType(cell.getContents());
 			        	cell = sheet.getCell(4,i);
-			        	assBo.setSpec(cell.getContents());
+			        	assBo.setManufacture(cell.getContents());
 			        	cell = sheet.getCell(5,i);
-			        	assBo.setUnit(cell.getContents());
+			        	assBo.setSpec(cell.getContents());
 			        	cell = sheet.getCell(6,i);
+			        	assBo.setUnit(cell.getContents());
+			        	cell = sheet.getCell(7,i);			  
 			        	assBo.setQuantity(Integer.valueOf(cell.getContents()));
-			        	cell = sheet.getCell(7,i);
-			        	planBo.setPrice(cell.getContents());
 			        	cell = sheet.getCell(8,i);
+			        	planBo.setPrice(cell.getContents());
+			        	cell = sheet.getCell(9,i);
 			        	assBo.setNote(cell.getContents());
 			        	
 			        	
@@ -91,7 +95,7 @@ public class ImportPruchaseExcelFile {
 			        	 * Edit By Bowen
 			        	 * Added set dept
 			        	*/
-			        	cell = sheet.getCell(9,i);
+			        	cell = sheet.getCell(10,i);
 			        	assBo.setDuty(cell.getContents());
 			        	
 			        	assBo.setManageName(CacheContext.getInstance().getUserCache().getManageByUser(assBo.getDuty()));

@@ -31,5 +31,8 @@ public class CacheContext
 		return QuotaCache.getInstance();
 	}
 
-	 
+	public AssetsTypeParaCache getAssetTypeParaCache()
+	{
+		return AssetsTypeParaCache.getInstance();
+	}
 }

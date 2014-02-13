@@ -29,7 +29,9 @@ public class TransactionBaseInfoBo
 	private Date endTime;
 	private String handleUser;
 	private String state;
+	private int expendTime  = 0;
 	private String url;	   
+	private String executeName;
  
  
 	
@@ -103,11 +105,34 @@ public class TransactionBaseInfoBo
 		this.state = state;
 	}
 
+	
+	public int getExpendTime()
+	{
+		return expendTime;
+	}
+
+	public void setExpendTime(int expendTime)
+	{
+		this.expendTime = expendTime;
+	}
+
+ 
+
+	public String getExecuteName()
+	{
+		return executeName;
+	}
+
+	public void setExecuteName(String executeName)
+	{
+		this.executeName = executeName;
+	}
+
 	@Override
 	public String toString()
 	{
-		return "TransactionBo [transID=" + transID + ", transName=" + transName + ", createTime=" + createTime + ", createUser=" + createUser + ", endTime=" + endTime + ", handleUser=" + handleUser
-				+ ", state=" + state + "]";
+		return "TransactionBaseInfoBo [transID=" + transID + ", transName=" + transName + ", createTime=" + createTime + ", createUser=" + createUser + ", endTime=" + endTime + ", handleUser="
+				+ handleUser + ", state=" + state + ", expendTime=" + expendTime + ", url=" + url + "]";
 	}
 
 	public void setUrl(String url) {

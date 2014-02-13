@@ -18,6 +18,8 @@
 	   
   			
 			<property name="unit" column="UNIT" not-null="false"></property>
+			<property name="assetsType" column="ASSETS_TYPE" not-null="true"></property>
+ 
 			<property name="quantity" column="QUANTITY" not-null="false"></property>
 			<property name="price" column="PRICE" not-null="false"></property>
 			<property name="sum" column="SUM" not-null="false"></property>

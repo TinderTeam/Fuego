@@ -29,11 +29,14 @@ public class ParameterConst
 	public static final String DELETE_PARA_NAME = "delete";   //删除
 	public static final String SEARCH_PARA_NAME = "search";   //查询
 	public static final String VIEW_PARA_NAME = "view";   //查看模式
-	public static final Object PAGECHANGE_PARA_NAME = "pageChange"; //换页
+	public static final String PAGECHANGE_PARA_NAME = "pageChange"; //换页
+	
+	public static final String SELECT_MARK = "select_mark";
+	public static final String SELECT_PAGE = "select_page";
+	public static final String SELECT_ALL = "select_all";
 	
  
-	public static final String SUBMIT_CHECK_STATUS = "submitCheckStatus";
- 
+  
 	public static final String SUBMIT_3 = "submit3";
 	public static final String SUBMIT_4 = "submit4";
 	
@@ -46,4 +49,13 @@ public class ParameterConst
 	public static final Object ADD_NEW_PARA_NAME = "addNew";
 	public static final String PAGE_PARA = "pageValue";
 	public static final String PRICE_UPLOAD_PARA_NAME = "price_upload";
+	public static final String ADD_UPLOAD_PARA_NAME = "add_upload";
+	public static final String INIT_DOWNLOAD_PARA_NAME = "initDownload";
+	public static final String ADD_DOWNLOAD_PARA_NAME = "addDownload";
+	public static final String DELETE_DOWNLOAD_PARA_NAME = "deleteDownload";
+	public static final String UPDATE_DOWNLOAD_PARA_NAME ="updateDownload";
+	public static final String DELETE_UPLOAD_PARA_NAME ="delete_upload";
+	public static final String UPDATE_UPLOAD_PARA_NAME = "update_upload";
+	public static final String ASSIGN_DOWNLOAD_PARA_NAME = "assignDownload";
+	public static final String ASSIGN_UPLOAD_PARA_NAME = "assign_upload";
 }

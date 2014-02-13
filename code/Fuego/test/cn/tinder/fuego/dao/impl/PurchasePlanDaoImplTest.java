@@ -8,15 +8,12 @@
  */
 package cn.tinder.fuego.dao.impl;
 
-import static org.junit.Assert.*;
-
 import java.util.List;
 
 import org.junit.Test;
 
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.PurchasePlanDao;
-import cn.tinder.fuego.domain.po.AssignPlan;
 import cn.tinder.fuego.domain.po.PurchasePlan;
 
 /**

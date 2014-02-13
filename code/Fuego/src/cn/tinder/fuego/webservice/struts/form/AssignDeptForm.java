@@ -9,6 +9,7 @@
 package cn.tinder.fuego.webservice.struts.form;
 
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.upload.FormFile;
 
 /**
  * @ClassName: AssignDeptForm
@@ -26,6 +27,7 @@ public class AssignDeptForm extends ActionForm
 	private static final long serialVersionUID = 1L;
 	private String inDept;
 	private String outDept;
+	private FormFile uploadFile;
 
 	public String getInDept()
 	{
@@ -51,6 +53,14 @@ public class AssignDeptForm extends ActionForm
 	public String toString()
 	{
 		return "AssignDeptForm [inDept=" + inDept + ", outDept=" + outDept + "]";
+	}
+
+	public void setUploadFile(FormFile uploadFile) {
+		this.uploadFile = uploadFile;
+	}
+
+	public FormFile getUploadFile() {
+		return uploadFile;
 	}
 
 }

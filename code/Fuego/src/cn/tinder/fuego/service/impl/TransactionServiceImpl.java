@@ -16,22 +16,31 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import cn.tinder.fuego.dao.DaoContext;
+import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.TransEventTypeDao;
+import cn.tinder.fuego.dao.TransOperRecordDao;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.domain.po.TransEventType;
+import cn.tinder.fuego.domain.po.TransOperRecord;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.TransactionService;
+import cn.tinder.fuego.service.cache.CacheContext;
+import cn.tinder.fuego.service.cache.UserCache;
+import cn.tinder.fuego.service.constant.OperateLogConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
+import cn.tinder.fuego.service.model.OperateLogModel;
 import cn.tinder.fuego.service.model.convert.ConvertTransactionModel;
+import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.util.date.DateService;
+import cn.tinder.fuego.webservice.struts.bo.trans.TransOperInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 import cn.tinder.fuego.webservice.struts.form.TransFilterForm;
 
@@ -45,9 +54,13 @@ import cn.tinder.fuego.webservice.struts.form.TransFilterForm;
 
 public class TransactionServiceImpl implements TransactionService
 {
+	PhysicalAssetsStatusDao physicalAssetsStatusDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
+
 	private static final Log log = LogFactory.getLog(TransactionServiceImpl.class);
 
 	private TransEventDao transEventDao = DaoContext.getInstance().getTransEventDao();
+	private TransOperRecordDao transOperRecordDao = DaoContext.getInstance().getTransOperRecordDao();
+
 	private TransEventTypeDao transEventTypeDao = DaoContext.getInstance().getTransEventTypeDao();
 	private SystemUserDao systemUserDao = DaoContext.getInstance().getSystemUserDao();
 	/*
@@ -88,13 +101,19 @@ public class TransactionServiceImpl implements TransactionService
 
 		transEvent.setEndTime(null); // get EndTime and set to transEvent
 
-		transEvent.setHandleUser(handleUser); // get HandleUser and set to
+		if(ValidatorUtil.isEmpty(handleUser))
+		{
+			transEvent.setHandleUser(createUser); // get HandleUser and set to
+		}
+		else
+		{
+			transEvent.setHandleUser(handleUser); // get HandleUser and set to
+		}
 											// transEvent
-
-		currentStep = transEventType.getStep();
-		transEvent.setCurrentStep(currentStep); // get CurrentStep and set to
+ 
+		transEvent.setCurrentStep(transEventType.getStep()); // get CurrentStep and set to
 												// transEvent
-		transEvent.setStatus(TransactionConst.TRRANS_STATUS_TODO);
+		transEvent.setStatus(TransactionConst.TRANS_STATUS_TODO);
 
 		transEvent.setType(transType); // get type and set to transEvent
 
@@ -171,7 +190,7 @@ public class TransactionServiceImpl implements TransactionService
 	 * @see cn.tinder.fuego.service.TransactionService#forwardNext(java.lang.String)
 	 */
 	@Override
-	public void forwardNext(String transID, String handleUser)
+	public void forwardNext(String transID, String handleUser,String transInfo)
 	{
 
 		TransEvent transEvent =transEventDao.getByTransID(transID);
@@ -189,28 +208,99 @@ public class TransactionServiceImpl implements TransactionService
 			curStep--;
 			
 		}
-		
+		if(null !=  transInfo)
+		{
+			addTransOperInfo(transEvent,transInfo,true);
+		}
 		//get the status by current step 
 		if(TransactionConst.END_STEP_FLAG == curStep)
 		{
-			transEvent.setEndTime(new Date(System.currentTimeMillis()));
+			transEvent.setEndTime(DateService.getCurrentDate());
 			transEvent.setStatus(TransactionConst.TRANS_STATUS_DONE);
 
 			log.info("the transaction is finished." + transEvent.toString());
 		}
 		else
 		{	
-			transEvent.setStatus(TransactionConst.TRRANS_STATUS_DOING);
+			transEvent.setStatus(TransactionConst.TRANS_STATUS_DOING);
 
 		}
 		
 		transEvent.setCurrentStep(curStep);
 		transEvent.setHandleUser(handleUser);
-		updateTrans(transID,handleUser);
+		transEvent.setHandleTime(DateService.getCurrentDate());
 		transEventDao.saveOrUpdate(transEvent);
+		
+
 		
 	}
 
+	private void addTransOperInfo(TransEvent transEvent,String transInfo,boolean isPass)
+	{
+		TransOperRecord transOperRecord = new TransOperRecord();
+		transOperRecord.setTransID(transEvent.getTransID());
+		transOperRecord.setOperTime(DateService.getCurrentDateTimeStr());
+		
+		if(ValidatorUtil.isEmpty(transEvent.getHandleUser()))
+		{
+			transOperRecord.setUserName(transEvent.getCreateUser());
+
+		}
+		else
+		{
+			transOperRecord.setUserName(transEvent.getHandleUser());
+		}
+		transOperRecord.setStep(transEvent.getCurrentStep());
+		transOperRecord.setTransInfo(transInfo);
+		
+		TransPlanService service = ServiceContext.getInstance().getPlanServiceByType(transEvent.getType());
+		
+		String result = "";
+		if(isPass)
+		{
+			if(transEvent.getCurrentStep() == service.getMaxStep(transEvent.getTransID()))
+			{
+				result = TransactionConst.TRANS_RESULT_SUCCESS;
+			}
+			else if(service.isApporalStep(transEvent.getCurrentStep()))
+			{
+				result = TransactionConst.TRANS_RESULT_AGREE;
+			}
+			else
+			{
+				result = TransactionConst.TRANS_RESULT_SUCCESS;
+			}
+		}
+		else
+		{
+			if(transEvent.getCurrentStep() == service.getMaxStep(transEvent.getTransID()))
+			{
+				result = TransactionConst.TRANS_RESULT_SUCCESS;
+			}
+			else if(service.isApporalStep(transEvent.getCurrentStep()))
+			{
+				result = TransactionConst.TRANS_RESULT_REFUSE;
+			}
+			else
+			{
+				result = TransactionConst.TRANS_RESULT_FAILED;
+			}
+		}
+		transOperRecord.setResult(result);
+
+		transOperRecordDao.create(transOperRecord);
+	}
+
+	 
+	public void updateTrans(String transID, String handleUser,String executeName)
+	{
+ 		TransEvent transEvent = new TransEvent();
+		transEvent = transEventDao.getByTransID(transID);
+		transEvent.setHandleUser(handleUser);
+		transEvent.setExecuteName(executeName);
+ 
+		transEventDao.saveOrUpdate(transEvent);
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -222,6 +312,7 @@ public class TransactionServiceImpl implements TransactionService
  		TransEvent transEvent = new TransEvent();
 		transEvent = transEventDao.getByTransID(transID);
 		transEvent.setHandleUser(handleUser);
+ 
  
 		transEventDao.saveOrUpdate(transEvent);
 	}
@@ -235,6 +326,7 @@ public class TransactionServiceImpl implements TransactionService
  		transEvent.setCreateUser(trans.getCreateUser());
  		//transEvent.setCurrentStep(tran);
  		transEvent.setEndTime(trans.getEndTime());
+ 		
  		transEvent.setHandleUser(trans.getHandleUser());
  		//transEvent.setParentTransID(trans);
  		transEvent.setStatus(trans.getState());
@@ -339,15 +431,30 @@ public class TransactionServiceImpl implements TransactionService
 	@Override
 	public List<TransactionBaseInfoBo> getDisTransByUser(String userID)
 	{
-		List<SystemUser> gasList = this.systemUserDao.getUserByManage(userID);
+		SystemUser nowUser = CacheContext.getInstance().getUserCache().getUserByName(userID);
+		
 		List<String> userList = new ArrayList<String>();  
-		for(SystemUser user : gasList)
+
+		if(nowUser.getRole().equals(UserRoleConst.SUPER_DEPT))
 		{
-			userList.add(user.getUserName());
+			for(SystemUser user : CacheContext.getInstance().getUserCache().getAllUser())
+			{
+				userList.add(user.getUserName());
+			}
 		}
+		else if (nowUser.getRole().equals(UserRoleConst.DEPT) || nowUser.getRole().equals(UserRoleConst.MANAGE))
+		{
+			for(SystemUser user : CacheContext.getInstance().getUserCache().getUserListByRole(UserRoleConst.GASSTATION))
+			{
+				userList.add(user.getUserName());
+			}
+		}
+		
+		
+ 
 		userList.add(userID);
 		
-		List<TransEvent> eventList = this.transEventDao.getTransByUser(userList);
+		List<TransEvent> eventList = this.transEventDao.getTransByUser(userList,userID);
 
 		return ConvertTransactionModel.covertTransBaseList(eventList);
 	}
@@ -356,13 +463,17 @@ public class TransactionServiceImpl implements TransactionService
 	 * @see cn.tinder.fuego.service.TransactionService#backward(java.lang.String)
 	 */
 	@Override
-	public void backward(String transID)
+	public void backward(String transID,String transInfo)
 	{
 		TransEvent transEvent =transEventDao.getByTransID(transID);
+		
+		this.addTransOperInfo(transEvent, transInfo,false);
+
 		TransEventType type = transEventTypeDao.getByType(transEvent.getType());
 		transEvent.setCurrentStep(type.getStep());
 		transEvent.setHandleUser(transEvent.getCreateUser());
-		transEvent.setStatus(TransactionConst.TRRANS_STATUS_REFUSE);
+		transEvent.setHandleTime(DateService.getCurrentDate());
+		transEvent.setStatus(TransactionConst.TRANS_RESULT_REFUSE);
 		transEventDao.saveOrUpdate(transEvent);
 	}
 
@@ -497,6 +608,53 @@ public class TransactionServiceImpl implements TransactionService
 			sumValue += assets.getOriginalValue()* assets.getQuantity();
 		}
 		return sumValue;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransactionService#getTransOperInfoByTransID(java.lang.String)
+	 */
+	@Override
+	public List<TransOperInfoBo> getTransOperInfoByTransID(String transID)
+	{
+	    List<TransOperRecord> recordList = this.transOperRecordDao.getByTransID(transID);
+	    TransEvent transEvent = this.transEventDao.getByTransID(transID);
+
+	    List<TransOperInfoBo> transOperInfoList = new ArrayList<TransOperInfoBo>();
+	    for(TransOperRecord record : recordList)
+	    {
+	    	TransOperInfoBo transOperInfo = new TransOperInfoBo();
+	    	transOperInfo.setTransID(record.getTransID());
+	    	transOperInfo.setTransName(transEvent.getTransName());
+	    	transOperInfo.setUserName(record.getUserName());
+	    	transOperInfo.setOperTime(record.getOperTime());
+	    	transOperInfo.setNickName(UserCache.getInstance().getUserByName(record.getUserName()).getNickName());
+	    	transOperInfo.setStep(record.getStep());
+	    	transOperInfo.setStepName(record.getStepName());
+	    	transOperInfo.setResult(record.getResult());
+	    	transOperInfo.setTransInfo(record.getTransInfo());
+	    	transOperInfoList.add(transOperInfo);
+
+	    }
+		return transOperInfoList;
+	}
+ 
+	public  void handleOperateLogRecord(String transID,String operateName, List<PhysicalAssetsStatus> assestList)
+	{
+		TransEvent transEvent = this.transEventDao.getByTransID(transID);
+		
+		List<OperateLogModel> operInfoList = new ArrayList<OperateLogModel>();
+		for(PhysicalAssetsStatus assets :assestList)
+		{
+			OperateLogModel operateLog = new OperateLogModel();
+			operateLog.setUserName(transEvent.getCreateUser());
+			operateLog.setTransID(transEvent.getTransID());
+			operateLog.setOperTime(DateService.getCurrentDateTimeStr());
+			operateLog.setOperName(operateName);
+			operateLog.setOperObj(assets);
+			operInfoList.add(operateLog);
+		}
+		
+		ServiceContext.getInstance().getOperateLogService().writeLog(operInfoList);
 	}
 
 }

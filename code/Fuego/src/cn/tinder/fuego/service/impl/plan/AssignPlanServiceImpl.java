@@ -20,26 +20,34 @@ import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.dao.TransExtAttrDao;
+import cn.tinder.fuego.dao.impl.AssignPlanDaoImpl;
+import cn.tinder.fuego.dao.impl.PhysicalAssetsStatusDaoImpl;
 import cn.tinder.fuego.domain.po.AssignPlan;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
-import cn.tinder.fuego.domain.po.RecapturePlan;
-import cn.tinder.fuego.domain.po.ReceivePlan;
+import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.domain.po.TransExtAttr;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.cache.AssetsTypeParaCache;
+import cn.tinder.fuego.service.cache.CacheContext;
+import cn.tinder.fuego.service.cache.UserCache;
+import cn.tinder.fuego.service.constant.AssetsConst;
+import cn.tinder.fuego.service.constant.OperateLogConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.TransactionExtAttrConst;
+import cn.tinder.fuego.service.constant.UserNameConst;
+import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
+import cn.tinder.fuego.util.ValidatorUtil;
+import cn.tinder.fuego.util.engine.computer.ComputeService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.assign.AssignTransBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.download.AssignFile;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 
@@ -97,7 +105,7 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		//step2: save basic transaction information
 		String transID = planInfo.getTransInfo().getTransInfo().getTransID();
 		String handleUser = planInfo.getTransInfo().getTransInfo().getHandleUser();
-		super.updateTrans(transID,handleUser);
+		super.updateTrans(transID,handleUser,planInfo.getTransInfo().getTransInfo().getExecuteName());
 
 		//step3: save extend transaction information
 		TransExtAttr ext = new TransExtAttr();
@@ -124,14 +132,25 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		}
 
 	}
+	@Override
+	public void forwardNext(String transID)
+	{
+		forwardNext(transID,"");
+	}
+	public void forwardNextBySystem(String transID)
+	{
+		TransEvent transEvent =transEventDao.getByTransID(transID);
 
+		super.forwardNext(transID,transEvent.getHandleUser(),null);
+
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#forwardNext(java.lang.String)
 	 */
 	@Override
-	public void forwardNext(String transID)
+	public void forwardNext(String transID,String transInfo)
 	{
 		TransEvent transEvent =transEventDao.getByTransID(transID);
 
@@ -151,11 +170,40 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 			}
 		}
 		
-		String handleUser;
+		List<AssignPlan> planList = assignPlanDao.getByTransID(transID);
+		  
+		String type = "";
+		if(null != planList && !planList.isEmpty())
+		{	
+			type = physicalAssetsStatusDao.getByAssetsID(planList.get(0).getAssetsID()).getAssetsType();
+		}
+		String handleUser = transEvent.getHandleUser();
 		switch(transEvent.getCurrentStep())
 		{
+		case 7 :
+        	if(ValidatorUtil.isEmpty(handleUser))
+        	{
+            	handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
+            	if(null == UserCache.getInstance().getUserByName(handleUser))
+            	{
+            		 log.warn("can not get the user by name." + handleUser);
+            		 throw new ServiceException(ExceptionMsg.ASSETS_TYPE_WRONG);
+            	}
+        	}
+        	if(UserNameConst.ZCGLZ.equals(handleUser))
+        	{
+        		super.forwardNext(transID,handleUser,transInfo);
+            	transInfo = null;
+        	}
+		    break;
+		case 6 :
+    		handleUser = UserNameConst.ZCGLZ;
+
+			break;
 		case 5 :
-			handleUser = super.getLeader(transEvent.getCreateUser());
+
+        	handleUser = super.getLeader(UserNameConst.ZCGLZ);
+      
 			break;
 		case 4 :
 			handleUser = super.getStaff(outDept);
@@ -165,36 +213,49 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 			break;	
 		case 2 :
 		    handleUser = transEvent.getCreateUser();
+		    break;
 		case 1 :
 		    handleUser = transEvent.getCreateUser();
+        	transInfo = TransactionConst.TRANS_OPERATE_FINISH;
+
 		    updateAssetsDuty(transID, inDept);
+		    
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();
 		}
 
-		super.forwardNext(transID,handleUser);
+		super.forwardNext(transID,handleUser,transInfo);
 
 	}
 
 	private void updateAssetsDuty(String transID, String dutyDept)
 	{
 		List<AssignPlan> assignPlanList =  assignPlanDao.getByTransID(transID);
+		
 		List<String> assetsIDList = new ArrayList<String>();
+		
 		for(AssignPlan assignPlan : assignPlanList)
 		{
 			String assetsID = assignPlan.getAssetsID();
-		    assetsIDList.add(assetsID);
-		    
+		    assetsIDList.add(assetsID);		    
 		}
+ 
+
 		List<PhysicalAssetsStatus> physicalAssetsList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
 		for(PhysicalAssetsStatus assets : physicalAssetsList)
 		{
 			assets.setDuty(dutyDept);
+			assets.setLocation(dutyDept);
+			assets.setDept(dutyDept);
+			assets.setManageName(CacheContext.getInstance().getUserCache().getManageByUser(dutyDept));
+
 			physicalAssetsStatusDao.saveOrUpdate(assets);
 
 		}	
  
+		super.handleOperateLogRecord(transID,OperateLogConst.ASSETS_UPDATE_OPERATE, physicalAssetsList);
+
 	}
 
 	/*
@@ -302,9 +363,9 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	 * @see cn.tinder.fuego.service.TransPlanService#backward(java.lang.String)
 	 */
 	@Override
-	public void backward(String transID)
+	public void backward(String transID,String transInfo)
 	{
-		super.backward(transID);
+		super.backward(transID,transInfo);
 		
 	}
 
@@ -373,5 +434,99 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		return null;
 		// TODO Auto-generated method stub
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#isMaxStep(int)
+	 */
+	@Override
+	public int getMaxStep(String transID)
+	{
+		TransactionBaseInfoBo baseTrans = super.getTransByID(transID);
+
+		SystemUser user = UserCache.getInstance().getUserByName(baseTrans.getCreateUser());
+		if(null == user)
+		{
+			log.error("can not find the user by user name " + baseTrans.getCreateUser());
+		}
+		else
+		{	
+			if(user.getRole().equals(UserRoleConst.GASSTATION))
+			{
+				return Integer.valueOf(TransactionConst.ASSIGN_GAS_MAX_STEP);
+			}
+			else if(user.getRole().equals(UserRoleConst.DEPT))
+			{
+				return Integer.valueOf(TransactionConst.ASSIGN_DEPT_MAX_STEP);
+
+			}
+			else
+			{
+				return Integer.valueOf(TransactionConst.ASSIGN_MAX_STEP);
+
+			}
+				
+			
+		}
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getAprovalStep(java.lang.String)
+	 */
+	@Override
+	public boolean isApporalStep(int step)
+	{
+		if(6 == step || 5 == step || 4 == step || 3 == step || 2 == step)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public String getSumInfo(List<String> transIDList) {
+	
+		int assetsNum=0;	//涉及资产数量
+		float originalValue = 0 ; //涉及资产原值
+		float tValue = 0 ; //设计资产净值
+		int GDZCNum=0;
+		int DZYHPNum=0;
+		
+		
+		/**
+		 * 调拨统计实现
+	
+		PhysicalAssetsStatusDao  assetsDao = new PhysicalAssetsStatusDaoImpl(); */
+		AssignPlanDao assignPlanDao = new AssignPlanDaoImpl();
+		PhysicalAssetsStatusDao assetsDao = new PhysicalAssetsStatusDaoImpl();
+		
+		
+
+		List<AssignPlan> planBoList = assignPlanDao.getByTransID(transIDList);
+		
+		for(AssignPlan plan:planBoList){
+			assetsNum++;
+			PhysicalAssetsStatus assets = assetsDao.getByAssetsID(plan.getAssetsID());
+			originalValue =originalValue+ assets.getOriginalValue();
+			if(ComputeService.cptValue(assets.getPurchaseDate(),  assets.getExpectYear(), assets.getOriginalValue())>0){
+				tValue=tValue+ComputeService.cptValue(assets.getPurchaseDate(),  assets.getExpectYear(), assets.getOriginalValue());
+			}
+			if(assets.getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)){
+				GDZCNum=GDZCNum+1;
+			}
+			if(assets.getAssetsType().equals(AssetsConst.ASSETS_DZYH_TYPE)){
+				DZYHPNum=DZYHPNum+1;
+			}
+		}
+		
+		
+		String str = 
+			"统计期间"+
+			"调拨业务发生"+transIDList.size()+"笔,涉及资产数量"+assetsNum+"个；涉及资产原值"+originalValue+"元，净值"+tValue+"元；其中固定资产"+GDZCNum+",个；低值易耗品"+DZYHPNum+"个";
+	
+			
+		return str;
+	 	
 	}
 }

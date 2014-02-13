@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
+import cn.tinder.fuego.service.model.DomainFilterModel;
 
 /**
  * 
@@ -21,22 +22,23 @@ public interface PhysicalAssetsStatusDao
 	public void saveOrUpdate(PhysicalAssetsStatus status);
 
 	public void delete(PhysicalAssetsStatus status);
+	
+	public void deleteAssetListsByAssetsIDList(List<String> assetsIDList);
 
+	
 	public PhysicalAssetsStatus getByAssetsID(String assetsid);
  
-	public List<PhysicalAssetsStatus> getAssetsByDept(String dept);
+ 
 	
 	public List<PhysicalAssetsStatus> getAssetsByDuty(String dutyDept);
 	
-	public int getAssetsListByFilterCount(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate);
+	public int getAssetsListByFilterCount(PhysicalAssetsStatus filter, PhysicalAssetsStatus filterDate,DomainFilterModel domainFilter);
 
- 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,int startNum,int pageSize);
+ 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,DomainFilterModel domainFilter ,int startNum,int pageSize);
  	
 	public List<PhysicalAssetsStatus> getAssetsListByAssetsIDList(List<String> assetsIDList);
 
- 	public List<PhysicalAssetsStatus> getAssetsListByFilter(Date dueDate, List<String> assetsTypeList,List<String> dutyList,List<String> statusList);
- 	
- 	public List<PhysicalAssetsStatus> getAssetsListByDateOrStatuListAndTypeList(Date dueDate,List<String> techStatusList,List<String> assetsTypeList,String duty,String manageName);
+  	
+ 	public List<PhysicalAssetsStatus> getAssetsListByDateOrStatuListAndTypeList(Date dueDate,List<String> techStatusList,List<String> assetsTypeList,String duty,String manageName,DomainFilterModel domainFilter);
 
-	public void deleteAssetListsByAssetsIDList(List<String> assetsIDList);
 }

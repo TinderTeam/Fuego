@@ -117,6 +117,8 @@ CREATE TABLE `purchase_plan` (
   `MANUFACTURE` varchar(100) DEFAULT NULL,
   `SPEC` varchar(255) DEFAULT NULL,
   `DUTY` varchar(100) DEFAULT NULL,
+  `ASSETS_TYPE` varchar(50) DEFAULT NULL,
+
   `QUANTITY` int(32) DEFAULT NULL,
   `PRICE` int(32) DEFAULT NULL,
   `SUM` int(32) DEFAULT NULL,
@@ -134,4 +136,25 @@ CREATE TABLE `assets_type` (
   `CURRENT_ID` int(32) DEFAULT NULL,
   `PREFIX` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`TYPE_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `assets_fix`;
+CREATE TABLE `assets_fix` (
+  `INDEX_NUMBER` varchar(255) NOT NULL COMMENT '序号:',
+  `CONTEXT` varchar(255)  COMMENT '维修内容:',
+  `GAS_STATION` varchar(255)  COMMENT '维修油站名称:',
+  `DEPT` varchar(255)  COMMENT '部门',
+  `HANDEL_USER` varchar(255)  COMMENT '经办人',
+  `BUDGET` varchar(255)  COMMENT '预算金额',
+  `SEN_TIME` varchar(255)  COMMENT '送审时间',
+  `START_TIME` varchar(255)  COMMENT '开工时间',
+  `FINISH_TIME` varchar(255)  COMMENT '竣工时间',
+  `PAY_MONEY` varchar(255)  COMMENT '结算金额',
+  `PAY_TIME` varchar(255)  COMMENT '结算时间',
+  `DIFF` varchar(255)  COMMENT '审结金额差异',
+  `ALREADY_PAY` varchar(255)  COMMENT '已付金额',
+  `UNPAY` varchar(255)  COMMENT '未付金额',
+  `NOTE` varchar(255)  COMMENT '备注',
+
+  PRIMARY KEY (`INDEX_NUMBER`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

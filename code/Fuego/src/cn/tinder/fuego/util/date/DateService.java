@@ -1,12 +1,12 @@
 package cn.tinder.fuego.util.date;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Test;
 
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
@@ -104,6 +104,36 @@ public class DateService {
 	    Date date = ca.getTime();
 
         return DateToString(date);
+	}
+	
+	public static Date getCurrentDate()
+	{
+		 
+        return new Date(System.currentTimeMillis());
+	}
+	
+	public static Timestamp getCurrentDateTime()
+	{
+		 
+        return new Timestamp(System.currentTimeMillis());
+	}
+	public static String getCurrentDateTimeStr()
+	{
+		Date time = new Timestamp(System.currentTimeMillis());
+		
+        return time.toString();
+	}
+	
+	public static int countDayNum(Date startDate,Date endDate)
+	{
+		if(null == startDate || null == endDate  )
+		{
+			return 0;
+		}
+		long milSec = startDate.getTime()-endDate.getTime();
+		int dayNum = (int) (milSec/1000/3600/24);
+		return dayNum;
+       
 	}
 	
 	

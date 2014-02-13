@@ -68,12 +68,14 @@ public class GatherTransAction extends Action
 
 	private String handle(ActionForm form,HttpServletRequest request)
 	{
- 
+	
 		TransFilterForm filter = (TransFilterForm)form;
 		String nextPage = PageNameConst.GATHER_TRANS_PAGE;
 
 		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
 		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
+		
+		String statisticsInfo;
  		if (ParameterConst.CONFIRM_PARA_NAME.equals(submitPara))
 		{
  			// Init Notice
@@ -87,15 +89,19 @@ public class GatherTransAction extends Action
  			TransPlanService transPlanService = ServiceContext.getInstance().getPlanServiceByType(transactionService.getTransTypeByTransName(filter.getTransName()));
  			
  			TransSumInfoBo sumInfo = new TransSumInfoBo();
- 			if(!transIDList.isEmpty())
- 			{
- 	 			sumInfo.setTransNum(transIDList.size());
- 	 			sumInfo.setAssetsNum(transPlanService.getPlanCount(transIDList));
- 	 			sumInfo.setAssetsValue(transPlanService.getPlanAssetsSumValue(transIDList));
- 			}
-
+ 	 		if(!transIDList.isEmpty())
+ 	 		{
+ 	 	 		sumInfo.setTransNum(transIDList.size());
+ 	 	 		sumInfo.setAssetsNum(transPlanService.getPlanCount(transIDList));
+ 	 	 		sumInfo.setAssetsValue(transPlanService.getPlanAssetsSumValue(transIDList));
+ 	 	 		sumInfo.setSumInfo(transPlanService.getSumInfo(transIDList));	
+ 	 		}
+ 	 		request.setAttribute(RspBoNameConst.TRANS_SUM_INFO, sumInfo.getSumInfo());
   			request.setAttribute(RspBoNameConst.TRANS_INFO_LIST, transList);
-  			request.setAttribute(RspBoNameConst.TRANS_SUM_INFO, sumInfo);
+  	
+ 			
+ 			
+
 
 		}
  		else if(ParameterConst.CANCEL_PARA_NAME.equals(submitPara))

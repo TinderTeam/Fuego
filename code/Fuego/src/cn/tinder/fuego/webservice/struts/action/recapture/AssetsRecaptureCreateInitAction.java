@@ -8,9 +8,6 @@
 */ 
 package cn.tinder.fuego.webservice.struts.action.recapture;
 
-import java.util.Arrays;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,16 +19,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.AssetsManageService;
-import cn.tinder.fuego.service.ConstServiceTest;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.bo.recapture.*;
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
+import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
+import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
 import cn.tinder.fuego.webservice.struts.form.RecaptureForm;
 
 /**
@@ -83,21 +78,24 @@ public class AssetsRecaptureCreateInitAction extends Action
 	{
 		String nextPage = PageNameConst.ASSETS_RECAPTURE_CREATE_PAGE;
     	RecaptureForm reForm = (RecaptureForm) request.getSession().getAttribute(RspBoNameConst.RECAPTURE_FORM);
-    	List<AssetsInfoBo> assetsList;
+     	
+		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);   	
+
+		AssetsPageBo assetsPage = new AssetsPageBo();
+
     	if(null == reForm)
     	{
-    		assetsList = assetsService.getRecaptureAssetsListBo(null,null); 
+    		assetsPage = assetsService.getAssetsByFilter(user.getUserID(),null,false); 
     	}
     	else
     	{
-    		assetsList = assetsService.getRecaptureAssetsListBo(Arrays.asList(reForm.getGasName()), Arrays.asList(reForm.getAssetsType())); 
+        	AssetsFilterForm filterForm = new AssetsFilterForm();
+        	filterForm.setDuty(reForm.getGasName());
+        	filterForm.setAssetsType(reForm.getAssetsType());
+    		assetsPage = assetsService.getAssetsByFilter(user.getUserID(),filterForm,false); 
     	}
-    	log.info(assetsList);
-     	
-		AssetsPageBo selectAssetsPage = new AssetsPageBo();
-		selectAssetsPage.setAssetsList(assetsList);
-		selectAssetsPage.setShowCheckBox(true);
-		request.setAttribute(RspBoNameConst.ASSETS_PAGE_DATA, selectAssetsPage);
+        assetsPage.setShowCheckBox(true);
+		request.setAttribute(RspBoNameConst.ASSETS_PAGE_DATA, assetsPage);
 		return nextPage;
 	}
 

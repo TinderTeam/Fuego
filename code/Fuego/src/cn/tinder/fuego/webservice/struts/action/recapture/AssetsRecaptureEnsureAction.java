@@ -8,8 +8,6 @@
 */ 
 package cn.tinder.fuego.webservice.struts.action.recapture;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,13 +23,12 @@ import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.action.index.IndexAction;
-import cn.tinder.fuego.webservice.struts.bo.base.DeptInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.recapture.RecapturePlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 import cn.tinder.fuego.webservice.struts.form.RecaptureForm;
+import cn.tinder.fuego.webservice.struts.form.TransOperateInfoForm;
 
 /**
  * 
@@ -85,6 +82,8 @@ public class AssetsRecaptureEnsureAction extends Action
     	
 		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
 		RecapturePlanBo plan = (RecapturePlanBo) request.getSession().getAttribute(RspBoNameConst.RECAPTURE_PLAN);
+		TransOperateInfoForm operateInfo = (TransOperateInfoForm)form;
+
 		if (ParameterConst.SUBMIT_PARA_NAME.equals(submitPara))
 		{
 	    	RecaptureForm reForm = (RecaptureForm) request.getSession().getAttribute(RspBoNameConst.RECAPTURE_FORM);
@@ -96,7 +95,7 @@ public class AssetsRecaptureEnsureAction extends Action
 		}
 		else if (ParameterConst.AGREE_PARA_NAME.equals(submitPara))
 		{
-			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID());
+			planService.forwardNext(plan.getTransInfo().getTransInfo().getTransID(),operateInfo.getOperateInfo());
 
 		}
 		else if(ParameterConst.FINISH_PARA_NAME.equals(submitPara))
@@ -127,7 +126,7 @@ public class AssetsRecaptureEnsureAction extends Action
 		}
 		else if(ParameterConst.REFUSE_PARA_NAME.equals(submitPara))
 		{
-			planService.backward(plan.getTransInfo().getTransInfo().getTransID());
+			planService.backward(plan.getTransInfo().getTransInfo().getTransID(),operateInfo.getOperateInfo());
 		}
 		else if(ParameterConst.VIEW_PARA_NAME.equals(submitPara))
 		{

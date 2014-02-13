@@ -10,6 +10,7 @@ public class PurchasePlan implements Serializable
 	private String spec;
 	private String duty;
 	private String unit;
+	private String assetsType;
 	private int quantity;
 	private float price;
 	private float sum;
@@ -94,6 +95,14 @@ public class PurchasePlan implements Serializable
 	public void setNote(String note)
 	{
 		this.note = note;
+	}
+	public String getAssetsType()
+	{
+		return assetsType;
+	}
+	public void setAssetsType(String assetsType)
+	{
+		this.assetsType = assetsType;
 	}
  
 	

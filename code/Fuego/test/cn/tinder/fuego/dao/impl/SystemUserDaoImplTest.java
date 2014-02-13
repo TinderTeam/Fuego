@@ -1,11 +1,10 @@
 package cn.tinder.fuego.dao.impl;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
-import cn.tinder.fuego.dao.impl.SystemUserDaoImpl;
 import cn.tinder.fuego.domain.po.SystemUser;
-
-import junit.framework.TestCase;
 
 public class SystemUserDaoImplTest extends TestCase
 {

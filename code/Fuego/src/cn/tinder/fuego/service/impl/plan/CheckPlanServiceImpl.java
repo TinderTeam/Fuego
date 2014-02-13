@@ -30,7 +30,6 @@ import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
 import cn.tinder.fuego.domain.po.CheckPlan;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
-import cn.tinder.fuego.domain.po.ReceivePlan;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.AssetsManageService;
@@ -44,7 +43,6 @@ import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
 import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckTransBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
@@ -193,12 +191,24 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		checkPlanDao.create(planList);
 		
 	}
+	@Override
+	public void forwardNext(String transID)
+	{
+		forwardNext(transID,"");
+	}
+	
+	public void forwardNextBySystem(String transID)
+	{
+		TransEvent transEvent =transEventDao.getByTransID(transID);
 
+		super.forwardNext(transID,transEvent.getHandleUser(),null);
+
+	}
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.TransPlanService#forwardNext(java.lang.String)
 	 */
 	@Override
-	public void forwardNext(String transID)
+	public void forwardNext(String transID,String transInfo)
 	{
 		
 		TransEvent transEvent =transEventDao.getByTransID(transID);
@@ -219,7 +229,7 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 			log.warn("the step i unexpected. step is" + transEvent.getCurrentStep());
 			
 		}
-		super.forwardNext(transID, handleUser);
+		super.forwardNext(transID,handleUser,transInfo);
 		
 		if(!super.hasChildTrans(transID))
 		{
@@ -497,9 +507,9 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 	 * @see cn.tinder.fuego.service.TransPlanService#backward(java.lang.String)
 	 */
 	@Override
-	public void backward(String transID)
+	public void backward(String transID,String transInfo)
 	{
-		super.backward(transID);
+		super.backward(transID,transInfo);
 		
 	}
 
@@ -548,6 +558,31 @@ public class CheckPlanServiceImpl<E> extends TransactionServiceImpl implements T
 		return null;
 		// TODO Auto-generated method stub
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#isMaxStep(int)
+	 */
+	@Override
+	public int getMaxStep(String transID)
+	{
+		// TODO Auto-generated method stub
+		return Integer.valueOf(TransactionConst.CHECK_MAX_STEP);
+	}
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.TransPlanService#getAprovalStep(java.lang.String)
+	 */
+	@Override
+	public boolean isApporalStep(int step)
+	{
+		 
+		return false;
+	}
+
+	@Override
+	public String getSumInfo(List<String> transIDList) {
+		// TODO Auto-generated method stub
+		return "事务数量："+transIDList.size()+";涉及资产："+getPlanCount(transIDList)+";涉及金额："+getPlanAssetsSumValue(transIDList);
 	}
 
 }

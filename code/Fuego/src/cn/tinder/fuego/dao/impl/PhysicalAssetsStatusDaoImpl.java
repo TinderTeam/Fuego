@@ -22,6 +22,8 @@ import org.hibernate.criterion.Restrictions;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.hibernate.util.HibernateUtil;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
+import cn.tinder.fuego.service.model.DomainFilterModel;
+import cn.tinder.fuego.util.ValidatorUtil;
 
 /**
  * @ClassName: PhysicalAssetsStatusDaoImpl
@@ -150,34 +152,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		}
 	}
 
-	@Override
-	public List<PhysicalAssetsStatus> getAssetsByDept(String dept)
-	{
-		// TODO Auto-generated method stub
-
-		List<PhysicalAssetsStatus> status;
-		Session s = null;
-		try
-		{
-			s = HibernateUtil.getSession();
-
-			Criteria c = s.createCriteria(PhysicalAssetsStatus.class);
-			c.add(Restrictions.eq("dept", dept));
-			status = c.list();
-
-		} catch (RuntimeException re)
-		{
-			throw re;
-		} finally
-		{
-			if (s != null)
-			{
-				s.close();
-			}
-		}
-
-		return status;
-	}
+ 
 	@Override
 	public List<PhysicalAssetsStatus> getAssetsByDuty(String dutyDept)
 	{
@@ -212,7 +187,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 	 * @see cn.tinder.fuego.dao.PhysicalAssetsStatusDao#getAssetsListByFilterCount(cn.tinder.fuego.domain.po.PhysicalAssetsStatus, cn.tinder.fuego.domain.po.PhysicalAssetsStatus)
 	 */
 	@Override
-	public int getAssetsListByFilterCount(PhysicalAssetsStatus filter, PhysicalAssetsStatus filterDate)
+	public int getAssetsListByFilterCount(PhysicalAssetsStatus filter, PhysicalAssetsStatus filterDate,DomainFilterModel domainFilter)
 	{
 		
 		Session s = null;
@@ -221,7 +196,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		try
 		{
 			s = HibernateUtil.getSession();
-			Criteria c = getCriteriaByFilter(filter, filterDate,s);
+			Criteria c = getCriteriaByFilter(filter, filterDate,domainFilter,s);
 			count = (Integer)c.setProjection(Projections.rowCount()).uniqueResult(); 		
 		}
 		catch (RuntimeException re)
@@ -239,7 +214,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		return count;
 	}
 
- 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,int startNum,int pageSize)
+ 	public List<PhysicalAssetsStatus> getAssetsListByFilter(PhysicalAssetsStatus filter,PhysicalAssetsStatus filterDate,DomainFilterModel domainFilter,int startNum,int pageSize)
 	{
 		// TODO Auto-generated method stub
 		log.debug("[DAO] Get the PhysicalAssetsStatus by ID:" + filter);
@@ -251,7 +226,9 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		try
 		{
 			s = HibernateUtil.getSession();
-			Criteria c = getCriteriaByFilter(filter, filterDate,s);
+			Criteria c = getCriteriaByFilter(filter, filterDate,domainFilter,s);
+
+
 			c.setFirstResult(startNum);  
 	        c.setMaxResults(pageSize); 
 
@@ -271,7 +248,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 		return assetsList;
 	}
 
-	private Criteria getCriteriaByFilter(PhysicalAssetsStatus filter, PhysicalAssetsStatus filterDate, Session s)
+	private Criteria getCriteriaByFilter(PhysicalAssetsStatus filter, PhysicalAssetsStatus filterDate, DomainFilterModel domainFilter,Session s)
 	{
 		Criteria c  = s.createCriteria(PhysicalAssetsStatus.class);
 		if(null != filter)
@@ -282,7 +259,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			}
 			if(null != filter.getAssetsName())
 			{
-				c.add(Restrictions.like("assetsName", filter.getAssetsName()));
+				c.add(Restrictions.like("assetsName", "%"+filter.getAssetsName()+"%"));
 			}
 			if(null != filter.getAssetsType())
 			{
@@ -290,7 +267,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			}
 			if(null != filter.getLocation())
 			{
-				c.add(Restrictions.like("location", filter.getLocation()));
+				c.add(Restrictions.like("location", "%"+filter.getLocation()+"%"));
 			}
 			if(null != filter.getTechState())
 			{
@@ -325,65 +302,34 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 				c.add(Restrictions.le("dueDate", filterDate.getDueDate()));
 			}
 		}
+		
+		addDomainFilter(domainFilter, c);
 		return c;
 	}
- 	
- 	/**
- 	 * get the assets list where less dueDate and in assetsType list and in duty list 
- 	 * @param dueDate
- 	 * @param assetsTypeList
- 	 * @param dutyList
- 	 * @return
- 	 */
- 	public List<PhysicalAssetsStatus> getAssetsListByFilter(Date dueDate, List<String> assetsTypeList,List<String> dutyList,List<String> statusList)
-	{
- 
-		Session s = null;
 
-		List<PhysicalAssetsStatus> assetsList = null;
-		try
+	private void addDomainFilter(DomainFilterModel domainFilter, Criteria c)
+	{
+		if(null != domainFilter)
 		{
-			s = HibernateUtil.getSession();
-			Criteria c = s.createCriteria(PhysicalAssetsStatus.class);
-			 if(null != dueDate)
+			if(!ValidatorUtil.isEmpty(domainFilter.getAssetsTypeList()))
 			{
-				c.add(Restrictions.le("dueDate", dueDate));
+				c.add(Restrictions.in("assetsType", domainFilter.getAssetsTypeList()));
 			}
-			if(null != assetsTypeList && !assetsTypeList.isEmpty())
+			if(!ValidatorUtil.isEmpty(domainFilter.getDutyList()))
 			{
-				c.add(Restrictions.in("assetsType", assetsTypeList));
+				c.add(Restrictions.in("duty", domainFilter.getDutyList()));
 			}
-			if(null != dutyList && !dutyList.isEmpty())
+			if(!ValidatorUtil.isEmpty(domainFilter.getManageList()))
 			{
-				c.add(Restrictions.in("duty", dutyList));
-			 
+				c.add(Restrictions.in("manageName", domainFilter.getManageList()));
 			}
-			if(null != statusList && !statusList.isEmpty())
-			{
-				c.add(Restrictions.in("techState", statusList));
-			 
-			}
-  
-			assetsList = c.list();
-		} catch (RuntimeException re)
-		{
-			throw re;
-		} finally
-		{
-			// HibernateUtil.closeSession();
-			if (s != null)
-			{
-				s.close();
-			}
+
 		}
-		if (assetsList != null)
-		{
-			log.debug("[DAO] Success!  Get the PhysicalAssetsStatus:" + assetsList.toString());
-		}
-		return assetsList;
 	}
  	
- 	public List<PhysicalAssetsStatus> getAssetsListByDateOrStatuListAndTypeList(Date dueDate,List<String> techStatusList,List<String> assetsTypeList,String duty,String manageName)
+ 
+ 	
+ 	public List<PhysicalAssetsStatus> getAssetsListByDateOrStatuListAndTypeList(Date dueDate,List<String> techStatusList,List<String> assetsTypeList,String duty,String manageName,DomainFilterModel domainFilter)
 	{
  
 		Session s = null;
@@ -421,7 +367,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			{
 				c.add(Restrictions.eq("manageName", manageName));
 			}
-		 
+			addDomainFilter(domainFilter, c);
 
  
 			assetsList = c.list();

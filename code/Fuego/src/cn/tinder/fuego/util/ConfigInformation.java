@@ -4,11 +4,15 @@
  */
 package cn.tinder.fuego.util;
 
+import java.io.File;
 import java.io.InputStream;
+import java.net.URLDecoder;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
 
 /**
  * @author Administrator
@@ -63,5 +67,36 @@ public class ConfigInformation
 
         return prop.getProperty(name);
     }
+
+    
+    /**
+	 * 类路径获取
+	 * @author Winter Lau
+	 * @date 2009-12-4 下午03:29:43
+	 */
+	
+	public static String getResourcePath() 
+	{
+			String path = OutputFileConst.class.getClassLoader().getResource(File.separator).getPath();
+			path=path.substring(1);
+			path=URLDecoder.decode(path);
+			path=path.replace("/WEB-INF/classes/", "/files/");
+			return path;
+	}
+	
+	public static String getToolPath()
+	{
+		return getWebAppPath() + File.separator + "tools";
+	}
+	
+	public static String getWebAppPath()
+	{
+		String path = OutputFileConst.class.getClassLoader().getResource(File.separator).getPath();
+		path=URLDecoder.decode(path);
+		path += ".."+File.separator + ".."; 
+		
+		
+		return path;
+ 	}
 
 }

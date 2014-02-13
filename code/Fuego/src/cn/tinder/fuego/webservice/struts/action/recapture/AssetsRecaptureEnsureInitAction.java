@@ -8,8 +8,6 @@
 */ 
 package cn.tinder.fuego.webservice.struts.action.recapture;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,19 +18,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import cn.tinder.fuego.service.AssetsManageService;
-import cn.tinder.fuego.service.TransPlanService;
-
 import cn.tinder.fuego.service.ServiceContext;
+import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.bo.recapture.*;
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
-import cn.tinder.fuego.webservice.struts.bo.assign.AssignPageBo;
-import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
+import cn.tinder.fuego.webservice.struts.bo.recapture.RecapturePlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
@@ -127,7 +119,7 @@ public class AssetsRecaptureEnsureInitAction extends Action
 			{
 				nextPage = PageNameConst.ASSETS_RECAPTURE_CREATE_INIT_PAGE;
 			}
-			else if(TransactionConst.RECAPTURE_APPROVAL_STEP.equals(step))
+			else if(planService.isApporalStep(Integer.valueOf(step)))
 			{
 				pageCtr = RspBoNameConst.PAGE_APPROVAL;
 			}
@@ -141,7 +133,7 @@ public class AssetsRecaptureEnsureInitAction extends Action
 	 		}
 			else
 			{
-				pageCtr = RspBoNameConst.PAGE_CONFIRM;
+				pageCtr = RspBoNameConst.PAGE_VIEW;
 	 		}
 		}
 		request.setAttribute(RspBoNameConst.PAGE_DIS_CTL, pageCtr);

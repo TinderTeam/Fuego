@@ -12,7 +12,6 @@ import java.io.File;
 import java.util.List;
 
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 
 
 /**
@@ -28,16 +27,27 @@ public interface TransPlanService<E>
 {
 	public E createPlan(String user);
 	
+	//public E createPlan(String user,String handleUser);
+
 	public E createPlan(String user,List<String> childUserList);
 
 
+	public int getMaxStep(String transID);
+	
+	public boolean isApporalStep(int step);
+   
 	public void deletePlan(String transID);
 
 	public void updatePlan(E plan);
 
+	public void forwardNextBySystem(String transID);
 	public void forwardNext(String transID);
 	
-	public void backward(String transID);
+	public void forwardNext(String transID,String transInfo);
+
+	
+	public void backward(String transID,String transInfo);
+ 
 
 	public E getPlanByTransID(String transID);
 	
@@ -48,5 +58,6 @@ public interface TransPlanService<E>
 	
 	public int getPlanCount(List<String> transIDList);
 	public float getPlanAssetsSumValue(List<String> transIDList);
+	public String getSumInfo(List<String> transIDList);
 
 }

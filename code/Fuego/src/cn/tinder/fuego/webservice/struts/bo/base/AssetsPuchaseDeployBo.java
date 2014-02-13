@@ -1,6 +1,5 @@
 package cn.tinder.fuego.webservice.struts.bo.base;
 
-import java.util.Date;
 
 
 

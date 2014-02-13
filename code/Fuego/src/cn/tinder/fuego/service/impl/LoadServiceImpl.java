@@ -18,6 +18,9 @@ import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.domain.po.MenuTree;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.service.LoadService;
+import cn.tinder.fuego.service.cache.AssetsTypeParaCache;
+import cn.tinder.fuego.service.cache.CacheContext;
+import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.constant.UserRoleConst;
@@ -111,16 +114,32 @@ public class LoadServiceImpl implements LoadService
 	 * @see cn.tinder.fuego.service.LoadService#loadAllDeptInfo()
 	 */
 	@Override
-	public List<String> loadAllDeptInfo()
+	public List<String> loadDeptInfoByUser(String userName,boolean hasAll)
 	{
-		Set<String> deptList = new HashSet<String>();
-		List<SystemUser> allUserList = systemUserDao.getAllSystemUser();
-		for (SystemUser user : allUserList)
-		{
- 			deptList.add(user.getDepartment());
-		}
+		SystemUser user = UserCache.getInstance().getUserByName(userName);
 
-		return new ArrayList<String>(deptList);
+		List<String> deptList = new ArrayList<String>();
+    	if(null !=user && UserRoleConst.GASSTATION.equals(user.getRole()))
+    	{
+    		deptList.add(user.getDepartment());
+    	}
+    	else
+    	{
+    		if(hasAll)
+    		{
+        		deptList.add(AssetsConst.ASSETS_FITER_ALL);
+    		}
+    		List<SystemUser> allUserList = systemUserDao.getAllSystemUser();
+    		Set<String> deptSet = new HashSet<String>();
+    		for (SystemUser u : allUserList)
+    		{
+    			deptSet.add(u.getDepartment());
+    		}
+    		deptList.addAll(deptSet);
+    	}
+
+
+		return deptList ;
 	}
 	/*
 	 * (non-Javadoc)
@@ -130,7 +149,7 @@ public class LoadServiceImpl implements LoadService
 	@Override
 	public List<DeptInfoBo> getAssignListByUser(String userName)
 	{
-		
+
 		Set<DeptInfoBo> deptList = new HashSet<DeptInfoBo>();
 		List<SystemUser> assignDeptList =systemUserDao.getUserByRole(UserRoleConst.GASSTATION);
 		SystemUser systemUser =null;
@@ -155,18 +174,23 @@ public class LoadServiceImpl implements LoadService
 	 * @see cn.tinder.fuego.service.LoadService#loadAssetsTypeList()
 	 */
 	@Override
-	public List<String> loadAssetsTypeList()
+	public List<String> loadAssetsTypeList(String userName)
 	{
 		List<String> assetsTypeList = new ArrayList<String>();
-		assetsTypeList.add(AssetsConst.ASSETS_GDZC_TYPE);
-		assetsTypeList.add(AssetsConst.ASSETS_DZYH_TYPE);
-		assetsTypeList.add(AssetsConst.ASSETS_XFQC_TYPE);
-		assetsTypeList.add(AssetsConst.ASSETS_YLSS_TYPE);
-		assetsTypeList.add(AssetsConst.ASSETS_FWJZ_TYPE);
-		assetsTypeList.add(AssetsConst.ASSETS_XXSB_TYPE);
-		assetsTypeList.add(AssetsConst.ASSETS_LBYP_TYPE);
-		assetsTypeList.add(AssetsConst.ASSETS_JQSB_TYPE);
-		assetsTypeList.add(AssetsConst.ASSETS_LSZC_TYPE);
+
+		SystemUser user = UserCache.getInstance().getUserByName(userName);
+ 
+ 
+	    if(null != user && UserRoleConst.DEPT.equals(user.getRole()))
+		{
+			assetsTypeList = AssetsTypeParaCache.getInstance().getTypeByDept(userName);
+
+ 		}
+		else
+		{
+			assetsTypeList = AssetsTypeParaCache.getInstance().getAllType();
+		}
+ 
 		
 		return assetsTypeList;
 	}
@@ -310,21 +334,37 @@ public class LoadServiceImpl implements LoadService
 	 * @see cn.tinder.fuego.service.LoadService#loadManageDeptList()
 	 */
 	@Override
-	public List<String> loadManageDeptList()
+	public List<String> loadManageDeptList(String userName,boolean hasAll)
 	{
+		List<String> manageList = new ArrayList<String>();
 		// TODO Auto-generated method stub
-		Set<String> manageDeptSet =new HashSet<String>();
- 		
-		List<SystemUser> allUserList = systemUserDao.getAllSystemUser();
-			for (SystemUser user : allUserList)
+ 		SystemUser user = UserCache.getInstance().getUserByName(userName);
+    	if(UserRoleConst.GASSTATION.equals(user.getRole()))
+    	{
+    		manageList.add(user.getManageName());
+    	}
+    	else
+    	{
+    		if(hasAll)
+    		{
+    			manageList.add(AssetsConst.ASSETS_FITER_ALL);
+    		}
+    		
+    		Set<String> manageDeptSet =new HashSet<String>();
+
+    		List<SystemUser> allUserList = systemUserDao.getAllSystemUser();
+			for (SystemUser u : allUserList)
 			{
-				if((null != user.getManageName())&& (!user.getManageName().isEmpty()) )
+				if((null != u.getManageName())&& (!u.getManageName().isEmpty()) )
 				{
-					manageDeptSet.add(user.getManageName());
+					manageDeptSet.add(u.getManageName());
 				}
 			}
+			manageList.addAll(manageDeptSet);
+    	}
+
  
-		return new ArrayList<String>(manageDeptSet);
+		return manageList;
 	}
 	
 	public List<String> loadGasNameList()
@@ -357,6 +397,28 @@ public class LoadServiceImpl implements LoadService
 		operateTypeList.add(AssetsConst.ASSETS_OPERATE_TYPE_RECOVER);
 		
 		return operateTypeList;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.tinder.fuego.service.LoadService#loadManageDept()
+	 */
+	@Override
+	public List<String> loadApprovalUser()
+	{
+		List<String> manageDeptList = new ArrayList<String>();
+		List<SystemUser> userList = CacheContext.getInstance().getUserCache().getAllUser();
+		for(SystemUser user : userList)
+		{
+			if(user.getRole().equals(UserRoleConst.DEPT))
+			{
+				manageDeptList.add(user.getUserName());
+			}
+			if(user.getRole().equals(UserRoleConst.SUPER_DEPT))
+			{
+				manageDeptList.add(user.getUserName());
+			}
+		}
+		return manageDeptList;
 	}
  
 }

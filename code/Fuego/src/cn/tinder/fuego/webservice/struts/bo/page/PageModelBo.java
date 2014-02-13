@@ -11,7 +11,7 @@ package cn.tinder.fuego.webservice.struts.bo.page;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
+import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 
 /** 
  * @ClassName: PageModel 
@@ -24,17 +24,20 @@ import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 public class PageModelBo<E>
 {
 	private List<E> allPageData = new  ArrayList<E>();
+	
+	private List<E> currentPageData;
 
 	private List<Integer> pages =new ArrayList<Integer>();
 	private int pageSize =100;  //defualt page size
 	private int currentPage = 1;
 	private int count = 0;
 	
+	private List<E> dataList = new ArrayList<E>();
 	
+ 
 	public List<E> getCurrentPageData()
 	{
-		List<E> currentPageData;
-		if(getEndNum()> allPageData.size())
+ 		if(getEndNum()> allPageData.size())
 		{
 			currentPageData = allPageData.subList(getStartNum(), allPageData.size());
 		}
@@ -45,7 +48,27 @@ public class PageModelBo<E>
 		}
 		return currentPageData;
 	}
-	
+	public E getFromAllData(E bo)
+	{
+
+		for (E b : allPageData)
+		{
+			if (b.equals(bo))
+			{
+				return b;
+			} else
+			{
+			}
+		}
+		return null;
+
+	}
+
+	public void setCurrentPageData(List<E> currentPageData)
+	{
+		this.currentPageData = currentPageData;
+	}
+
 	public List<E> getAllPageData()
 	{
 		return allPageData;
@@ -111,6 +134,16 @@ public class PageModelBo<E>
 	public void setCount(int count)
 	{
 		this.count = count;
+	}
+
+	public List<E> getDataList()
+	{
+		return dataList;
+	}
+
+	public void setDataList(List<E> dataList)
+	{
+		this.dataList = dataList;
 	}
 	
 	

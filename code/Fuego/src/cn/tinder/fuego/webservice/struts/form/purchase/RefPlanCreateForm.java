@@ -4,9 +4,6 @@ import java.util.Arrays;
 
 import org.apache.struts.action.ActionForm;
 
-import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
-import cn.tinder.fuego.webservice.util.MyArrayList;
-
 /**
  * 
  * @ClassName: RefPlanCreateForm
@@ -19,6 +16,7 @@ public class RefPlanCreateForm extends ActionForm
 {
 
 	private String[] boxes;
+	private int pageNum;
 
 	public String[] getBoxes()
 	{
@@ -28,6 +26,17 @@ public class RefPlanCreateForm extends ActionForm
 	public void setBoxes(String[] boxes)
 	{
 		this.boxes = boxes;
+	}
+
+	
+	public int getPageNum()
+	{
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum)
+	{
+		this.pageNum = pageNum;
 	}
 
 	@Override

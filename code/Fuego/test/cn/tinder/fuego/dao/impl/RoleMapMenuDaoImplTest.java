@@ -1,7 +1,5 @@
 package cn.tinder.fuego.dao.impl;
 
-import static org.junit.Assert.fail;
-
 import java.util.List;
 
 import org.junit.Test;

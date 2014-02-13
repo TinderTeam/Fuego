@@ -65,6 +65,9 @@ public class PageNameConst
 	
 	public static final String GATHER_TRANS_INIT_PAGE = "GatherTransInit";
 	public static final String GATHER_TRANS_PAGE = "GatherTrans";
+	public static final String Query_TRANS_OPER_INFO_PAGE = "QueryTransOperInfo";
+
+	
 
  	// for System password reset
 
@@ -79,7 +82,7 @@ public class PageNameConst
 
 	public static final String ASSETS_STATUS_SEARCH_PAGE = "AssetsStatusSearch";
 	public static final String ASSETS_STATUS_SEARCH_INIT_PAGE = "AssetsStatusSearchInit";
-	public static final String GAS_ASSETS_APPLY_PAGE = "GasAssetsApply";
+	public static final String ASSETS_OPERATE_LOG_PAGE = "AssetsOperateLog";
 	public static final String PASSWORD_RESETUP = "PasswordResetup";
 	
 	public static final String ASSETS_RECAPTURE_PAGE = "AssetsRecapture";
@@ -127,5 +130,10 @@ public class PageNameConst
 	public static final String ASSETS_STATUS_MODIFY_INIT_PAGE = "AssetsModifyInit";
 	public static final String PRICE_DATA_PAGE = "PriceData";
 	public static final String QUOTA_DATA_PAGE = "QuotaData";
+	
+	public static final String NICKNAME_SETUP_PAGE = "NickNameSetup";
+	public static final String NICKNAME_SETUP_INIT_PAGE = "NickNameSetupInit";
+	public static final String ASSETS_FIX = "AssetsFix";
+	
 	
 }

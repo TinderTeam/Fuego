@@ -75,14 +75,15 @@ public class AssetsStatusSearchAction extends Action
 	{
 		//PageName
      	String PageName = null;
-     
+		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);   	
+
  
      	AssetsFilterForm  searchForm = (AssetsFilterForm) form;
  
     	String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);   
  
      	//RequestOut
-     	AssetsStatusSearchInitPageBo pageBo = new AssetsStatusSearchInitPageBo(assetsManageService.getAssetsByFilter(searchForm,false));
+     	AssetsStatusSearchInitPageBo pageBo = new AssetsStatusSearchInitPageBo(assetsManageService.getAssetsByFilter(user.getUserID(),searchForm,false));
  
      	/*
      	 * Get PageBo by DB.
@@ -115,7 +116,7 @@ public class AssetsStatusSearchAction extends Action
 			searchForm = (AssetsFilterForm) form;
 			
 
-			AssetsPageBo  assetsPageBo= assetsManageService.getAssetsByFilter(searchForm,true);
+			AssetsPageBo  assetsPageBo= assetsManageService.getAssetsByFilter(user.getUserID(),searchForm,true);
 			
 			AssetsStatuesFile downfile= new AssetsStatuesFile(assetsPageBo);
 			

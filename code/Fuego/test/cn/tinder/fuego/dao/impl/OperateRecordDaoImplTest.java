@@ -35,17 +35,7 @@ public class OperateRecordDaoImplTest
 	public final void testCreate()
 	{
 		// fail("Not yet implemented"); // TODO
-		ord.setAssetsID("001");
-		ord.setAssetsName("柜台");
-		ord.setAssetsSRC("物资调配部");
-		ord.setAssetsType("office");
-		ord.setDept("加油站");
-		ord.setDuty("zhuliucao");
-		ord.setExpectYear(2015);
-		ord.setLocation("惠东");
-		ord.setManufacture("博文");
-		ord.setOperate("move");
-		ord.setUserName("tangjun");
+ 
 		ordi.create(ord);
 	}
 
@@ -56,8 +46,7 @@ public class OperateRecordDaoImplTest
 	public final void testDelete()
 	{
 		// fail("Not yet implemented"); // TODO
-		ord.setAssetsID("001");
-		ordi.delete(ord);
+ 		ordi.delete(ord);
 	}
 
 	/**
@@ -67,8 +56,7 @@ public class OperateRecordDaoImplTest
 	public final void testGetByAssetsID()
 	{
 		// fail("Not yet implemented"); // TODO
-		ord.setAssetsID("001");
-		System.out.println(ordi.getByAssetsID("001"));
+ 		System.out.println(ordi.getByAssetsID("001"));
 	}
 
 	/**
@@ -78,9 +66,7 @@ public class OperateRecordDaoImplTest
 	public final void testSaveOrUpdate()
 	{
 		// fail("Not yet implemented"); // TODO
-		ord.setAssetsID("001");
-		ord.setLocation("惠南");
-		ord.setManufacture("得力");
+ 
 		ordi.saveOrUpdate(ord);
 	}
 

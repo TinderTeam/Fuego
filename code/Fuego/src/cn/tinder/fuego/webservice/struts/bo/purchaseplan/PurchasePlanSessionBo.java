@@ -3,7 +3,6 @@ package cn.tinder.fuego.webservice.struts.bo.purchaseplan;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import cn.tinder.fuego.webservice.struts.action.purchaseplan.PurchaseAssetsSelectAction;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 
 /**
@@ -20,6 +19,7 @@ public class PurchasePlanSessionBo
 	private static final Log log = LogFactory.getLog(PurchasePlanSessionBo.class);
 
 	private PurchasePageBo purchasePageBo = new PurchasePageBo();
+	private PurchasePageBo selectPageBo = new PurchasePageBo();
 	private PurchasePageBo purchaseAddPageBo = new PurchasePageBo();
 	private PurchaseTransBo purchaseTransBo = new PurchaseTransBo();
 
@@ -31,13 +31,14 @@ public class PurchasePlanSessionBo
 
 		for (PurchasePlanBo add : purchaseAddPageBo.getAssetsList())
 		{
+			PurchasePlanBo nowData = purchasePageBo.getPage().getFromAllData(add);
 
-			if (purchasePageBo.getAssetsList().contains(add))
+			if (null != nowData)
 			{
-				purchasePageBo.find(add).getAssetsBo().setQuantity(purchasePageBo.find(add).getAssetsBo().getQuantity() + 1);
+				nowData.getAssetsBo().setQuantity(nowData.getAssetsBo().getQuantity() + 1);
 			} else
 			{
-				add.setIndex(purchasePageBo.getAssetsList().size() + 1);
+				add.setIndex(purchasePageBo.getPage().getAllPageData().size() + 1);
 				purchasePageBo.getAssetsList().add(add);
 
 			}
@@ -53,6 +54,16 @@ public class PurchasePlanSessionBo
 	/*
 	 * 自动生成方法
 	 */
+
+	public PurchasePageBo getSelectPageBo()
+	{
+		return selectPageBo;
+	}
+
+	public void setSelectPageBo(PurchasePageBo selectPageBo)
+	{
+		this.selectPageBo = selectPageBo;
+	}
 
 	@Override
 	public String toString()

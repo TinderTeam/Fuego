@@ -4,6 +4,7 @@ import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.impl.AssetsManageServiceImpl;
 import cn.tinder.fuego.service.impl.LoadServiceImpl;
 import cn.tinder.fuego.service.impl.LoginServiceImpl;
+import cn.tinder.fuego.service.impl.OperateLogServiceImpl;
 import cn.tinder.fuego.service.impl.SystemMaintanceServiceImpl;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.service.impl.id.AssetsIDCreateServiceImpl;
@@ -57,6 +58,7 @@ public class ServiceContext
 	
 	private IDCreateService assetsIDCreateService ;
 
+	private OperateLogService operateLogService;
 
 	public synchronized FileLoadService getFileLoadService()
 	{
@@ -253,6 +255,15 @@ public class ServiceContext
 			assetsIDCreateService = new AssetsIDCreateServiceImpl();
 		}
 		return assetsIDCreateService;
+	}
+	
+	public synchronized OperateLogService getOperateLogService()
+	{
+		if(null == operateLogService)
+		{
+			operateLogService = new OperateLogServiceImpl();
+		}
+		return operateLogService;
 	}
 
 

@@ -29,90 +29,100 @@ import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm;
  * @date 2013-10-1 下午04:39:00
  * 
  */
-public class PurchasePlanAction extends Action {
+public class PurchasePlanAction extends Action
+{
 	private static final Log log = LogFactory.getLog(PurchasePlanAction.class);
-	   
+
 	// Service
 	AssetsManageService assetsManageService = ServiceContext.getInstance().getAssetsManageService();
 	private TransPlanService purchasePlanService = ServiceContext.getInstance().getPurchasePlanService();
 
-	
 	@Override
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
 		log.info(LogKeyConst.INPUT_ACTION + "PurchasePlanAction");
 		// Page
 		String pageName = handle(form, request);
+
 		log.info(LogKeyConst.NEXT_PAGE + pageName);
 		return mapping.findForward(pageName);
 
 	}
 
-	private String handle(ActionForm form, HttpServletRequest request) {
+	private String handle(ActionForm form, HttpServletRequest request)
+	{
 
 		String pageName = null;
+
 		// RequestIn
-		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(
-				RspBoNameConst.SYSTEM_USER);
-		if (null == user) {
+		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+
+		// Form
+		PurchasePlanForm purchasePlanForm = (PurchasePlanForm) form;
+
+		if (null == user)
+		{
 			log.error("the user is null");
 			pageName = PageNameConst.LOGIN_PAGE;
 			return pageName;
 		}
-		// Form
-		PurchasePlanForm purchasePlanForm = (PurchasePlanForm) form;
+
 		// Form Empty test
-		if (purchasePlanForm == null) {
+		if (purchasePlanForm == null)
+		{
+
 			log.error("cant find form!!");
 			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
 			return pageName;
-		} else {
+		} else
+		{
 			log.info(LogKeyConst.PAGE_FORM + purchasePlanForm.toString());
 		}
 
 		// Para
-		String submitPara = request
-				.getParameter(ParameterConst.SUBMIT_PARA_NAME);
-		if (null == submitPara || submitPara.isEmpty()) {
+		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
+		if (null == submitPara || submitPara.isEmpty())
+		{
 			log.error("submit is null!!");
 			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
 			return pageName;
-		} else {
+		} else
+		{
 			log.info(LogKeyConst.SUBMIT_VALUE + submitPara);
 		}
 
 		// RequestOut
 		PurchasePlanSessionBo purchasePlanSessionBo = new PurchasePlanSessionBo();
 
-
-		if (submitPara.equals(ParameterConst.SUBMIT_1)) {
+		if (submitPara.equals(ParameterConst.SUBMIT_1))
+		{
 			/*
 			 * 1.Create Refferance
 			 */
-			purchasePlanSessionBo.getPurchasePageBo().getPage().setAllPageData(assetsManageService.getPurchaseSumAssetsList(purchasePlanForm));
-			purchasePlanSessionBo.getPurchasePageBo().setAssetsList(purchasePlanSessionBo.getPurchasePageBo().getPage().getCurrentPageData());
- 
-			log.info(LogKeyConst.SESSION_BO
-					+ "output BO is refBO " + purchasePlanSessionBo);
+			purchasePlanSessionBo.getSelectPageBo().setDataSource(assetsManageService.getRefPurchaseList(user.getUserID(), purchasePlanForm));
+			// purchasePlanSessionBo.getPurchasePageBo().setAssetsList(purchasePlanSessionBo.getPurchasePageBo().getPage().getCurrentPageData());
+
+			log.info(LogKeyConst.SESSION_BO + "output BO is refBO " + purchasePlanSessionBo);
 
 			pageName = PageNameConst.PURCHASE_REF_PLAN_CREATE_ACTION; // "RefPlanCreateInit"
 			/*
 			 * path="/RefPlanCreateInit.do" ->> RefPlanInitAction
 			 */
 
-		} else if (submitPara.equals(ParameterConst.SUBMIT_2)) {
+		} else if (submitPara.equals(ParameterConst.SUBMIT_2))
+		{
 			/*
 			 * 2.Create Plan
 			 */
 			pageName = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
-		} else {
+		} else
+		{
 			log.error("can't match the submit Para!");
 			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
-		
+
 		}
-		
-		request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA,purchasePlanSessionBo);
+
+		request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, purchasePlanSessionBo);
 
 		return pageName;
 	}

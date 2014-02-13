@@ -22,10 +22,8 @@ import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
-import cn.tinder.fuego.stub.strust.bo.assign.AssignBoStub;
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.bo.assign.AssignPageBo;
-import cn.tinder.fuego.webservice.struts.bo.base.DeptInfoBo;
+import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 
@@ -48,14 +46,18 @@ public class AssignInitAction extends Action
 	{
 		log.info(LogKeyConst.INPUT_ACTION);
 		String nextPage = PageNameConst.ASSIGN_PAGE;
-		AssignPageBo assignPage = new AssignPageBo();
+    	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
 
-		// get department information list
-		List<String> deptInfoList = loadService.loadGasNameList();
+ 
+		List<String> deptInfoList = loadService.loadDeptInfoByUser(user.getDeptName(),false);
+		
+		List<String> inDeptInfoList = loadService.loadDeptInfoByUser(null,false);
 
 		 
 		
 		request.setAttribute(RspBoNameConst.DEPT_INFO_LIST, deptInfoList);
+		request.setAttribute(RspBoNameConst.IN_DEPT_INFO_LIST, inDeptInfoList);
+
  
 		log.info(LogKeyConst.NEXT_PAGE + nextPage);
 		return mapping.findForward(nextPage);

@@ -21,7 +21,6 @@ import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
-import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
 
 public class AssignFile {

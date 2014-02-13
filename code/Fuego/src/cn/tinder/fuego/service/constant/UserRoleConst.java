@@ -26,6 +26,9 @@ public class UserRoleConst
 	public static final String INFO_DEPT = "INFO_DEPT";
 	public static final String GASSTATION = "GASSTATION";
 	
+	public static final String MANAGE = "MANAGE";
+
+	
 	public static final String DEFUALT_PASSWORD = "1234";
 
 }

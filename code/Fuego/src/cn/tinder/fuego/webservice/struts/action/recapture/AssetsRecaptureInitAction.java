@@ -20,21 +20,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import cn.tinder.fuego.service.AssetsManageService;
-
-import cn.tinder.fuego.service.ConstServiceTest;
 import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.bo.recapture.*;
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
-import cn.tinder.fuego.webservice.struts.bo.discard.DiscardPlanBo;
+import cn.tinder.fuego.webservice.struts.bo.recapture.RecaptureSearchBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
-import cn.tinder.fuego.webservice.struts.form.AssetsSelectForm;
 
 /**
  * 
@@ -63,13 +56,14 @@ public class AssetsRecaptureInitAction extends Action
     	
     	String pageName = PageNameConst.ASSETS_RECAPTURE_PAGE;
     	
-		
+    	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+
 		RecaptureSearchBo recaptureSearch = new RecaptureSearchBo();
 		
  		
 		//get gasName information list
 		List<String> gasNameList = loadService.loadGasNameList();
-    	List<String> assetsTypeList = loadService.loadAssetsTypeList();
+    	List<String> assetsTypeList = loadService.loadAssetsTypeList(user.getUserID());
 
     	recaptureSearch.setGasNameList(gasNameList);
     	recaptureSearch.setAssetsTypeList(assetsTypeList);

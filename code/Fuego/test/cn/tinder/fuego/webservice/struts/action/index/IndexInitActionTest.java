@@ -9,7 +9,6 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
 import cn.tinder.fuego.webservice.struts.bo.base.UserNoticeBo;
-import cn.tinder.fuego.webservice.struts.bo.index.IndexBo;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 
 public class IndexInitActionTest

@@ -8,8 +8,6 @@
  */
 package cn.tinder.fuego.dao.impl;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import cn.tinder.fuego.dao.AssetsTypeDao;

@@ -4,15 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.struts.upload.FormFile;
-
-import cn.tinder.fuego.service.exception.ServiceException;
-import cn.tinder.fuego.service.util.ExcelIOService;
-import cn.tinder.fuego.webservice.struts.action.upLoad.UpLoadAction;
-import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
 import jxl.format.Alignment;
 import jxl.format.BorderLineStyle;
 import jxl.write.Border;
@@ -21,6 +17,21 @@ import jxl.write.WritableCellFormat;
 import jxl.write.WritableSheet;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.struts.upload.FormFile;
+
+import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
+import cn.tinder.fuego.dao.impl.PhysicalAssetsStatusDaoImpl;
+import cn.tinder.fuego.service.exception.ServiceException;
+import cn.tinder.fuego.service.model.AssignSumModel;
+import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
+import cn.tinder.fuego.service.util.ExcelIOService;
+import cn.tinder.fuego.util.engine.jxl.ExcelReader;
+import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
+import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
+import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
 
 public class ExcelIOServiceImpl implements ExcelIOService{
 	 private static final Log log = LogFactory.getLog(ExcelIOServiceImpl.class);
@@ -108,4 +119,50 @@ public class ExcelIOServiceImpl implements ExcelIOService{
         return result ;
 
 	}
+
+	@Override
+	public Map<AssignSumModel, List<AssetsInfoBo>> loadDataToPlanList(ExcelReader er) {
+		PhysicalAssetsStatusDao assetsDao = new PhysicalAssetsStatusDaoImpl();
+		ConvertAssetsModel conMod= new ConvertAssetsModel();
+		Map<AssignSumModel,List<AssetsInfoBo>> map = new HashMap<AssignSumModel,List<AssetsInfoBo>>();
+		for(int i = 0 ;i<er.getRows()+1;i++){
+			AssignSumModel model = new AssignSumModel();
+			try{
+				
+				String id = er.getItem(i).get(0);
+				String inGas=er.getItem(i).get(1);
+				String dept=er.getItem(i).get(3);
+								
+		
+				model.setAssetsID(id);
+				model.setAssetsInGas(inGas);
+				
+				model.setDept(dept);
+				AssetsInfoBo bo = new AssetsInfoBo();
+				AssetsBo assets = new AssetsBo();
+				
+				assets.setAssetsID(id);
+				assets =ConvertAssetsModel.convertAssets(assetsDao.getByAssetsID(id));
+				bo.setAssets(assets);
+				if(null==map.get(model)){
+					List<AssetsInfoBo>list = new ArrayList<AssetsInfoBo>();		
+					list.add(bo);					
+					model.setAssetsOutGas(assets.getDept());
+					map.put(model, list);
+					
+				}else{
+					map.get(model).add(bo);
+				}
+			}catch(Exception ex){
+				throw new ServiceException("第"+i+"行资产错误，请检查数据有效性。");
+				
+			}	
+		}
+		
+
+		
+		return map;
+	}
+
+	
 }

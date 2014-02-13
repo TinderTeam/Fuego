@@ -22,17 +22,20 @@ public interface LoadService
 	 */
 	public List<MenuTreeBo> loadMenuTreeByUserID(String userID);
 
-	public List<String> loadAllDeptInfo();
+	public List<String> loadDeptInfoByUser(String name,boolean hasAll);
+	
+	public List<String> loadApprovalUser();
 	
 	public List<DeptInfoBo> getAssignListByUser(String userName);
 	
-	public List<String> loadAssetsTypeList();
+	public List<String> loadAssetsTypeList(String userName);
+
 	
 	public List<String> loadAssetsTechList();
 	
 	public List<String> loadAssetsSrcList();
 	
-	public List<String> loadManageDeptList();
+	public List<String> loadManageDeptList(String userName,boolean hasAll);
 	
 	public List<String> loadGasNameList();
 	

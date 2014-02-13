@@ -11,16 +11,9 @@ package cn.tinder.fuego.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import jxl.Cell;
-import jxl.CellType;
 import jxl.NumberCell;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -28,6 +21,9 @@ import jxl.read.biff.BiffException;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import cn.tinder.fuego.dao.AssetsPriceDao;
 import cn.tinder.fuego.dao.AssetsQuotaDao;
@@ -38,23 +34,14 @@ import cn.tinder.fuego.dao.impl.AssetsQuotaDaoImpl;
 import cn.tinder.fuego.domain.po.AssetsPrice;
 import cn.tinder.fuego.domain.po.AssetsQuota;
 import cn.tinder.fuego.domain.po.SystemUser;
-import cn.tinder.fuego.service.IDCreateService;
-import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.SystemMaintanceService;
 import cn.tinder.fuego.service.cache.CacheContext;
-import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
 import cn.tinder.fuego.service.util.ExcelIOService;
-import cn.tinder.fuego.util.date.DateService;
-import cn.tinder.fuego.util.engine.computer.ComputeService;
-import cn.tinder.fuego.webservice.struts.action.pricedata.PriceDataInitAction;
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
-import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
-import cn.tinder.fuego.webservice.struts.bo.download.AssetsStatuesFile;
+import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
 
 /** 
@@ -81,7 +68,8 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 			throw new ServiceException(ExceptionMsg.USER_ALREADY_EXISTED);
 		}
 		
-		if(null == userName || userName.trim().isEmpty()||null==userID||userID.trim().isEmpty()||null == manageName||manageName.trim().isEmpty())
+//		if(null == userName || userName.trim().isEmpty()||null==userID||userID.trim().isEmpty()||null == manageName||manageName.trim().isEmpty())
+		if(ValidatorUtil.isEmpty(userName)||ValidatorUtil.isEmpty(userID)||ValidatorUtil.isEmpty(manageName))
 		{
 			throw new ServiceException(ExceptionMsg.INPUT_EMPUTY);
 
@@ -101,13 +89,46 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.SystemMaintanceService#modifyUserInfo(java.lang.String, java.lang.String)
 	 */
-	@Override
+	//nickname service
+	public String searchUserNickName(String userName)
+	{
+		String nickname=null;
+		nickname=systemUserDao.find(userName).getNickName();
+		SystemUser user = systemUserDao.find(userName);
+		log.info(user);
+		return nickname;
+	}
+    public SystemUser deleteUserNickName(String userName)
+    {
+    	SystemUser user=new SystemUser();
+    	user=systemUserDao.find(userName);
+    	user.setNickName(null);
+    	
+    	systemUserDao.saveOrUpdate(user);
+    	    	
+    	return user;
+    	
+    }	
+    public SystemUser  saveUserNickName(String userName,String nickName)
+    {
+    	SystemUser user=new SystemUser();
+    	user=systemUserDao.find(userName);
+    	user.setNickName(nickName);
+    	systemUserDao.saveOrUpdate(user);
+    	return user;
+    }
 	public  String searchUserInfo(String userName)
 	{  
-		String managename=null;
 		
-		managename=systemUserDao.find(userName).getManageName();
-		 
+		
+		String managename=null;
+		if(ValidatorUtil.isEmpty(userName))
+		{
+			throw new ServiceException(ExceptionMsg.INPUT_EMPUTY);
+
+		}
+			managename=systemUserDao.find(userName).getManageName();
+
           return managename;
 	}
     public SystemUser deleteUserInfo(String userName)
@@ -157,7 +178,7 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 		
  		List<AssetsPrice> priceAssest = new ArrayList<AssetsPrice>();
 	
-	     if (uploadFile.getName().indexOf(".xls") <= 0){
+	     if (!uploadFile.getName().endsWith(".xls")){
 	            throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG+uploadFile.getName());
 	     }
 	     
@@ -444,7 +465,17 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 		AssetsQuotaDao assetsQuotaDao = new AssetsQuotaDaoImpl();
 		List<AssetsQuota> lsit=readToQuotaList(uploadFile);
 		for(AssetsQuota a:lsit){
-			assetsQuotaDao.create(a);
+
+			if((assetsQuotaDao.getByAssetsName(a.getAssetsName())).equals(a))
+			{
+				assetsQuotaDao.saveOrUpdate(a);	
+				
+			}
+			else
+			{
+				assetsQuotaDao.create(a);	
+			}
+				
 		}
 		return ;
 	}
@@ -454,7 +485,7 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 		
 		List<AssetsQuota> assetsQuotaList = new ArrayList<AssetsQuota>();
 	
-	     if (uploadFile.getName().indexOf(".xls") <= 0){
+	     if (!uploadFile.getName().endsWith(".xls")){
 	            throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG+uploadFile.getName());
 	     }
 	     
@@ -525,4 +556,5 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 			log.info("Result:"+assetsQuotaList);
 			return assetsQuotaList;
 	}
+
 }

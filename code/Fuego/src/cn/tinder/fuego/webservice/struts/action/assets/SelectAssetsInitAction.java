@@ -8,8 +8,6 @@
  */
 package cn.tinder.fuego.webservice.struts.action.assets;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,10 +21,8 @@ import org.apache.struts.action.ActionMapping;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
-import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 
 /**
  * @ClassName: AllocationInitAction
@@ -49,8 +45,7 @@ public class SelectAssetsInitAction extends Action
 		String pageName = PageNameConst.SELECT_ASSETS_PAGE;
 
 		// get department information list
-		List<AssetsInfoBo> assetsList = assetsService.getAssetsByDept("");
-		AssetsPageBo selectAssetsPage = new AssetsPageBo();
+ 		AssetsPageBo selectAssetsPage = new AssetsPageBo();
  
 
 		log.info(LogKeyConst.NEXT_PAGE + pageName);

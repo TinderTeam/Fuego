@@ -57,5 +57,6 @@ public class AssetsConst
 	  public static String ASSETS_OPERATE_TYPE_RECOVER = "实物资产回收";
 
  
-
-}
+	  public static String ASSETS_LARGE_DATE = "2099-12-31";
+	  
+ }

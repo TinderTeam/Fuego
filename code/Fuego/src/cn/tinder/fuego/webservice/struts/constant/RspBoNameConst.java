@@ -35,6 +35,8 @@ public class RspBoNameConst
 	public static final String SYSTEM_USER = "systemUser";
 
 	public static final String TRANS_INFO = "transInfo";
+	public static final String TRANS_OPER_INFO_LIST = "transOperInfoList";
+
 	
 
 	public static final String LOGIN_EXCEPTION = "loginException";
@@ -63,11 +65,15 @@ public class RspBoNameConst
 	//assets enum
 	public static final String MANAGE_DEPT_LIST = "manageDeptList";
 
+	public static final String OPERATE_NAME_LIST = "operateNameList";
+
 	public static final String DEPT_INFO_LIST = "deptList";
+	public static final String IN_DEPT_INFO_LIST = "inDeptList";
 	public static final String TYPE_LIST = "typeList";
 	public static final String TECH_LIST = "techList";
 	public static final String ASSETS_SRC_LIST = "assetsSrcList";
 	public static final String ASSETS_LIST = "assetsList";
+	public static final String OPERATE_LOG_PAGE_DATA = "operatPageData";
 	public static final String ASSETS_STATUS_SEARCH_PAGE_BO = "assetsStatusSearchInitPageBo";
 
 	
@@ -141,6 +147,7 @@ public class RspBoNameConst
 	public static final String PAGE_DIS_CTL = "pageDisCtr";
 	public static final String PAGE_CREATE = "create";
 	public static final String PAGE_APPROVAL = "approval";
+	public static final String PAGE_NEXT = "next";
 	public static final String PAGE_FINISH = "finish";
 	public static final String PAGE_CONFIRM = "confirm";
 	public static final String PAGE_VIEW = "view";
@@ -154,6 +161,8 @@ public class RspBoNameConst
 	public static final String SEARCH_FORM = "searchForm";
 
 	public static final String CHECK_TRANS_ID = "checkTransID";
+
+	public static final String ASSETS_FIX_LIST = "fixList";
 	
 
 }

@@ -8,8 +8,6 @@
  */
 package cn.tinder.fuego.webservice.struts.bo.base;
 
-import java.util.Date;
-
 import org.apache.struts.action.ActionForm;
 
 /**

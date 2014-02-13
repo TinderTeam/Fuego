@@ -5,6 +5,7 @@ import java.util.List;
 
 import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.constant.TransactionConst;
+import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.trans.TransactionBaseInfoBo;
 
 public class ConvertTransactionModel
@@ -18,7 +19,9 @@ public class ConvertTransactionModel
 		transactionBaseInfoBo.setCreateTime(transEvent.getCreateTime());
 		transactionBaseInfoBo.setCreateUser(transEvent.getCreateUser());
 		transactionBaseInfoBo.setEndTime(transEvent.getEndTime());
+		transactionBaseInfoBo.setExecuteName(transEvent.getExecuteName());
 		transactionBaseInfoBo.setHandleUser(transEvent.getHandleUser());
+		transactionBaseInfoBo.setExpendTime(DateService.countDayNum(DateService.getCurrentDate(), transEvent.getHandleTime()));
 		transactionBaseInfoBo.setState(transEvent.getStatus());
 		 
 		transactionBaseInfoBo.setUrl(getUrlByTransType(transEvent.getType(),transEvent.getTransID(),transEvent.getCurrentStep()));

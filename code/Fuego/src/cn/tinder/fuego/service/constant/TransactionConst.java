@@ -8,7 +8,6 @@
  */
 package cn.tinder.fuego.service.constant;
 
-import java.io.File;
 
 
 /**
@@ -24,13 +23,19 @@ public class TransactionConst
 	public static final String ASSIGN_PLAN_TYPE = "A"; // assign plan type
 	public static final String ASSIGN_PLAN_NAME = "实物资产调拨单"; // Transname
 	public static final String ASSIGN_PLAN_URL = "AssignSubmitInit.do"; // Transname
+	public static final String ASSIGN_GAS_MAX_STEP = "7";
+	public static final String ASSIGN_DEPT_MAX_STEP = "6";
 	public static final String ASSIGN_MAX_STEP = "5";
+
 	public static final String ASSIGN_APPROVAL_STEP = "4";
 	
 	public static final String DISCARD_PLAN_TYPE ="D"; // discard plan type
 	public static final String DISCARD_PLAN_NAME = "实物资产处置单"; // Transname
 	public static final String DISCARD_PLAN_URL = "DiscardSureInit.do"; // Transname
+	public static final String DISCARD_GAS_MAX_STEP = "5";
+	public static final String DISCARD_DETP_MAX_STEP = "4";
 	public static final String DISCARD_MAX_STEP = "3";
+
 	public static final String DISCARD_APPROVAL_STEP = "2";
 	
 	public static final String RECAPTURE_PLAN_TYPE ="R"; // discard plan type
@@ -43,7 +48,12 @@ public class TransactionConst
 	public static final String PURCHASE_PLAN_NAME = "实物资产采购单"; //   plan type
 	public static final String PURCHASE_PLAN_URL = "PurchasePlanEnsureInit.do"; //   plan type
 	public static final String PURCHASE_APPROVAL_STEP = "2";
+ 
+	public static final String PURCHASE_GAS_MAX_STEP = "5";
+	public static final String PURCHASE_DEPT_MAX_STEP = "4";
 	public static final String PURCHASE_MAX_STEP = "3";
+
+	
 
 	public static final String CHECK_PLAN_TYPE = "C"; //   plan type
 	public static final String CHECK_PLAN_NAME = "实物资产盘点单"; //   plan name
@@ -63,13 +73,20 @@ public class TransactionConst
 	public static final int END_STEP_FLAG = 0; // end step
 	public static final int ID_LENGTH = 9; // ID length
 
-	public static final String TRRANS_STATUS_TODO = "未提交"; // Transaction state
+	public static final String TRANS_STATUS_TODO = "未提交"; // Transaction state
 	public static final String TRANS_STATUS_DONE = "已完成"; // Transaction state
-	public static final String TRRANS_STATUS_DOING = "未完成";
-	public static final String TRRANS_STATUS_REFUSE = "审批不通过";
+	public static final String TRANS_STATUS_DOING = "未完成";
 	
-	public static final String TRRANS_STATUS_READ = "已读";
-	public static final String TRRANS_STATUS_NO_READ = "未读";
+	public static final String TRANS_RESULT_SUCCESS = "成功";
+	public static final String TRANS_RESULT_FAILED = "失败";
+	public static final String TRANS_RESULT_AGREE = "通过";
+	public static final String TRANS_RESULT_REFUSE = "不通过";
+	
+	public static final String TRANS_STATUS_READ = "已读";
+	public static final String TRANS_STATUS_NO_READ = "未读";
+	
+	public static final String TRANS_OPERATE_SUBMIT = "提交";
+	public static final String TRANS_OPERATE_FINISH = "完成";
 	
  
 

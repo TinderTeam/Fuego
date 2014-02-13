@@ -3,7 +3,6 @@ package cn.tinder.fuego.webservice.struts.bo.excelimport;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import jxl.read.biff.BiffException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Test;
 
 import cn.tinder.fuego.service.IDCreateService;
 import cn.tinder.fuego.service.ServiceContext;
@@ -26,7 +24,6 @@ import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
-import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 
 public class ImportAssetsExcelFile {
@@ -57,7 +54,7 @@ public class ImportAssetsExcelFile {
 		assetsTypeMap.put(AssetsConst.ASSETS_YLSS_TYPE, 0);
 	
 		
-	     if (uploadFile.getName().indexOf(".xls") <= 0){
+	     if (!uploadFile.getName().endsWith(".xls")){
 	            throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG+uploadFile.getName());
 	     }
 	     
@@ -118,16 +115,14 @@ public class ImportAssetsExcelFile {
 					    		    */ 
 					    		 
 					    		   AssetsInfoBo ibo = splitInfoBo(infoBo,assetsTypeMap);
-					    		 
+					    		   /*拆分单价*/
+					    		   ibo.getAssets().setOriginalValue( ibo.getAssets().getOriginalValue()/q);					    		   
 					    		   assetsList.add(ibo);		
 					    		    
 						        
 					    	   }
 					    	   
-					    	   
-					    	
-					    
-					    	   
+   
 					    	
 				    	   }catch(ServiceException ex){
 
@@ -169,14 +164,18 @@ public class ImportAssetsExcelFile {
 		for(AssetsInfoBo infoBo:assetsList){
 			if(
 					//非已有ID
-					infoBo.getAssets().getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)
-					&&
-					!infoBo.getAssets().getAssetsID().isEmpty()
+					(
+							//固定资产无ID
+						(infoBo.getAssets().getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)
+								&&
+						(null==infoBo.getAssets().getAssetsID())||(infoBo.getAssets().getAssetsID().isEmpty()))
+					)||(
+							//非固定资产
+							!infoBo.getAssets().getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE	)
 					)
-			{
-				
-				
-			}else{
+					
+			){
+				 
 				if(iDMap.get(infoBo.getAssets().getAssetsType()).size()<1){
 					throw new ServiceException(ExceptionMsg.IDISNULL);
 				}
@@ -189,6 +188,9 @@ public class ImportAssetsExcelFile {
 				);
 				iDMap.get(infoBo.getAssets().getAssetsType()).remove(iDMap.get(infoBo.getAssets().getAssetsType()).size()-1);
 			
+				
+			}else{
+				
 			}
 		}
 		
@@ -259,7 +261,7 @@ public class ImportAssetsExcelFile {
 			if(infoBo.getAssets().getQuantity()!=1){
 				throw new ServiceException(ExceptionMsg.GDZC_QUANTITY_ERR);
 			}
-			if(null!=infoBo.getAssets().getAssetsID()|| !infoBo.getAssets().getAssetsID().isEmpty()){
+			if(null!=infoBo.getAssets().getAssetsID()&& !infoBo.getAssets().getAssetsID().isEmpty()){
 				ibo.getAssets().setAssetsID(
 						"G" + infoBo.getAssets().getAssetsID()
 				);

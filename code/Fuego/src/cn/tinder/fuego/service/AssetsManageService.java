@@ -15,9 +15,7 @@ import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
-import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanInfoBo;
 import cn.tinder.fuego.webservice.struts.form.AssetsFilterForm;
-import cn.tinder.fuego.webservice.struts.form.GasAssetsApplyForm;
 import cn.tinder.fuego.webservice.struts.form.purchase.PurchaseAssetsSelectForm;
 import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanForm;
 
@@ -37,28 +35,46 @@ public interface AssetsManageService
 	public AssetsInfoBo getAseestByAssetsIDFromAssetsLIst(List<PhysicalAssetsStatus> assetsStatusList,String assetsID);
 
 	public AssetsInfoBo getNewAssetsByAssetsID(String assetsID);
+ 
 
-	public List<AssetsInfoBo> getAssetsByDept(String deptName);
-	
-	public void importBasicAssest(File file);
-
-	public AssetsPageBo getAssetsByFilter(AssetsFilterForm filter,boolean isAll);
+	public AssetsPageBo getAssetsByFilter(String userName,AssetsFilterForm filter,boolean isAll);
 	public List<AssetsInfoBo> getAssetsByDutyDept(String dutyDept);
 	
 	public List<AssetsInfoBo> getAssetsByAssetsIDList(String[] assestsList);
 	
 	public List<PurchasePlanBo> getPurchaseSumAssetsList(PurchaseAssetsSelectForm filter);
-	public List<PurchasePlanBo> getPurchaseSumAssetsList(PurchasePlanForm form);
-	public List<CheckPlanInfoBo> getCheckSumAssetsList(String dept);
+
 	
   	public void updateAssets (AssetsInfoBo assetsInfo);
 	public void deleteAssets(AssetsInfoBo assetsInfo);
 
- 	public List<AssetsInfoBo> getDiscardAssetsListBo(String dueDate, List<String> assetsTypeList,List<String> statusList);
-	public List<AssetsInfoBo> getRecaptureAssetsListBo(List<String> assetsDutyList, List<String> assetsTypeList);
-	
+ 	
 	public List<String> getUserListByAssestList(List<AssetsInfoBo> assetsList);
 
 	
+	public void importBasicAssest(File file);
+
+	/*
+	 * TASK #16 Story93_1: 实现资产的批量增加与修改
+	 */
+	//追加资产
+	public void addBasicAssets(File uploadFile);
+	//删除资产
+	public void deleteBasicAssets(File uploadFile);
+	//更新资产
+	public void updateBasicAssets(File uploadFile);
+
+	public List<PhysicalAssetsStatus> initAssetsID(List<PhysicalAssetsStatus> list);
+
+	/**
+	 * 
+	 * @param userName
+	 * 
+	 * @param purchasePlanForm
+	 * @描述  传入登陆用户用户名作为分权分域参数
+	 * 传入Form作为筛选条件直接生产采购参考表
+	 * @return 参考计划的采购Bo列表
+	 */
+	public List<PurchasePlanBo> getRefPurchaseList(String userName,PurchasePlanForm purchasePlanForm);
 	
 }

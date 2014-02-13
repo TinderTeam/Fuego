@@ -13,7 +13,6 @@ import jxl.read.biff.BiffException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Test;
 
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.service.exception.ServiceException;
@@ -32,7 +31,7 @@ public class ImportBasicDataExcelFile {
 		
 	    
 	    
-	     if (uploadFile.getName().indexOf(".xls") <= 0){
+	     if (!uploadFile.getName().endsWith(".xls")){
 	            throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG);
 	     }
 	        // 2.判断文件是否存在
@@ -103,8 +102,11 @@ public class ImportBasicDataExcelFile {
 			        	assets.setExpectYear(Integer.valueOf(cell.getContents()));
 			        	
 			        	//DueDate
-			          
-			           	assets.setDueDate(JXLService.getData(sheet,12,i));
+			        	/*
+			        	 * 
+			        	 */
+
+			           	assets.setDueDate(DateService.addYear(assets.getPurchaseDate(),assets.getExpectYear()));
 			       
 			           	//TYPE	    
 			           	cell = sheet.getCell(13,i);
@@ -148,5 +150,53 @@ public class ImportBasicDataExcelFile {
 	       
 		return assetsList;
 	}
-	
+	public static List<String> loadDeleteFile(File uploadFile) {
+		// TODO Auto-generated method stub
+		log.info(uploadFile.getAbsolutePath());
+		
+		List<String> IDList = new ArrayList<String>();
+		
+	    
+	    
+	     if (!uploadFile.getName().endsWith(".xls")){
+	            throw new ServiceException(ExceptionMsg.EXCEL_FORMART_WRONG);
+	     }
+	        // 2.判断文件是否存在
+	        File excelFile = uploadFile;
+	        if (!excelFile.exists())
+	        	 throw new ServiceException(ExceptionMsg.FILEPATH_NOT_EXIST+ uploadFile.getAbsolutePath());
+	        // 3.定义Excel对象,即workbook
+	        Workbook book;
+			try {
+				book = Workbook.getWorkbook(excelFile);
+				
+				 if (book == null) {
+			            throw new ServiceException(ExceptionMsg.EXCEL_READ_ERR);
+			        }
+			        // 3. 获取所有workSheets
+			        Sheet sheet = book.getSheet(0);
+			        int column=sheet.getColumns();
+			        int row = sheet.getRows();
+			        log.info("Excel Load Info: row="  +row + "; column=" + column + ";"); 
+			        
+			        Cell cell;
+			        
+			        
+			      
+			        for(int i=2;i<row;i++){
+			        	cell = sheet.getCell(0,i);
+			        	log.info("单元格内容："+cell.getContents());
+			        	IDList.add(cell.getContents());
+			        	
+			        }
+			} catch (BiffException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return IDList;
+	}
+
 }

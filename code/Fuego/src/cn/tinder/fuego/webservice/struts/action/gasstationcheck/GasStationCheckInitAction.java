@@ -2,8 +2,6 @@ package cn.tinder.fuego.webservice.struts.action.gasstationcheck;
 
 
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,20 +12,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import cn.tinder.fuego.service.ConstServiceTest;
-import cn.tinder.fuego.service.ServiceContext;
-import cn.tinder.fuego.service.exception.ServiceException;
-import cn.tinder.fuego.service.sys.SystemParaService;
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.bo.check.AssetsCheckBo;
-import cn.tinder.fuego.webservice.struts.bo.check.GasStationCheckInitBo;
-import cn.tinder.fuego.webservice.struts.bo.check.GasStationCheckStatusBo;
-import cn.tinder.fuego.webservice.struts.bo.check.GasStationCheckStatusInitBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
-import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
-import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
-import cn.tinder.fuego.webservice.struts.form.GasStationCheckStatusForm;
-import cn.tinder.fuego.webservice.struts.form.UserPasswordSetupForm;
 
 
 

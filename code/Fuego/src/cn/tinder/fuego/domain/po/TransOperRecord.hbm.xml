@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+	
+<hibernate-mapping
+	package="cn.tinder.fuego.domain.po">
+	<class name="TransOperRecord" table="trans_oper_record">
+		<composite-id>
+	       <key-property name="transID" column="TRANS_ID" ></key-property>
+	       <key-property name="operTime" column="OPER_TIME">
+ 
+	       </key-property>
+	       	<key-property name="step" column="STEP" ></key-property>
+	       
+	    </composite-id>
+    
+    <property name="userName" column="USER_NAME" ></property>
+
+	<property name="stepName" column="STEP_NAME" not-null="false"></property>
+	<property name="result" column="RESULT" not-null="false"></property>
+	<property name="transInfo" column="TRANS_INFO" not-null="false"></property>
+								
+	</class>
+</hibernate-mapping>
+ 

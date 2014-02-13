@@ -30,13 +30,13 @@ public class AssetsStatusDealHistoryInitActionBo {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	@Override
+	@Override			
 	public String toString() {
 		return "AssetsStatusDealHistoryInitActionBo [assetsID=" + assetsID
 				+ ", assetsName=" + assetsName + ", purchaseDate="
 				+ purchaseDate + ", location=" + location + "]";
 	}
 	
-	
+
 	
 }

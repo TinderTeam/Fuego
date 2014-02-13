@@ -51,19 +51,24 @@
 										<a class="btn btn-primary" href="javascript:history.go(-1);">返回</a>
 										<button class="btn  btn-inverse" name="submit" value="cancel">取消</button>
 									 </c:if>
-									 <c:if test="${'approval' == pageDisCtr}"> 
+									 <c:if test="${'approval' == pageDisCtr}">
+									 	<jsp:include page="/jsp/cbb/transOperateInfo.jsp"/>
+									  
 										<button class="btn btn-success"  name="submit" value="agree">同意</button>								
 										<button class="btn  btn-primary" name="submit" value="refuse">拒绝</button>	
+										<button class="btn  btn-primary" name="submit" value="download">导出</button>
 	 								 </c:if>
 	 								  <c:if test="${'finish' == pageDisCtr}"> 
 							             <button class="btn btn-success"  name="submit" value="finish">完成</button>
 							              <button class="btn  btn-primary" name="submit" value="download">导出</button>
  	 					              </c:if>
 	 								  <c:if test="${'confirm' == pageDisCtr}"> 
-										<button class="btn btn-success"  name="submit" value="confirm">确定</button>								
+										<button class="btn btn-success"  name="submit" value="confirm">确定</button>	
+										<button class="btn  btn-primary" name="submit" value="download">导出</button>							
  	 								 </c:if>
  	 								  <c:if test="${'view' == pageDisCtr}"> 
-										<button class="btn btn-success"  name="submit" value="view">确定</button>								
+										<button class="btn btn-success"  name="submit" value="view">确定</button>	
+										<button class="btn  btn-primary" name="submit" value="download">导出</button>							
  	 								 </c:if>
 					         	</div>	
 								

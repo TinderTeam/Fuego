@@ -23,10 +23,8 @@ import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
-import cn.tinder.fuego.webservice.struts.bo.assign.AssignPageBo;
 import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
-import cn.tinder.fuego.webservice.struts.bo.check.CheckPlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
@@ -85,18 +83,21 @@ public class AssignSubmitInitAction extends Action
 			plan = (AssignPlanBo) request.getSession().getAttribute(RspBoNameConst.ASSIGN_PLAN_DATA);
 			log.info("can not get the plan by transaction id" + transID);
 		} 
+		
+		request.setAttribute(RspBoNameConst.DEPT_INFO_LIST, ServiceContext.getInstance().getLoadService().loadApprovalUser());
+
 		request.getSession().setAttribute(RspBoNameConst.ASSIGN_PLAN_DATA, plan);
 		
     	SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
 
     	   
-		nextPage = controlPageBtnDis(plan.getTransInfo().getTransInfo().canOperate(user),nextPage,request);
+		nextPage = controlPageBtnDis(plan.getTransInfo().getTransInfo().canOperate(user),plan.getTransInfo().getTransInfo().getTransID(),nextPage,request);
 
 
 		return nextPage;
 
 	}
-	private String controlPageBtnDis(boolean canOperate,String nextPage,HttpServletRequest request)
+	private String controlPageBtnDis(boolean canOperate,String transID,String nextPage,HttpServletRequest request)
 	{
 		//control page button display by the step
 		String pageCtr = RspBoNameConst.PAGE_CREATE;
@@ -111,13 +112,20 @@ public class AssignSubmitInitAction extends Action
 			{
 				pageCtr = RspBoNameConst.PAGE_CREATE;
 			}
-			else if(TransactionConst.ASSIGN_MAX_STEP.equals(step))
+			else if(Integer.valueOf(step)>= planService.getMaxStep(transID))
 			{
 				nextPage = PageNameConst.ASSIGN_CREATE_INIT_ACTION;
 			}
-			else if(TransactionConst.ASSIGN_APPROVAL_STEP.equals(step))
+			else if(planService.isApporalStep(Integer.valueOf(step)))
 			{
-				pageCtr = RspBoNameConst.PAGE_APPROVAL;
+				if("3".equals(step) || "4".equals(step))
+				{
+					pageCtr = RspBoNameConst.PAGE_NEXT;
+				}
+				else
+				{
+					pageCtr = RspBoNameConst.PAGE_APPROVAL;
+				}
 			}
 			else if(TransactionConst.TRANS_LAST_STEP.equals(step))
 			{

@@ -1,10 +1,8 @@
 package cn.tinder.fuego.webservice.struts.action.gasstationcheck;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.tinder.fuego.service.ConstServiceTest;
-import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckBo;
 import cn.tinder.fuego.webservice.struts.bo.check.CheckResultInitBo;
 import cn.tinder.fuego.webservice.struts.bo.check.ResultBo;

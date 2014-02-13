@@ -1,8 +1,5 @@
 package cn.tinder.fuego.webservice.struts.form.purchase;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
 
@@ -22,6 +19,7 @@ public class PurchasePlanCreateForm extends ActionForm
 
 	private MyArrayList assetsCreateBo = new MyArrayList(PurchasePlanBo.class);
 	private String newAssetsName;
+	private String typeList;
 	private FormFile myFile;
 
 	/**
@@ -67,6 +65,14 @@ public class PurchasePlanCreateForm extends ActionForm
 
 	public String getNewAssetsName() {
 		return newAssetsName;
+	}
+
+	public void setTypeList(String typeList) {
+		this.typeList = typeList;
+	}
+
+	public String getTypeList() {
+		return typeList;
 	}
 
 
