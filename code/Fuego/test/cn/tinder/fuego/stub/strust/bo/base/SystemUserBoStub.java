@@ -29,6 +29,10 @@ public class SystemUserBoStub {
 		return "ADMIN";
 	}
 	
+	public static String getTestUserName(){
+		return "测试加油站";
+	}
+	
 	public static String getGasstationUserName(){
 		return "三家村加油站";
 	}

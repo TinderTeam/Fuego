@@ -11,6 +11,10 @@ public class ComputeService {
 	
 	static public float cptUsedYears(String string){
 		
+		if(string==null){
+			return 0;
+		}
+		
 		float v;
 		Date today= new Date();
 		long l=DateService.stringToDate(string).getTime()-today.getTime();
@@ -99,24 +103,24 @@ public class ComputeService {
 	}	
 	
 	/**
-	 * ¼ÆËãÐ§Òæ½ð¶î
+	 * ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½
 	 */
 	public static float cptValueMoney(float orangeValue, float usedYears,int limitYears){
 		
 		float value;
 		
 		/*
-		 *	ÏÈÅÐ¶Ï×Ê²úÊôÓÚ³¬ÆÚ×Ê²ú»òÎ´³¬ÆÚ×Ê²ú 
+		 *	ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ê²ï¿½ï¿½ï¿½ï¿½Ú³ï¿½ï¿½ï¿½ï¿½Ê²ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½Ê²ï¿½ 
 		 */
 		
 		if(usedYears>limitYears){
 			/*
-			 * ÊôÓÚ³¬ÆÚ×Ê²ú
+			 * ï¿½ï¿½ï¿½Ú³ï¿½ï¿½ï¿½ï¿½Ê²ï¿½
 			 */
 			value=-ComputeConstent.OUT_VALUE_RATE*(orangeValue/(limitYears*12))*((limitYears-usedYears)*12);
 		}else{
 			/*
-			 * ÊôÓÚÎ´³¬ÆÚ×Ê²ú
+			 * ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½Ê²ï¿½
 			 */
 			value=ComputeConstent.VALUE_RATE*(orangeValue/(limitYears*12))*((usedYears-limitYears)*12);
 		}

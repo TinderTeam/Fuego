@@ -654,6 +654,17 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	 */
 	private void countValueMoney(List<PurchasePlanBo> purchasePlanList) {
 		for(PurchasePlanBo bo:purchasePlanList){
+			if(
+					//如果数据不全，则按照0计算
+					bo.getAssetsBo().getPurchaseDate()==null
+					||
+					bo.getAssetsBo().getOriginalValue()==0
+					||
+					bo.getAssetsBo().getExpectYear()==0
+			){
+				
+				bo.setValueMoney(0) ;
+			}
 			bo.setValueMoney(ComputeService.cptValueMoney(bo.getAssetsBo().getOriginalValue(), ComputeService.cptUsedYears(bo.getAssetsBo().getPurchaseDate()), bo.getAssetsBo().getExpectYear()));
 		}
 		
@@ -860,6 +871,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 				computeAssetsQuantityInfo(asset, purchasePlan,dueDate);	
 				purchasePlan.getAssetsBo().setQuantity(purchasePlan.getDisableQuantity());
 				purchasePlan.countMoney();
+		
 				purchasePlanMap.put(purchaseSumModel, purchasePlan);
 			}
 		}

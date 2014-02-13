@@ -16,7 +16,7 @@ public class PurchasePlanFormStub {
 	public static PurchasePlanForm getRefCreateFrom(){
 		PurchasePlanForm form= new PurchasePlanForm();
 		form.setDate("2010-01-01");
-		form.setDuty("测试用加油站");
+		form.setDuty("测试加油站");
 		form.setManageName("全部");
 		String[] type = {"全部"};		
 		form.setTypeList(type);		
