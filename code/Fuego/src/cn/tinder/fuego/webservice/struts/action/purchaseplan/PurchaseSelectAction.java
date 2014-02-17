@@ -1,5 +1,7 @@
 package cn.tinder.fuego.webservice.struts.action.purchaseplan;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,7 +13,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.exception.ServiceException;
+import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.bo.purchaseplan.PurchasePlanSessionBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
@@ -79,8 +83,15 @@ public class PurchaseSelectAction extends Action
 		log.info(LogKeyConst.SUBMIT_VALUE + submitPara);
  
 		if(ParameterConst.SELECT_MARK.equals(submitPara))
-		{
-			purchasePlanSessionBo.getPurchasePageBo().addData(purchasePlanSessionBo.getSelectPageBo().getPlanListByIndex(refPlanCreateForm.getBoxes()));
+		{	
+			List<PurchasePlanBo> dataList = purchasePlanSessionBo.getSelectPageBo().getPlanListByIndex(refPlanCreateForm.getBoxes());
+			/*
+			 * 对选择的数据进行校验 
+			 */
+			if(dataList==null||dataList.size()==0){
+				throw new ServiceException(ExceptionMsg.NO_DATA);
+			}
+			purchasePlanSessionBo.getPurchasePageBo().addData(dataList);
 
 		}
 		else if(ParameterConst.SELECT_PAGE.equals(submitPara))
