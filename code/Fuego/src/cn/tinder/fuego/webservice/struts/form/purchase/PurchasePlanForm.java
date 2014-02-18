@@ -18,6 +18,8 @@ public class PurchasePlanForm extends ActionForm
 	private String date;
 	private String duty;
 	private String manageName;
+	private String[] techStatusList;
+	private String[] matchAttrList;
 	private String[] typeList;
 	
 	
@@ -50,10 +52,28 @@ public class PurchasePlanForm extends ActionForm
 	public void setTypeList(String[] typeList) {
 		this.typeList = typeList;
 	}
-	@Override
-	public String toString() {
-		return "PurchasePlanForm [date=" + date + ", typeList="
-				+ Arrays.toString(typeList) + "]";
+	public String[] getTechStatusList()
+	{
+		return techStatusList;
 	}
+	public void setTechStatusList(String[] techStatusList)
+	{
+		this.techStatusList = techStatusList;
+	}
+	public String[] getMatchAttrList()
+	{
+		return matchAttrList;
+	}
+	public void setMatchAttrList(String[] matchAttrList)
+	{
+		this.matchAttrList = matchAttrList;
+	}
+	@Override
+	public String toString()
+	{
+		return "PurchasePlanForm [date=" + date + ", duty=" + duty + ", manageName=" + manageName + ", techStatusList=" + Arrays.toString(techStatusList) + ", matchAttrList="
+				+ Arrays.toString(matchAttrList) + ", typeList=" + Arrays.toString(typeList) + "]";
+	}
+ 
 
 }
