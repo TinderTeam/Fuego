@@ -662,7 +662,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		 */
 		assetsQuotaList = getQuotaListByDutyAndManageName(duty, manageName);
 
-		purchasePlanList = getPurchasePlanListByCurrentAndQuota(assetsQuotaList, purchasePlanList);
+		purchasePlanList = getPurchasePlanListByCurrentAndQuota(assetsQuotaList, purchasePlanList,matchAttrList);
 
 		/*
 		 * 根据采购清单 计算采购效益金额
@@ -702,28 +702,9 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	 * @param purchasePlanList
 	 * @return
 	 */
-	private List<PurchasePlanBo> getPurchasePlanListByCurrentAndQuota(List<AssetsQuota> assetsQuotaList, List<PurchasePlanBo> currentPlanList)
+	private List<PurchasePlanBo> getPurchasePlanListByCurrentAndQuota(List<AssetsQuota> assetsQuotaList, List<PurchasePlanBo> currentPlanList,List<String> matchAttrList)
 	{
-		// TODO Auto-generated method stub
-
-		List<PurchasePlanBo> purchasePlanBoList = new ArrayList<PurchasePlanBo>();
-
-		// 生成采购匹配图
-		Map<PurchaseSumModel, PurchasePlanBo> purchasePlanMap = new HashMap<PurchaseSumModel, PurchasePlanBo>();
-
-		/*
-		 * 将待匹配数据装入Map
-		 */
-		for (PurchasePlanBo crtPlanBo : currentPlanList)
-		{
-			PurchaseSumModel purchaseSumModel = new PurchaseSumModel();
-			purchaseSumModel.setAssetsName(crtPlanBo.getAssetsBo().getAssetsName());
-			purchaseSumModel.setManufacture(crtPlanBo.getAssetsBo().getManufacture());
-			purchaseSumModel.setSpec(crtPlanBo.getAssetsBo().getSpec());
-			purchaseSumModel.setGasName(crtPlanBo.getAssetsBo().getDuty());
-			purchasePlanMap.put(purchaseSumModel, crtPlanBo);
-		}
-
+	 
 		/*
 		 * 遍历配置表进行匹配
 		 */
@@ -738,7 +719,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			quotaModel.setSpec(quota.getSpec());
 			quotaModel.setGasName(quota.getDuty());
 
-			PurchasePlanBo planBo = purchasePlanMap.get(quotaModel);// 进行匹配
+			PurchasePlanBo planBo = this.getPurchaseFromListByMatchAttr(quotaModel, currentPlanList, matchAttrList);
 
 			if (null == planBo)
 			{
@@ -752,21 +733,17 @@ public class AssetsManageServiceImpl implements AssetsManageService
 				 */
 				computeAssetsQuantityInfo(quota, planBo);
 				planBo.setQuotaQuantity(quota.getQuantity());
-				int PQ = planBo.getQuotaQuantity() - (planBo.getCurrentQuantity() - planBo.getDisableQuantity());
+				int PQ = planBo.getQuotaQuantity() - planBo.getCurrentQuantity();
 				if (PQ >= 0)
 				{
-					planBo.getAssetsBo().setQuantity(
-					// 利用 QQ-(CQ-DQ)计算需采购的数量
-
-							planBo.getQuotaQuantity() - (planBo.getCurrentQuantity() - planBo.getDisableQuantity()));
+					planBo.getAssetsBo().setQuantity(PQ+planBo.getDisableQuantity());
 				} else
 				{
-					planBo.getAssetsBo().setQuantity(0);
+					planBo.getAssetsBo().setQuantity(planBo.getDisableQuantity());
 				}
 
 				planBo.countMoney();// 计算总金额
-				purchasePlanMap.put(quotaModel, planBo);
-
+				currentPlanList.add(planBo);
 			} else
 			{
 				planBo.setQuotaQuantity(quota.getQuantity());
@@ -784,18 +761,13 @@ public class AssetsManageServiceImpl implements AssetsManageService
 
 				planBo.countMoney();// 计算总金额
 			}
-		}
-
-		List<PurchasePlanBo> mapList = new ArrayList<PurchasePlanBo>(purchasePlanMap.values());
-		for (PurchasePlanBo bo : mapList)
-		{// 将Map结果转入List
-			if (bo.getAssetsBo().getQuantity() > 0)
+			if(planBo.getAssetsBo().getQuantity() == 0)
 			{
-				purchasePlanBoList.add(bo);
+				currentPlanList.remove(planBo);
 			}
 		}
-
-		return purchasePlanBoList;
+	 
+		return currentPlanList;
 
 	}
 
