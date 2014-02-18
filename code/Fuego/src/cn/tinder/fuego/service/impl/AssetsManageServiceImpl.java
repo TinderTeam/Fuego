@@ -68,8 +68,8 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	private PhysicalAssetsStatusDao assetsDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
 	private SystemUserDao userDao = DaoContext.getInstance().getSystemUserDao();
 
+	private int matchAttrList;
 
-	
 	@Override
 	public List<AssetsInfoBo> getAssetsByDutyDept(String dutyDept)
 	{
@@ -77,7 +77,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		List<PhysicalAssetsStatus> assetsList = null;
 
 		assetsList = assetsDao.getAssetsByDuty(dutyDept);
-		if(null == assetsList)
+		if (null == assetsList)
 		{
 			return null;
 		}
@@ -86,82 +86,91 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	}
 
 	@Override
-	public AssetsPageBo getAssetsByFilter(String userName,AssetsFilterForm filter,boolean isAll)
+	public AssetsPageBo getAssetsByFilter(String userName, AssetsFilterForm filter, boolean isAll)
 	{
 		PhysicalAssetsStatus assetsFilter = new PhysicalAssetsStatus();
 		PhysicalAssetsStatus assetsFilterDate = new PhysicalAssetsStatus();
-		if((null != filter.getAssetsID()) && (filter.getAssetsID().trim().isEmpty()))
+		if ((null != filter.getAssetsID()) && (filter.getAssetsID().trim().isEmpty()))
 		{
 			assetsFilter.setAssetsID(null);
-		
-		}else{
-			assetsFilter.setAssetsID(filter.getAssetsID());	
+
+		} else
+		{
+			assetsFilter.setAssetsID(filter.getAssetsID());
 		}
-		if((null != filter.getAssetsType()) && (filter.getAssetsType().trim().isEmpty()||AssetsConst.ASSETS_FITER_ALL.equals(filter.getAssetsType())))
-		{	
+		if ((null != filter.getAssetsType()) && (filter.getAssetsType().trim().isEmpty() || AssetsConst.ASSETS_FITER_ALL.equals(filter.getAssetsType())))
+		{
 			assetsFilter.setAssetsType(null);
-			
-		}else{
+
+		} else
+		{
 			assetsFilter.setAssetsType(filter.getAssetsType());
 		}
-		if((null != filter.getTechState()) && (filter.getTechState().trim().isEmpty()||AssetsConst.ASSETS_FITER_ALL.equals(filter.getTechState())))
-		{	
+		if ((null != filter.getTechState()) && (filter.getTechState().trim().isEmpty() || AssetsConst.ASSETS_FITER_ALL.equals(filter.getTechState())))
+		{
 			assetsFilter.setTechState(null);
-		}else{
+		} else
+		{
 			assetsFilter.setTechState(filter.getTechState());
 		}
-		if((null != filter.getAssetsName()) && (filter.getAssetsName().trim().isEmpty()))
-		{	
+		if ((null != filter.getAssetsName()) && (filter.getAssetsName().trim().isEmpty()))
+		{
 			assetsFilter.setAssetsName(null);
-		}else{
+		} else
+		{
 			assetsFilter.setAssetsName(filter.getAssetsName());
 		}
-		if((null != filter.getDuty()) && (filter.getDuty().trim().isEmpty()||AssetsConst.ASSETS_FITER_ALL.equals(filter.getDuty())))
-		{	
+		if ((null != filter.getDuty()) && (filter.getDuty().trim().isEmpty() || AssetsConst.ASSETS_FITER_ALL.equals(filter.getDuty())))
+		{
 			assetsFilter.setDuty(null);
-		}else{
+		} else
+		{
 			assetsFilter.setDuty(filter.getDuty());
 		}
-	
-		if((null != filter.getLocation()) && (filter.getLocation().trim().isEmpty()))
-		{	
+
+		if ((null != filter.getLocation()) && (filter.getLocation().trim().isEmpty()))
+		{
 			assetsFilter.setLocation(null);
-		}else{
+		} else
+		{
 			assetsFilter.setLocation(filter.getLocation());
 		}
-		
-		if((null != filter.getManageName()) && (filter.getManageName().trim().isEmpty()||AssetsConst.ASSETS_FITER_ALL.equals(filter.getManageName())))
-		{	
+
+		if ((null != filter.getManageName()) && (filter.getManageName().trim().isEmpty() || AssetsConst.ASSETS_FITER_ALL.equals(filter.getManageName())))
+		{
 			assetsFilter.setManageName(null);
-		}else{
+		} else
+		{
 			assetsFilter.setManageName(filter.getManageName());
 		}
-		
+
 		assetsFilter.setPurchaseDate(DateService.stringToDate(filter.getStartPurchaseDate()));
-		assetsFilter.setDueDate(DateService.stringToDate(filter.getStartDueDate()));		
+		assetsFilter.setDueDate(DateService.stringToDate(filter.getStartDueDate()));
 		assetsFilterDate.setPurchaseDate(DateService.stringToDate(filter.getEndPurchaseDate()));
 		assetsFilterDate.setDueDate(DateService.stringToDate(filter.getEndDueDate()));
 
-	    AssetsPageBo assetsPage = new AssetsPageBo();
+		AssetsPageBo assetsPage = new AssetsPageBo();
 
-		int count = assetsDao.getAssetsListByFilterCount(assetsFilter, assetsFilterDate,getDomainFilterByUser(userName));
+		int count = assetsDao.getAssetsListByFilterCount(assetsFilter, assetsFilterDate, getDomainFilterByUser(userName));
 		assetsPage.getPage().setCount(count);
 		assetsPage.getPage().setCurrentPage(filter.getPageNum());
 		List<PhysicalAssetsStatus> assetsList;
-		if(isAll){
-			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate,getDomainFilterByUser(userName),0,count);								
-		}else{
-			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate,getDomainFilterByUser(userName),assetsPage.getPage().getStartNum(),assetsPage.getPage().getPageSize());				
+		if (isAll)
+		{
+			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate, getDomainFilterByUser(userName), 0, count);
+		} else
+		{
+			assetsList = assetsDao.getAssetsListByFilter(assetsFilter, assetsFilterDate, getDomainFilterByUser(userName), assetsPage.getPage().getStartNum(), assetsPage.getPage().getPageSize());
 		}
-	   assetsPage.setAssetsList(ConvertAssetsModel.convertAssetsList(assetsList));
-	   return assetsPage;
+		assetsPage.setAssetsList(ConvertAssetsModel.convertAssetsList(assetsList));
+		return assetsPage;
 	}
-	
+
 	private DomainFilterModel getDomainFilterByUser(String userName)
 	{
 		LoadService service = ServiceContext.getInstance().getLoadService();
 		DomainFilterModel domainFilter = new DomainFilterModel();
-		domainFilter.setDutyList(service.loadDeptInfoByUser(userName,false));
+		domainFilter.setDutyList(service.loadDeptInfoByUser(userName, false));
 		domainFilter.setAssetsTypeList(service.loadAssetsTypeList(userName));
 		domainFilter.setManageList(service.loadManageDeptList(userName, false));
 		return domainFilter;
@@ -169,45 +178,37 @@ public class AssetsManageServiceImpl implements AssetsManageService
 
 	public List<PurchasePlanBo> getPurchaseSumAssetsList(PurchaseAssetsSelectForm form)
 	{
-		if(null == form || null == form.getAssetsIDList() || 0 == form.getAssetsIDList().length)
+		if (null == form || null == form.getAssetsIDList() || 0 == form.getAssetsIDList().length)
 		{
 			log.warn("the form is null");
 			return null;
 		}
- 
-		List<PhysicalAssetsStatus> assetsList =  assetsDao.getAssetsListByAssetsIDList(Arrays.asList(form.getAssetsIDList()));
+
+		List<PhysicalAssetsStatus> assetsList = assetsDao.getAssetsListByAssetsIDList(Arrays.asList(form.getAssetsIDList()));
 
 		return convertAndSumAssets(assetsList);
 	}
 
-
-	
-	
-	
-	public PurchasePlanBo getPurchaseFromList(List<PurchasePlanBo> planList,PurchasePlanBo sumModel)
+	public PurchasePlanBo getPurchaseFromList(List<PurchasePlanBo> planList, PurchasePlanBo sumModel)
 	{
-		for(PurchasePlanBo plan : planList)
+		for (PurchasePlanBo plan : planList)
 		{
-			if(plan.equals(sumModel))
+			if (plan.equals(sumModel))
 			{
 				return plan;
 			}
 		}
 		return null;
 	}
-	
- 
-	
-	
 
 	private List<PurchasePlanBo> convertAndSumAssets(List<PhysicalAssetsStatus> assetsList)
 	{
-		//对资产进行汇总
+		// 对资产进行汇总
 		List<PurchasePlanBo> purchasePlanList;
-		Map<PurchaseSumModel,PurchasePlanBo> purchasePlanMap = new HashMap<PurchaseSumModel,PurchasePlanBo>();
-		
+		Map<PurchaseSumModel, PurchasePlanBo> purchasePlanMap = new HashMap<PurchaseSumModel, PurchasePlanBo>();
+
 		int index = 1;
-		for(PhysicalAssetsStatus assets : assetsList)
+		for (PhysicalAssetsStatus assets : assetsList)
 		{
 			PurchaseSumModel purchaseSumModel = new PurchaseSumModel();
 			purchaseSumModel.setAssetsName(assets.getAssetsName());
@@ -215,54 +216,52 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			purchaseSumModel.setSpec(assets.getSpec());
 			purchaseSumModel.setGasName(assets.getDuty());
 			PurchasePlanBo purchasePlan;
-			if(null != purchasePlanMap.get(purchaseSumModel))
+			if (null != purchasePlanMap.get(purchaseSumModel))
 			{
-			    purchasePlan = purchasePlanMap.get(purchaseSumModel);
-				purchasePlan.getAssetsBo().setQuantity(purchasePlan.getAssetsBo().getQuantity()+1);
+				purchasePlan = purchasePlanMap.get(purchaseSumModel);
+				purchasePlan.getAssetsBo().setQuantity(purchasePlan.getAssetsBo().getQuantity() + 1);
 				purchasePlan.countMoney();
-			}
-			else
+			} else
 			{
 				purchasePlan = new PurchasePlanBo();
 				purchasePlan.setAssetsBo(ConvertAssetsModel.convertAssets(assets));
-				AssetsPrice assetPrice = null; //assetsPriceDao.getBySpec(""); todo
-				if(null == assetPrice)
-				{	
+				AssetsPrice assetPrice = null; // assetsPriceDao.getBySpec(""); todo
+				if (null == assetPrice)
+				{
 					log.warn("the price is null for the stuff" + purchaseSumModel);
 					purchasePlan.setPrice(String.valueOf(assets.getOriginalValue()));
 					purchasePlan.countMoney();
-				}
-				else
+				} else
 				{
 					float price = assetPrice.getPrice();
 					purchasePlan.setPrice(String.valueOf(price));
 					purchasePlan.countMoney();
 				}
-				//set index for page display
+				// set index for page display
 				purchasePlan.setIndex(index);
- 				index++;
+				index++;
 				purchasePlanMap.put(purchaseSumModel, purchasePlan);
-			}	
+			}
 		}
-		purchasePlanList=new ArrayList(purchasePlanMap.values());
+		purchasePlanList = new ArrayList(purchasePlanMap.values());
 		return purchasePlanList;
 	}
 
- 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.AssetsManageService#updateAssetsStatus(cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo)
 	 */
 	@Override
 	public void updateAssets(AssetsInfoBo assetsInfo)
 	{
 		PhysicalAssetsStatus assetsUpdate = assetsDao.getByAssetsID(assetsInfo.getAssets().getAssetsID());
- 
-		if(null == assetsUpdate)
-		{   			
-			 this.createAssetsList(Arrays.asList(assetsInfo));
-		}
-		else
-		{	
+
+		if (null == assetsUpdate)
+		{
+			this.createAssetsList(Arrays.asList(assetsInfo));
+		} else
+		{
 			PhysicalAssetsStatus assets = ConvertAssetsModel.convertAssetsBo(assetsInfo);
 
 			assetsUpdate.setAssetsName(assets.getAssetsName());
@@ -286,85 +285,91 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			assetsUpdate.setCheckDate(assets.getCheckDate());
 			assetsDao.saveOrUpdate(assetsUpdate);
 		}
-		
+
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.AssetsManageService#getAssetsByAssetsIDList(java.util.List)
 	 */
 	@Override
 	public List<AssetsInfoBo> getAssetsByAssetsIDList(String[] assetsIDList)
 	{
-		if((null == assetsIDList) || (assetsIDList.length == 0))
+		if ((null == assetsIDList) || (assetsIDList.length == 0))
 		{
 			log.warn("the assest id list is empty");
 			return null;
 		}
-		List<PhysicalAssetsStatus> assetsList =  assetsDao.getAssetsListByAssetsIDList(Arrays.asList(assetsIDList));
+		List<PhysicalAssetsStatus> assetsList = assetsDao.getAssetsListByAssetsIDList(Arrays.asList(assetsIDList));
 
 		return ConvertAssetsModel.convertAssetsList(assetsList);
 	}
- 
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.AssetsManageService#createAssetsList(java.util.List)
 	 */
 	@Override
 	public void createAssetsList(List<AssetsInfoBo> assetsList)
 	{
-		
-		 List<PhysicalAssetsStatus> physicalAssetsList = new ArrayList<PhysicalAssetsStatus>(); 
-		 for(AssetsInfoBo assets : assetsList)
-		 {
-			 PhysicalAssetsStatus physicalAssets = ConvertAssetsModel.convertAssetsBo(assets);
-			 
-			 String manage = CacheContext.getInstance().getUserCache().getManageByUser(physicalAssets.getDuty());
-			 
-			 assets.getAssets().setManageName(manage);
-			 physicalAssets.setManageName(manage);
- 		 
-			 physicalAssetsList.add(physicalAssets);
-		 }
-		 assetsDao.create(physicalAssetsList);
- 
+
+		List<PhysicalAssetsStatus> physicalAssetsList = new ArrayList<PhysicalAssetsStatus>();
+		for (AssetsInfoBo assets : assetsList)
+		{
+			PhysicalAssetsStatus physicalAssets = ConvertAssetsModel.convertAssetsBo(assets);
+
+			String manage = CacheContext.getInstance().getUserCache().getManageByUser(physicalAssets.getDuty());
+
+			assets.getAssets().setManageName(manage);
+			physicalAssets.setManageName(manage);
+
+			physicalAssetsList.add(physicalAssets);
+		}
+		assetsDao.create(physicalAssetsList);
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.AssetsManageService#getAssetsByAssetID(java.lang.String)
 	 */
 	@Override
 	public AssetsInfoBo getAssetsByAssetID(String assetsID)
 	{
-		PhysicalAssetsStatus assets =assetsDao.getByAssetsID(assetsID);
+		PhysicalAssetsStatus assets = assetsDao.getByAssetsID(assetsID);
 		AssetsInfoBo assetsInfo = new AssetsInfoBo();
-		if(null != assets)
+		if (null != assets)
 		{
 			assetsInfo.setAssets(ConvertAssetsModel.convertAssets(assets));
-		}
-		else
+		} else
 		{
 			log.warn("can not find the assets by assets id" + assetsID);
 			return null;
 		}
 		return assetsInfo;
 	}
-	
-	public AssetsInfoBo getAseestByAssetsIDFromAssetsLIst(List<PhysicalAssetsStatus> assetsStatusList,String assetsID)
+
+	public AssetsInfoBo getAseestByAssetsIDFromAssetsLIst(List<PhysicalAssetsStatus> assetsStatusList, String assetsID)
 	{
 		AssetsInfoBo assets = null;
-		for(PhysicalAssetsStatus physicalAssets : assetsStatusList)
+		for (PhysicalAssetsStatus physicalAssets : assetsStatusList)
 		{
-			if(physicalAssets.getAssetsID().equals(assetsID))
+			if (physicalAssets.getAssetsID().equals(assetsID))
 			{
 				assets = new AssetsInfoBo();
 				assets.setAssets(ConvertAssetsModel.convertAssets(physicalAssets));
 				break;
 			}
 		}
- 		return assets;
+		return assets;
 	}
-	
+
 	public void deleteAssets(AssetsInfoBo assetsInfo)
 	{
-		if(null == assetsInfo)
+		if (null == assetsInfo)
 		{
 			log.warn("the asset info is null");
 		}
@@ -372,326 +377,345 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		assetsDao.delete(assets);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.AssetsManageService#importBasicAssest(java.io.File)
 	 */
 	@Override
 	public void importBasicAssest(File file)
 	{
 		List<PhysicalAssetsStatus> assetsList = ImportBasicDataExcelFile.load(file);
-		
+
 		initManageName(assetsList);
-		
+
 		createAssetsByList(assetsList);
 	}
 
-	private void createAssetsByList(List<PhysicalAssetsStatus> assetsList) {
+	private void createAssetsByList(List<PhysicalAssetsStatus> assetsList)
+	{
 		try
 		{
 			assetsDao.create(assetsList);
-		}
-		catch(Exception e)
+		} catch (Exception e)
 		{
-			log.error("import assets failed.",e);
-			String errMsg =e.getCause().getMessage();
-			String arrStr[] =errMsg.split("'");
-			String errID=null;
-			if(arrStr.length>3){
-				errID=arrStr[1];
+			log.error("import assets failed.", e);
+			String errMsg = e.getCause().getMessage();
+			String arrStr[] = errMsg.split("'");
+			String errID = null;
+			if (arrStr.length > 3)
+			{
+				errID = arrStr[1];
 			}
-			
-			throw new ServiceException(ExceptionMsg.ASSETS_NAME_ISEXIST+"("+errID+")");
+
+			throw new ServiceException(ExceptionMsg.ASSETS_NAME_ISEXIST + "(" + errID + ")");
 		}
 	}
 
-	
-	
-	private void initManageName(List<PhysicalAssetsStatus> assetsList) {
-		
-		for(PhysicalAssetsStatus ast:assetsList){
+	private void initManageName(List<PhysicalAssetsStatus> assetsList)
+	{
+
+		for (PhysicalAssetsStatus ast : assetsList)
+		{
 			ast.setManageName(CacheContext.getInstance().getUserCache().getManageByUser(ast.getDuty()));
-		}			
+		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.AssetsManageService#getUserListByAssestList(java.util.List)
 	 */
 	@Override
 	public List<String> getUserListByAssestList(List<AssetsInfoBo> assetsList)
 	{
-		Set<String> userSet = new HashSet<String>(); 
-		for(AssetsInfoBo assets : assetsList)
+		Set<String> userSet = new HashSet<String>();
+		for (AssetsInfoBo assets : assetsList)
 		{
-			//这里应该取部门对应的用户名,当前部门名称就是用户名， 
+			// 这里应该取部门对应的用户名,当前部门名称就是用户名，
 			userSet.add(assets.getAssets().getDuty());
-		 
+
 		}
- 
-		return  new ArrayList(userSet);
+
+		return new ArrayList(userSet);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.AssetsManageService#getNewAssetsByAssetsID(java.lang.String)
 	 */
 	@Override
 	public AssetsInfoBo getNewAssetsByAssetsID(String assetsID)
 	{
-	   AssetsInfoBo assets = new AssetsInfoBo();
+		AssetsInfoBo assets = new AssetsInfoBo();
 
-	   if(null == assetsID)
-	   {	   
-		 List<String> idList =  ServiceContext.getInstance().getAssetsIDCreateService().createIDList(AssetsConst.ASSETS_DZYH_TYPE, 1);
-		 if(null != idList && !idList.isEmpty())
-		 {
-			 assets.getAssets().setAssetsID(idList.get(0));
-		 }
-		 return assets;
-	   }
-	   if(null == assetsDao.getByAssetsID(assetsID))
-	   {
-		   assets.getAssets().setAssetsID(assetsID);
-		   return assets;
-	   }
-	   else
-	   {
-		   log.warn("the assets id is existed " + assetsID);
-		   throw new ServiceException(ExceptionMsg.ASSETS_ID_ISEXIST);
-	   }
-		
+		if (null == assetsID)
+		{
+			List<String> idList = ServiceContext.getInstance().getAssetsIDCreateService().createIDList(AssetsConst.ASSETS_DZYH_TYPE, 1);
+			if (null != idList && !idList.isEmpty())
+			{
+				assets.getAssets().setAssetsID(idList.get(0));
+			}
+			return assets;
+		}
+		if (null == assetsDao.getByAssetsID(assetsID))
+		{
+			assets.getAssets().setAssetsID(assetsID);
+			return assets;
+		} else
+		{
+			log.warn("the assets id is existed " + assetsID);
+			throw new ServiceException(ExceptionMsg.ASSETS_ID_ISEXIST);
+		}
+
 	}
 
 	/*
 	 * TASK #16 Story93_1: 实现资产的批量增加与修改
+	 * 
 	 * @see cn.tinder.fuego.service.SystemMaintanceService#addBasicAssets(java.io.File)
 	 */
 	@Override
-	public void addBasicAssets(File uploadFile) {
-		List<PhysicalAssetsStatus> assetsList = ImportBasicDataExcelFile.load(uploadFile);		
+	public void addBasicAssets(File uploadFile)
+	{
+		List<PhysicalAssetsStatus> assetsList = ImportBasicDataExcelFile.load(uploadFile);
 		initManageName(assetsList);
-		//处理导入资产的资产ID
-		List<PhysicalAssetsStatus> AssetsCreatedIDList = initAssetsID(assetsList); 
-		//将资产导入系统
+		// 处理导入资产的资产ID
+		List<PhysicalAssetsStatus> AssetsCreatedIDList = initAssetsID(assetsList);
+		// 将资产导入系统
 		createAssetsByList(AssetsCreatedIDList);
 	}
-/**
- * 将列表内的资产按照新增的方式初始化资产ID，如果固定资产已经有ID则不用处理直接保存。
- * @param assetsList
- * @return
- */
-	public  List<PhysicalAssetsStatus> initAssetsID(
-			List<PhysicalAssetsStatus> assetsList) {
+
+	/**
+	 * 将列表内的资产按照新增的方式初始化资产ID，如果固定资产已经有ID则不用处理直接保存。
+	 * 
+	 * @param assetsList
+	 * @return
+	 */
+	public List<PhysicalAssetsStatus> initAssetsID(List<PhysicalAssetsStatus> assetsList)
+	{
 		// TODO Auto-generated method stub
-		//实例化编号服务
+		// 实例化编号服务
 		IDCreateService idCreateService = new AssetsIDCreateServiceImpl();
 		/*
 		 * 统计类别资产出现的数量
 		 */
-		Map<String,Integer> styleNumMap = new HashMap<String,Integer>();
-		
-		for(PhysicalAssetsStatus asset:assetsList){
-			if(
-					//通过逻辑计算得出，ID空||不是固定资产
-					(asset.getAssetsID()==null||asset.getAssetsID().isEmpty())
-					||
-					!asset.getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)	
-			){
-				//排出固定资产已有编号的情况
-				if(styleNumMap.containsKey(asset.getAssetsType())){
-					//已有类型
-					//数量加1
-					styleNumMap.put(asset.getAssetsType(), styleNumMap.get(asset.getAssetsType())+1);
-					
-				}else{
-					//未出现类型
+		Map<String, Integer> styleNumMap = new HashMap<String, Integer>();
+
+		for (PhysicalAssetsStatus asset : assetsList)
+		{
+			if (
+			// 通过逻辑计算得出，ID空||不是固定资产
+			(asset.getAssetsID() == null || asset.getAssetsID().isEmpty()) || !asset.getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE))
+			{
+				// 排出固定资产已有编号的情况
+				if (styleNumMap.containsKey(asset.getAssetsType()))
+				{
+					// 已有类型
+					// 数量加1
+					styleNumMap.put(asset.getAssetsType(), styleNumMap.get(asset.getAssetsType()) + 1);
+
+				} else
+				{
+					// 未出现类型
 					styleNumMap.put(asset.getAssetsType(), 1);
 				}
-			}else{
+			} else
+			{
 				;
 			}
-		}	
-		
-		//根据数量生成编号组
-		
-		Map<String,Iterator<String> > IDMap = new HashMap<String,Iterator<String>>();
-		Set set = styleNumMap.entrySet() ;
+		}
+
+		// 根据数量生成编号组
+
+		Map<String, Iterator<String>> IDMap = new HashMap<String, Iterator<String>>();
+		Set set = styleNumMap.entrySet();
 		java.util.Iterator it = styleNumMap.entrySet().iterator();
-		while(it.hasNext()){
-			java.util.Map.Entry entry = (java.util.Map.Entry)it.next();
-			IDMap.put(
-					(String)entry.getKey(),
-					idCreateService.createIDList((String)entry.getKey(),(Integer)entry.getValue()).iterator());
-		} 
-		
-		
-		//遍历资产更改ID
-		Iterator assetIlerator=assetsList.iterator();
-		while(assetIlerator.hasNext()){
-			PhysicalAssetsStatus ast=(PhysicalAssetsStatus) assetIlerator.next();
-			if(
-				//通过逻辑计算得出，ID空||不是固定资产
-				(ast.getAssetsID()==null||ast.getAssetsID().isEmpty())
-				||
-				!ast.getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)	
-			){
-				//获得新ID
-				ast.setAssetsID( 
-						IDMap.get(ast.getAssetsType()).next()
-						);				
+		while (it.hasNext())
+		{
+			java.util.Map.Entry entry = (java.util.Map.Entry) it.next();
+			IDMap.put((String) entry.getKey(), idCreateService.createIDList((String) entry.getKey(), (Integer) entry.getValue()).iterator());
+		}
+
+		// 遍历资产更改ID
+		Iterator assetIlerator = assetsList.iterator();
+		while (assetIlerator.hasNext())
+		{
+			PhysicalAssetsStatus ast = (PhysicalAssetsStatus) assetIlerator.next();
+			if (
+			// 通过逻辑计算得出，ID空||不是固定资产
+			(ast.getAssetsID() == null || ast.getAssetsID().isEmpty()) || !ast.getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE))
+			{
+				// 获得新ID
+				ast.setAssetsID(IDMap.get(ast.getAssetsType()).next());
 			}
 		}
-			
+
 		return assetsList;
 	}
-	
-
 
 	@Override
-	public void deleteBasicAssets(File uploadFile) {
+	public void deleteBasicAssets(File uploadFile)
+	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void updateBasicAssets(File uploadFile) {
+	public void updateBasicAssets(File uploadFile)
+	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	/**
 	 * TASK #7 #80 资产采购增加配置数量描述信息
 	 */
-	public List<PurchasePlanBo> getRefPurchaseList(String userName,PurchasePlanForm form) {
-		
+	public List<PurchasePlanBo> getRefPurchaseList(String userName, PurchasePlanForm form)
+	{
+
 		/*
 		 * 1.准备Form中的筛选条件
 		 */
 
-		Date 			dueDate;			//截止日期
-		List<String> 	assetsTypeList;		//资产类型列表
-		List<String>	techList;			//资产状态筛选列表 
-		String 			duty;				//责任部门条件
-		String 			manageName;			//经管部条件
-		
-		 
+		Date dueDate; // 截止日期
+		List<String> assetsTypeList; // 资产类型列表
+		List<String> techList; // 资产状态筛选列表
+		List<String> matchAttrList;
+		String duty; // 责任部门条件
+		String manageName; // 经管部条件
+
 		dueDate = DateService.stringToDate(form.getDate());
 
-		if(null == form.getTypeList() || form.getTypeList().length == 0)
+		if (null == form.getTypeList() || form.getTypeList().length == 0)
 		{
 			log.warn("the type list is empty");
 			assetsTypeList = null;
-		}
-		else
+		} else
 		{
 			assetsTypeList = Arrays.asList(form.getTypeList());
 		}
-		if(assetsTypeList.contains(AssetsConst.ASSETS_FITER_ALL))
+		if (assetsTypeList.contains(AssetsConst.ASSETS_FITER_ALL))
 		{
 			assetsTypeList = null;
 		}
-		
-		techList = new ArrayList<String>();
-		techList.add(AssetsConst.ASSETS_STATUS_BAD);
-		techList.add(AssetsConst.ASSETS_STATUS_DISCARD);
-		
-	
-		if(form.getDuty().equals(AssetsConst.ASSETS_FITER_ALL))
+
+		if (null == form.getTechStatusList() || form.getTechStatusList().length == 0)
+		{
+			log.warn("the type list is empty");
+			techList = null;
+		} else
+		{
+			techList = Arrays.asList(form.getTechStatusList());
+		}
+		if (techList.contains(AssetsConst.ASSETS_FITER_ALL))
+		{
+			techList = null;
+		}
+		if (null == form.getMatchAttrList() || form.getMatchAttrList().length == 0)
+		{
+			log.warn("the type list is empty");
+			matchAttrList = null;
+		} else
+		{
+			matchAttrList = Arrays.asList(form.getTechStatusList());
+		}
+
+		if (form.getDuty().equals(AssetsConst.ASSETS_FITER_ALL))
 		{
 			duty = null;
-		}
-		else
+		} else
 		{
 			duty = form.getDuty();
 		}
-		if(form.getManageName().equals(AssetsConst.ASSETS_FITER_ALL))
+		if (form.getManageName().equals(AssetsConst.ASSETS_FITER_ALL))
 		{
 			manageName = null;
-		}
-		else
+		} else
 		{
 			manageName = form.getManageName();
 		}
-		
-		
-		/*
-		 * 获取部门、经管部、资产类型筛选范围内的所有资产
-		 * 相关表申明	
-		 */
-		
-		List<PhysicalAssetsStatus> currentAssetsList; //现有资产总列表（注意：此处不包含对超期日期、资产状态的筛选）
-		List<AssetsQuota> assetsQuotaList;		//现有资产总配置表（注意：此处不包含对超期日期、资产状态的筛选）
-		
-		List<PurchasePlanBo> purchasePlanList;	//需采购资产表
 
-		//总表获取
+		/*
+		 * 获取部门、经管部、资产类型筛选范围内的所有资产 相关表申明
+		 */
+
+		List<PhysicalAssetsStatus> currentAssetsList; // 现有资产总列表（注意：此处不包含对超期日期、资产状态的筛选）
+		List<AssetsQuota> assetsQuotaList; // 现有资产总配置表（注意：此处不包含对超期日期、资产状态的筛选）
+
+		List<PurchasePlanBo> purchasePlanList; // 需采购资产表
+
+		// 总表获取
 		DomainFilterModel domainFilter = getDomainFilterByUser(userName);
-		currentAssetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(DateService.stringToDate(AssetsConst.ASSETS_LARGE_DATE), null, assetsTypeList,duty,manageName,domainFilter);
-		assetsQuotaList = getQuotaListByDutyAndManageName(duty,manageName);
-		
+
 		/*
 		 * 2.通过现有资产匹配出需采购的资产名称的PlanBo。其中包含生成 CQ 、 DQ 的数量
 		 */
-		purchasePlanList=getCurrentList(currentAssetsList,dueDate,assetsTypeList,techList);//获取统计范围内所有资产的数量信息
-		
+		currentAssetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(DateService.stringToDate(AssetsConst.ASSETS_LARGE_DATE), techList, assetsTypeList, duty, manageName, domainFilter);
+
+		purchasePlanList = getCurrentList(currentAssetsList, dueDate, matchAttrList);// 获取统计范围内所有资产的数量信息
+
 		/*
 		 * 3.根据配置表生成采购清单
 		 */
-		purchasePlanList = getPurchasePlanListByCurrentAndQuota(assetsQuotaList,purchasePlanList);
+		assetsQuotaList = getQuotaListByDutyAndManageName(duty, manageName);
+
+		purchasePlanList = getPurchasePlanListByCurrentAndQuota(assetsQuotaList, purchasePlanList);
 
 		/*
 		 * 根据采购清单 计算采购效益金额
 		 */
-		
+
 		countValueMoney(purchasePlanList);
-		
-  		return purchasePlanList;
-		
+
+		return purchasePlanList;
+
 	}
-	
+
 	/**
 	 * 计算效益金额
+	 * 
 	 * @param purchasePlanList
 	 */
-	private void countValueMoney(List<PurchasePlanBo> purchasePlanList) {
-		for(PurchasePlanBo bo:purchasePlanList){
-			if(
-					//如果数据不全，则按照0计算
-					bo.getAssetsBo().getPurchaseDate()==null
-					||
-					bo.getAssetsBo().getOriginalValue()==0
-					||
-					bo.getAssetsBo().getExpectYear()==0
-			){
-				
-				bo.setValueMoney(0) ;
+	private void countValueMoney(List<PurchasePlanBo> purchasePlanList)
+	{
+		for (PurchasePlanBo bo : purchasePlanList)
+		{
+			if (
+			// 如果数据不全，则按照0计算
+			bo.getAssetsBo().getPurchaseDate() == null || bo.getAssetsBo().getOriginalValue() == 0 || bo.getAssetsBo().getExpectYear() == 0)
+			{
+
+				bo.setValueMoney(0);
 			}
 			bo.setValueMoney(ComputeService.cptValueMoney(bo.getAssetsBo().getOriginalValue(), ComputeService.cptUsedYears(bo.getAssetsBo().getPurchaseDate()), bo.getAssetsBo().getExpectYear()));
 		}
-		
+
 	}
 
 	/**
 	 * 匹配建立采购表
+	 * 
 	 * @param assetsQuotaList
 	 * @param purchasePlanList
 	 * @return
 	 */
-	private List<PurchasePlanBo> getPurchasePlanListByCurrentAndQuota(
-			List<AssetsQuota> assetsQuotaList,
-			List<PurchasePlanBo> currentPlanList) {
+	private List<PurchasePlanBo> getPurchasePlanListByCurrentAndQuota(List<AssetsQuota> assetsQuotaList, List<PurchasePlanBo> currentPlanList)
+	{
 		// TODO Auto-generated method stub
-		
+
 		List<PurchasePlanBo> purchasePlanBoList = new ArrayList<PurchasePlanBo>();
-		
-		//生成采购匹配图
-		Map<PurchaseSumModel,PurchasePlanBo> purchasePlanMap = new HashMap<PurchaseSumModel,PurchasePlanBo>();
-		
-	
-		
+
+		// 生成采购匹配图
+		Map<PurchaseSumModel, PurchasePlanBo> purchasePlanMap = new HashMap<PurchaseSumModel, PurchasePlanBo>();
+
 		/*
 		 * 将待匹配数据装入Map
 		 */
-		for(PurchasePlanBo crtPlanBo : currentPlanList){		
+		for (PurchasePlanBo crtPlanBo : currentPlanList)
+		{
 			PurchaseSumModel purchaseSumModel = new PurchaseSumModel();
 			purchaseSumModel.setAssetsName(crtPlanBo.getAssetsBo().getAssetsName());
 			purchaseSumModel.setManufacture(crtPlanBo.getAssetsBo().getManufacture());
@@ -699,242 +723,298 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			purchaseSumModel.setGasName(crtPlanBo.getAssetsBo().getDuty());
 			purchasePlanMap.put(purchaseSumModel, crtPlanBo);
 		}
-		
-		
+
 		/*
 		 * 遍历配置表进行匹配
 		 */
-		
-		
-		for(AssetsQuota quota:assetsQuotaList){
-			
-			//准备匹配模式
+
+		for (AssetsQuota quota : assetsQuotaList)
+		{
+
+			// 准备匹配模式
 			PurchaseSumModel quotaModel = new PurchaseSumModel();
 			quotaModel.setAssetsName(quota.getAssetsName());
 			quotaModel.setManufacture(quota.getManufacture());
 			quotaModel.setSpec(quota.getSpec());
 			quotaModel.setGasName(quota.getDuty());
-			
-			PurchasePlanBo planBo=purchasePlanMap.get(quotaModel);//进行匹配
-			
-			if(null==planBo){
-				//采购表中无配置表内容（此项配置无实物，需采购）
-				planBo = new PurchasePlanBo();	//新建一个PlanBo
-				planBo.setAssetsBo(ConvertAssetsModel.convertAssets(quota));	//将这个Asset 转换为 Bo	
-				
-				assetsPriceInit(quota,  planBo);	//获取价格（价格表/原价格）
+
+			PurchasePlanBo planBo = purchasePlanMap.get(quotaModel);// 进行匹配
+
+			if (null == planBo)
+			{
+				// 采购表中无配置表内容（此项配置无实物，需采购）
+				planBo = new PurchasePlanBo(); // 新建一个PlanBo
+				planBo.setAssetsBo(ConvertAssetsModel.convertAssets(quota)); // 将这个Asset 转换为 Bo
+
+				assetsPriceInit(quota, planBo); // 获取价格（价格表/原价格）
 				/*
 				 * 配置统计计数信息
 				 */
-				computeAssetsQuantityInfo(quota, planBo);	
+				computeAssetsQuantityInfo(quota, planBo);
 				planBo.setQuotaQuantity(quota.getQuantity());
-				int PQ=planBo.getQuotaQuantity()-(planBo.getCurrentQuantity()-planBo.getDisableQuantity());
-				if(PQ>=0){
+				int PQ = planBo.getQuotaQuantity() - (planBo.getCurrentQuantity() - planBo.getDisableQuantity());
+				if (PQ >= 0)
+				{
 					planBo.getAssetsBo().setQuantity(
-							//利用 QQ-(CQ-DQ)计算需采购的数量
-							
-							planBo.getQuotaQuantity()-(planBo.getCurrentQuantity()-planBo.getDisableQuantity())
-					);
-				}else{
+					// 利用 QQ-(CQ-DQ)计算需采购的数量
+
+							planBo.getQuotaQuantity() - (planBo.getCurrentQuantity() - planBo.getDisableQuantity()));
+				} else
+				{
 					planBo.getAssetsBo().setQuantity(0);
 				}
-				
-				planBo.countMoney();//计算总金额
+
+				planBo.countMoney();// 计算总金额
 				purchasePlanMap.put(quotaModel, planBo);
-				
-			}else{
+
+			} else
+			{
 				planBo.setQuotaQuantity(quota.getQuantity());
-				int PQ=planBo.getQuotaQuantity()-(planBo.getCurrentQuantity()-planBo.getDisableQuantity());
-				if(PQ>0){
+				int PQ = planBo.getQuotaQuantity() - (planBo.getCurrentQuantity() - planBo.getDisableQuantity());
+				if (PQ > 0)
+				{
 					planBo.getAssetsBo().setQuantity(
-							//利用 QQ-(CQ-DQ)计算需采购的数量
-							
-							planBo.getQuotaQuantity()-(planBo.getCurrentQuantity()-planBo.getDisableQuantity())
-					);
-				}else{
+					// 利用 QQ-(CQ-DQ)计算需采购的数量
+
+							planBo.getQuotaQuantity() - (planBo.getCurrentQuantity() - planBo.getDisableQuantity()));
+				} else
+				{
 					planBo.getAssetsBo().setQuantity(0);
 				}
-				
-				planBo.countMoney();//计算总金额
+
+				planBo.countMoney();// 计算总金额
 			}
 		}
-		
-		List<PurchasePlanBo> mapList=new ArrayList<PurchasePlanBo>(purchasePlanMap.values());
-		for( PurchasePlanBo bo:mapList){//将Map结果转入List
-			if(bo.getAssetsBo().getQuantity()>0){
+
+		List<PurchasePlanBo> mapList = new ArrayList<PurchasePlanBo>(purchasePlanMap.values());
+		for (PurchasePlanBo bo : mapList)
+		{// 将Map结果转入List
+			if (bo.getAssetsBo().getQuantity() > 0)
+			{
 				purchasePlanBoList.add(bo);
 			}
 		}
 
 		return purchasePlanBoList;
-		
-		
+
 	}
 
-	
-
-
-
-	private void computeAssetsQuantityInfo(AssetsQuota quota,
-			PurchasePlanBo planBo) {
+	private void computeAssetsQuantityInfo(AssetsQuota quota, PurchasePlanBo planBo)
+	{
 		planBo.setQuotaQuantity(quota.getQuantity());
 		planBo.setCurrentQuantity(0);
 		planBo.setDisableQuantity(0);
 	}
 
-	private void assetsPriceInit(AssetsQuota quota, PurchasePlanBo planBo) {
-		AssetsPrice assetPriceModel = setAssetPriceModel(quota.getAssetsName(),quota.getManufacture(),quota.getSpec());    //创建一个价格查询匹配模版			
-		AssetsPrice assetPrice = assetsPriceDao.getByAssetsPrice(assetPriceModel); //通过匹配模版查询资产价格
-		
-		if(null == assetPrice){		//资产无价格的情况用原值进行计算
-			log.warn("the price is null for the stuff" + quota.getAssetsName()+"-"+quota.getManufacture()+"-"+quota.getSpec());
+	private void assetsPriceInit(AssetsQuota quota, PurchasePlanBo planBo)
+	{
+		AssetsPrice assetPriceModel = setAssetPriceModel(quota.getAssetsName(), quota.getManufacture(), quota.getSpec()); // 创建一个价格查询匹配模版
+		AssetsPrice assetPrice = assetsPriceDao.getByAssetsPrice(assetPriceModel); // 通过匹配模版查询资产价格
+
+		if (null == assetPrice)
+		{ // 资产无价格的情况用原值进行计算
+			log.warn("the price is null for the stuff" + quota.getAssetsName() + "-" + quota.getManufacture() + "-" + quota.getSpec());
 			planBo.setPrice("0.0");
-			//purchasePlan.countMoney(); 价格需要在汇总了配置表的情况下计算
-		}
-		else{	//有价格则取价格计算
+			// purchasePlan.countMoney(); 价格需要在汇总了配置表的情况下计算
+		} else
+		{ // 有价格则取价格计算
 			planBo.setPrice(String.valueOf(assetPrice.getPrice()));
-			//purchasePlan.countMoney();  
+			// purchasePlan.countMoney();
 		}
 	}
 
-	private List<AssetsQuota> getQuotaListByDutyAndManageName(String duty,
-			String manageName) {
-		
-		//TODO 增加对经管部的处理
-		
-		List<AssetsQuota> quotaList=null;
-		if(null == duty)	//根据责任部门获取配置表
-		{	
-			quotaList = CacheContext.getInstance().getQuotaCache().getAllQuota();			
-		}
-		else
+	private List<AssetsQuota> getQuotaListByDutyAndManageName(String duty, String manageName)
+	{
+
+		// TODO 增加对经管部的处理
+
+		List<AssetsQuota> quotaList = null;
+		if (null == duty) // 根据责任部门获取配置表
 		{
-			quotaList = CacheContext.getInstance().getQuotaCache().getQuataByDept(duty);			
+			quotaList = CacheContext.getInstance().getQuotaCache().getAllQuota();
+		} else
+		{
+			quotaList = CacheContext.getInstance().getQuotaCache().getQuataByDept(duty);
 		}
-		
+
 		return quotaList;
 	}
 
-
-
 	/**
 	 * 汇总并获取需采购列表的中间态(未和配置表做比较)
+	 * 
 	 * @param currentAssetsList
 	 * @param dueDate
 	 * @param assetsTypeList
 	 * @param techList
 	 * @return
 	 */
-	private List<PurchasePlanBo> getCurrentList(List<PhysicalAssetsStatus> currentAssetsList,
-			Date dueDate, List<String> assetsTypeList, List<String> techList) {
-		
+	private List<PurchasePlanBo> getCurrentList(List<PhysicalAssetsStatus> currentAssetsList, Date dueDate, List<String> matchAttrList)
+	{
+
 		List<PurchasePlanBo> purchasePlanBoList = new ArrayList<PurchasePlanBo>();
-		
-		//匹配模式图
-		Map<PurchaseSumModel,PurchasePlanBo> purchasePlanMap = new HashMap<PurchaseSumModel,PurchasePlanBo>();
-		
-		
+
 		/*
 		 * 遍历现有表
 		 */
-		for(PhysicalAssetsStatus asset : currentAssetsList){
-			
-		
-			//对符合汇总条件的进行
-			
+		for (PhysicalAssetsStatus asset : currentAssetsList)
+		{
+
+			// 对符合汇总条件的进行
+
 			PurchaseSumModel purchaseSumModel = new PurchaseSumModel();
 			purchaseSumModel.setAssetsName(asset.getAssetsName());
 			purchaseSumModel.setManufacture(asset.getManufacture());
 			purchaseSumModel.setSpec(asset.getSpec());
 			purchaseSumModel.setGasName(asset.getDuty());
-			PurchasePlanBo purchasePlan;
-			
-			if(null != purchasePlanMap.get(purchaseSumModel))//汇总表中已有
+
+			PurchasePlanBo purchasePlan = getPurchaseFromListByMatchAttr(purchaseSumModel, purchasePlanBoList, matchAttrList);
+
+			if (null != purchasePlan)// 汇总表中已有
 			{
-			    purchasePlan = purchasePlanMap.get(purchaseSumModel);
 				/*
 				 * 配置统计计数信息
 				 */
-			    computeAssetsQuantityInfo(asset, purchasePlan,dueDate);		
-			    purchasePlan.getAssetsBo().setQuantity(purchasePlan.getDisableQuantity());
-			    purchasePlan.countMoney();
-		
-			}else{	//汇总表中未出现
-				
-				purchasePlan = new PurchasePlanBo();	//新建一个PlanBo
-				purchasePlan.setAssetsBo(ConvertAssetsModel.convertAssets(asset));	//将这个Asset 转换为 Bo	
-				
-				assetsPriceInit(asset,  purchasePlan);	//获取价格（价格表/原价格）
-				/*
-				 * 配置统计计数信息
-				 */
-				computeAssetsQuantityInfo(asset, purchasePlan,dueDate);	
+				computeAssetsQuantityInfo(asset, purchasePlan, dueDate);
 				purchasePlan.getAssetsBo().setQuantity(purchasePlan.getDisableQuantity());
 				purchasePlan.countMoney();
-		
-				purchasePlanMap.put(purchaseSumModel, purchasePlan);
+
+			} else
+			{ // 汇总表中未出现
+
+				purchasePlan = new PurchasePlanBo(); // 新建一个PlanBo
+				purchasePlan.setAssetsBo(ConvertAssetsModel.convertAssets(asset)); // 将这个Asset 转换为 Bo
+
+				assetsPriceInit(asset, purchasePlan); // 获取价格（价格表/原价格）
+				/*
+				 * 配置统计计数信息
+				 */
+				computeAssetsQuantityInfo(asset, purchasePlan, dueDate);
+				purchasePlan.getAssetsBo().setQuantity(purchasePlan.getDisableQuantity());
+				purchasePlan.countMoney();
+
+				// purchasePlanMap.put(purchaseSumModel, purchasePlan);
+				purchasePlanBoList.add(purchasePlan);
 			}
 		}
-		
-		purchasePlanBoList = new ArrayList<PurchasePlanBo>(purchasePlanMap.values());	//将Map结果转入List
-		
-		
-		
+
 		return purchasePlanBoList;
-		
+
 	}
 
-	private void computeAssetsQuantityInfo(PhysicalAssetsStatus asset,
-			PurchasePlanBo purchasePlan,Date dueDate) {
-		//已有数量增加
-		purchasePlan.setCurrentQuantity(purchasePlan.getCurrentQuantity()+asset.getQuantity());
-		//检查资产是否可以正常使用
-		if(!checkFilter(asset,dueDate)){
-			//不可正常使用 计入损坏/待报废/超期资产
-			purchasePlan.setDisableQuantity(purchasePlan.getDisableQuantity()+asset.getQuantity());
-		}
-	}
-
-	private void assetsPriceInit(PhysicalAssetsStatus asset,
-			 PurchasePlanBo purchasePlan) {
-		AssetsPrice assetPriceModel = setAssetPriceModel(asset.getAssetsName(),asset.getManufacture(),asset.getSpec());    //创建一个价格查询匹配模版			
-		AssetsPrice assetPrice = assetsPriceDao.getByAssetsPrice(assetPriceModel); //通过匹配模版查询资产价格
-		
-		if(null == assetPrice){		//资产无价格的情况用原值进行计算
-			log.warn("the price is null for the stuff" + asset.getAssetsName()+"-"+asset.getManufacture()+"-"+asset.getSpec());
-			purchasePlan.setPrice(String.valueOf(asset.getOriginalValue()));
-			//purchasePlan.countMoney(); 价格需要在汇总了配置表的情况下计算
-		}
-		else{	//有价格则取价格计算
-			purchasePlan.setPrice(String.valueOf(assetPrice.getPrice()));
-			//purchasePlan.countMoney();  
-		}
-	}
 	/**
-	 * 通过价格查询模版查询到资产价格
-	 * TODO： 可拓展性，可以通过配置文件获取调节到匹配程度（名称、厂家、型号）
+	 * @param purchaseSumModel
+	 * @param purchasePlanBoList
+	 * @param matchAttrList2
+	 * @return
+	 */
+	private PurchasePlanBo getPurchaseFromListByMatchAttr(PurchaseSumModel purchaseSumModel, List<PurchasePlanBo> purchasePlanBoList, List<String> matchAttrList)
+	{
+ 		for(PurchasePlanBo plan : purchasePlanBoList)
+		{
+			if(isMatch(plan,purchaseSumModel,matchAttrList))
+			{
+				return plan;
+ 			}
+ 
+		}
+		return null;
+	}
+	
+	private boolean isMatch(PurchasePlanBo plan,PurchaseSumModel purchaseSumModel,List<String> matchAttrList)
+	{
+		if(plan.getAssetsBo().getAssetsName().equals(purchaseSumModel.getAssetsName()) && plan.getAssetsBo().getDuty()
+				.equals(purchaseSumModel.getGasName()))
+		{
+			if (matchAttrList.contains(AssetsConst.ATTR_KEY_MANUFACTUR) && matchAttrList.contains(AssetsConst.ATTR_KEY_SPEC))
+			{
+				if(plan.getAssetsBo().getManufacture().equals(purchaseSumModel.getManufacture()) && plan.getAssetsBo().getSpec()
+						.equals(purchaseSumModel.getSpec()))
+				{	
+					return true;
+	
+				}
+			} 
+			else if (matchAttrList.contains(AssetsConst.ATTR_KEY_MANUFACTUR))
+			{
+				if(plan.getAssetsBo().getManufacture().equals(purchaseSumModel.getManufacture()))
+				{	
+					return true;
+	
+				}
+			} 
+			else if (matchAttrList.contains(AssetsConst.ATTR_KEY_SPEC))
+			{
+				if(plan.getAssetsBo().getSpec().equals(purchaseSumModel.getSpec()))
+				{	
+					return true;
+	
+				}
+			} 
+			else
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void computeAssetsQuantityInfo(PhysicalAssetsStatus asset, PurchasePlanBo purchasePlan, Date dueDate)
+	{
+		// 已有数量增加
+		purchasePlan.setCurrentQuantity(purchasePlan.getCurrentQuantity() + asset.getQuantity());
+		// 检查资产是否可以正常使用
+		if (!checkFilter(asset, dueDate))
+		{
+			// 不可正常使用 计入损坏/待报废/超期资产
+			purchasePlan.setDisableQuantity(purchasePlan.getDisableQuantity() + asset.getQuantity());
+		}
+	}
+
+	private void assetsPriceInit(PhysicalAssetsStatus asset, PurchasePlanBo purchasePlan)
+	{
+		AssetsPrice assetPriceModel = setAssetPriceModel(asset.getAssetsName(), asset.getManufacture(), asset.getSpec()); // 创建一个价格查询匹配模版
+		AssetsPrice assetPrice = assetsPriceDao.getByAssetsPrice(assetPriceModel); // 通过匹配模版查询资产价格
+
+		if (null == assetPrice)
+		{ // 资产无价格的情况用原值进行计算
+			log.warn("the price is null for the stuff" + asset.getAssetsName() + "-" + asset.getManufacture() + "-" + asset.getSpec());
+			purchasePlan.setPrice(String.valueOf(asset.getOriginalValue()));
+			// purchasePlan.countMoney(); 价格需要在汇总了配置表的情况下计算
+		} else
+		{ // 有价格则取价格计算
+			purchasePlan.setPrice(String.valueOf(assetPrice.getPrice()));
+			// purchasePlan.countMoney();
+		}
+	}
+
+	/**
+	 * 通过价格查询模版查询到资产价格 TODO： 可拓展性，可以通过配置文件获取调节到匹配程度（名称、厂家、型号）
+	 * 
 	 * @param asset
 	 * @return
 	 */
-	private AssetsPrice setAssetPriceModel(String name,String manufacture,String spec) {
-		
-		AssetsPrice assetsPrice= new AssetsPrice();
+	private AssetsPrice setAssetPriceModel(String name, String manufacture, String spec)
+	{
+
+		AssetsPrice assetsPrice = new AssetsPrice();
 		assetsPrice.setAssetsName(name);
 		assetsPrice.setManufacture(manufacture);
 		assetsPrice.setSpec(spec);
-		
+
 		return assetsPrice;
 	}
 
-	private boolean checkFilter(PhysicalAssetsStatus asset,Date dueDate) {
-		if(AssetsConst.ASSETS_STATUS_BAD.equals(asset.getTechState())||AssetsConst.ASSETS_STATUS_DISCARD.equals(asset.getTechState())){
+	private boolean checkFilter(PhysicalAssetsStatus asset, Date dueDate)
+	{
+		if (AssetsConst.ASSETS_STATUS_BAD.equals(asset.getTechState()) || AssetsConst.ASSETS_STATUS_DISCARD.equals(asset.getTechState()))
+		{
 			return false;
-		}else if(dueDate.after(asset.getDueDate())){
+		} else if (dueDate.after(asset.getDueDate()))
+		{
 			return false;
 		}
 		return true;
 	}
-
-
 
 }

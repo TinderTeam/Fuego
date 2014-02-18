@@ -59,4 +59,8 @@ public class AssetsConst
  
 	  public static String ASSETS_LARGE_DATE = "2099-12-31";
 	  
+	  public static String ATTR_KEY_NAME ="资产名称";
+	  public static String ATTR_KEY_MANUFACTUR ="生产厂家";
+	  public static String ATTR_KEY_SPEC ="规格型号";
+	  
  }
