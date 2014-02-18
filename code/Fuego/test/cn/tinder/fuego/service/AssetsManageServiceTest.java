@@ -72,7 +72,8 @@ public class AssetsManageServiceTest {
 		//断言
 		Map<String,Integer> resultMap = new HashMap();
 		
-		for(PurchasePlanBo bo: resultList){
+		for(PurchasePlanBo bo: resultList)
+		{
 			resultMap.put(bo.getAssetsBo().getAssetsName(), bo.getAssetsBo().getQuantity());			
 		}
 		
@@ -80,11 +81,19 @@ public class AssetsManageServiceTest {
 		assertEquals((Integer)1,resultMap.get("故障的资产")); 
 		assertEquals((Integer)1,resultMap.get("配置表存在的资产")); 
 		
+		//测试之匹配故障资产（按照资产名称匹配）
+		//预期结果：应该有4个实际有2个（一个故障）结果应该有3个
+		assertEquals((Integer)3,resultMap.get("测试之匹配故障资产")); 
+		
+		//测试之按照名称、厂家匹配资产
+		//预期结果：应该有4个实际有2个结果应该有2个
+		assertEquals((Integer)2,resultMap.get("测试名称厂家匹配")); 
 	}
 
 	
 	@BeforeClass
-	public static void beforeTestGetRefPurchaseList() {
+	public static void beforeTestGetRefPurchaseList() 
+	{
 		/*
 		 * 在数据库、配置表中增加测试用资产
 		 * 测试覆盖：
@@ -104,8 +113,17 @@ public class AssetsManageServiceTest {
 		assetsList.add(PhysicalAssetsStatusStub.getBasicAssetWithNameAndStatu("test3", "配置表存在的资产","正常"));
 		quotaList.add(AssetsQuotaStub.getAssetsQuota("配置表存在的资产", "测试生产厂家", "测试技术规格", 3, "测试加油站"));	
 		
+		//测试之匹配故障资产（按照资产名称匹配）
+		//预期结果：应该有4个实际有2个（一个故障）结果应该有3个
+		assetsList.add(PhysicalAssetsStatusStub.getBasicAssetWithNameAndStatu("test4", "测试之匹配故障资产","故障"));
+		assetsList.add(PhysicalAssetsStatusStub.getBasicAssetWithNameAndStatu("test5", "测试之匹配故障资产","正常"));		
+		quotaList.add(AssetsQuotaStub.getAssetsQuota("测试之匹配故障资产", null, null, 4, "测试加油站"));	
 		
-
+		//测试之按照名称、厂家匹配资产
+		//预期结果：应该有4个实际有2个结果应该有2个
+		assetsList.add(PhysicalAssetsStatusStub.getBasicAssetWithNameAndStatu("test6", "测试名称厂家匹配","测试生产厂家",null,"正常"));
+		assetsList.add(PhysicalAssetsStatusStub.getBasicAssetWithNameAndStatu("test7", "测试名称厂家匹配","测试生产厂家","测试规格型号","正常"));		
+		quotaList.add(AssetsQuotaStub.getAssetsQuota("测试名称厂家匹配", null, null, 4, "测试加油站"));	
 		
 		/*
 		 *写入数据库 
@@ -119,11 +137,14 @@ public class AssetsManageServiceTest {
 	
 	
 	@AfterClass
-	public static void afterTestGetRefPurchaseList() {
-		for(PhysicalAssetsStatus asset:assetsList){
+	public static void afterTestGetRefPurchaseList() 
+	{
+		for(PhysicalAssetsStatus asset:assetsList)
+		{
 			assetsDao.delete(asset);
 		}
-		for(AssetsQuota quota:quotaList){
+		for(AssetsQuota quota:quotaList)
+		{
 			assetsQuotaDao.delete(quota);
 		}
 		systemUserDao.delete(SystemUserStub.getGasstationUser());

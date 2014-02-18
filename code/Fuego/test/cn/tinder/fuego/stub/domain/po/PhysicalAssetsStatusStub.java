@@ -47,5 +47,13 @@ public class PhysicalAssetsStatusStub {
 		return asset;
 	}
 	
-
+	public static PhysicalAssetsStatus getBasicAssetWithNameAndStatu(
+			String id,String name,String manufacture,String spec, String status) {
+		PhysicalAssetsStatus asset =getBasicAsset(id);
+		asset.setAssetsName(name);
+		asset.setManufacture(manufacture);
+		asset.setSpec(spec);
+		asset.setTechState(status);
+		return asset;
+	}
 }
