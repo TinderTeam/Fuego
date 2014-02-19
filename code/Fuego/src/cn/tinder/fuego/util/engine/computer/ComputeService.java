@@ -91,8 +91,13 @@ public class ComputeService {
 				int limit=infoBo.getAssets().getExpectYear();
 				//
 				float value=infoBo.getAssets().getOriginalValue();
-
-				infoBo.getExtAttr().setCurrentValue(String.format("%.2f",cptShowValue(pDate,limit,value)));
+				float currentValue=cptShowValue(pDate,limit,value);
+				if(currentValue<0){
+					infoBo.getExtAttr().setCurrentValue(String.format("%.2f",0.0));
+				}else{
+					infoBo.getExtAttr().setCurrentValue(String.format("%.2f",currentValue));						
+				}
+				
 			}catch(RuntimeException ex){
 				//If Err then set value = 0 ;
 				infoBo.getExtAttr().setCurrentValue("0");
