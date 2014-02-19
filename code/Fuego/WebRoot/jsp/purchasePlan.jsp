@@ -52,7 +52,8 @@
 										</div>
 									
 									</div>
- 
+
+		
                                     <div class="control-group">
                                         <label class="control-label">部门</label>
                                         <div class="controls">
@@ -98,7 +99,15 @@
 											</td>
 										</div>
 									</div>
-                                                               
+									<div class="control-group">
+										<label class="control-label">技术状态</label>
+										<div class="controls">
+											<label><input type="checkbox" name="state1" /> 正常</label>
+											<label><input type="checkbox" name="state2" /> 故障</label>
+											<label><input type="checkbox" name="state3" /> 闲置</label>
+											<label><input type="checkbox" name="state4" /> 待报废</label>
+										</div>
+									</div>                                                               
                                     <div class="control-group">
                                         <label class="control-label">采购计划截止时间选择</label>
                                         <div class="controls">
