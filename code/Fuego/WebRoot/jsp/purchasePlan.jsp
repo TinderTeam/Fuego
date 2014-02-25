@@ -86,6 +86,8 @@
 											</td>
 										</div>
                                     </div>
+									
+									
                                     <div class="control-group">
                                         <label class="control-label">经营管理部</label>
                                         <div class="controls">
@@ -102,41 +104,53 @@
 										</div>
                                     </div>
 									<div class="control-group">
+										<label class="control-label">匹配方式</label>
+										<div class="controls">
+											<select multiple="" name = "matchAttrList" style="width:200px">
+												<option id="资产名称" selected="" />资产名称
+												<option id="规格型号"  />规格型号
+												<option id= "生产厂家"/>生产厂家
+											</select>	
+										</div>
+									</div>		
+									<div class="control-group">
 										<label class="control-label">实物资产类型</label>
 										<div class="controls">
 																							
-											<td style="text-align:center">	
-												<select name="typeList"  style="width:200px">
+											
+												<select multiple="" name="typeList"  style="width:200px">
 												
 												    <option selected=""  >全部</option>	
 													<c:forEach var="i" items= "${typeList}"> 																								  
 														<option id="${i}"/>${i}																							
 													</c:forEach>
 												</select>
-											</td>
+	
 										</div>
 									</div>
+			
 									<div class="control-group">
 										<label class="control-label">技术状态</label>
 										<div class="controls">
-											<label><input type="checkbox" name="state1" /> 正常</label>
-											<label><input type="checkbox" name="state2" /> 故障</label>
-											<label><input type="checkbox" name="state3" /> 闲置</label>
-											<label><input type="checkbox" name="state4" /> 待报废</label>
+											<select multiple="" name = "techStatusList" style="width:200px">
+												<option id="正常"/>正常
+												<option id="故障" selected="" />故障
+												<option id= "闲置"/>闲置
+												<option id="待报废" /> 待报废
+											</select>	
 										</div>
-									</div>                                                               
+									</div>		
+																	
                                     <div class="control-group">
                                         
                                         <label class="control-label">采购计划截止时间选择</label>
                                         <div class="controls">
-                                        <label><input type="checkbox" name="choice" value="1" onclick="justify()"/>可选</label>
-                                        
+											<label><input type="checkbox" name="choice" value="1" onclick="justify()"/>可选</label>                                        
                                         </div>
                                         <div class="controls">
                                             <input id="dateInput" type="text" data-date="2013-03-04" data-date-format="yyyy-mm-dd" style="display:none" value="2100-01-01" onfocus="WdatePicker()" name="date" />
                                         </div>
-                                    </div>
-									
+                                    </div>									
 									<div class="form-actions">
 										<button type="submit" class="btn btn-primary" name="submit" value="submit1">生成采购计划参考</button>
 									</div>
