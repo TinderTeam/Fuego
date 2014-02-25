@@ -10,15 +10,32 @@
 <html>
      <script type="text/javascript" src="jsp/My97DatePicker/WdatePicker.js"></script>
  	<jsp:include page="/jsp/cbb/includeCSS.jsp"/>
+ 	
+ 	
 <body>
  
      	<jsp:include page="/jsp/cbb/header.jsp"/>
-    
-		
-            
-		
-		
+    <script type="text/javascript">
+    function justify()
+    {
+    	
+		if(document.getElementById("dateInput").style.display == 'inline')
+		{
+		    document.getElementById("dateInput").style.display="none"; 
 
+		}
+		else
+		{
+		    document.getElementById("dateInput").style.display="inline"; 
+
+		}
+    	  
+    	
+    }
+    
+    </script>
+	    
+		
 		
 		<div id="content">
 
@@ -109,9 +126,14 @@
 										</div>
 									</div>                                                               
                                     <div class="control-group">
+                                        
                                         <label class="control-label">采购计划截止时间选择</label>
                                         <div class="controls">
-                                            <input id="dateInput" type="text" data-date="2013-03-04" data-date-format="yyyy-mm-dd" value="${today}" onfocus="WdatePicker()" name="date"/>
+                                        <label><input type="checkbox" name="choice" value="1" onclick="justify()"/>可选</label>
+                                        
+                                        </div>
+                                        <div class="controls">
+                                            <input id="dateInput" type="text" data-date="2013-03-04" data-date-format="yyyy-mm-dd" style="display:none" value="2100-01-01" onfocus="WdatePicker()" name="date" />
                                         </div>
                                     </div>
 									
