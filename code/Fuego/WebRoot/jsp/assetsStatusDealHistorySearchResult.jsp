@@ -16,13 +16,13 @@
             	
 		<div id="content">
 			<div id="content-header">
-				<h1>Tables</h1>
+				<h1><font  face="微软雅黑">台账操作记录查询</font></h1>
 
 			</div>
 			<div id="breadcrumb">
 				<a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>主页</a>
 				<a href="#" class="current">资产信息查询</a>
-				<a href="#" class="current">台账操作记录查询</a>
+				
 			</div>
 			<div class="container-fluid">
 			<form id="searchForm" action="<%=request.getContextPath()%>/AssetsOperateLog.do"   method="post" >	
