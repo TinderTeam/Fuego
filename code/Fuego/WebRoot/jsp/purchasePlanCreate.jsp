@@ -163,7 +163,6 @@
 
 										</div>
 										<div class="modal-footer">
-											 <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>
 												
 											<button type="submit" class="btn btn-primary" name ="submit" value="addNew">创建资产</button>
 											<a data-dismiss="modal" class="btn" href="#">取消</a>
@@ -179,6 +178,8 @@
 					
 
 								<div class="widget-content">
+								
+									<button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>
 								
 									<button   type="submit"  class="btn btn-success"   name ="submit" value="submit">提交</button>								
 									<a class="btn btn-primary"   href="javascript:history.go(-1);">返回</a>	
