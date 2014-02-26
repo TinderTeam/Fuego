@@ -43,8 +43,8 @@
 												<c:forEach var="i" items= "${page.pages}"> 																								  
 													<option id="${i}"/>${i}																							
 												</c:forEach>
-									 </select>页，共${page.count}条记录							 
-									</div>
+									 </select>页，共${page.count}条记录		
+								 
 							
 							    </div>	
 							<div class="widget-content nopadding" style="overflow-x:auto;height:500px;overflow-y:auto;" >					
@@ -163,6 +163,7 @@
 
 										</div>
 										<div class="modal-footer">
+											 <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>
 												
 											<button type="submit" class="btn btn-primary" name ="submit" value="addNew">创建资产</button>
 											<a data-dismiss="modal" class="btn" href="#">取消</a>
