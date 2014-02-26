@@ -34,6 +34,7 @@ import cn.tinder.fuego.service.IDCreateService;
 import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.cache.CacheContext;
+import cn.tinder.fuego.service.cache.PriceCache;
 import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
@@ -785,7 +786,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 
 		if (null == assetPrice)
 		{ // 资产无价格的情况用原值进行计算
-			log.warn("the price is null for the stuff" + quota.getAssetsName() + "-" + quota.getManufacture() + "-" + quota.getSpec());
+			//log.warn("the price is null for the stuff" + quota.getAssetsName() + "-" + quota.getManufacture() + "-" + quota.getSpec());
 			planBo.setPrice("0.0");
 			// purchasePlan.countMoney(); 价格需要在汇总了配置表的情况下计算
 		} else
@@ -946,11 +947,11 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	private void assetsPriceInit(PhysicalAssetsStatus asset, PurchasePlanBo purchasePlan)
 	{
 		AssetsPrice assetPriceModel = setAssetPriceModel(asset.getAssetsName(), asset.getManufacture(), asset.getSpec()); // 创建一个价格查询匹配模版
-		AssetsPrice assetPrice = assetsPriceDao.getByAssetsPrice(assetPriceModel); // 通过匹配模版查询资产价格
+		AssetsPrice assetPrice = PriceCache.getInstance().getPriceByModel(assetPriceModel); // 通过匹配模版查询资产价格
 
 		if (null == assetPrice)
 		{ // 资产无价格的情况用原值进行计算
-			log.warn("the price is null for the stuff" + asset.getAssetsName() + "-" + asset.getManufacture() + "-" + asset.getSpec());
+			//log.warn("the price is null for the stuff" + asset.getAssetsName() + "-" + asset.getManufacture() + "-" + asset.getSpec());
 			purchasePlan.setPrice(String.valueOf(asset.getOriginalValue()));
 			// purchasePlan.countMoney(); 价格需要在汇总了配置表的情况下计算
 		} else

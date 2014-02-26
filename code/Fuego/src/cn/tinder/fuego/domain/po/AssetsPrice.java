@@ -16,6 +16,49 @@ public class AssetsPrice implements Serializable
 	private String manufacture;
 	private String spec;
 	private float price;
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((assetsName == null) ? 0 : assetsName.hashCode());
+		result = prime * result
+				+ ((manufacture == null) ? 0 : manufacture.hashCode());
+		result = prime * result + ((spec == null) ? 0 : spec.hashCode());
+		return result;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AssetsPrice other = (AssetsPrice) obj;
+		if (assetsName == null) {
+			if (other.assetsName != null)
+				return false;
+		} else if (!assetsName.equals(other.assetsName))
+			return false;
+		if (manufacture == null) {
+			if (other.manufacture != null)
+				return false;
+		} else if (!manufacture.equals(other.manufacture))
+			return false;
+		if (spec == null) {
+			if (other.spec != null)
+				return false;
+		} else if (!spec.equals(other.spec))
+			return false;
+		return true;
+	}
 	/**
 	 * @return the assetsName
 	 */
