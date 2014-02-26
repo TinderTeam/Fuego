@@ -21,7 +21,7 @@ public class PurchasePlanCreateForm extends ActionForm
 	private String newAssetsName;
 	private String typeList;
 	private FormFile myFile;
-
+	private int pageNum;
 	/**
 	 * @return the assetsCreateBo
 	 */
@@ -73,6 +73,16 @@ public class PurchasePlanCreateForm extends ActionForm
 
 	public String getTypeList() {
 		return typeList;
+	}
+
+	public int getPageNum()
+	{
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum)
+	{
+		this.pageNum = pageNum;
 	}
 
 

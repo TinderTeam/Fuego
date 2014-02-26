@@ -128,10 +128,7 @@ public class AssignFile {
             workbook.close();// 关闭workbook，释放内存 ---》一定要释放内存
             modWorkBook.close();
 			
-			
-			
-			
-			
+ 
 		} catch (BiffException e) {
 			// TODO Auto-generated catch block
 			log.error(ExceptionMsg.FILE_ERR,e);

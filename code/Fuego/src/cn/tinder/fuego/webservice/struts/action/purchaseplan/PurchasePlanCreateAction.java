@@ -12,6 +12,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import cn.tinder.fuego.service.LoadService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
@@ -37,61 +38,55 @@ import cn.tinder.fuego.webservice.struts.form.purchase.PurchasePlanCreateForm;
  * @date 2013-9-24 下午08:34:01
  * 
  */
-public class PurchasePlanCreateAction extends Action {
-	private static final Log log = LogFactory
-			.getLog(PurchasePlanCreateAction.class);
+public class PurchasePlanCreateAction extends Action
+{
+	private static final Log log = LogFactory.getLog(PurchasePlanCreateAction.class);
 	// Service
-	ExcelIOService excelIOService = new ExcelIOServiceImpl();
-	FileLoadService fileLoadService = ServiceContext.getInstance()
-			.getFileLoadService();
+	private ExcelIOService excelIOService = new ExcelIOServiceImpl();
+	private FileLoadService fileLoadService = ServiceContext.getInstance().getFileLoadService();
+    private LoadService  loadService = ServiceContext.getInstance().getLoadService();
 
 
 	@Override
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
 
-        log.info(LogKeyConst.INPUT_ACTION);
-        
-    	String nextPage = null;
-    	try
-    	{
-    		nextPage = handle(form,request);
-		} 
-    	catch(ServiceException e)
-    	{
-    		log.warn("opration failed",e);
-    		request.setAttribute(RspBoNameConst.OPERATE_EXCEPION, e.getMessage());
-			nextPage = PageNameConst.ERROR_PAGE; 
-    	}
-    	catch (Exception e)
+		log.info(LogKeyConst.INPUT_ACTION);
+
+		String nextPage = null;
+		try
 		{
-			log.error("system error",e);
-			nextPage = PageNameConst.SYSTEM_ERROR_PAGE; 
+			nextPage = handle(form, request);
+		} catch (ServiceException e)
+		{
+			log.warn("opration failed", e);
+			request.setAttribute(RspBoNameConst.OPERATE_EXCEPION, e.getMessage());
+			nextPage = PageNameConst.ERROR_PAGE;
+		} catch (Exception e)
+		{
+			log.error("system error", e);
+			nextPage = PageNameConst.SYSTEM_ERROR_PAGE;
 		}
 
-        log.info(LogKeyConst.NEXT_PAGE+nextPage);
-        return mapping.findForward(nextPage);	
- 
+		log.info(LogKeyConst.NEXT_PAGE + nextPage);
+		return mapping.findForward(nextPage);
 
 	}
 
-	private String handle(ActionForm form, HttpServletRequest request) {
+	private String handle(ActionForm form, HttpServletRequest request)
+	{
 
 		String pageName = null;
 		// RequestIn
-		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(
-				RspBoNameConst.SYSTEM_USER);
- 
+		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
+
 		if (null == user)
 		{
 			log.error("the user is null");
 			pageName = PageNameConst.LOGIN_PAGE;
 			return pageName;
 		}
-		
-		
-		
+
 		// Form
 		PurchasePlanCreateForm purchasePlanCreateForm = (PurchasePlanCreateForm) form;
 		// Form Empty test
@@ -105,11 +100,9 @@ public class PurchasePlanCreateAction extends Action {
 		{
 			log.info(LogKeyConst.PAGE_FORM + purchasePlanCreateForm.toString());
 		}
-		
 
 		// Para
-		String submitPara = request
-				.getParameter(ParameterConst.SUBMIT_PARA_NAME);
+		String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);
 		if (null == submitPara || submitPara.isEmpty())
 		{
 			log.error("submit is null!!");
@@ -119,92 +112,98 @@ public class PurchasePlanCreateAction extends Action {
 		{
 			log.info(LogKeyConst.SUBMIT_VALUE + submitPara);
 		}
-	
-		
-		
-		
+
 		// RequestIn Session
 		// SessionBo
-		PurchasePlanSessionBo purchasePlanSessionBo = (PurchasePlanSessionBo) request
-				.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
-  
+		PurchasePlanSessionBo purchasePlanSessionBo = (PurchasePlanSessionBo) request.getSession().getAttribute(RspBoNameConst.PURCHASE_PLAN_DATA);
 
-		if (submitPara.equals(ParameterConst.ADD_NEW_PARA_NAME)) {
+		if (submitPara.equals(ParameterConst.ADD_NEW_PARA_NAME))
+		{
 			// submit the plan
 			/*
 			 * submit the plan for ensure!
 			 */
-			PurchasePlanBo newAssets=new PurchasePlanBo();
+			PurchasePlanBo newAssets = new PurchasePlanBo();
 			newAssets.getAssetsBo().setAssetsName(purchasePlanCreateForm.getNewAssetsName());
 			newAssets.getAssetsBo().setDuty(user.getDeptName());
 			newAssets.getAssetsBo().setAssetsType(purchasePlanCreateForm.getTypeList());
 			newAssets.getAssetsBo().setQuantity(1);
 			newAssets.setPrice("0.00");
-			newAssets.setIndex(purchasePlanSessionBo.getPurchasePageBo().getAssetsList().size()+1);
+			newAssets.setIndex(purchasePlanSessionBo.getPurchasePageBo().getAssetsList().size() + 1);
 			purchasePlanSessionBo.getPurchasePageBo().getAssetsList().add(newAssets);
-			log.info(LogKeyConst.SERVICE
-					+ "submit the plan, submit the plan for ensure!");
-			
+			log.info(LogKeyConst.SERVICE + "submit the plan, submit the plan for ensure!");
+
 			/*
 			 * 将人工修改信息更新到Session
 			 */
 			purchasePlanSessionBo.getPurchasePageBo().updateByForm(purchasePlanCreateForm);
-			
-			
-			request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA,purchasePlanSessionBo);
-			
+
+			request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, purchasePlanSessionBo);
+
 			pageName = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
-		} else if (submitPara.equals(ParameterConst.SUBMIT_PARA_NAME)) {
+		} else if (submitPara.equals(ParameterConst.SUBMIT_PARA_NAME))
+		{
 			// submit the plan
 			/*
 			 * submit the plan for ensure!
 			 */
-			log.info(LogKeyConst.SERVICE
-					+ "submit the plan, submit the plan for ensure!");
-			
+			log.info(LogKeyConst.SERVICE + "submit the plan, submit the plan for ensure!");
+
 			/*
 			 * 将人工修改信息更新到Session
 			 */
 			purchasePlanSessionBo.getPurchasePageBo().updateByForm(purchasePlanCreateForm);
-			
-			
-			request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA,purchasePlanSessionBo);
-			
+
+			request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, purchasePlanSessionBo);
+
 			pageName = PageNameConst.PURCHASE_PLAN_ENSURE_ACTION;
-		} else if (submitPara.equals(ParameterConst.REDO_PARA_NAME)) {
+			
+		}
+		else if (submitPara.equals(ParameterConst.PAGECHANGE_PARA_NAME))
+		{
+			purchasePlanSessionBo.getPurchasePageBo().updateByForm(purchasePlanCreateForm);
+
+			purchasePlanSessionBo.getPurchasePageBo().getPage().setCurrentPage(purchasePlanCreateForm.getPageNum());
+
+			request.setAttribute(RspBoNameConst.TYPE_LIST,loadService.loadAssetsTypeList(user.getUserID()));//TypeList
+	    	request.setAttribute(RspBoNameConst.DEPT_INFO_LIST,loadService.loadDeptInfoByUser(user.getUserID(),false));//DeptList
+			request.setAttribute(RspBoNameConst.REF_LIST, purchasePlanSessionBo.getPurchasePageBo().getPage().getCurrentPageData());
+	        pageName = PageNameConst.PURCHASE_PLAN_CREATE_PAGE;
+		}
+		else if (submitPara.equals(ParameterConst.REDO_PARA_NAME))
+		{
 			// ReDo this Page
 			/*
 			 * trans a empty bo;
 			 */
 			log.info(LogKeyConst.SERVICE + "Redo the Page");
 			purchasePlanSessionBo.setPurchasePageBo(new PurchasePageBo());
-			
+
 			pageName = PageNameConst.PURCHASE_PLAN_CREATE_ACTION;
-		} else if (submitPara.equals(ParameterConst.DOWNLOAD_PARA_NAME)) {
- 
-			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE,OutputFileConst.PURCHASE_PLAN_MODE); 
-		
+		} else if (submitPara.equals(ParameterConst.DOWNLOAD_PARA_NAME))
+		{
+
+			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE, OutputFileConst.PURCHASE_PLAN_MODE);
+
 			pageName = PageNameConst.DOWNLOAD_ACTION;
-		} else if (submitPara.equals(ParameterConst.UPLOAD_PARA_NAME)) {
+		} else if (submitPara.equals(ParameterConst.UPLOAD_PARA_NAME))
+		{
 			// UpLoad the Excel File!
 			/*
 			 * 1.upload file 2.jump to ensure Page.
 			 * 
 			 * 上载文件
-			 */			
- 			
-			purchasePlanSessionBo.getPurchasePageBo().setAssetsList(
-					ImportPruchaseExcelFile.load(
-							excelIOService.uploadFile(purchasePlanCreateForm.getMyFile())
-					)
-			);
-			
-			
-			request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA,purchasePlanSessionBo);
+			 */
+
+			purchasePlanSessionBo.getPurchasePageBo().setAssetsList(ImportPruchaseExcelFile.load(excelIOService.uploadFile(purchasePlanCreateForm.getMyFile())));
+
+			request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, purchasePlanSessionBo);
 			pageName = PageNameConst.PURCHASE_PLAN_ENSURE_ACTION;
-		} else if (submitPara.equals(ParameterConst.BACK_PARA_NAME)) {
+		} else if (submitPara.equals(ParameterConst.BACK_PARA_NAME))
+		{
 			pageName = PageNameConst.PURCHASE_PLAN_PAGE_ACTION;
-		}else{
+		} else
+		{
 			pageName = PageNameConst.SYSTEM_ERROR_PAGE;
 		}
 

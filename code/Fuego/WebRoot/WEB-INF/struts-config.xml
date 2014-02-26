@@ -225,6 +225,8 @@
             <forward name="PurchasePlanEnsureInit" path="/PurchasePlanEnsureInit.do"></forward>   
             <forward name="PurchasePlanCreateInit" path="/PurchasePlanCreateInit.do"></forward>  
             <forward name="PurchaseAssetsSelectInit" path="/PurchaseAssetsSelectInit.do"></forward>   
+            <forward name="PurchasePlanCreate" path="/jsp/purchasePlanCreate.jsp"></forward>
+            
             <forward name="DownloadAction" path="/FileDownload.do"></forward>
             <forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	

@@ -35,6 +35,18 @@
 							
 								<h5>定制采购计划</h5>
 							</div>
+							<div class="control-group">
+							<c:set var="page" value="${purchasePlan.purchasePageBo.page}" scope="request"/>
+							
+										                第<select name="pageNum" style = "width:70px" onchange="return assetsPageChange('pageChange')"  >
+												<option id="${page.currentPage}">${page.currentPage}</option>	
+												<c:forEach var="i" items= "${page.pages}"> 																								  
+													<option id="${i}"/>${i}																							
+												</c:forEach>
+									 </select>页，共${page.count}条记录							 
+									</div>
+							
+							    </div>	
 							<div class="widget-content nopadding" style="overflow-x:auto;height:500px;overflow-y:auto;" >					
 								<table class="table table-bordered " >
 									<thead>
