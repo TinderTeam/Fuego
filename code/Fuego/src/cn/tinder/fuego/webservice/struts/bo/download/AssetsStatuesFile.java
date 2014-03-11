@@ -103,7 +103,7 @@ public class AssetsStatuesFile {
             	excelIOimpl.writeLabel(sheet,i+4,8,  DateService.DateToString(DateService.stringToDate(a.get(i).getAssets().getPurchaseDate())));
         
             	excelIOimpl.writeLabel(sheet,i+4,9,String.valueOf( a.get(i).getAssets().getOriginalValue()));
-            	excelIOimpl.writeLabel(sheet,i+4,10, String.format("%.2f",ComputeService.cptValue(
+            	excelIOimpl.writeLabel(sheet,i+4,10, String.format("%.2f",ComputeService.cptShowValue(
             			
             			DateService.stringToDate(a.get(i).getAssets().getPurchaseDate()),
             			a.get(i).getAssets().getExpectYear(),
