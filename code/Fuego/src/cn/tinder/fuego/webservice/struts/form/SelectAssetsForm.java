@@ -25,7 +25,8 @@ import cn.tinder.fuego.webservice.struts.bo.base.AssetsBo;
 public class SelectAssetsForm extends ActionForm
 {
 	private AssetsBo assets = new AssetsBo();
-	String [] assetsIDList ;
+	private String [] assetsIDList ;
+	private int pageNum = 1; //default page 
 	public AssetsBo getAssets()
 	{
 		return assets;
@@ -47,6 +48,14 @@ public class SelectAssetsForm extends ActionForm
 	public void setAssetsIDList(String[] assetsIDList)
 	{
 		this.assetsIDList = assetsIDList;
+	}
+	public int getPageNum()
+	{
+		return pageNum;
+	}
+	public void setPageNum(int pageNum)
+	{
+		this.pageNum = pageNum;
 	}
 
 

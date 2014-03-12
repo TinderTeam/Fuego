@@ -354,6 +354,7 @@
                 type="cn.tinder.fuego.webservice.struts.action.assign.AssignSelectAssetsAction"              
                 name="SelectAssetsForm">          
   			<forward name="AssignCreateInit" path="/AssignCreateInit.do"></forward>
+  			<forward name="AssignSelectAssets" path="/jsp/assign/assignSelectAssets.jsp"></forward>
   			<forward name="Success" path="/jsp/cbb/success.jsp"></forward>
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>		

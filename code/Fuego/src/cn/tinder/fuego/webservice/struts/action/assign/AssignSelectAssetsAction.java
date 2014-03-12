@@ -25,6 +25,7 @@ import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
+import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.assign.AssignPlanBo;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
@@ -76,7 +77,18 @@ public class AssignSelectAssetsAction extends Action
 					plan.getAssetsPage().getAssetsList().addAll(assetsList);
 				}
 			}
-			nextPage = PageNameConst.ASSIGN_CREATE_INIT_ACTION;
+			else if(ParameterConst.PAGECHANGE_PARA_NAME.equals(submitPara))
+			{
+				List<AssetsInfoBo> assetsList = assetsService.getAssetsByDutyDept(plan.getTransInfo().getOutDept());
+				AssetsPageBo selectAssetsPage = new AssetsPageBo();
+				selectAssetsPage.getPage().setAllPageData(assetsList);
+				selectAssetsPage.getPage().setCurrentPage(selectAssetsForm.getPageNum());
+				selectAssetsPage.setAssetsList(selectAssetsPage.getPage().getCurrentPageData());
+				
+				selectAssetsPage.setShowCheckBox(true);
+				request.setAttribute(RspBoNameConst.ASSETS_PAGE_DATA, selectAssetsPage);
+				nextPage = PageNameConst.ASSIGN_SELECT_ASSETS_PAGE;
+			}
 			log.info(selectAssetsForm);
  			
  		}

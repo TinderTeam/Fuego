@@ -45,7 +45,7 @@ public class AssetsPriceDaoImplTest
 	public final void testDelete()
 	{
 		// fail("Not yet implemented"); // TODO
-		ap.setSpec("AAA");
+		ap.setSpec("AAaaA");
 		ap.setPrice(12.0f);
 
 		apdimpl.delete(ap);
