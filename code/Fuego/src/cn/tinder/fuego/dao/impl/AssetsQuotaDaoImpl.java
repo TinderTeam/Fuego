@@ -101,20 +101,41 @@ public class AssetsQuotaDaoImpl implements AssetsQuotaDao
 	 * @see cn.tinder.fuego.dao.AssetsQuotaDao#getByAssetsName(java.lang.String)
 	 */
 	@Override
-	public AssetsQuota getByAssetsName(String assetsname)
+	public List<AssetsQuota> getByFilter(AssetsQuota filter)
 	{
 		// TODO Auto-generated method stub
-		log.debug("[DAO] get the AssetsQuota by Name:" + assetsname);
+		log.debug("[DAO] get the AssetsQuota by filter "  + filter);
 		Session s = null;
 		// Transaction tx = null;
 		// String hql = null;
-		AssetsQuota quota = null;
+		List<AssetsQuota> quota = null;
 		try
 		{
 			s = HibernateUtil.getSession();
 			Criteria c = s.createCriteria(AssetsQuota.class);
-			c.add(Restrictions.eq("assetsName", assetsname));//
-			quota = (AssetsQuota) c.uniqueResult();
+			
+			if(null != filter)
+			{
+				if(null != filter.getAssetsName())
+				{
+					c.add(Restrictions.like("assetsName", "%" + filter.getAssetsName() + "%"));//
+				}
+				if(null != filter.getDuty())
+				{
+					c.add(Restrictions.eq("duty",  filter.getDuty()));//
+				}
+				if(null != filter.getManufacture())
+				{
+					c.add(Restrictions.eq("manufacture",  filter.getManufacture()));//
+				}
+				if(null != filter.getSpec())
+				{
+					c.add(Restrictions.eq("spec",  filter.getSpec()));//
+				}
+
+			}
+
+			quota = c.list();
 		} catch (RuntimeException re)
 		{
 			throw re;

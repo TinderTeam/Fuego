@@ -329,7 +329,7 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
  	
  
  	
- 	public List<PhysicalAssetsStatus> getAssetsListByDateOrStatuListAndTypeList(Date dueDate,List<String> techStatusList,List<String> assetsTypeList,String duty,String manageName,DomainFilterModel domainFilter)
+ 	public List<PhysicalAssetsStatus> getAssetsListByDateOrStatuListAndTypeList(Date dueDate,List<String> techStatusList,List<String> assetsTypeList,String duty,String manageName,String assetsName,DomainFilterModel domainFilter)
 	{
  
 		Session s = null;
@@ -357,7 +357,10 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			{
 				c.add(Restrictions.in("assetsType", assetsTypeList));
 			}
-			
+			if(null != assetsName)
+			{
+				c.add(Restrictions.like("assetsName", "%"+assetsName+"%"));		
+			}
 			if(null != duty)
 			{
 				c.add(Restrictions.eq("duty", duty));

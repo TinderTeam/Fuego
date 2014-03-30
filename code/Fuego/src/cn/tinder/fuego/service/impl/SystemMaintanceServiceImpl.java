@@ -466,7 +466,9 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 		List<AssetsQuota> lsit=readToQuotaList(uploadFile);
 		for(AssetsQuota a:lsit){
 
-			if((assetsQuotaDao.getByAssetsName(a.getAssetsName())).equals(a))
+			List<AssetsQuota> quota = assetsQuotaDao.getByFilter(a);
+
+			if(ValidatorUtil.isEmpty(quota) && quota.contains(a))
 			{
 				assetsQuotaDao.saveOrUpdate(a);	
 				

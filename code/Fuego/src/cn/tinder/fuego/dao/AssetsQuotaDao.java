@@ -16,7 +16,7 @@ public interface AssetsQuotaDao
 	public void delete(AssetsQuota quota);
 
 	// public AssetsQuota find(String assetsname);
-	public AssetsQuota getByAssetsName(String assetsname);
+	public List<AssetsQuota> getByFilter(AssetsQuota filter);
 	
 	public List<AssetsQuota> getByDuty(String duty);
 

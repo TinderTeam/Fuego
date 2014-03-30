@@ -17,6 +17,7 @@ public class PurchasePlanForm extends ActionForm
 
 	private String date;
 	private String duty;
+	private String assetsName;
 	private String manageName;
 	private String[] techStatusList;
 	private String[] matchAttrList;
@@ -68,11 +69,20 @@ public class PurchasePlanForm extends ActionForm
 	{
 		this.matchAttrList = matchAttrList;
 	}
+	
+	public String getAssetsName()
+	{
+		return assetsName;
+	}
+	public void setAssetsName(String assetsName)
+	{
+		this.assetsName = assetsName;
+	}
 	@Override
 	public String toString()
 	{
-		return "PurchasePlanForm [date=" + date + ", duty=" + duty + ", manageName=" + manageName + ", techStatusList=" + Arrays.toString(techStatusList) + ", matchAttrList="
-				+ Arrays.toString(matchAttrList) + ", typeList=" + Arrays.toString(typeList) + "]";
+		return "PurchasePlanForm [date=" + date + ", duty=" + duty + ", assetsName=" + assetsName + ", manageName=" + manageName + ", techStatusList=" + Arrays.toString(techStatusList)
+				+ ", matchAttrList=" + Arrays.toString(matchAttrList) + ", typeList=" + Arrays.toString(typeList) + "]";
 	}
  
 

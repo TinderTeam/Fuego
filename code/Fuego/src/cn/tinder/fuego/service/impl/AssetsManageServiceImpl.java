@@ -42,6 +42,7 @@ import cn.tinder.fuego.service.impl.id.AssetsIDCreateServiceImpl;
 import cn.tinder.fuego.service.model.DomainFilterModel;
 import cn.tinder.fuego.service.model.PurchaseSumModel;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
+import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.util.engine.computer.ComputeService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
@@ -587,6 +588,8 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		List<String> matchAttrList;
 		String duty; // 责任部门条件
 		String manageName; // 经管部条件
+		String assetsName; // 资产名称
+
 
 		dueDate = DateService.stringToDate(form.getDate());
 
@@ -638,7 +641,13 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		{
 			manageName = form.getManageName();
 		}
-
+		if (ValidatorUtil.isEmpty(form.getAssetsName()))
+		{
+			assetsName = null;
+		} else
+		{
+			assetsName = form.getAssetsName();
+		}
 		/*
 		 * 获取部门、经管部、资产类型筛选范围内的所有资产 相关表申明
 		 */
@@ -654,14 +663,14 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		/*
 		 * 2.通过现有资产匹配出需采购的资产名称的PlanBo。其中包含生成 CQ 、 DQ 的数量
 		 */
-		currentAssetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(DateService.stringToDate(AssetsConst.ASSETS_LARGE_DATE), techList, assetsTypeList, duty, manageName, domainFilter);
+		currentAssetsList = assetsDao.getAssetsListByDateOrStatuListAndTypeList(DateService.stringToDate(AssetsConst.ASSETS_LARGE_DATE), techList, assetsTypeList, duty, manageName, assetsName,domainFilter);
 
 		purchasePlanList = getCurrentList(currentAssetsList, dueDate, matchAttrList);// 获取统计范围内所有资产的数量信息
 
 		/*
 		 * 3.根据配置表生成采购清单
 		 */
-		assetsQuotaList = getQuotaListByDutyAndManageName(duty, manageName);
+		assetsQuotaList = getQuotaListByDutyAndManageName(duty, manageName,assetsName);
 
 		purchasePlanList = getPurchasePlanListByCurrentAndQuota(assetsQuotaList, purchasePlanList,matchAttrList);
 
@@ -796,20 +805,18 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		}
 	}
 
-	private List<AssetsQuota> getQuotaListByDutyAndManageName(String duty, String manageName)
+	private List<AssetsQuota> getQuotaListByDutyAndManageName(String duty, String manageName,String assetsName)
 	{
 
 		// TODO 增加对经管部的处理
 
 		List<AssetsQuota> quotaList = null;
-		if (null == duty) // 根据责任部门获取配置表
-		{
-			quotaList = CacheContext.getInstance().getQuotaCache().getAllQuota();
-		} else
-		{
-			quotaList = CacheContext.getInstance().getQuotaCache().getQuataByDept(duty);
-		}
-
+		 
+		AssetsQuota filter = new AssetsQuota();
+		filter.setDuty(duty);
+		filter.setAssetsName(assetsName);
+ 	    quotaList = DaoContext.getInstance().getAssetsQuotaDao().getByFilter(filter);
+ 
 		return quotaList;
 	}
 
