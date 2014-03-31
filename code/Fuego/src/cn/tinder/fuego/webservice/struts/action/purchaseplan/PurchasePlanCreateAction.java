@@ -195,8 +195,10 @@ public class PurchasePlanCreateAction extends Action
 			 * 上载文件
 			 */
 
+			
 			purchasePlanSessionBo.getPurchasePageBo().setAssetsList(ImportPruchaseExcelFile.load(excelIOService.uploadFile(purchasePlanCreateForm.getMyFile())));
-
+			purchasePlanSessionBo.getPurchasePageBo().setDataSource(purchasePlanSessionBo.getPurchasePageBo().getAssetsList());
+		
 			request.getSession().setAttribute(RspBoNameConst.PURCHASE_PLAN_DATA, purchasePlanSessionBo);
 			pageName = PageNameConst.PURCHASE_PLAN_ENSURE_ACTION;
 		} else if (submitPara.equals(ParameterConst.BACK_PARA_NAME))
