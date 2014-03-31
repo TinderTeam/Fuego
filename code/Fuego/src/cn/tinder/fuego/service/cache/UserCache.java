@@ -82,15 +82,15 @@ public class UserCache
 	
 	public List<SystemUser> getUserListByRole(String role)
 	{
-		List<SystemUser> userList = new ArrayList<SystemUser>();
+		List<SystemUser> resultList = new ArrayList<SystemUser>();
 		for(SystemUser user : userList)
 		{
 			if(user.getRole().equals(role))
 			{
-				userList.add(user);
+				resultList.add(user);
 			}
 		}
 		
-		return userList;
+		return resultList;
 	}
 }
