@@ -19,6 +19,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.ServiceContext;
+import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.impl.SystemMaintanceServiceImpl;
 import cn.tinder.fuego.util.constant.LogKeyConst;
@@ -82,7 +83,7 @@ public class SystemParaSetupAction extends Action
        			 
        			serviceImpl.addGasStation(setForm.getGasname(), setForm.getGasname(), setForm.getDept1());
        			
-       			
+       		
   			 	log.info("setup successful");
  	
  			 	nextPage=PageNameConst.SYSTEM_SUCCESS_PAGE ;
@@ -133,7 +134,7 @@ public class SystemParaSetupAction extends Action
         	
     		log.info("[Input]:buttn:保存");
         }
-        
+    	UserCache.getInstance().load();
         request.setAttribute("modifyBo",modifyBo); 
         log.info("[Jump]:NextPage:"+nextPage);
         return mapping.findForward(nextPage);	
