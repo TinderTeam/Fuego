@@ -79,7 +79,8 @@
  	 					         </c:if>
                                 <c:if test="${'view' == pageDisCtr}"> 
 										<button class="btn btn-success"  name="submit" value="view">确定</button>
-										<button class="btn  btn-primary" name="submit" value="download">导出</button>								
+										<button class="btn  btn-primary" name="submit" value="download">导出</button>
+										<a class="btn btn-primary"   href="javascript:history.go(-1);">返回</a>								
  	 							</c:if>
 								</div>
 				</div>	
