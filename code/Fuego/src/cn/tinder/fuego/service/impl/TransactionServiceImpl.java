@@ -512,7 +512,7 @@ public class TransactionServiceImpl implements TransactionService
 	{
 		TransEvent filter1 = new TransEvent();
 		TransEvent filter2 = new TransEvent();
-		filter1.setCreateUser(userID);
+		filter1.setCreateUser(null);
 		if(null  != filter)
 		{
 			filter1.setTransName(filter.getTransName());
