@@ -97,7 +97,7 @@
 											</c:forEach>
 								      </select>页，共${operatPageData.count}条记录
 								    <button id ="pageChange" type="submit" class="btn btn-success" name="submit" value = "pageChange" style="display:none">pageChange</button>
-								     									
+								     <button  type="submit" class="btn btn-success" name="submit" value = "download">导出</button>								
 								</div>
 						 
 							</div>						    
