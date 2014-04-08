@@ -110,7 +110,7 @@ public class OperateRecordDaoImpl implements OperateRecordDao
 		{
 			s = HibernateUtil.getSession();
 			Criteria c = s.createCriteria(OperateRecord.class);
-			c.add(Restrictions.eq("assetsID", assetsid));//
+			c.add(Restrictions.eq("assets.assetsID", assetsid));//
 			record = (OperateRecord) c.uniqueResult();
 		} catch (RuntimeException re)
 		{
@@ -276,11 +276,11 @@ public class OperateRecordDaoImpl implements OperateRecordDao
 			
 			if(null != filter.getAssets().getAssetsID())
 			{
-				c.add(Restrictions.eq("assetsID", filter.getAssets().getAssetsID()));
+				c.add(Restrictions.eq("assets.assetsID", filter.getAssets().getAssetsID()));
 			}
 			if(null != filter.getAssets().getAssetsName())
 			{
-				c.add(Restrictions.like("assetsName", "%"+filter.getAssets().getAssetsName()+"%"));
+				c.add(Restrictions.like("assets.assetsName", "%"+filter.getAssets().getAssetsName()+"%"));
 			}
  
 

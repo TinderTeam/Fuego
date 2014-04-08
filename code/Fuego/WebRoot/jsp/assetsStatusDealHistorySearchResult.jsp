@@ -55,7 +55,7 @@
 									<tbody>
 										<tr>
 										
-											<td style="text-align:center"><input type="text" name="assetsID" value="${searchForm.assetsID}" /></td>
+											<td style="text-align:center"><input type="text" name="userName" value="${searchForm.userName}" /></td>
 											
 											<td style="text-align:center">	
 												<select name="operName" style="width: 200px"  >
