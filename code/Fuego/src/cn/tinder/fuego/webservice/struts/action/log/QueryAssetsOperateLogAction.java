@@ -21,10 +21,14 @@ import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.util.constant.LogKeyConst;
 import cn.tinder.fuego.util.engine.computer.ComputeService;
+import cn.tinder.fuego.util.engine.jxl.ExcelWriter;
+import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
+import cn.tinder.fuego.webservice.struts.bo.download.AssetsStatuesFile;
 import cn.tinder.fuego.webservice.struts.bo.log.AssetsOperateLogBo;
 import cn.tinder.fuego.webservice.struts.bo.page.PageModelBo;
 import cn.tinder.fuego.webservice.struts.bo.search.AssetsStatusSearchInitPageBo;
+import cn.tinder.fuego.webservice.struts.constant.OutputFileConst;
 import cn.tinder.fuego.webservice.struts.constant.PageNameConst;
 import cn.tinder.fuego.webservice.struts.constant.ParameterConst;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
@@ -84,8 +88,8 @@ public class QueryAssetsOperateLogAction extends Action
 	private String handle(ActionForm form, HttpServletRequest request)
 	{
 		//Para
-    	String submitPara = request.getParameter(ParameterConst.PAGE_PARA);   
- 
+    	String submitPara = request.getParameter(ParameterConst.SUBMIT_PARA_NAME);   
+    	String pagePara = request.getParameter(ParameterConst.PAGE_PARA);   
         //PageName
     	String PageName = PageNameConst.ASSETS_OPERATE_LOG_PAGE;
     
@@ -104,8 +108,37 @@ public class QueryAssetsOperateLogAction extends Action
 		request.setAttribute(RspBoNameConst.OPERATE_NAME_LIST,operateNameList);//PageList
 
 		request.setAttribute(RspBoNameConst.SEARCH_FORM,filter);//PageList
+		if(submitPara==null){
+			log.info("Para is " + submitPara);
+		}
+		else if(submitPara.equals(ParameterConst.SUBMIT_PARA_NAME)||submitPara.equals(ParameterConst.PAGECHANGE_PARA_NAME)){
+     		log.info("Para is " + submitPara);
+     		PageModelBo<AssetsOperateLogBo> operateLogPage = logService.getAssetsOperateLog(filter);
+     		request.getSession().setAttribute(RspBoNameConst.OPERATE_LOG_PAGE_DATA, operateLogPage);
+     	}else if(submitPara.equals(ParameterConst.DOWNLOAD_PARA_NAME)){
+			/*
+			 * download	
+			 */
+			log.info("Para is " + submitPara);
+
+
+			PageModelBo<AssetsOperateLogBo> pageBo =(PageModelBo<AssetsOperateLogBo>) request.getSession().getAttribute(RspBoNameConst.OPERATE_LOG_PAGE_DATA);
+			
+			String[] titleName={"操作人","操作时间","操作类型","事务编号",
+					"资产ID","资产名称","资	产来源","生产厂家","规格型号",
+					"单位","数量","采购日期","原值","使用年限",
+					"经管部","责任部门","责任人","","资产类型","存放地点",
+					"技术状态","盘点时间","备注",""};
 		
-		request.setAttribute(RspBoNameConst.OPERATE_LOG_PAGE_DATA, operateLogPage);
+			
+			ExcelWriter downfileWriter= new ExcelWriter(pageBo.getDataList(), titleName,OutputFileConst.ASSETS_STATUES_HISTORY_FILE_PATH);
+			
+			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE,downfileWriter.getWriteFile().getAbsolutePath()); 
+			request.setAttribute(RspBoNameConst.OPERATE_LOG_PAGE_DATA, operateLogPage);
+			PageName = PageNameConst.DOWNLOAD_ACTION;
+		  
+		}
+		
 		
 		return PageName;
 	}

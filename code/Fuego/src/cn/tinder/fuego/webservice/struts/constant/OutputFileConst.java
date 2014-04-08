@@ -35,7 +35,7 @@ public class OutputFileConst {
 	public static final String ASSETS_FIX_FILE_DELETE_MODEL = ConfigInformation.getResourcePath()+ "Model\\AssetsFixDeleteFile.xls";
 	public static final String ASSETS_FIX_FILE_MODEL = ConfigInformation.getResourcePath()+ "Model\\AssetsFixModeFile.xls";
 
-
+	public static final String ASSETS_STATUES_HISTORY_FILE_PATH =ConfigInformation.getResourcePath()+"AssetsStatuesHistory.xls";
 
 	
 	

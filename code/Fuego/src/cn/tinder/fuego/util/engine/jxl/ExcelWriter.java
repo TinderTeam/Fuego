@@ -48,6 +48,24 @@ public class ExcelWriter {
 	
 	private File writeFile;	//File for output 写出的文件
 	
+	/**
+	 * @return the writeFile
+	 */
+	public File getWriteFile()
+	{
+		return writeFile;
+	}
+
+
+	/**
+	 * @param writeFile the writeFile to set
+	 */
+	public void setWriteFile(File writeFile)
+	{
+		this.writeFile = writeFile;
+	}
+
+
 	private Map<ExcelTitleModel,String> lineTitleMap=new HashMap<ExcelTitleModel,String>();	// Map for filter the outputPara and the title 列名-属性对应表
 	
 	private List<ExcelTitleModel>	filedList=new ArrayList<ExcelTitleModel>(); //List for restore the Field order 属性-顺序对用表
@@ -74,7 +92,7 @@ public class ExcelWriter {
 	 * @param titleName
 	 * @param path
 	 */
-	ExcelWriter(List<?> list,String[] titleName,String path){
+	public ExcelWriter(List<?> list,String[] titleName,String path){
 		
 		check(list,titleName,path);
 		/*
@@ -215,12 +233,17 @@ public class ExcelWriter {
 		}else{
 			//不包含子结构,即简单结构，则按照不同的数据类型进行区分
 			Object paraOb= getter(ob,model.getName());
-			
+			if(paraOb==null){
+				log.error(model.getName());
+				return null;
+			}
 			if(paraOb.getClass().equals(Integer.class)){
 				int i = (Integer)paraOb;
 				return String.valueOf(i);
 			}else if(paraOb.getClass().equals(String.class)){
 				return (String)paraOb;
+			}else if(paraOb.getClass().equals(Float.class)){
+				return String.valueOf(paraOb);
 			}else if(paraOb.getClass().equals(Date.class)){
 				return DateService.DateToString((Date)paraOb);
 			}else{
@@ -243,8 +266,8 @@ public class ExcelWriter {
 		int i=count;//从第i列开始（递归用）
 		for (Field field : f) {//获取所有的属性
 			//判断是否为最简单属性（可直接显示的）
-			log.info("-子对象："+field.getName());
-			if(field.getType().equals(Integer.class)||field.getType().equals(Float.class)||field.getType().equals(Date.class)||field.getType().equals(String.class)){
+			log.info("-子对象："+field.getName()+"类型："+field.getType());
+			if(field.getType().toString().equals("int")||field.getType().toString().equals("float")||field.getType().equals(Date.class)||field.getType().equals(String.class)){
 				//为简单属性
 				log.info("为简单对象");
 				if( lineTitleName.length-1<i||lineTitleName[i]==null||lineTitleName[i].isEmpty()){
@@ -268,6 +291,7 @@ public class ExcelWriter {
 			i++;
 			}else{
 				//为一个复杂类，解析该复杂类
+				log.info("-复杂对象："+field.getName()+"类型："+field.getType());
 				i=init(field.getType(),i,field.getName());
 			}
 		
