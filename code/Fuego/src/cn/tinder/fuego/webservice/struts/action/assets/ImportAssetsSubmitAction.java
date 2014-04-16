@@ -18,9 +18,11 @@ import org.hibernate.exception.ConstraintViolationException;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.bo.download.AssetsStatuesFile;
@@ -91,7 +93,16 @@ public class ImportAssetsSubmitAction extends Action
 		{
 
 			plan = (ReceivePlanBo) planService.createPlan(user.getUserID(),assetsManageService.getUserListByAssestList(assetsPage.getAssetsList()));
+			
 			plan.getPlanInfo().setAssetsPage(assetsPage);
+			if(null != assetsPage.getAssetsList())
+			{
+				for(AssetsInfoBo assets : assetsPage.getAssetsList())
+				{
+					assets.getAssets().setTechState(AssetsConst.ASSETS_STATUS_TODO);
+				}
+			}
+
 			try{
 				planService.updatePlan(plan);
 			}

@@ -70,7 +70,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 
 	private PhysicalAssetsStatusDao assetsDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
 	private SystemUserDao userDao = DaoContext.getInstance().getSystemUserDao();
- 
+
 	private int matchAttrList;
 
 	@Override
@@ -179,18 +179,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 		return domainFilter;
 	}
 
-	public List<PurchasePlanBo> getPurchaseSumAssetsList(PurchaseAssetsSelectForm form)
-	{
-		if (null == form || null == form.getAssetsIDList() || 0 == form.getAssetsIDList().length)
-		{
-			log.warn("the form is null");
-			return null;
-		}
-
-		List<PhysicalAssetsStatus> assetsList = assetsDao.getAssetsListByAssetsIDList(Arrays.asList(form.getAssetsIDList()));
-
-		return convertAndSumAssets(assetsList);
-	}
+ 
 
 	public PurchasePlanBo getPurchaseFromList(List<PurchasePlanBo> planList, PurchasePlanBo sumModel)
 	{

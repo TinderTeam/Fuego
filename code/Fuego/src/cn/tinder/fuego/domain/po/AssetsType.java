@@ -122,6 +122,23 @@ public class AssetsType
 				+ "]";
 	}
 
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((attrID == null) ? 0 : attrID.hashCode());
+		result = prime * result + ((attrName == null) ? 0 : attrName.hashCode());
+		result = prime * result + currentID;
+		result = prime * result + ((deptID == null) ? 0 : deptID.hashCode());
+		result = prime * result + ((prefix == null) ? 0 : prefix.hashCode());
+		result = prime * result + ((typeID == null) ? 0 : typeID.hashCode());
+		result = prime * result + ((typeName == null) ? 0 : typeName.hashCode());
+		return result;
+	}
+
+	 
+
  
 	
 

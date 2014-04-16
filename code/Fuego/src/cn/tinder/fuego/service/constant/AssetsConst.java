@@ -39,6 +39,7 @@ public class AssetsConst
 	  public static String ASSETS_STATUS_DISCARD = "待报废";
 	  public static String ASSETS_STATUS_NORMAL = "正常";
 	  public static String ASSETS_STATUS_BAD = "故障";
+	  public static String ASSETS_STATUS_TODO = "未验收";
 	  
 	  public static String CHECK_STATUS_DONE = "盘点无误";
 	  public static String CHECK_STATUS_TODO = "未盘点";

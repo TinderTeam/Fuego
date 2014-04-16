@@ -42,8 +42,7 @@ public interface AssetsManageService
 	
 	public List<AssetsInfoBo> getAssetsByAssetsIDList(String[] assestsList);
 	
-	public List<PurchasePlanBo> getPurchaseSumAssetsList(PurchaseAssetsSelectForm filter);
-
+ 
 	
   	public void updateAssets (AssetsInfoBo assetsInfo);
 	public void deleteAssets(AssetsInfoBo assetsInfo);

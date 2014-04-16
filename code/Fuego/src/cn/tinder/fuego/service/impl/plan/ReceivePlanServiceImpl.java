@@ -35,6 +35,7 @@ import cn.tinder.fuego.domain.po.TransEvent;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.TransPlanService;
+import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.constant.OperateLogConst;
 import cn.tinder.fuego.service.constant.TransactionConst;
 import cn.tinder.fuego.service.exception.ServiceException;
@@ -204,8 +205,7 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		    break;
 		case 1 :
 		    handleUser = transEvent.getHandleUser();
-		    
-
+		    receiveAssets(transEvent);
 		    break;
 		default :
 			handleUser = transEvent.getCreateUser();
@@ -228,7 +228,35 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 		
 		
 	}
+	private void receiveAssets(TransEvent transEvent)
+	{
+		List<ReceivePlan> discardPlanList = receivePlanDao.getByTransID(transEvent.getTransID());
+		List<String> assetsIDList = new ArrayList<String>();
+		for (ReceivePlan assignPlan : discardPlanList)
+		{
+			String assetsID = assignPlan.getAssetsID();
+			assetsIDList.add(assetsID);
 
+		}
+
+		List<PhysicalAssetsStatus> assetsList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
+		for(PhysicalAssetsStatus assets : assetsList)
+		{
+			for(ReceivePlan receivePlan : discardPlanList)
+			{
+				if(receivePlan.getAssetsID().equals(assets.getAssetsID()))
+				{
+					if(receivePlan.getReceiveState().equals(AssetsConst.RECEIVE_STATUS_DONE))
+					{
+						assets.setTechState(AssetsConst.ASSETS_STATUS_NORMAL);
+					}
+				}
+			}
+		}
+		physicalAssetsStatusDao.deleteAssetListsByAssetsIDList(assetsIDList);
+		physicalAssetsStatusDao.create(assetsList);
+ 
+	}
 	/* (non-Javadoc)
 	 * @see cn.tinder.fuego.service.TransPlanService#getPlanByTransID(java.lang.String)
 	 */

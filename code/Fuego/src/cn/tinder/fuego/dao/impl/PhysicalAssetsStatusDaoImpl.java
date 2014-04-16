@@ -22,6 +22,7 @@ import org.hibernate.criterion.Restrictions;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.hibernate.util.HibernateUtil;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
+import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.service.model.DomainFilterModel;
 import cn.tinder.fuego.util.ValidatorUtil;
 
@@ -325,6 +326,9 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			}
 
 		}
+		c.add(Restrictions.ne("techState", AssetsConst.ASSETS_STATUS_TODO));
+
+		
 	}
  	
  
