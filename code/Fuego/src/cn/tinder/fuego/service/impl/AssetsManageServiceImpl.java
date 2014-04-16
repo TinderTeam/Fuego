@@ -45,6 +45,7 @@ import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
 import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.util.engine.computer.ComputeService;
+import cn.tinder.fuego.util.engine.jxl.ExcelReader;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.base.PurchasePlanBo;
@@ -69,7 +70,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 
 	private PhysicalAssetsStatusDao assetsDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
 	private SystemUserDao userDao = DaoContext.getInstance().getSystemUserDao();
-
+ 
 	private int matchAttrList;
 
 	@Override
@@ -560,15 +561,57 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	@Override
 	public void deleteBasicAssets(File uploadFile)
 	{
-		// TODO Auto-generated method stub
+		List<PhysicalAssetsStatus> assetsList = ImportBasicDataExcelFile.load(uploadFile);
+		List<String> assetsID = new ArrayList<String>();
+		
+		ExcelReader reader=new ExcelReader(uploadFile, 2);
+		
+		assetsID =reader.getArrayData().get(0);
 
+	
+		
+	
+		for(PhysicalAssetsStatus assets:assetsList){
+			assetsID.add(assets.getAssetsID());
+		}
+		try
+		{
+			assetsDao.deleteAssetListsByAssetsIDList(assetsID);
+		} catch (Exception e)
+		{
+			log.error("import assets failed.", e);
+			String errMsg = e.getCause().getMessage();
+			String arrStr[] = errMsg.split("'");
+			String errID = null;
+			if (arrStr.length > 3)
+			{
+				errID = arrStr[1];
+			}
+
+			throw new ServiceException(ExceptionMsg.ASSETS_NAME_ISEXIST + "(" + errID + ")");
+		}
 	}
 
 	@Override
 	public void updateBasicAssets(File uploadFile)
 	{
-		// TODO Auto-generated method stub
+		List<PhysicalAssetsStatus> assetsList = ImportBasicDataExcelFile.load(uploadFile);
+		try
+		{
+			assetsDao.updateAssetListsByAssetsIDList(assetsList);
+		} catch (Exception e)
+		{
+			log.error("import assets failed.", e);
+			String errMsg = e.getCause().getMessage();
+			String arrStr[] = errMsg.split("'");
+			String errID = null;
+			if (arrStr.length > 3)
+			{
+				errID = arrStr[1];
+			}
 
+			throw new ServiceException(ExceptionMsg.ASSETS_NAME_ISEXIST + "(" + errID + ")");
+		}
 	}
 
 	@Override

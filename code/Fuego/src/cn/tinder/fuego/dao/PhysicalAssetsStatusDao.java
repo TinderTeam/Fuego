@@ -24,6 +24,8 @@ public interface PhysicalAssetsStatusDao
 	public void delete(PhysicalAssetsStatus status);
 	
 	public void deleteAssetListsByAssetsIDList(List<String> assetsIDList);
+	
+	public void updateAssetListsByAssetsIDList(List<PhysicalAssetsStatus> assetsIDList);
 
 	
 	public PhysicalAssetsStatus getByAssetsID(String assetsid);

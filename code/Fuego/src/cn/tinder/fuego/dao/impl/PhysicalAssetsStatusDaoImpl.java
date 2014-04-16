@@ -434,36 +434,11 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 	}
  	public void deleteAssetListsByAssetsIDList(List<String> assetsIDList)
  	{
-
-		// TODO Auto-generated method stub
-		log.debug("[DAO] Delete the PhysicalAssetsStatus by ID List:" + assetsIDList);
- 
+ 		List<PhysicalAssetsStatus> list = getAssetsListByAssetsIDList(assetsIDList);
+ 		for(PhysicalAssetsStatus assets:list){
+ 			delete(assets);
+ 		}
 		
-		Session session = null;
-		Transaction tx = null;
-		try
-		{
-			session = HibernateUtil.getSession();
-			tx = (Transaction) session.beginTransaction();
-			for(String assetsID : assetsIDList)
-			{
-				Object classObj = session.load(PhysicalAssetsStatus.class, assetsID);
-				session.delete(classObj);
-			}
-
-			tx.commit();
-			
-		} catch (RuntimeException re)
-		{
-			throw re;
-		} finally
-		{
-			//  HibernateUtil.closeSession();
-			if (session != null)
-			{
-				session.close();
-			}
-		}
 	}
 
 	/* (non-Javadoc)
@@ -484,6 +459,39 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 				session.save(assets);
 			}
  			tx.commit();
+			
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			//  HibernateUtil.closeSession();
+			if (session != null)
+			{
+				session.close();
+			}
+		}
+	}
+
+	@Override
+	public void updateAssetListsByAssetsIDList(List<PhysicalAssetsStatus> assetsIDList)
+	{
+		// TODO Auto-generated method stub
+		log.debug("[DAO] Delete the PhysicalAssetsStatus by ID List:" + assetsIDList);
+ 
+		
+		Session session = null;
+		Transaction tx = null;
+		try
+		{
+			session = HibernateUtil.getSession();
+			tx = (Transaction) session.beginTransaction();
+			for(PhysicalAssetsStatus assets : assetsIDList) 
+			{				
+				session.update(assets);
+			}
+
+			tx.commit();
 			
 		} catch (RuntimeException re)
 		{

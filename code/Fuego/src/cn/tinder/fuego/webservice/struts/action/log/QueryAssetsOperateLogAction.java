@@ -113,7 +113,7 @@ public class QueryAssetsOperateLogAction extends Action
 		}
 		else if(submitPara.equals(ParameterConst.SUBMIT_PARA_NAME)||submitPara.equals(ParameterConst.PAGECHANGE_PARA_NAME)){
      		log.info("Para is " + submitPara);
-     		PageModelBo<AssetsOperateLogBo> operateLogPage = logService.getAssetsOperateLog(filter);
+     		operateLogPage = logService.getAssetsOperateLog(filter);
      		request.getSession().setAttribute(RspBoNameConst.OPERATE_LOG_PAGE_DATA, operateLogPage);
      	}else if(submitPara.equals(ParameterConst.DOWNLOAD_PARA_NAME)){
 			/*
