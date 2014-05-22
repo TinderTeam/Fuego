@@ -56,7 +56,7 @@ public class AssetsQuotaDaoImplTest
 	{
 		// fail("Not yet implemented"); // TODO
 		aq.setAssetsName("油箱");
-		System.out.println(aqdi.getByAssetsName("油箱"));
+		//System.out.println(aqdi.getByAssetsName("油箱"));
 
 	}
 

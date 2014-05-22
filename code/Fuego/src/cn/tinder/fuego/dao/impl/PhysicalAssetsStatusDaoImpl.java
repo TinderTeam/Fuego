@@ -167,6 +167,8 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 
 			Criteria c = s.createCriteria(PhysicalAssetsStatus.class);
 			c.add(Restrictions.eq("duty", dutyDept));
+			c.add(Restrictions.ne("techState", AssetsConst.ASSETS_STATUS_TODO));
+
 			status = c.list();
 
 		} catch (RuntimeException re)
@@ -438,11 +440,36 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 	}
  	public void deleteAssetListsByAssetsIDList(List<String> assetsIDList)
  	{
- 		List<PhysicalAssetsStatus> list = getAssetsListByAssetsIDList(assetsIDList);
- 		for(PhysicalAssetsStatus assets:list){
- 			delete(assets);
- 		}
+
+		// TODO Auto-generated method stub
+		log.debug("[DAO] Delete the PhysicalAssetsStatus by ID List:" + assetsIDList);
+ 
 		
+		Session session = null;
+		Transaction tx = null;
+		try
+		{
+			session = HibernateUtil.getSession();
+			tx = (Transaction) session.beginTransaction();
+			for(String assetsID : assetsIDList)
+			{
+				Object classObj = session.load(PhysicalAssetsStatus.class, assetsID);
+				session.delete(classObj);
+			}
+
+			tx.commit();
+			
+		} catch (RuntimeException re)
+		{
+			throw re;
+		} finally
+		{
+			//  HibernateUtil.closeSession();
+			if (session != null)
+			{
+				session.close();
+			}
+		}
 	}
 
 	/* (non-Javadoc)
