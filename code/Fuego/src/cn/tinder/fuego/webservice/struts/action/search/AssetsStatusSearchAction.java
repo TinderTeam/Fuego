@@ -111,16 +111,8 @@ public class AssetsStatusSearchAction extends Action
 			 * download	
 			 */
 			log.info("Para is " + submitPara);
-			
-			
-			searchForm = (AssetsFilterForm) form;
-			
 
-			AssetsPageBo  assetsPageBo= assetsManageService.getAssetsByFilter(user.getUserID(),searchForm,true);
-			
-			AssetsStatuesFile downfile= new AssetsStatuesFile(assetsPageBo);
-			
-			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE,downfile.getFile().getAbsolutePath()); 
+			request.setAttribute(RspBoNameConst.DOWN_LOAD_FILE,(String)request.getSession().getAttribute(RspBoNameConst.DOWN_LOAD_FILE)); 
 			
 			PageName = PageNameConst.DOWNLOAD_ACTION;
 		  

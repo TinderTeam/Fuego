@@ -957,7 +957,14 @@
 			<forward name="Error" path="/jsp/cbb/error.jsp"></forward>	
 			<forward name="SystemError" path="/jsp/cbb/systemError.jsp"></forward>					
        	</action>          	  	       	
-       	  	       	
+       	  	  
+       	  	  
+        <action path="/serachDownloadAjax"
+               type="cn.tinder.fuego.webservice.struts.action.search.SerachDownloadAjaxAction"
+               name="AssetsFilterForm"
+               >    
+               <forward name="Error" path="/jsp/cbb/error.jsp"></forward>	      		
+       	</action>       	
 
        </action-mappings>   	
       

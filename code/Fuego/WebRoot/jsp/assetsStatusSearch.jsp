@@ -13,8 +13,79 @@
 
 	<script type="text/javascript" src="jsp/My97DatePicker/WdatePicker.js"></script>
 	
- 	<jsp:include page="/jsp/cbb/includeCSS.jsp"/>
+	<script type="text/javascript">
+	function downloadinit(){
+		var btn = document.getElementById('downloadbutton'); 
+			btn.innerHTML="处理中...";
+			btn.className="btn btn-warning"
+			
+			
+		var assetsID = document.getElementById('assetsID').value;
+		var assetsName = document.getElementById('assetsName').value;
+		<!---select--->
+		var s_duty= document.getElementById('duty');
+		var duty= s_duty.options[s_duty.selectedIndex].value;
+			
+		<!---select--->
+		var s_assetsType= document.getElementById('assetsType');
+		var assetsType= s_assetsType.options[s_assetsType.selectedIndex].value;
+	
+		<!---select--->
+		var s_manageName= document.getElementById('manageName');
+		var manageName= s_manageName.options[s_manageName.selectedIndex].value;
+		
+		var location = document.getElementById('location').value;
 
+		<!---select--->
+		var s_techSeate= document.getElementById('techSeate');
+		var techSeate= s_techSeate.options[s_techSeate.selectedIndex].value;
+		
+		
+		var startPurchaseDate = document.getElementById('startPurchaseDate').value;
+		var endPurchaseDate = document.getElementById('endPurchaseDate').value;
+		var startDueDate = document.getElementById('startDueDate').value;		
+		var endDueDate = document.getElementById('endDueDate').value;
+		
+		$.ajax({  
+			url:  "serachDownloadAjax.do", 
+			dataType:"html",
+			data:{
+				assetsID:assetsID,
+				assetsName:assetsName,
+				duty:duty,
+				manageName:manageName,
+				location:location,
+				assetsType:assetsType,
+				techSeate:techSeate,
+				startPurchaseDate:startPurchaseDate,
+				endPurchaseDate:endPurchaseDate,
+				startDueDate:startDueDate,
+				endDueDate:endDueDate
+			},
+			success: function (data) { 
+				buttonShow(); 
+				
+			}, 
+			error: function (XMLHttpRequest, textStatus, errorThrown) { 
+				alert(errorThrown); 
+			} 
+		});		
+	}
+		
+	</script>
+	
+	<script type="text/javascript">
+		function buttonShow() {
+			var btn = document.getElementById('downloadbutton');
+			btn.innerHTML="下载" ;
+			btn.className="btn btn-success"
+			btn.disabled=false;
+			
+		}
+	</script>
+	
+ 	<jsp:include page="/jsp/cbb/includeCSS.jsp"/>
+	
 	
 
 <body>
@@ -87,11 +158,11 @@
 									<tbody>
 										<tr>
 										
-											<td style="text-align:center"><input type="text" name="assetsID" value="${searchForm.assetsID}" /></td>
-											<td style="text-align:center"><input type="text" name="assetsName" value="${searchForm.assetsName}" /></td>
+											<td style="text-align:center"><input id="assetsID" type="text" name="assetsID" value="${searchForm.assetsID}" /></td>
+											<td style="text-align:center"><input id="assetsName" type="text" name="assetsName" value="${searchForm.assetsName}" /></td>
 											
 											<td style="text-align:center">	
-												<select name="duty" style="width: 200px"  >
+												<select id="duty" name="duty" style="width: 200px"  >
 													<c:forEach var="i" items= "${deptList}"> 																								  
 												      <c:choose>
 														  <c:when test="${searchForm.duty == i}">
@@ -106,7 +177,7 @@
 												</select>
 											</td>
 											<td style="text-align:center">	
-												<select name="assetsType"  style="width:200px">
+												<select id="assetsType" name="assetsType"  style="width:200px">
 												
 												    <option selected=""  >全部</option>	
 													<c:forEach var="i" items= "${typeList}"> 																								  
@@ -115,7 +186,7 @@
 												</select>
 											</td>
 								 			<td style="text-align:center">
-                                               <select name="manageName" style="width: 200px"  >
+                                               <select id="manageName"  name="manageName" style="width: 200px"  >
 													<c:forEach var="i" items= "${manageDeptList}"> 																								  
 												      <c:choose>
 														  <c:when test="${searchForm.manageName == i}">
@@ -130,9 +201,9 @@
 												</select>		
 												</td>
 											
-											<td style="text-align:center"><input type="text" name="location"/></td>
+											<td style="text-align:center"><input id="location" type="text" name="location"/></td>
 											<td style="text-align:center">	
-												<select name="techState">
+												<select id="techSeate" name="techState">
 												
 												<option selected=""  >全部</option>	
 													<c:forEach var="i" items= "${techList}"> 																								  
@@ -168,7 +239,7 @@
 											
 											<td     style="text-align:center" >
 											
-												<input  type="text"  data-date="" data-date-format="yyyy-mm-dd" value="1900-01-01" onfocus="WdatePicker()" name="startPurchaseDate" />					
+												<input id="startPurchaseDate"  type="text"  data-date="" data-date-format="yyyy-mm-dd" value="1900-01-01" onFocus="WdatePicker()" name="startPurchaseDate" />					
 											</td>
 											
 											<td>
@@ -176,12 +247,12 @@
 											</td>
 									
 											<td style="text-align:center">	
-												<input  type="text"  data-date="" data-date-format="yyyy-mm-dd" value="2100-01-01" onfocus="WdatePicker()" name="endPurchaseDate" />
+												<input id="endPurchaseDate"  type="text"  data-date="" data-date-format="yyyy-mm-dd" value="2100-01-01" onFocus="WdatePicker()" name="endPurchaseDate" />
 											</td>
 											
 										
 											<td style="text-align:center">
-												<input type="text" data-date="" data-date-format="yyyy-mm-dd" value="1900-01-01" onfocus="WdatePicker()" name="startDueDate" />													
+												<input id="startDueDate" type="text" data-date="" data-date-format="yyyy-mm-dd" value="1900-01-01" onFocus="WdatePicker()" name="startDueDate" />													
 											</td>
 											
 											<td>
@@ -190,7 +261,7 @@
 											
 									
 											<td style="text-align:center">
-												<input type="text" data-date="" data-date-format="yyyy-mm-dd" value="2100-01-01" onfocus="WdatePicker()" name="endDueDate" />
+												<input id="endDueDate" type="text" data-date="" data-date-format="yyyy-mm-dd" value="2100-01-01" onFocus="WdatePicker()" name="endDueDate" />
 											
 											</td>
 										</tr>
@@ -208,8 +279,10 @@
 								<div class="control-group">
 									
 									<button  type="submit" class="btn btn-success" name="submit" value = "submit">查询</button>
-									<button type="submit" class="btn btn-success" name="submit" value = "download">导出</button>
-																		
+									
+									<input  type="button"  class="btn btn-success" onclick="downloadinit()"  value="导出数据" />		
+									<button  id="downloadbutton" type="submit" class="btn btn-success" name="submit" value = "download" disabled="true">下载</button>
+
 								</div>
 				
 							</div>						    

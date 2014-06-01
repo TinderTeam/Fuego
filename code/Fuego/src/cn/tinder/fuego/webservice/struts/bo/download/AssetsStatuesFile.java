@@ -91,7 +91,7 @@ public class AssetsStatuesFile {
             excelIOimpl.writeLabel(sheet,2,2, DateService.DateToLongString(date));
             
             List<AssetsInfoBo> a =assetsPageBo.getAssetsList();
-            log.info("List的数据："+a.size());
+            //log.info("List的数据："+a.size());
             for(int i=0; i<a.size();i++){
             	excelIOimpl.writeLabel(sheet,i+4,1, a.get(i).getAssets().getAssetsID());
             	excelIOimpl.writeLabel(sheet,i+4,2, a.get(i).getAssets().getAssetsName());
