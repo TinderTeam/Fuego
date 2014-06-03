@@ -64,5 +64,9 @@ public class QuotaCache
 		}
 		return quotaList;
 	}
+	public static void reCatch()
+	{
+		instance = new QuotaCache();
+	}
 	
 }

@@ -13,6 +13,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.ServiceContext;
+import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.sys.SystemParaService;
 import cn.tinder.fuego.util.constant.LogKeyConst;
@@ -74,6 +75,7 @@ public class UserPasswordSetupAction extends Action
         			 	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER,user);
         			 	log.info("setup successful");
         			 	request.setAttribute(RspBoNameConst.LOGIN_EXCEPTION,"密码修改成功，请重新登录！");
+        			 	CacheContext.reCatchInstance();
         			 	nextpage= PageNameConst.LOGIN_PAGE ;
         			 	return mapping.findForward(nextpage);
         		 }catch(ServiceException e){

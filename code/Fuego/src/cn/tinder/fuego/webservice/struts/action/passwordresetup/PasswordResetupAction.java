@@ -13,6 +13,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.ServiceContext;
+import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.sys.SystemParaService;
 import cn.tinder.fuego.util.constant.LogKeyConst;
@@ -62,7 +63,7 @@ public class PasswordResetupAction extends Action
 		{
    		  try{
 			 	systemParaService.resetPassword(pdForm, user);
-			 		
+			 	CacheContext.reCatchInstance();
 			 	log.info("Resetup successful");
 			 	//request.setAttribute(RspBoNameConst.LOGIN_EXCEPTION,"密码重置成功，请重新登录！");
 			 	nextpage= PageNameConst.SYSTEM_SUCCESS_PAGE ;

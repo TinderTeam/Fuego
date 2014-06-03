@@ -32,6 +32,10 @@ public class UserCache
 	private static UserCache  instance = null;
 	private List<SystemUser> userList = null;
 	
+	public static void reCatch(){
+		instance = new UserCache();
+	}
+	
 	private UserCache()
 	{
 		load();

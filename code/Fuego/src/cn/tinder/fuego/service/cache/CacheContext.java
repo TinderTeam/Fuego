@@ -35,4 +35,14 @@ public class CacheContext
 	{
 		return AssetsTypeParaCache.getInstance();
 	}
+	
+	public static synchronized CacheContext reCatchInstance()
+	{
+		
+		instance = new CacheContext();
+		UserCache.reCatch();
+		QuotaCache.reCatch();
+		AssetsTypeParaCache.reCatch();
+		return instance;
+	}
 }

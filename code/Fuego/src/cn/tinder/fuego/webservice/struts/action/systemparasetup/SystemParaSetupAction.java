@@ -19,6 +19,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import cn.tinder.fuego.service.ServiceContext;
+import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.cache.UserCache;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.impl.SystemMaintanceServiceImpl;
@@ -83,7 +84,7 @@ public class SystemParaSetupAction extends Action
        			 
        			serviceImpl.addGasStation(setForm.getGasname(), setForm.getGasname(), setForm.getDept1());
        			
-       		
+       			CacheContext.reCatchInstance();
   			 	log.info("setup successful");
  	
  			 	nextPage=PageNameConst.SYSTEM_SUCCESS_PAGE ;
