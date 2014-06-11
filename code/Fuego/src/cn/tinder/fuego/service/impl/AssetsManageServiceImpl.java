@@ -391,16 +391,28 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			assetsDao.create(assetsList);
 		} catch (Exception e)
 		{
-			log.error("import assets failed.", e);
-			String errMsg = e.getCause().getMessage();
-			String arrStr[] = errMsg.split("'");
-			String errID = null;
-			if (arrStr.length > 3)
-			{
-				errID = arrStr[1];
+			String errMsg = e.getMessage();
+			log.info(errMsg);
+			String errMsgHead=errMsg.split(":")[0];
+			
+			
+			
+			if(errMsgHead.equals("a different object with the same identifier value was already associated with the session")){
+				throw new ServiceException(ExceptionMsg.EXCEL_DATA_DUPLICATED);
+			}else if(errMsgHead.equals("Could not execute JDBC batch update")){
+				String deperrMsg = e.getCause().getMessage();
+				String arrStr[] = deperrMsg.split("'");
+				String errID = null;
+				if (arrStr.length > 3)
+				{
+					errID = arrStr[1];
+				}
+				throw new ServiceException(ExceptionMsg.ASSETS_NAME_ISEXIST + "(" + errID + ")");
+			}else{
+				log.error(errMsg);
+				throw new ServiceException(errMsg);				
 			}
-
-			throw new ServiceException(ExceptionMsg.ASSETS_NAME_ISEXIST + "(" + errID + ")");
+	
 		}
 	}
 
@@ -570,6 +582,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			if(errMsgHead.equals("No row with the given identifier exists")){
 				throw new ServiceException(ExceptionMsg.DATA_NOTEXIST);
 			}else{
+				log.error(errMsg);
 				throw new ServiceException(errMsg);
 			}
 		}
@@ -585,16 +598,27 @@ public class AssetsManageServiceImpl implements AssetsManageService
 			assetsDao.updateAssetListsByAssetsIDList(assetsList);
 		} catch (Exception e)
 		{
-			log.error("import assets failed.", e);
-			String errMsg = e.getCause().getMessage();
-			String arrStr[] = errMsg.split("'");
-			String errID = null;
-			if (arrStr.length > 3)
-			{
-				errID = arrStr[1];
-			}
-
-			throw new ServiceException(ExceptionMsg.ASSETS_NAME_ISEXIST + "(" + errID + ")");
+		
+				String errMsg = e.getMessage();
+				log.info(errMsg);
+				String errMsgHead=errMsg.split(":")[0];
+				
+				
+				
+				if(errMsgHead.equals("a different object with the same identifier value was already associated with the session")){
+					throw new ServiceException(ExceptionMsg.EXCEL_DATA_DUPLICATED);
+				}else if(errMsgHead.equals("Could not execute JDBC batch update")){
+					String deperrMsg = e.getCause().getMessage();
+					String arrStr[] = deperrMsg.split("'");
+					String errID = null;
+					{
+						errID = arrStr[1];
+					}
+					throw new ServiceException(ExceptionMsg.ASSETS_NAME_ISEXIST + "(" + errID + ")");
+				}else{
+					log.error(errMsg);
+					throw new ServiceException(errMsg);				
+				}
 		}
 	}
 

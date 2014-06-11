@@ -48,5 +48,6 @@ public class ExceptionMsg
 	public static final String EXCELSHEET_ISNULL = "EXCEL表格中没有SHEET";
 	
 	public static final String DATA_NOTEXIST = "需要操作的资产ID不存在";
+	public static final String EXCEL_DATA_DUPLICATED = "导入数据中存在资产ID重复";
 
 }
