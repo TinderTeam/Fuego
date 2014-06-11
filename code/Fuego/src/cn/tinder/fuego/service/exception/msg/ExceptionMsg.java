@@ -49,5 +49,6 @@ public class ExceptionMsg
 	
 	public static final String DATA_NOTEXIST = "需要操作的资产ID不存在";
 	public static final String EXCEL_DATA_DUPLICATED = "导入数据中存在资产ID重复";
+	public static final Object EXCEL_FORMAL_ERR = "导入的Excel文件格式或数据格式有误";
 
 }

@@ -17,6 +17,7 @@ import org.apache.struts.action.ActionMapping;
 import cn.tinder.fuego.service.AssetsManageService;
 import cn.tinder.fuego.service.ServiceContext;
 import cn.tinder.fuego.service.exception.ServiceException;
+import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
 import cn.tinder.fuego.service.sys.FileLoadService;
 import cn.tinder.fuego.service.util.ExcelIOService;
@@ -71,8 +72,17 @@ public class ImportAssetsAction extends Action
     	}
     	catch (Exception e)
 		{
-			log.error("system error",e);
-			nextPage = PageNameConst.SYSTEM_ERROR_PAGE; 
+    		String errMsg = e.getMessage();
+			log.info(errMsg);
+			String errMsgHead=errMsg.split(":")[0];
+    		if(errMsgHead.contains("jxl.biff")){
+    			request.setAttribute(RspBoNameConst.OPERATE_EXCEPION, ExceptionMsg.EXCEL_FORMAL_ERR);
+    			nextPage = PageNameConst.ERROR_PAGE; 
+    		}else{
+    			log.error("system error",e);
+    			nextPage = PageNameConst.SYSTEM_ERROR_PAGE; 
+    		}
+    		
 			
 		}
 
