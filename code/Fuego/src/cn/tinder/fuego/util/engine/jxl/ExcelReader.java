@@ -104,6 +104,10 @@ public class ExcelReader {
 			
 			//加载标题(填入有效列数)
 			titleMap=loadTitleRow(titleRowNumber,sheet);
+			if(titleMap.isEmpty())
+			{
+				throw new ExcelReaderException(ExcelReaderExceptionMsg.TITLE_EMPTY);
+			}
 			log.info("标题行内容为:"+titleMap);
 			
 			//创建数据内容表
