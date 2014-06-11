@@ -552,9 +552,10 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	{
 		List<String> assetsID = new ArrayList<String>();
 		ExcelReader reader=new ExcelReader(uploadFile, 2);
-		assetsID =reader.getArrayData().get(0);
-
-	
+		
+		for(List<String> list: reader.getArrayData()){
+			assetsID.add(list.get(0));
+		}
 		try
 		{
 			assetsDao.deleteAssetListsByAssetsIDList(assetsID);
