@@ -550,34 +550,27 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	@Override
 	public void deleteBasicAssets(File uploadFile)
 	{
-		List<PhysicalAssetsStatus> assetsList = ImportBasicDataExcelFile.load(uploadFile);
 		List<String> assetsID = new ArrayList<String>();
-		
 		ExcelReader reader=new ExcelReader(uploadFile, 2);
-		
 		assetsID =reader.getArrayData().get(0);
 
 	
-		
-	
-		for(PhysicalAssetsStatus assets:assetsList){
-			assetsID.add(assets.getAssetsID());
-		}
 		try
 		{
 			assetsDao.deleteAssetListsByAssetsIDList(assetsID);
 		} catch (Exception e)
 		{
-			log.error("import assets failed.", e);
-			String errMsg = e.getCause().getMessage();
-			String arrStr[] = errMsg.split("'");
-			String errID = null;
-			if (arrStr.length > 3)
-			{
-				errID = arrStr[1];
+			
+			
+			String errMsg = e.getMessage();
+			log.info(errMsg);
+			String errMsgHead=errMsg.split(":")[0];
+			
+			if(errMsgHead.equals("No row with the given identifier exists")){
+				throw new ServiceException(ExceptionMsg.DATA_NOTEXIST);
+			}else{
+				throw new ServiceException(errMsg);
 			}
-
-			throw new ServiceException(ExceptionMsg.ASSETS_NAME_ISEXIST + "(" + errID + ")");
 		}
 	}
 
@@ -585,6 +578,7 @@ public class AssetsManageServiceImpl implements AssetsManageService
 	public void updateBasicAssets(File uploadFile)
 	{
 		List<PhysicalAssetsStatus> assetsList = ImportBasicDataExcelFile.load(uploadFile);
+		initManageName(assetsList);
 		try
 		{
 			assetsDao.updateAssetListsByAssetsIDList(assetsList);
