@@ -44,6 +44,7 @@ import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
 import cn.tinder.fuego.service.util.ExcelIOService;
+import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.util.date.DateService;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.receive.ReceivePlanBo;
@@ -231,30 +232,43 @@ public class ReceivePlanServiceImpl<E> extends TransactionServiceImpl implements
 	private void receiveAssets(TransEvent transEvent)
 	{
 		List<ReceivePlan> discardPlanList = receivePlanDao.getByTransID(transEvent.getTransID());
-		List<String> assetsIDList = new ArrayList<String>();
-		for (ReceivePlan assignPlan : discardPlanList)
-		{
-			String assetsID = assignPlan.getAssetsID();
-			assetsIDList.add(assetsID);
 
-		}
 
-		List<PhysicalAssetsStatus> assetsList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
-		for(PhysicalAssetsStatus assets : assetsList)
+		
+		if(!ValidatorUtil.isEmpty(discardPlanList))
 		{
-			for(ReceivePlan receivePlan : discardPlanList)
+			List<String> assetsIDList = new ArrayList<String>();
+
+			for (ReceivePlan assignPlan : discardPlanList)
 			{
-				if(receivePlan.getAssetsID().equals(assets.getAssetsID()))
+				String assetsID = assignPlan.getAssetsID();
+				assetsIDList.add(assetsID);
+
+			}
+			List<PhysicalAssetsStatus> assetsList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
+
+			for(PhysicalAssetsStatus assets : assetsList)
+			{
+				for(ReceivePlan receivePlan : discardPlanList)
 				{
-					if(receivePlan.getReceiveState().equals(AssetsConst.RECEIVE_STATUS_DONE))
+					if(receivePlan.getAssetsID().equals(assets.getAssetsID()))
 					{
-						assets.setTechState(AssetsConst.ASSETS_STATUS_NORMAL);
+						if(receivePlan.getReceiveState().equals(AssetsConst.RECEIVE_STATUS_DONE))
+						{
+							assets.setTechState(AssetsConst.ASSETS_STATUS_NORMAL);
+						}
 					}
 				}
 			}
+			physicalAssetsStatusDao.deleteAssetListsByAssetsIDList(assetsIDList);
+			physicalAssetsStatusDao.create(assetsList);
 		}
-		physicalAssetsStatusDao.deleteAssetListsByAssetsIDList(assetsIDList);
-		physicalAssetsStatusDao.create(assetsList);
+		else
+		{
+			log.warn("the transaction plan is empty, trans information is :" + transEvent);
+		}
+
+
  
 	}
 	/* (non-Javadoc)
