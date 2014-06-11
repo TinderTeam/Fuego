@@ -22,6 +22,7 @@ import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
 import cn.tinder.fuego.service.sys.FileLoadService;
 import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.util.constant.LogKeyConst;
+import cn.tinder.fuego.util.engine.jxl.ExcelReaderExceptionMsg;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsInfoBo;
 import cn.tinder.fuego.webservice.struts.bo.assets.AssetsPageBo;
 import cn.tinder.fuego.webservice.struts.bo.excelimport.ImportAssetsExcelFile;
@@ -75,9 +76,13 @@ public class ImportAssetsAction extends Action
     		String errMsg = e.getMessage();
 			log.info(errMsg);
 			String errMsgHead=errMsg.split(":")[0];
-    		if(errMsgHead.contains("jxl.biff")){
-    			request.setAttribute(RspBoNameConst.OPERATE_EXCEPION, ExceptionMsg.EXCEL_FORMAL_ERR);
+    		if(e.getMessage().equals(ExcelReaderExceptionMsg.TITLE_EMPTY)){
+    			request.setAttribute(RspBoNameConst.OPERATE_EXCEPION,ExcelReaderExceptionMsg.TITLE_EMPTY);
     			nextPage = PageNameConst.ERROR_PAGE; 
+    		}  
+    		else if(errMsgHead.contains("jxl.biff")){
+		    	request.setAttribute(RspBoNameConst.OPERATE_EXCEPION, ExceptionMsg.EXCEL_FORMAL_ERR);
+		    	nextPage = PageNameConst.ERROR_PAGE;
     		}else{
     			log.error("system error",e);
     			nextPage = PageNameConst.SYSTEM_ERROR_PAGE; 
