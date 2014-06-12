@@ -549,7 +549,15 @@ public class DiscardPlanServiceImpl<E> extends TransactionServiceImpl implements
 				{
 					cell = sheet.getCell(0, i);
 					log.info(cell.getContents());
-					assetsIDList.add(cell.getContents());
+					/*
+					2014-06-10
+					增加对cell内容的判断，防止因为读到空行而导致Hibernate抛异常
+					By Bowen Nan
+					
+					*/
+					if(!cell.getContents().isEmpty()){
+						assetsIDList.add(cell.getContents());
+					}	
 				} catch (ServiceException ex)
 				{
 					throw new ServiceException(ex.getMessage() + ExceptionMsg.ERR_ROW + String.valueOf(i), ex);
