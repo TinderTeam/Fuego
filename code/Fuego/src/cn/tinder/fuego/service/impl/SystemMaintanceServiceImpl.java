@@ -167,6 +167,7 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 	public void importPriceAssest(File uploadFile) {
 		AssetsPriceDao assetsPriceDao = new AssetsPriceDaoImpl();
 		List<AssetsPrice> lsit=readToList(uploadFile);
+		assetsPriceDao.deletAll();
 		for(AssetsPrice a:lsit){
 			assetsPriceDao.create(a);
 		}
@@ -202,10 +203,24 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 			              
 			       Cell cell;
 			       
+			       /*
+			        * Debug
+			        * 受到Excel可能有空行的影响，这里加入对实际行数的检验
+			        * 2014-06-13
+			        * 
+			        */
+			       
+			       int contentRow=0;
+			       for(int j =2;j<row;j++){
+			    	   
+			    	   cell = sheet.getCell(1,j);
+			    	   if(!cell.getContents().isEmpty()){
+			    		   contentRow=j+1;
+			    	   }
+			       }
 			       
 			       
-			       
-			       for(int i=2;i<row;i++){
+			       for(int i=2;i<contentRow;i++){
 			    	
 				    	  /*
 				    	   * 1.获取一条价格信息
@@ -228,8 +243,7 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 			    	 	 cell = sheet.getCell(2,i);
 			    	 	 assetsPrice.setSpec(cell.getContents());			    	 	 
 			    	 	 cell = sheet.getCell(3,i);
-			    	 	 numCell=(NumberCell)cell;
-			    	 	 assetsPrice.setPrice((float)numCell.getValue());
+			    	 	 assetsPrice.setPrice(Float.valueOf(cell.getContents()));
 			    	 	 priceAssest.add(assetsPrice);
 			    	 	 
 			    	 	log.info("导入入第:"+i+"行"+assetsPrice.getAssetsName());

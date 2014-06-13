@@ -54,9 +54,23 @@ public class ImportBasicDataExcelFile {
 			        
 			        Cell cell;
 			        NumberCell numCell;
-			        
+			        /*
+				        * Debug
+				        * 受到Excel可能有空行的影响，这里加入对实际行数的检验
+				        * 2014-06-13
+				        * 
+				        */
+				       
+				       int contentRow=0;
+				       for(int j =3;j<row;j++){
+				    	   
+				    	   cell = sheet.getCell(1,j);
+				    	   if(!cell.getContents().isEmpty()){
+				    		   contentRow=j+1;
+				    	   }
+				       }
 			      
-			        for(int i=3;i<row-1;i++){			        	
+			        for(int i=3;i<contentRow;i++){			        	
 			        	PhysicalAssetsStatus assets = new PhysicalAssetsStatus();
 			        	
 			        	cell = sheet.getCell(0,i);			

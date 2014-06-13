@@ -125,7 +125,12 @@ public class ExcelIOServiceImpl implements ExcelIOService{
 		PhysicalAssetsStatusDao assetsDao = new PhysicalAssetsStatusDaoImpl();
 		ConvertAssetsModel conMod= new ConvertAssetsModel();
 		Map<AssignSumModel,List<AssetsInfoBo>> map = new HashMap<AssignSumModel,List<AssetsInfoBo>>();
-		for(int i = 0 ;i<er.getRows()+1;i++){
+		/*
+		 *此处源代码为
+		 * 	for(int i = 0 ;i<er.getRows()+1;i++){
+		 * Debug 时认为 此处+1 存在问题，故修改为正常
+		 */
+		for(int i = 0 ;i<er.getRows();i++){
 			AssignSumModel model = new AssignSumModel();
 			try{
 				
