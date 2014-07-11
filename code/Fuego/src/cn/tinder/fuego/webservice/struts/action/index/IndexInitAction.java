@@ -75,7 +75,7 @@ public class IndexInitAction extends Action
 		List<MenuTreeBo> menuTreeList = null;
 		if (null == user)
 		{
-			log.error("the user is null");
+			log.warn("user is null");
 			nextPage = PageNameConst.LOGIN_PAGE;
 		} else
 		{
@@ -94,14 +94,11 @@ public class IndexInitAction extends Action
 	private void clearSession(HttpServletRequest request)
 	{
 		SystemUserBo user = (SystemUserBo) request.getSession().getAttribute(RspBoNameConst.SYSTEM_USER);
-		SystemUserBo sessionUser = new SystemUserBo(user);
-	 
-		request.getSession().invalidate();
-		
-		request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER, sessionUser);
-
-		 
+		if(null!=user)
+		{
+			SystemUserBo sessionUser = new SystemUserBo(user);
+			request.getSession().invalidate();
+			request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER, sessionUser);
+		}	 
 	}
-	
-
 }

@@ -3,14 +3,17 @@
 * @Package cn.tinder.fuego.service.impl 
 * @Description: TODO
 * @author Zhu Liucao   
-* @date 2013-10-6 ÏÂÎç06:28:01 
+* @date 2013-10-6 ï¿½ï¿½ï¿½ï¿½06:28:01 
 * @version V1.0   
 */ 
 package cn.tinder.fuego.service.impl.sys;
 
+import com.opensymphony.oscache.base.Cache;
+
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.domain.po.SystemUser;
+import cn.tinder.fuego.service.cache.CacheContext;
 import cn.tinder.fuego.service.constant.UserRoleConst;
 import cn.tinder.fuego.service.exception.ServiceException;
 import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
@@ -23,7 +26,7 @@ import cn.tinder.fuego.webservice.struts.form.UserPasswordSetupForm;
  * @ClassName: SystemParaServiceImpl 
  * @Description: TODO
  * @author Zhu Liucao
- * @date 2013-10-6 ÏÂÎç06:28:01 
+ * @date 2013-10-6 ï¿½ï¿½ï¿½ï¿½06:28:01 
  *  
  */
 public class SystemParaServiceImpl implements SystemParaService
@@ -52,6 +55,7 @@ public class SystemParaServiceImpl implements SystemParaService
 		    
 		    systemUserDao.saveOrUpdate(currentUser);
 		}
+		CacheContext.getInstance().getUserCache().load();
 
 
 	}
@@ -95,6 +99,7 @@ public class SystemParaServiceImpl implements SystemParaService
 		        	      systemUserDao.saveOrUpdate(currentUser);
 		            	
 		              }
+		  CacheContext.getInstance().getUserCache().load();
  
 		  
 	}

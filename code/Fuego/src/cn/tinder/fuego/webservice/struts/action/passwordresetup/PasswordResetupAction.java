@@ -63,8 +63,7 @@ public class PasswordResetupAction extends Action
 		{
    		  try{
 			 	systemParaService.resetPassword(pdForm, user);
-			 	CacheContext.reCatchInstance();
-			 	log.info("Resetup successful");
+ 			 	log.info("Resetup successful");
 			 	//request.setAttribute(RspBoNameConst.LOGIN_EXCEPTION,"密码重置成功，请重新登录！");
 			 	nextpage= PageNameConst.SYSTEM_SUCCESS_PAGE ;
 			 	return mapping.findForward(nextpage);

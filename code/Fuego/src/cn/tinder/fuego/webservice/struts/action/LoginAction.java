@@ -37,6 +37,7 @@ public class LoginAction extends Action
 
 		// Page
 		String pageName = PageNameConst.INDEX_INIT_ACTION;
+
 		// ActionForm
 		LoginForm loginForm = (LoginForm) form;
 		// Para

@@ -12,19 +12,19 @@
 		<meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <link rel="stylesheet" href="css/unicorn.login.css" />
-		<link rel="stylesheet" href="css/bootstrap.min.css" />
-		<link rel="stylesheet" href="css/html5.css" />
-		<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
-		<link rel="stylesheet" href="css/fullcalendar.css" />	
-		<link rel="stylesheet" href="css/unicorn.main.css" />
-		<link rel="stylesheet" href="css/unicorn.grey.css" class="skin-color" />
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/unicorn.login.css" />
+		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/html5.css" />
+		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-responsive.min.css" />
+		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/fullcalendar.css" />	
+		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/unicorn.main.css" />
+		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/unicorn.grey.css" class="skin-color" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     　　
-        <script src="js/jquery.min.js"></script>  
-        <script src="js/unicorn.login.js"></script> 
-  <script src="/js/html5.js" type="text/javascript"></script>
-<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+        <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>  
+        <script src="<%=request.getContextPath()%>/js/unicorn.login.js"></script> 
+  <script src="<%=request.getContextPath()%>//js/html5.js" type="text/javascript"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.4.2.min.js"></script>
 
 <script type="text/javascript">
 //判断浏览器是否支持 placeholder属性
@@ -78,7 +78,7 @@ if (!isPlaceholder()) {//不支持placeholder 用jquery来完成
 
     <body>
         <div id="logo">
-            <img src="img/logo.png" alt="" />
+            <img src="<%=request.getContextPath()%>/img/logo.png" alt="" />
         </div>
         <div id="loginbox">            
             <form id="loginform" class="form-vertical" action="<%=request.getContextPath()%>/Login.do"  name="myForm" method="post">

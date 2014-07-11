@@ -17,27 +17,23 @@
 	function downloadinit(){
 		var btn = document.getElementById('downloadbutton'); 
 			btn.innerHTML="处理中...";
-			btn.className="btn btn-warning"
+			btn.className="btn btn-warning";
 			
 			
 		var assetsID = document.getElementById('assetsID').value;
 		var assetsName = document.getElementById('assetsName').value;
-		<!---select--->
-		var s_duty= document.getElementById('duty');
+ 		var s_duty= document.getElementById('duty');
 		var duty= s_duty.options[s_duty.selectedIndex].value;
 			
-		<!---select--->
-		var s_assetsType= document.getElementById('assetsType');
+ 		var s_assetsType= document.getElementById('assetsType');
 		var assetsType= s_assetsType.options[s_assetsType.selectedIndex].value;
 	
-		<!---select--->
-		var s_manageName= document.getElementById('manageName');
+ 		var s_manageName= document.getElementById('manageName');
 		var manageName= s_manageName.options[s_manageName.selectedIndex].value;
 		
 		var location = document.getElementById('location').value;
 
-		<!---select--->
-		var s_techSeate= document.getElementById('techSeate');
+ 		var s_techSeate= document.getElementById('techSeate');
 		var techSeate= s_techSeate.options[s_techSeate.selectedIndex].value;
 		
 		
