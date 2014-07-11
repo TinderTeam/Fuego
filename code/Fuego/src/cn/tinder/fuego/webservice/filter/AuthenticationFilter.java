@@ -1,6 +1,7 @@
 package cn.tinder.fuego.webservice.filter;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.webservice.struts.bo.base.SystemUserBo;
 import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 
@@ -28,11 +28,12 @@ import cn.tinder.fuego.webservice.struts.constant.RspBoNameConst;
 public class AuthenticationFilter implements Filter
 {
 
-	private static final String LOGIN_URL_FLAG = "login";
-	private static final  String LOGIN_PAGE = "jsp/login.jsp";
 
- 
-
+	private static final String LOGIN_PAGE = "jsp/login.jsp";	
+	private static final String ACTION_URL_FLAG = ".do";
+	private static final String JSP_URL_FLAG = ".jsp";
+	
+	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException
 	{
 		 HttpServletRequest httpRequest = (HttpServletRequest)request;
@@ -43,17 +44,32 @@ public class AuthenticationFilter implements Filter
 		  
 		 //the url does not contains login url, we should check login or not
 		
-		 if(url.toLowerCase().indexOf(LOGIN_URL_FLAG)<0)
+		 if(
+				 (url.toLowerCase().endsWith(ACTION_URL_FLAG)
+				 ||
+				 url.toLowerCase().endsWith(JSP_URL_FLAG))
+				 &&
+				 (!url.toLowerCase().contains(LOGIN_PAGE))
+		 )
+			 
 		 {
 		     SystemUserBo loginUser = (SystemUserBo) session.getAttribute(RspBoNameConst.SYSTEM_USER);
 			 if(null == loginUser || loginUser.getUserID().isEmpty())
 			 {
-				 httpResponse.sendRedirect(httpRequest.getContextPath()+"/"+LOGIN_PAGE);
+				 PrintWriter out = response.getWriter();
+	             out.println("<script type='text/javascript'>window.parent.location='"+httpRequest.getContextPath()+"/"+LOGIN_PAGE+"'</script>");
+ 			 }
+			 else
+			 {
+					chain.doFilter(request, httpResponse);
 			 }
+		 }
+		 else
+		 {
+				chain.doFilter(request, httpResponse);
 		 }
 		 
  
-		chain.doFilter(request, httpResponse);
 	}
 
 
