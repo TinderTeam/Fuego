@@ -75,8 +75,7 @@ public class UserPasswordSetupAction extends Action
         			 	request.getSession().setAttribute(RspBoNameConst.SYSTEM_USER,user);
         			 	log.info("setup successful");
         			 	request.setAttribute(RspBoNameConst.LOGIN_EXCEPTION,"密码修改成功，请重新登录！");
-        			 	CacheContext.reCatchInstance();
-        			 	nextpage= PageNameConst.LOGIN_PAGE ;
+         			 	nextpage= PageNameConst.LOGIN_PAGE ;
         			 	return mapping.findForward(nextpage);
         		 }catch(ServiceException e){
         			 log.warn("PasswordSetup failed.",e);        

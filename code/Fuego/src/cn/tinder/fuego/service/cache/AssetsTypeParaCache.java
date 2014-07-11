@@ -104,9 +104,4 @@ public class AssetsTypeParaCache
 	{
 		return handelDepartmentAssetsStyleCacheMap.get(type);
 	}
-
-	public static void reCatch()
-	{
-		instance = new AssetsTypeParaCache();
-	}
 }

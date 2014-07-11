@@ -84,8 +84,7 @@ public class SystemParaSetupAction extends Action
        			 
        			serviceImpl.addGasStation(setForm.getGasname(), setForm.getGasname(), setForm.getDept1());
        			
-       			CacheContext.reCatchInstance();
-  			 	log.info("setup successful");
+   			 	log.info("setup successful");
  	
  			 	nextPage=PageNameConst.SYSTEM_SUCCESS_PAGE ;
  			 	return mapping.findForward(nextPage);

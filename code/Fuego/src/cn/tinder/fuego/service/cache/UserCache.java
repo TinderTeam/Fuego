@@ -32,10 +32,6 @@ public class UserCache
 	private static UserCache  instance = null;
 	private List<SystemUser> userList = null;
 	
-	public static void reCatch(){
-		instance = new UserCache();
-	}
-	
 	private UserCache()
 	{
 		load();
@@ -90,6 +86,20 @@ public class UserCache
 		for(SystemUser user : userList)
 		{
 			if(user.getRole().equals(role))
+			{
+				resultList.add(user);
+			}
+		}
+		
+		return resultList;
+	}
+	
+	public List<SystemUser> getUserListByManage(String manage)
+	{
+		List<SystemUser> resultList = new ArrayList<SystemUser>();
+		for(SystemUser user : userList)
+		{
+			if(manage.equals(user.getManageName()))
 			{
 				resultList.add(user);
 			}

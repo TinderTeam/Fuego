@@ -25,6 +25,8 @@ import jxl.write.WriteException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.opensymphony.oscache.base.Cache;
+
 import cn.tinder.fuego.dao.AssetsPriceDao;
 import cn.tinder.fuego.dao.AssetsQuotaDao;
 import cn.tinder.fuego.dao.DaoContext;
@@ -83,6 +85,7 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 		user.setRole(UserRoleConst.GASSTATION);
 		
 		systemUserDao.create(user);
+		CacheContext.getInstance().getUserCache().load();
 
 	}
 
@@ -167,12 +170,10 @@ public class SystemMaintanceServiceImpl implements SystemMaintanceService
 	public void importPriceAssest(File uploadFile) {
 		AssetsPriceDao assetsPriceDao = new AssetsPriceDaoImpl();
 		List<AssetsPrice> lsit=readToList(uploadFile);
-		assetsPriceDao.deletAll();
-		for(AssetsPrice a:lsit){
+ 		for(AssetsPrice a:lsit){
 			assetsPriceDao.create(a);
 		}
-		return ;
-	}
+ 	}
 
 	private List<AssetsPrice> readToList(File uploadFile) {
 		log.info(uploadFile.getAbsolutePath());
