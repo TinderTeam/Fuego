@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>		
 <div id="header">
-	<h1><a href="">惠州石油资产管理系统</a></h1>		
+	<h1><a href="">孚思资产管理系统</a></h1>		
 </div>
 
 		

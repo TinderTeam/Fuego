@@ -8,7 +8,7 @@
 
 
     <head>
-        <title>惠州石油资产管理系统</title>
+        <title>孚思资产管理系统</title>
 		<meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
