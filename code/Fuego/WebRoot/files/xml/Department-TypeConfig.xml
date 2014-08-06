@@ -4,7 +4,7 @@
 <?target instruction?>
 	 <journal title="XML Zone" publisher="IBM developerWorks"> 
 		
-		<inf type ="固定资产">财务资产部</inf>
+		<inf type ="固定资产">全部</inf>
 		<inf type ="低值易耗品">零售管理部</inf>
 		<inf type ="娱乐设施">零售管理部</inf>
 		<inf type ="消防器材">安全数质量部</inf>

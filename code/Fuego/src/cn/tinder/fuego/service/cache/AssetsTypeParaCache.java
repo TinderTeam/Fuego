@@ -21,6 +21,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import cn.tinder.fuego.service.constant.AssetsConst;
 import cn.tinder.fuego.util.engine.dom4j.Dom4jConstant;
 
 /**
@@ -60,19 +61,33 @@ public class AssetsTypeParaCache
 		try
 		{
 			Document document = saxReader.read(Dom4jConstant.HANDEL_DEPT_TYPE_CONFIG);
-
 			List list = document.selectNodes("//inf");
 			Iterator iter = list.iterator();
 			iter = list.iterator();
 			while (iter.hasNext())
 			{
 				Element element = (Element) iter.next();
-				handelDepartmentAssetsStyleCacheMap.put(element.attributeValue("type"), element.getText());
+				
+				log.debug("Add into map :   key = "+element.attributeValue("type")+"Value= "+element.getText());
+				
+				if(element.getText().equals("全部")){
+				
+					String deptArray="";
+					for(String deptName :AssetsConst.DEPT_ARRAY ){
+						deptArray=deptArray+","+deptName;
+					}			
+					handelDepartmentAssetsStyleCacheMap.put(element.attributeValue("type"),element.getText()+","+deptArray);
+				}else{
+					log.debug("Add into map :   key = "+element.attributeValue("type")+"Value= "+element.getText());
+					handelDepartmentAssetsStyleCacheMap.put(element.attributeValue("type"), element.getText());
+				}
+
 			}
 
 		} catch (DocumentException e)
 		{
 			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
@@ -86,12 +101,12 @@ public class AssetsTypeParaCache
 		{
 			java.util.Map.Entry entry = (java.util.Map.Entry) it.next();
 			String value = (String) entry.getValue();
-			if (value.equals(dept))
+			if (value.contains(dept))
 			{
 				list.add((String) entry.getKey());
 			}
 		}
-
+		log.debug("Get type by:'"+dept+"', the result is:"+list);
 		return list;
 	}
 	

@@ -31,7 +31,17 @@ public class AssetsConst
 	  public static String ASSETS_JQSB_TYPE = "机器设备";
 	  public static String ASSETS_LSZC_TYPE = "临时资产";
 	 
+	  public static String DEPT_LSGLB = "零售管理部";
+	  public static String DEPT_CWZCB = "财务资产部";
+	  public static String DEPT_YWGLB = "业务管理部";
+	  public static String DEPT_AQSZLB = "安全数质量部";
+	  public static String DEPT_JLBGS = "经理办公室";
 
+	  
+	  public static String[] DEPT_ARRAY = new String[]{
+		  DEPT_LSGLB,DEPT_CWZCB,DEPT_YWGLB,DEPT_AQSZLB,DEPT_JLBGS
+	  };
+	  
  
 
 	  public static String ASSETS_STATUS_ALL = "全部";
