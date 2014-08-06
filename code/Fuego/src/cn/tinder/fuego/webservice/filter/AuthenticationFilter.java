@@ -1,7 +1,6 @@
 package cn.tinder.fuego.webservice.filter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -56,20 +55,12 @@ public class AuthenticationFilter implements Filter
 		     SystemUserBo loginUser = (SystemUserBo) session.getAttribute(RspBoNameConst.SYSTEM_USER);
 			 if(null == loginUser || loginUser.getUserID().isEmpty())
 			 {
-				 PrintWriter out = response.getWriter();
-	             out.println("<script type='text/javascript'>window.parent.location='"+httpRequest.getContextPath()+"/"+LOGIN_PAGE+"'</script>");
- 			 }
-			 else
-			 {
-					chain.doFilter(request, httpResponse);
+ 				 httpResponse.sendRedirect(httpRequest.getContextPath()+"/"+LOGIN_PAGE);
 			 }
-		 }
-		 else
-		 {
-				chain.doFilter(request, httpResponse);
 		 }
 		 
  
+		chain.doFilter(request, httpResponse);
 	}
 
 
