@@ -23,6 +23,7 @@ import cn.tinder.fuego.dao.TransExtAttrDao;
 import cn.tinder.fuego.dao.impl.AssignPlanDaoImpl;
 import cn.tinder.fuego.dao.impl.PhysicalAssetsStatusDaoImpl;
 import cn.tinder.fuego.domain.po.AssignPlan;
+import cn.tinder.fuego.domain.po.OperateRecord;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
@@ -68,16 +69,17 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	TransEventDao transEventDao = DaoContext.getInstance().getTransEventDao();
 	PhysicalAssetsStatusDao physicalAssetsStatusDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
 	AssetsManageService assetsManageService = ServiceContext.getInstance().getAssetsManageService();
+
 	/*
-	 * (non-Javadoc)
-	 * S
+	 * (non-Javadoc) S
+	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#createPlan(java.lang.String)
 	 */
 	@Override
 	public E createPlan(String user)
 	{
 		AssignPlanBo plan = new AssignPlanBo();
-		TransactionBaseInfoBo baseTrans = super.createTransByUserAndType(user,user, TransactionConst.ASSIGN_PLAN_TYPE , null);
+		TransactionBaseInfoBo baseTrans = super.createTransByUserAndType(user, user, TransactionConst.ASSIGN_PLAN_TYPE, null);
 		AssignTransBo assignPlan = new AssignTransBo();
 		assignPlan.setTransInfo(baseTrans);
 		plan.setTransInfo(assignPlan);
@@ -92,37 +94,36 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	@Override
 	public void updatePlan(E plan)
 	{
-		if(null == plan)
+		if (null == plan)
 		{
 			log.warn("the plan is null");
 			return;
 		}
-		//step1: force transform 
- 		AssignPlanBo planInfo = new AssignPlanBo();
+		// step1: force transform
+		AssignPlanBo planInfo = new AssignPlanBo();
 		planInfo = (AssignPlanBo) plan;
-		
-		
-		//step2: save basic transaction information
+
+		// step2: save basic transaction information
 		String transID = planInfo.getTransInfo().getTransInfo().getTransID();
 		String handleUser = planInfo.getTransInfo().getTransInfo().getHandleUser();
-		super.updateTrans(transID,handleUser,planInfo.getTransInfo().getTransInfo().getExecuteName());
+		super.updateTrans(transID, handleUser, planInfo.getTransInfo().getTransInfo().getExecuteName());
 
-		//step3: save extend transaction information
+		// step3: save extend transaction information
 		TransExtAttr ext = new TransExtAttr();
 		ext.setTransID(transID);
-		//step3.1 save input department to transaction extend attribute
+		// step3.1 save input department to transaction extend attribute
 		ext.setAttrName(TransactionExtAttrConst.ASSIGN_IN_DEPT);
 		ext.setAttrValue(planInfo.getTransInfo().getInDept());
 		transExtAtrrDao.saveOrUpdate(ext);
-		//step3.1 save output department to transaction extend attribute
+		// step3.1 save output department to transaction extend attribute
 		ext.setAttrName(TransactionExtAttrConst.ASSIGN_OUT_DEPT);
 		ext.setAttrValue(planInfo.getTransInfo().getOutDept());
 		transExtAtrrDao.saveOrUpdate(ext);
-		
-		//step4: save assign plan list
+
+		// step4: save assign plan list
 		assignPlanDao.deleteByTransID(transID);
 		List<AssetsInfoBo> assignAssetsList = planInfo.getAssetsPage().getAssetsList();
-		for (AssetsInfoBo assets: assignAssetsList)
+		for (AssetsInfoBo assets : assignAssetsList)
 		{
 			AssignPlan assignPlan = new AssignPlan();
 			assignPlan.setTransID(transID);
@@ -132,118 +133,120 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		}
 
 	}
+
 	@Override
 	public void forwardNext(String transID)
 	{
-		forwardNext(transID,"");
+		forwardNext(transID, "");
 	}
+
 	public void forwardNextBySystem(String transID)
 	{
-		TransEvent transEvent =transEventDao.getByTransID(transID);
+		TransEvent transEvent = transEventDao.getByTransID(transID);
 
-		super.forwardNext(transID,transEvent.getHandleUser(),null);
+		super.forwardNext(transID, transEvent.getHandleUser(), null);
 
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#forwardNext(java.lang.String)
 	 */
 	@Override
-	public void forwardNext(String transID,String transInfo)
+	public void forwardNext(String transID, String transInfo)
 	{
-		TransEvent transEvent =transEventDao.getByTransID(transID);
+		TransEvent transEvent = transEventDao.getByTransID(transID);
 
 		List<TransExtAttr> extAtrrList = transExtAtrrDao.getByTransID(transID);
-		
-		String inDept ="";
-		String outDept ="";
-		for(TransExtAttr extAttr : extAtrrList )
+
+		String inDept = "";
+		String outDept = "";
+		for (TransExtAttr extAttr : extAtrrList)
 		{
-			if(TransactionExtAttrConst.ASSIGN_IN_DEPT.equals(extAttr.getAttrName()))
+			if (TransactionExtAttrConst.ASSIGN_IN_DEPT.equals(extAttr.getAttrName()))
 			{
 				inDept = extAttr.getAttrValue();
 			}
-			if(TransactionExtAttrConst.ASSIGN_OUT_DEPT.equals(extAttr.getAttrName()))
+			if (TransactionExtAttrConst.ASSIGN_OUT_DEPT.equals(extAttr.getAttrName()))
 			{
 				outDept = extAttr.getAttrValue();
 			}
 		}
-		
+
 		List<AssignPlan> planList = assignPlanDao.getByTransID(transID);
-		  
+
 		String type = "";
-		if(null != planList && !planList.isEmpty())
-		{	
+		if (null != planList && !planList.isEmpty())
+		{
 			type = physicalAssetsStatusDao.getByAssetsID(planList.get(0).getAssetsID()).getAssetsType();
 		}
 		String handleUser = transEvent.getHandleUser();
-		switch(transEvent.getCurrentStep())
+		switch (transEvent.getCurrentStep())
 		{
-		case 7 :
-        	if(ValidatorUtil.isEmpty(handleUser))
-        	{
-            	handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
-            	if(null == UserCache.getInstance().getUserByName(handleUser))
-            	{
-            		 log.warn("can not get the user by name." + handleUser);
-            		 throw new ServiceException(ExceptionMsg.ASSETS_TYPE_WRONG);
-            	}
-        	}
-        	if(UserNameConst.ZCGLZ.equals(handleUser))
-        	{
-        		super.forwardNext(transID,handleUser,transInfo);
-            	transInfo = null;
-        	}
-		    break;
-		case 6 :
-    		handleUser = UserNameConst.ZCGLZ;
+		case 7:
+			if (ValidatorUtil.isEmpty(handleUser))
+			{
+				handleUser = AssetsTypeParaCache.getInstance().getDeptByType(type);
+				if (null == UserCache.getInstance().getUserByName(handleUser))
+				{
+					log.warn("can not get the user by name." + handleUser);
+					throw new ServiceException(ExceptionMsg.ASSETS_TYPE_WRONG);
+				}
+			}
+			if (UserNameConst.ZCGLZ.equals(handleUser))
+			{
+				super.forwardNext(transID, handleUser, transInfo);
+				transInfo = null;
+			}
+			break;
+		case 6:
+			handleUser = UserNameConst.ZCGLZ;
 
 			break;
-		case 5 :
+		case 5:
 
-        	handleUser = super.getLeader(UserNameConst.ZCGLZ);
-      
+			handleUser = super.getLeader(UserNameConst.ZCGLZ);
+
 			break;
-		case 4 :
+		case 4:
 			handleUser = super.getStaff(outDept);
 			break;
-		case 3 :
+		case 3:
 			handleUser = super.getStaff(inDept);
-			break;	
-		case 2 :
-		    handleUser = transEvent.getCreateUser();
-		    break;
-		case 1 :
-		    handleUser = transEvent.getCreateUser();
-        	transInfo = TransactionConst.TRANS_OPERATE_FINISH;
+			break;
+		case 2:
+			handleUser = transEvent.getCreateUser();
+			break;
+		case 1:
+			handleUser = transEvent.getCreateUser();
+			transInfo = TransactionConst.TRANS_OPERATE_FINISH;
 
-		    updateAssetsDuty(transID, inDept);
-		    
-		    break;
-		default :
+			updateAssetsDuty(transID, inDept);
+
+			break;
+		default:
 			handleUser = transEvent.getCreateUser();
 		}
 
-		super.forwardNext(transID,handleUser,transInfo);
+		super.forwardNext(transID, handleUser, transInfo);
 
 	}
 
 	private void updateAssetsDuty(String transID, String dutyDept)
 	{
-		List<AssignPlan> assignPlanList =  assignPlanDao.getByTransID(transID);
-		
+		List<AssignPlan> assignPlanList = assignPlanDao.getByTransID(transID);
+
 		List<String> assetsIDList = new ArrayList<String>();
-		
-		for(AssignPlan assignPlan : assignPlanList)
+
+		for (AssignPlan assignPlan : assignPlanList)
 		{
 			String assetsID = assignPlan.getAssetsID();
-		    assetsIDList.add(assetsID);		    
+			assetsIDList.add(assetsID);
 		}
- 
 
 		List<PhysicalAssetsStatus> physicalAssetsList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
-		for(PhysicalAssetsStatus assets : physicalAssetsList)
+		for (PhysicalAssetsStatus assets : physicalAssetsList)
 		{
 			assets.setDuty(dutyDept);
 			assets.setLocation(dutyDept);
@@ -252,9 +255,9 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 
 			physicalAssetsStatusDao.saveOrUpdate(assets);
 
-		}	
- 
-		super.handleOperateLogRecord(transID,OperateLogConst.ASSETS_UPDATE_OPERATE, physicalAssetsList);
+		}
+
+		super.handleOperateLogRecord(transID, OperateLogConst.ASSETS_UPDATE_OPERATE, physicalAssetsList);
 
 	}
 
@@ -267,61 +270,60 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	public E getPlanByTransID(String transID)
 	{
 		TransactionBaseInfoBo baseTrans = super.getTransByID(transID);
-		if(null == baseTrans)
+		if (null == baseTrans)
 		{
 			return null;
 		}
-		//new a AssignPlan
+		// new a AssignPlan
 		AssignPlanBo assignPlan = new AssignPlanBo();
 		// get assetsStatusList by TransID
 		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(getAssetsIDListByTransID(transID));
 		// get assetsListBo
 		List<AssetsInfoBo> assetsListBo = null;
-		if(null != assetsStatusList)
+		if (null != assetsStatusList)
 		{
 			assetsListBo = ConvertAssetsModel.convertAssetsList(assetsStatusList);
 		}
-		
-		 
- 
+
 		assignPlan.getAssetsPage().setAssetsList(assetsListBo);
-		//get discardTransBo by discardPlan 
- 
+		// get discardTransBo by discardPlan
+
 		List<TransExtAttr> extAtrrList = transExtAtrrDao.getByTransID(transID);
-		
-		String inDept ="";
-		String outDept ="";
-		for(TransExtAttr extAttr : extAtrrList )
+
+		String inDept = "";
+		String outDept = "";
+		for (TransExtAttr extAttr : extAtrrList)
 		{
-			if(TransactionExtAttrConst.ASSIGN_IN_DEPT.equals(extAttr.getAttrName()))
+			if (TransactionExtAttrConst.ASSIGN_IN_DEPT.equals(extAttr.getAttrName()))
 			{
 				inDept = extAttr.getAttrValue();
 			}
-			if(TransactionExtAttrConst.ASSIGN_OUT_DEPT.equals(extAttr.getAttrName()))
+			if (TransactionExtAttrConst.ASSIGN_OUT_DEPT.equals(extAttr.getAttrName()))
 			{
 				outDept = extAttr.getAttrValue();
 			}
 		}
- 
+
 		assignPlan.getTransInfo().setInDept(inDept);
 		assignPlan.getTransInfo().setOutDept(outDept);
 
 		assignPlan.getTransInfo().setTransInfo(baseTrans);
-		
-		 //init the all page data
-		 assignPlan.getAssetsPage().getPage().setAllPageData(assignPlan.getAssetsPage().getAssetsList());
+
+		// init the all page data
+		assignPlan.getAssetsPage().getPage().setAllPageData(assignPlan.getAssetsPage().getAssetsList());
 
 		return (E) assignPlan;
 	}
+
 	private List<String> getAssetsIDListByTransID(String transID)
 	{
 		List<AssignPlan> assignPlanList = assignPlanDao.getByTransID(transID);
 		List<String> assetsIDList = new ArrayList<String>();
-        String assetsID = null;
- 		for(AssignPlan assignAssetsPlan : assignPlanList)
+		String assetsID = null;
+		for (AssignPlan assignAssetsPlan : assignPlanList)
 		{
-			 assetsID = assignAssetsPlan.getAssetsID();
-			 assetsIDList.add(assetsID);
+			assetsID = assignAssetsPlan.getAssetsID();
+			assetsIDList.add(assetsID);
 		}
 		return assetsIDList;
 	}
@@ -339,53 +341,61 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#getExportFile(java.lang.Object)
 	 */
 	@Override
 	public File getExportFile(E plan)
 	{
-		if(null == plan)
+		if (null == plan)
 		{
 			log.warn("the plan is null");
 			return null;
 		}
-		//step1: force transform 
- 		AssignPlanBo planInfo = new AssignPlanBo();
+		// step1: force transform
+		AssignPlanBo planInfo = new AssignPlanBo();
 		planInfo = (AssignPlanBo) plan;
-		
-		AssignFile assignFile=new AssignFile(planInfo);
-		
+
+		AssignFile assignFile = new AssignFile(planInfo);
+
 		return assignFile.getFile();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#backward(java.lang.String)
 	 */
 	@Override
-	public void backward(String transID,String transInfo)
+	public void backward(String transID, String transInfo)
 	{
-		super.backward(transID,transInfo);
-		
+		super.backward(transID, transInfo);
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#validate(java.lang.Object)
 	 */
 	@Override
 	public void validate(E plan)
 	{
- 		AssignPlanBo planInfo = (AssignPlanBo)plan;
- 		
- 		List<AssetsInfoBo> assetsList = planInfo.getAssetsPage().getAssetsList();
- 		if(null == assetsList || assetsList.isEmpty())
- 		{
- 			throw new ServiceException(ExceptionMsg.ASSETS_LIST_EMPTY);
- 		}
- 
+		AssignPlanBo planInfo = (AssignPlanBo) plan;
+
+		List<AssetsInfoBo> assetsList = planInfo.getAssetsPage().getAssetsList();
+		if (null == assetsList || assetsList.isEmpty())
+		{
+			throw new ServiceException(ExceptionMsg.ASSETS_LIST_EMPTY);
+		}
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#createPlan(java.lang.String, java.util.List)
 	 */
 	@Override
@@ -395,19 +405,22 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#getPlanCount(java.util.List)
 	 */
 	@Override
 	public int getPlanCount(List<String> transIDList)
 	{
 		int cnt = super.getAssetsCount(getAssestByTransIDList(transIDList));
-	 
-		
+
 		return cnt;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#getPlanAssetsSumValue(java.util.List)
 	 */
 	@Override
@@ -416,27 +429,30 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		float sumValue = super.getAssetsSumValue(getAssestByTransIDList(transIDList));
 		return sumValue;
 	}
-	
+
 	private List<PhysicalAssetsStatus> getAssestByTransIDList(List<String> transIDList)
 	{
 		List<AssignPlan> planList = assignPlanDao.getByTransID(transIDList);
 		List<String> assetsIDList = new ArrayList<String>();
- 		for(AssignPlan plan : planList)
+		for (AssignPlan plan : planList)
 		{
-			 assetsIDList.add(plan.getAssetsID());
+			assetsIDList.add(plan.getAssetsID());
 		}
 		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(assetsIDList);
 		return assetsStatusList;
 	}
 
 	@Override
-	public List<AssetsInfoBo> importByFile(File file) {
+	public List<AssetsInfoBo> importByFile(File file)
+	{
 		return null;
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#isMaxStep(int)
 	 */
 	@Override
@@ -445,17 +461,17 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		TransactionBaseInfoBo baseTrans = super.getTransByID(transID);
 
 		SystemUser user = UserCache.getInstance().getUserByName(baseTrans.getCreateUser());
-		if(null == user)
+		if (null == user)
 		{
 			log.error("can not find the user by user name " + baseTrans.getCreateUser());
 		}
 		else
-		{	
-			if(user.getRole().equals(UserRoleConst.GASSTATION))
+		{
+			if (user.getRole().equals(UserRoleConst.GASSTATION))
 			{
 				return Integer.valueOf(TransactionConst.ASSIGN_GAS_MAX_STEP);
 			}
-			else if(user.getRole().equals(UserRoleConst.DEPT))
+			else if (user.getRole().equals(UserRoleConst.DEPT))
 			{
 				return Integer.valueOf(TransactionConst.ASSIGN_DEPT_MAX_STEP);
 
@@ -465,19 +481,20 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 				return Integer.valueOf(TransactionConst.ASSIGN_MAX_STEP);
 
 			}
-				
-			
+
 		}
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#getAprovalStep(java.lang.String)
 	 */
 	@Override
 	public boolean isApporalStep(int step)
 	{
-		if(6 == step || 5 == step || 4 == step || 3 == step || 2 == step)
+		if (6 == step || 5 == step || 4 == step || 3 == step || 2 == step)
 		{
 			return true;
 		}
@@ -485,48 +502,67 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	}
 
 	@Override
-	public String getSumInfo(List<String> transIDList) {
-	
-		int assetsNum=0;	//涉及资产数量
-		float originalValue = 0 ; //涉及资产原值
-		float tValue = 0 ; //设计资产净值
-		int GDZCNum=0;
-		int DZYHPNum=0;
-		
-		
+	public String getSumInfo(List<String> transIDList)
+	{
+
+		int assetsNum = 0; // 涉及资产数量
+		float originalValue = 0; // 涉及资产原值
+		float tValue = 0; // 设计资产净值
+		int GDZCNum = 0;
+		int DZYHPNum = 0;
+
 		/**
 		 * 调拨统计实现
-	
-		PhysicalAssetsStatusDao  assetsDao = new PhysicalAssetsStatusDaoImpl(); */
+		 * 
+		 * PhysicalAssetsStatusDao assetsDao = new PhysicalAssetsStatusDaoImpl();
+		 */
 		AssignPlanDao assignPlanDao = new AssignPlanDaoImpl();
 		PhysicalAssetsStatusDao assetsDao = new PhysicalAssetsStatusDaoImpl();
-		
-		
 
 		List<AssignPlan> planBoList = assignPlanDao.getByTransID(transIDList);
-		
-		for(AssignPlan plan:planBoList){
+
+		for (AssignPlan plan : planBoList)
+		{
 			assetsNum++;
 			PhysicalAssetsStatus assets = assetsDao.getByAssetsID(plan.getAssetsID());
-			originalValue =originalValue+ assets.getOriginalValue();
-			if(ComputeService.cptValue(assets.getPurchaseDate(),  assets.getExpectYear(), assets.getOriginalValue())>0){
-				tValue=tValue+ComputeService.cptValue(assets.getPurchaseDate(),  assets.getExpectYear(), assets.getOriginalValue());
+
+			if (null == assets)
+			{
+				log.warn("can not find the assets by id at assets table, now searching from operate record" + plan.getAssetsID());
+
+				OperateRecord record = DaoContext.getInstance().getOperateRecordDao().getByAssetsID(plan.getAssetsID());
+				if (null != record)
+				{
+					assets = record.getAssets();
+				}
 			}
-			if(assets.getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)){
-				GDZCNum=GDZCNum+1;
+			if(null != assets)
+			{
+				originalValue = originalValue + assets.getOriginalValue();
+				if (ComputeService.cptValue(assets.getPurchaseDate(), assets.getExpectYear(), assets.getOriginalValue()) > 0)
+				{
+					tValue = tValue + ComputeService.cptValue(assets.getPurchaseDate(), assets.getExpectYear(), assets.getOriginalValue());
+				}
+				if (assets.getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE))
+				{
+					GDZCNum = GDZCNum + 1;
+				}
+				if (assets.getAssetsType().equals(AssetsConst.ASSETS_DZYH_TYPE))
+				{
+					DZYHPNum = DZYHPNum + 1;
+				}
 			}
-			if(assets.getAssetsType().equals(AssetsConst.ASSETS_DZYH_TYPE)){
-				DZYHPNum=DZYHPNum+1;
+			else
+			{
+				log.warn("can not find the assets by id" + plan.getAssetsID());
 			}
+
+
 		}
-		
-		
-		String str = 
-			"统计期间"+
-			"调拨业务发生"+transIDList.size()+"笔,涉及资产数量"+assetsNum+"个；涉及资产原值"+originalValue+"元，净值"+tValue+"元；其中固定资产"+GDZCNum+",个；低值易耗品"+DZYHPNum+"个";
-	
-			
+
+		String str = "统计期间" + "调拨业务发生" + transIDList.size() + "笔,涉及资产数量" + assetsNum + "个；涉及资产原值" + originalValue + "元，净值" + tValue + "元；其中固定资产" + GDZCNum + ",个；低值易耗品" + DZYHPNum + "个";
+
 		return str;
-	 	
+
 	}
 }
