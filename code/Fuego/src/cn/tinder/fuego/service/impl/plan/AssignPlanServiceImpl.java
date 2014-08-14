@@ -23,6 +23,7 @@ import cn.tinder.fuego.dao.TransExtAttrDao;
 import cn.tinder.fuego.dao.impl.AssignPlanDaoImpl;
 import cn.tinder.fuego.dao.impl.PhysicalAssetsStatusDaoImpl;
 import cn.tinder.fuego.domain.po.AssignPlan;
+import cn.tinder.fuego.domain.po.OperateRecord;
 import cn.tinder.fuego.domain.po.PhysicalAssetsStatus;
 import cn.tinder.fuego.domain.po.SystemUser;
 import cn.tinder.fuego.domain.po.TransEvent;
@@ -68,16 +69,17 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	TransEventDao transEventDao = DaoContext.getInstance().getTransEventDao();
 	PhysicalAssetsStatusDao physicalAssetsStatusDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
 	AssetsManageService assetsManageService = ServiceContext.getInstance().getAssetsManageService();
+
 	/*
-	 * (non-Javadoc)
-	 * S
+	 * (non-Javadoc) S
+	 * 
 	 * @see cn.tinder.fuego.service.TransPlanService#createPlan(java.lang.String)
 	 */
 	@Override
 	public E createPlan(String user)
 	{
 		AssignPlanBo plan = new AssignPlanBo();
-		TransactionBaseInfoBo baseTrans = super.createTransByUserAndType(user,user, TransactionConst.ASSIGN_PLAN_TYPE , null);
+		TransactionBaseInfoBo baseTrans = super.createTransByUserAndType(user, user, TransactionConst.ASSIGN_PLAN_TYPE, null);
 		AssignTransBo assignPlan = new AssignTransBo();
 		assignPlan.setTransInfo(baseTrans);
 		plan.setTransInfo(assignPlan);
@@ -92,25 +94,24 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	@Override
 	public void updatePlan(E plan)
 	{
-		if(null == plan)
+		if (null == plan)
 		{
 			log.warn("the plan is null");
 			return;
 		}
-		//step1: force transform 
- 		AssignPlanBo planInfo = new AssignPlanBo();
+		// step1: force transform
+		AssignPlanBo planInfo = new AssignPlanBo();
 		planInfo = (AssignPlanBo) plan;
-		
-		
-		//step2: save basic transaction information
+
+		// step2: save basic transaction information
 		String transID = planInfo.getTransInfo().getTransInfo().getTransID();
 		String handleUser = planInfo.getTransInfo().getTransInfo().getHandleUser();
-		super.updateTrans(transID,handleUser,planInfo.getTransInfo().getTransInfo().getExecuteName());
+		super.updateTrans(transID, handleUser, planInfo.getTransInfo().getTransInfo().getExecuteName());
 
-		//step3: save extend transaction information
+		// step3: save extend transaction information
 		TransExtAttr ext = new TransExtAttr();
 		ext.setTransID(transID);
-		//step3.1 save input department to transaction extend attribute
+		// step3.1 save input department to transaction extend attribute
 		ext.setAttrName(TransactionExtAttrConst.ASSIGN_IN_DEPT);
 		ext.setAttrValue(planInfo.getTransInfo().getInDept());
 		transExtAtrrDao.saveOrUpdate(ext);
@@ -430,7 +431,8 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	}
 
 	@Override
-	public List<AssetsInfoBo> importByFile(File file) {
+	public List<AssetsInfoBo> importByFile(File file)
+	{
 		return null;
 		// TODO Auto-generated method stub
 		
@@ -485,15 +487,15 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 	}
 
 	@Override
-	public String getSumInfo(List<String> transIDList) {
-	
-		int assetsNum=0;	//涉及资产数量
-		float originalValue = 0 ; //涉及资产原值
-		float tValue = 0 ; //设计资产净值
-		int GDZCNum=0;
-		int DZYHPNum=0;
-		
-		
+	public String getSumInfo(List<String> transIDList)
+	{
+
+		int assetsNum = 0; // 涉及资产数量
+		float originalValue = 0; // 涉及资产原值
+		float tValue = 0; // 设计资产净值
+		int GDZCNum = 0;
+		int DZYHPNum = 0;
+
 		/**
 		 * 调拨统计实现
 	
@@ -504,28 +506,48 @@ public class AssignPlanServiceImpl<E> extends TransactionServiceImpl implements 
 		
 
 		List<AssignPlan> planBoList = assignPlanDao.getByTransID(transIDList);
-		
-		for(AssignPlan plan:planBoList){
+
+		for (AssignPlan plan : planBoList)
+		{
 			assetsNum++;
 			PhysicalAssetsStatus assets = assetsDao.getByAssetsID(plan.getAssetsID());
-			originalValue =originalValue+ assets.getOriginalValue();
-			if(ComputeService.cptValue(assets.getPurchaseDate(),  assets.getExpectYear(), assets.getOriginalValue())>0){
-				tValue=tValue+ComputeService.cptValue(assets.getPurchaseDate(),  assets.getExpectYear(), assets.getOriginalValue());
+
+			if (null == assets)
+			{
+				log.warn("can not find the assets by id at assets table, now searching from operate record" + plan.getAssetsID());
+
+				OperateRecord record = DaoContext.getInstance().getOperateRecordDao().getByAssetsID(plan.getAssetsID());
+				if (null != record)
+				{
+					assets = record.getAssets();
+				}
 			}
-			if(assets.getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE)){
-				GDZCNum=GDZCNum+1;
+			if(null != assets)
+			{
+				originalValue = originalValue + assets.getOriginalValue();
+				if (ComputeService.cptValue(assets.getPurchaseDate(), assets.getExpectYear(), assets.getOriginalValue()) > 0)
+				{
+					tValue = tValue + ComputeService.cptValue(assets.getPurchaseDate(), assets.getExpectYear(), assets.getOriginalValue());
+				}
+				if (assets.getAssetsType().equals(AssetsConst.ASSETS_GDZC_TYPE))
+				{
+					GDZCNum = GDZCNum + 1;
+				}
+				if (assets.getAssetsType().equals(AssetsConst.ASSETS_DZYH_TYPE))
+				{
+					DZYHPNum = DZYHPNum + 1;
+				}
 			}
-			if(assets.getAssetsType().equals(AssetsConst.ASSETS_DZYH_TYPE)){
-				DZYHPNum=DZYHPNum+1;
+			else
+			{
+				log.warn("can not find the assets by id" + plan.getAssetsID());
 			}
+
+
 		}
-		
-		
-		String str = 
-			"统计期间"+
-			"调拨业务发生"+transIDList.size()+"笔,涉及资产数量"+assetsNum+"个；涉及资产原值"+originalValue+"元，净值"+tValue+"元；其中固定资产"+GDZCNum+",个；低值易耗品"+DZYHPNum+"个";
-	
-			
+
+		String str = "统计期间" + "调拨业务发生" + transIDList.size() + "笔,涉及资产数量" + assetsNum + "个；涉及资产原值" + originalValue + "元，净值" + tValue + "元；其中固定资产" + GDZCNum + ",个；低值易耗品" + DZYHPNum + "个";
+
 		return str;
 	 	
 	}

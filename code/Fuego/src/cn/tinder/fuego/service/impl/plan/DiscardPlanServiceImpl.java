@@ -27,6 +27,7 @@ import org.apache.commons.logging.LogFactory;
 
 import cn.tinder.fuego.dao.DaoContext;
 import cn.tinder.fuego.dao.DiscardPlanDao;
+import cn.tinder.fuego.dao.OperateRecordDao;
 import cn.tinder.fuego.dao.PhysicalAssetsStatusDao;
 import cn.tinder.fuego.dao.SystemUserDao;
 import cn.tinder.fuego.dao.TransEventDao;
@@ -49,6 +50,7 @@ import cn.tinder.fuego.service.exception.msg.ExceptionMsg;
 import cn.tinder.fuego.service.impl.TransactionServiceImpl;
 import cn.tinder.fuego.service.impl.util.ExcelIOServiceImpl;
 import cn.tinder.fuego.service.model.convert.ConvertAssetsModel;
+import cn.tinder.fuego.service.model.convert.ConvertOperateRecordToAssetModel;
 import cn.tinder.fuego.service.util.ExcelIOService;
 import cn.tinder.fuego.util.ValidatorUtil;
 import cn.tinder.fuego.util.date.DateService;
@@ -77,7 +79,7 @@ public class DiscardPlanServiceImpl<E> extends TransactionServiceImpl implements
 	TransExtAttrDao transExtAtrrDao = DaoContext.getInstance().getTransExtAttrDao();
 	SystemUserDao systemUserDao = DaoContext.getInstance().getSystemUserDao();
 	PhysicalAssetsStatusDao physicalAssetsStatusDao = DaoContext.getInstance().getPhysicalAssetsStatusDao();
-
+	OperateRecordDao operateRecordDao= DaoContext.getInstance().getOperateRecordDao();
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -255,7 +257,15 @@ public class DiscardPlanServiceImpl<E> extends TransactionServiceImpl implements
 		DiscardPlanBo discardPlan = new DiscardPlanBo();
 
 		// get assetsStatusList by TransID
+		/*
+		 * Edit by NanBowen 
+		 * 2014-8-14 
+		 * 
+		
 		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(getAssetsIDListByTransID(transID));
+		 */
+		List<PhysicalAssetsStatus> assetsStatusList =ConvertOperateRecordToAssetModel.convertOperateRecordToAssetModel(operateRecordDao.getByTransID(transID));
+		
 		// get assetsListBo
 		List<AssetsInfoBo> assetsListBo = null;
 		if (null != assetsStatusList)

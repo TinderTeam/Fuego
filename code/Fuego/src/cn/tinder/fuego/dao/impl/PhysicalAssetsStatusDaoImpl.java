@@ -274,7 +274,8 @@ public class PhysicalAssetsStatusDaoImpl implements PhysicalAssetsStatusDao
 			}
 			if(null != filter.getTechState())
 			{
-				c.add(Restrictions.eq("techState", filter.getTechState()));
+				
+				c.add(Restrictions.or(Restrictions.eq("techState", filter.getTechState()), Restrictions.isEmpty("techState")));
 			}
 			if(null != filter.getManageName())
 			{
