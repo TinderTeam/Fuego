@@ -1,7 +1,6 @@
 package cn.tinder.fuego.webservice.filter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -29,7 +28,7 @@ public class AuthenticationFilter implements Filter
 {
 
 
-	private static final String LOGIN_PAGE = "jsp/login.jsp";	
+	private static final String LOGIN_PAGE = "login";	
 	private static final String ACTION_URL_FLAG = ".do";
 	private static final String JSP_URL_FLAG = ".jsp";
 	
@@ -45,31 +44,20 @@ public class AuthenticationFilter implements Filter
 		 //the url does not contains login url, we should check login or not
 		
 		 if(
-				 (url.toLowerCase().endsWith(ACTION_URL_FLAG)
-				 ||
-				 url.toLowerCase().endsWith(JSP_URL_FLAG))
-				 &&
-				 (!url.toLowerCase().contains(LOGIN_PAGE))
+				(url.toLowerCase().endsWith(ACTION_URL_FLAG) ||	 url.toLowerCase().endsWith(JSP_URL_FLAG))
+				&& !url.toLowerCase().contains(LOGIN_PAGE)
 		 )
 			 
 		 {
 		     SystemUserBo loginUser = (SystemUserBo) session.getAttribute(RspBoNameConst.SYSTEM_USER);
 			 if(null == loginUser || loginUser.getUserID().isEmpty())
 			 {
-				 PrintWriter out = response.getWriter();
-	             out.println("<script type='text/javascript'>window.parent.location='"+httpRequest.getContextPath()+"/"+LOGIN_PAGE+"'</script>");
- 			 }
-			 else
-			 {
-					chain.doFilter(request, httpResponse);
+ 				 httpResponse.sendRedirect(httpRequest.getContextPath()+"/"+LOGIN_PAGE);
 			 }
-		 }
-		 else
-		 {
-				chain.doFilter(request, httpResponse);
 		 }
 		 
  
+		chain.doFilter(request, httpResponse);
 	}
 
 

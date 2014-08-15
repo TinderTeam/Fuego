@@ -50,8 +50,8 @@ public class LoginAction extends Action
 		// Submit is null Error
 		if (submitPara == null)
 		{
-			log.error("submit is null");
-			return mapping.findForward(PageNameConst.SYSTEM_ERROR_PAGE);
+			log.warn("submit is null");
+			return mapping.findForward(PageNameConst.LOGIN_PAGE);
 		}
 
 		// Select Submit
