@@ -261,10 +261,27 @@ public class DiscardPlanServiceImpl<E> extends TransactionServiceImpl implements
 		 * Edit by NanBowen 
 		 * 2014-8-14 
 		 * 
-		
 		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(getAssetsIDListByTransID(transID));
 		 */
+		
+		/*
+		 * Edit by NanBowen 
+		 * 2014-8-14 
+		 * 
 		List<PhysicalAssetsStatus> assetsStatusList =ConvertOperateRecordToAssetModel.convertOperateRecordToAssetModel(operateRecordDao.getByTransID(transID));
+		 */
+		
+		/*
+		 * Edit by NanBowen 
+		 * 2014-11-25
+		 * 描述：资产处置单的查看，如果完成的则在历史记录里查，如果未结束，则在资产列表里查。
+		 * 变更：如果资产列表里有则使用，如果没有则在历史记录里查询。
+		///*/
+		List<PhysicalAssetsStatus> assetsStatusList = physicalAssetsStatusDao.getAssetsListByAssetsIDList(getAssetsIDListByTransID(transID));
+		if(assetsStatusList==null||assetsStatusList.size()==0){
+			assetsStatusList =ConvertOperateRecordToAssetModel.convertOperateRecordToAssetModel(operateRecordDao.getByTransID(transID));
+		}
+		//--------*/
 		
 		// get assetsListBo
 		List<AssetsInfoBo> assetsListBo = null;
