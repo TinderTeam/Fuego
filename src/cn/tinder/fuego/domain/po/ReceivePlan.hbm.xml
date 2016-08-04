@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="cn.tinder.fuego.domain.po">
+ <class name="ReceivePlan" table="receive_plan">
+  <composite-id >
+   <key-property column="TRANS_ID" name="transID"></key-property>
+   <key-property column="ASSETS_ID" name="assetsID"></key-property>
+  </composite-id>
+ <property name="receiveState" column="RECEIVE_STATE" not-null="true"></property>
+  <property name="note" column="NOTE" not-null="false"></property>
+
+ </class>
+</hibernate-mapping>

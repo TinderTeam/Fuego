@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+	
+<hibernate-mapping
+	package="cn.tinder.fuego.domain.po">
+	<class name="TransExtAttr" table="trans_ext_attr">
+	
+		<composite-id>
+	       <key-property name="transID" column="TRANS_ID" ></key-property>
+           <key-property name="attrName" column="ATTR_NAME" ></key-property>
+	    </composite-id>
+	   
+ 		<property name="attrValue" column="ATTR_VALUE" not-null="false"></property>
+ 
+	</class>
+</hibernate-mapping>
+ 
